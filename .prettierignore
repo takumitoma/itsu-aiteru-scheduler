@@ -29,4 +29,6 @@ next-env.d.ts
 
 # other ignore files
 .gitignore
-.eslintignore
+
+# backups
+/backups

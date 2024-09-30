@@ -14,5 +14,24 @@
     "@typescript-eslint/no-explicit-any": "error",
     "prettier/prettier": "error",
     "max-len": ["error", 100]
-  }
+  },
+  "ignorePatterns": [
+    "/node_modules",
+    "/.pnp",
+    ".pnp.js",
+    ".yarn/install-state.gz",
+    "/coverage",
+    "/.next/",
+    "/out/",
+    "/build",
+    ".DS_Store",
+    "*.pem",
+    "npm-debug.log*",
+    "yarn-debug.log*",
+    "yarn-error.log*",
+    ".env*.local",
+    "*.tsbuildinfo",
+    "next-env.d.ts",
+    "/backups"
+  ]
 }
