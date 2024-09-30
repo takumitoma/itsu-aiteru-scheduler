@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logoImg from '../../public/logo/main-logo.svg';
+import logoImg from '../../../public/logo/main-logo.svg';
 import { GoPlus } from 'react-icons/go';
 import Link from 'next/link';
 

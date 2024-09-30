@@ -1,4 +1,4 @@
-import CreateEventForm from '@/components/CreateEventForm';
+import CreateEventForm from '@/components/CreateEventForm/CreateEventForm';
 
 const Home: React.FC = () => {
   return (
