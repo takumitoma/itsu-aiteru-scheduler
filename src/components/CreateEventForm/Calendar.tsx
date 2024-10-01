@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 interface CalendarProps {
   selectedDates: dayjs.Dayjs[];
@@ -44,7 +49,10 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   };
 
   function navigatePrevMonth() {
-    setCurrentMonth((prevMonth) => prevMonth.subtract(1, 'month'));
+    const prevMonth = currentMonth.subtract(1, 'month');
+    if (prevMonth.isSameOrAfter(dayjs().startOf('month'))) {
+      setCurrentMonth(prevMonth);
+    }
   }
 
   function navigateNextMonth() {
@@ -55,12 +63,21 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setSelectedDates([]);
   };
 
+  // restrict calendar to 
+  // from current month 
+  // up to current month - 1 month in the next year
+  const isPrevMonthDisabled = currentMonth.isSame(dayjs().startOf('month'), 'month');
+  const maxAllowedMonth = dayjs().add(1, 'year').subtract(1, 'month').endOf('month');
+  const isNextMonthDisabled = currentMonth.isSame(maxAllowedMonth, 'month');
+
   return (
     <div className="max-w-md">
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={navigatePrevMonth}
-          className="p-2 rounded-full hover:bg-gray-200"
+          className={`p-2 rounded-full hover:bg-gray-200 ${
+            isPrevMonthDisabled ? 'invisible' : ''
+          }`}
           aria-label="Previous month"
         >
           <MdNavigateBefore size={24} />
@@ -68,7 +85,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
         <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
         <button
           onClick={navigateNextMonth}
-          className="p-2 rounded-full hover:bg-gray-200"
+          className={`p-2 rounded-full hover:bg-gray-200 ${
+            isNextMonthDisabled ? 'invisible' : ''
+          }`}
           aria-label="Next month"
         >
           <MdNavigateNext size={24} />
