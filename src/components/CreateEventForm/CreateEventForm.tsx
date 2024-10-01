@@ -1,14 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import dayjs from 'dayjs';
 import EventTitleInput from './EventTitleInput';
 import TimeRangeSelector from './TimeRangeSelector';
+import Calendar from './Calendar';
 import PasswordInput from './PasswordInput';
 import CreateEventButton from './CreateEventButton';
 
 const CreateEventForm: React.FC = () => {
   const [eventTitle, setEventTitle] = useState('');
   const [timeRange, setTimeRange] = useState({ start: 9, end: 18 });
+  const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([]);
   const [password, setPassword] = useState('');
 
   const handleCreateEvent = () => {
@@ -21,6 +24,7 @@ const CreateEventForm: React.FC = () => {
   console.log('Event created:', {
     title: eventTitle,
     timeRange,
+    dates: selectedDates,
     password,
   });
 
@@ -28,6 +32,7 @@ const CreateEventForm: React.FC = () => {
     <div>
       <EventTitleInput value={eventTitle} onChange={setEventTitle} />
       <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
+      <Calendar selectedDates={selectedDates} setSelectedDates={setSelectedDates} />
       <PasswordInput value={password} onChange={setPassword} />
       <CreateEventButton onClick={handleCreateEvent} />
     </div>
