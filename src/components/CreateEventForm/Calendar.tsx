@@ -16,6 +16,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
 
+  // set the calendar dates based on the current month
   useEffect(() => {
     const startOfMonth = currentMonth.startOf('month');
     const endOfMonth = currentMonth.endOf('month');
@@ -39,6 +40,10 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   }, [currentMonth]);
 
   const handleDateClick = (date: dayjs.Dayjs) => {
+    if (date.isBefore(dayjs(), 'day')) {
+      return;
+    }
+
     const newSelectedDates = selectedDates.some((d) => d.isSame(date, 'day'))
       ? selectedDates.filter((d) => !d.isSame(date, 'day'))
       : [...selectedDates, date];
@@ -63,8 +68,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setSelectedDates([]);
   };
 
-  // restrict calendar to 
-  // from current month 
+  // restrict calendar to
+  // from current month
   // up to current month - 1 month in the next year
   const isPrevMonthDisabled = currentMonth.isSame(dayjs().startOf('month'), 'month');
   const maxAllowedMonth = dayjs().add(1, 'year').subtract(1, 'month').endOf('month');
@@ -75,20 +80,16 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={navigatePrevMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${
-            isPrevMonthDisabled ? 'invisible' : ''
-          }`}
-          aria-label="Previous month"
+          className={`p-2 rounded-full hover:bg-gray-200 ${isPrevMonthDisabled ? 'invisible' : ''}`}
+          aria-label="navigate to previous month"
         >
           <MdNavigateBefore size={24} />
         </button>
         <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
         <button
           onClick={navigateNextMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${
-            isNextMonthDisabled ? 'invisible' : ''
-          }`}
-          aria-label="Next month"
+          className={`p-2 rounded-full hover:bg-gray-200 ${isNextMonthDisabled ? 'invisible' : ''}`}
+          aria-label="navigate to next month"
         >
           <MdNavigateNext size={24} />
         </button>
@@ -108,7 +109,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
           <div
             key={index}
             className={`text-center border-b border-r border-gray-300 select-none ${
-              day ? 'cursor-pointer' : ''
+              day && !day.isBefore(dayjs(), 'day') ? 'cursor-pointer' : ''
             }`}
           >
             {day && (
@@ -116,7 +117,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
                 className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
                   selectedDates.some((d) => d.isSame(day, 'day'))
                     ? 'bg-primary text-white'
-                    : 'hover:bg-gray-200'
+                    : day.isBefore(dayjs(), 'day')
+                      ? 'text-gray-400 cursor-not-allowed'
+                      : 'hover:bg-gray-200'
                 }`}
                 onClick={() => handleDateClick(day)}
               >
@@ -134,7 +137,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       <div className="mt-4">
         <button
           onClick={clearSelection}
-          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded "
+          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded"
         >
           選択をクリア
         </button>
