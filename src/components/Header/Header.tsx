@@ -20,8 +20,8 @@ const Header: React.FC = () => {
             </li>
             <li>
               <button
-                className="bg-primary text-white px-4 py-2 rounded-md 
-                hover:bg-primaryHover transition-colors flex items-center"
+                className="bg-primary text-white px-4 py-2 rounded-md hidden sm:flex
+                hover:bg-primaryHover transition-colors items-center"
               >
                 <GoPlus size={28} />
                 新規イベント
