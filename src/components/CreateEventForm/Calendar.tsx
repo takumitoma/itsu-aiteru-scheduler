@@ -18,6 +18,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
   const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
+  const [isUnselecting, setIsUnselecting] = useState(false);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -49,6 +50,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setIsDragging(true);
     setDragStart(date);
     setDragEnd(date);
+    setIsUnselecting(selectedDates.find((d) => d.isSame(date, 'day')) !== undefined);
   }
 
   function handleDragEnter(date: dayjs.Dayjs) {
@@ -77,19 +79,26 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     const start = dragStart.isBefore(dragEnd) ? dragStart : dragEnd;
     const end = dragStart.isBefore(dragEnd) ? dragEnd : dragStart;
 
-    const newDates = [];
+    const affectedDates: dayjs.Dayjs[] = [];
     let current = start;
 
     while (current.isSameOrBefore(end, 'day')) {
       if (!current.isBefore(dayjs(), 'day')) {
-        newDates.push(current);
+        affectedDates.push(current);
       }
       current = current.add(1, 'day');
     }
 
-    const updatedDates = Array.from(
-      new Set([...selectedDates, ...newDates].map((date) => date.startOf('day').toString())),
-    ).map((dateString) => dayjs(dateString));
+    let updatedDates: dayjs.Dayjs[];
+    if (isUnselecting) {
+      updatedDates = selectedDates.filter(
+        (date) => !affectedDates.some((d) => d.isSame(date, 'day')),
+      );
+    } else {
+      updatedDates = Array.from(
+        new Set([...selectedDates, ...affectedDates].map((date) => date.startOf('day').toString())),
+      ).map((dateString) => dayjs(dateString));
+    }
 
     if (updatedDates.length <= 31) {
       setSelectedDates(updatedDates);
@@ -98,6 +107,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
+    setIsUnselecting(false);
   }
 
   const isDateInDragRange = (date: dayjs.Dayjs) => {
@@ -177,12 +187,14 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
               <div
                 className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
                   selectedDates.some((d) => d.isSame(day, 'day'))
-                    ? 'bg-primary text-white'
+                    ? isUnselecting && isDateInDragRange(day)
+                      ? 'bg-gray-300'
+                      : 'bg-primary text-white'
                     : day.isBefore(dayjs(), 'day')
                       ? 'text-gray-400 cursor-not-allowed'
-                      : isDateInDragRange(day)
+                      : isDateInDragRange(day) && !isUnselecting
                         ? 'bg-primaryLight'
-                        : 'hover:bg-primaryLight'
+                        : 'hover:bg-gray-200'
                 }`}
                 onMouseDown={() => handleDragStart(day)}
                 onMouseEnter={() => handleDragEnter(day)}
