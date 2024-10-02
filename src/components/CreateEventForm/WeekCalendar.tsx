@@ -18,12 +18,10 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ selectedDays, setSelectedDa
   return (
     <div className="max-w-md w-full">
       <label className="text-xl font-medium">曜日を選択</label>
-      <p 
-        className={`mb-4 text-red-500 ${showError ? '' : 'invisible'}`}
-      >
-        少なくとも1日を選択してください'
+      <p className={`mb-4 text-red-500 ${showError ? '' : 'invisible'}`}>
+        少なくとも1日を選択してください
       </p>
-      <div 
+      <div
         className={`flex w-full mt-4 rounded ${
           showError ? ' border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
         }`}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import { IoIosInformationCircleOutline } from 'react-icons/io';
 
 interface PasswordInputProps {
   value: string;
@@ -10,19 +10,16 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ value, onChange }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   function toggleTooltip() {
-    setShowTooltip(prev => !prev);
+    setShowTooltip((prev) => !prev);
   }
 
   return (
     <div className="max-w-md w-full">
       <div className="flex items-center mb-2">
         <label htmlFor="password" className="text-xl font-medium mr-2">
-          {"パスワード (任意)"}
+          {'パスワード (任意)'}
         </label>
-        <button
-          type="button"
-          onClick={toggleTooltip}
-        >
+        <button type="button" onClick={toggleTooltip}>
           <IoIosInformationCircleOutline size={24} />
         </button>
       </div>
