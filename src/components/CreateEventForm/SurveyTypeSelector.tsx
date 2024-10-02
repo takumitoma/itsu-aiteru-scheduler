@@ -30,10 +30,11 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
   };
 
   return (
-    <div>
+    <div className="max-w-md w-full">
       <label className="text-xl font-medium">アンケートの種類</label>
-      <div className="relative mt-4 max-w-md" ref={dropdownRef}>
+      <div className="relative mt-4" ref={dropdownRef}>
         <button
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm
             flex justify-between items-center"
@@ -52,6 +53,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
             aria-hidden="true"
           >
             <button
+              type="button"
               className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:bg-primaryHover"
               onClick={() => {
                 onChange('specific');
@@ -61,6 +63,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
               特定の日付
             </button>
             <button
+              type="button"
               className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:bg-primaryHover"
               onClick={() => {
                 onChange('week');

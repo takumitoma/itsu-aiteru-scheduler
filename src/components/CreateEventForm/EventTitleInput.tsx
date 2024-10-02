@@ -5,7 +5,7 @@ interface EventTitleInputProps {
 
 const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange }) => {
   return (
-    <div>
+    <div className="max-w-md w-full">
       <label htmlFor="eventTitle" className="text-xl font-medium">
         イベント名
       </label>

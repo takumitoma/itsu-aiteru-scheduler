@@ -32,7 +32,7 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
   ];
 
   return (
-    <div>
+    <div className="max-w-md w-full px-2">
       <label className="text-xl font-medium mb-4">時間帯を選択</label>
       <p className="mb-4">
         {value.start}時 から {value.end}時

@@ -20,6 +20,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ selectedDays, setSelectedDa
       {dates.map((day, index) => (
         <button
           key={day}
+          type="button"
           onClick={() => toggleWeekday(index)}
           className={`py-2 w-full 
             border-gray-300 border-r hover:bg-gray-200 ${

@@ -146,6 +146,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     <div className="max-w-md">
       <div className="flex justify-between items-center mb-4">
         <button
+          type="button"
           onClick={navigatePrevMonth}
           className={`p-2 rounded-full hover:bg-gray-200 ${isPrevMonthDisabled ? 'invisible' : ''}`}
           aria-label="navigate to previous month"
@@ -154,6 +155,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
         </button>
         <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
         <button
+          type="button"
           onClick={navigateNextMonth}
           className={`p-2 rounded-full hover:bg-gray-200 ${isNextMonthDisabled ? 'invisible' : ''}`}
           aria-label="navigate to next month"
@@ -212,6 +214,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       )}
       <div className="mt-4">
         <button
+          type="reset"
           onClick={clearSelection}
           className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded"
         >
