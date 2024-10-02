@@ -32,21 +32,23 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
   ];
 
   return (
-    <div className="max-w-md w-full px-2">
+    <div className="max-w-md w-full">
       <label className="text-xl font-medium mb-4">時間帯を選択</label>
-      <p className="mb-4">
+      <div className="px-3 mt-6 mb-4">
+        <Slider
+          value={[value.start, value.end]}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
+          valueLabelFormat={(hour: number) => `${Math.round(hour)}時`}
+          min={0}
+          max={24}
+          marks={marks}
+          className="text-primary"
+        />
+      </div>
+      <p className="text-lg text-center my-4">
         {value.start}時 から {value.end}時
       </p>
-      <Slider
-        value={[value.start, value.end]}
-        onChange={handleChange}
-        valueLabelDisplay="auto"
-        valueLabelFormat={(hour: number) => `${Math.round(hour)}時`}
-        min={0}
-        max={24}
-        marks={marks}
-        className="text-primary"
-      />
     </div>
   );
 };
