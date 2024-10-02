@@ -13,6 +13,7 @@ const config: Config = {
         foreground: 'var(--foreground)',
         primary: 'var(--primary)',
         primaryHover: 'var(--primary-hover)',
+        primaryLight: 'var(--primary-light)'
       },
       fontFamily: {
         sans: ['var(--font-noto-sans-jp)'],

@@ -15,6 +15,9 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
+  const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -39,18 +42,72 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setCalendarDays(days);
   }, [currentMonth]);
 
-  const handleDateClick = (date: dayjs.Dayjs) => {
-    if (date.isBefore(dayjs(), 'day')) {
+  function handleDragStart(date: dayjs.Dayjs) {
+    if (isDragging || date.isBefore(dayjs(), 'day')) {
+      return;
+    }
+    setIsDragging(true);
+    setDragStart(date);
+    setDragEnd(date);
+  }
+
+  function handleDragEnter(date: dayjs.Dayjs) {
+    if (!isDragging || date.isBefore(dayjs(), 'day')) {
+      return;
+    }
+    setDragEnd(date);
+  }
+
+  function handleTouchMove(e: React.TouchEvent<HTMLDivElement>) {
+    // get elem currently touched
+    const touch = e.touches[0];
+    const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+    // parse the integer of the elem
+    if (elem && elem.textContent) {
+      const date = currentMonth.date(parseInt(elem.textContent));
+      handleDragEnter(date);
+    }
+  }
+
+  function handleDragEnd() {
+    if (!isDragging || !dragStart || !dragEnd) {
       return;
     }
 
-    const newSelectedDates = selectedDates.some((d) => d.isSame(date, 'day'))
-      ? selectedDates.filter((d) => !d.isSame(date, 'day'))
-      : [...selectedDates, date];
+    const start = dragStart.isBefore(dragEnd) ? dragStart : dragEnd;
+    const end = dragStart.isBefore(dragEnd) ? dragEnd : dragStart;
 
-    if (newSelectedDates.length <= 31) {
-      setSelectedDates(newSelectedDates);
+    const newDates = [];
+    let current = start;
+
+    while (current.isSameOrBefore(end, 'day')) {
+      if (!current.isBefore(dayjs(), 'day')) {
+        newDates.push(current);
+      }
+      current = current.add(1, 'day');
     }
+
+    const updatedDates = Array.from(
+      new Set([...selectedDates, ...newDates].map((date) => date.startOf('day').toString())),
+    ).map((dateString) => dayjs(dateString));
+
+    if (updatedDates.length <= 31) {
+      setSelectedDates(updatedDates);
+    }
+
+    setIsDragging(false);
+    setDragStart(null);
+    setDragEnd(null);
+  }
+
+  const isDateInDragRange = (date: dayjs.Dayjs) => {
+    if (!isDragging || !dragStart || !dragEnd) {
+      return false;
+    }
+    return (
+      (date.isSameOrAfter(dragStart, 'day') && date.isSameOrBefore(dragEnd, 'day')) ||
+      (date.isSameOrAfter(dragEnd, 'day') && date.isSameOrBefore(dragStart, 'day'))
+    );
   };
 
   function navigatePrevMonth() {
@@ -80,7 +137,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={navigatePrevMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${isPrevMonthDisabled ? 'invisible' : ''}`}
+          className={`p-2 rounded-full hover:bg-gray-200 ${
+            isPrevMonthDisabled ? 'invisible' : ''
+          }`}
           aria-label="navigate to previous month"
         >
           <MdNavigateBefore size={24} />
@@ -88,7 +147,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
         <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
         <button
           onClick={navigateNextMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${isNextMonthDisabled ? 'invisible' : ''}`}
+          className={`p-2 rounded-full hover:bg-gray-200 ${
+            isNextMonthDisabled ? 'invisible' : ''
+          }`}
           aria-label="navigate to next month"
         >
           <MdNavigateNext size={24} />
@@ -104,7 +165,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
             {day}
           </div>
         ))}
-        {/* days in the calendar */}
+        {/* calendar dates */}
         {calendarDays.map((day, index) => (
           <div
             key={index}
@@ -119,9 +180,16 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
                     ? 'bg-primary text-white'
                     : day.isBefore(dayjs(), 'day')
                       ? 'text-gray-400 cursor-not-allowed'
-                      : 'hover:bg-gray-200'
+                      : isDateInDragRange(day)
+                        ? 'bg-primaryLight'
+                        : 'hover:bg-primaryLight'
                 }`}
-                onClick={() => handleDateClick(day)}
+                onMouseDown={() => handleDragStart(day)}
+                onMouseEnter={() => handleDragEnter(day)}
+                onMouseUp={handleDragEnd}
+                onTouchStart={() => handleDragStart(day)}
+                onTouchMove={(e) => handleTouchMove(e)}
+                onTouchEnd={handleDragEnd}
               >
                 {day.date()}
               </div>
