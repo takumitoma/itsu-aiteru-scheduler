@@ -37,14 +37,35 @@ const CreateEventForm: React.FC = () => {
   });
 
   return (
-    <div>
-      <EventTitleInput value={eventTitle} onChange={setEventTitle} />
-      <SurveyTypeSelector value={surveyType} onChange={setSurveyType} />
-      <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
-      <Calendar selectedDates={selectedDates} setSelectedDates={setSelectedDates} />
-      <WeekCalendar selectedDays={selectedDaysOfWeek} setSelectedDays={setSelectedDaysOfWeek} />
-      <PasswordInput value={password} onChange={setPassword} />
-      <CreateEventButton onClick={handleCreateEvent} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem]">
+      <div className="md:order-1">
+        <EventTitleInput value={eventTitle} onChange={setEventTitle} />
+      </div>
+      
+      <div className="md:order-3">
+        <SurveyTypeSelector value={surveyType} onChange={setSurveyType} />
+      </div>
+      <div className="md:order-6">
+        <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
+      </div>
+      
+      <div className="md:order-5">
+        {surveyType === 'specific' 
+          ? <Calendar selectedDates={selectedDates} setSelectedDates={setSelectedDates} /> 
+          : <WeekCalendar selectedDays={selectedDaysOfWeek} setSelectedDays={setSelectedDaysOfWeek} />
+        }
+      </div>
+      
+      <div className="md:order-7">
+        <PasswordInput value={password} onChange={setPassword} />
+      </div>
+      <div className="md:order-9">
+        <CreateEventButton onClick={handleCreateEvent} />
+      </div>
+      
+      <div className="hidden md:order-2"></div>
+      <div className="hidden md:order-4"></div>
+      <div className="hidden md:order-8"></div>
     </div>
   );
 };
