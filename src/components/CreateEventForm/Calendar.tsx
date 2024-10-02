@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -18,7 +18,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
   const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
-  const [isUnselecting, setIsUnselecting] = useState(false);
+  const isUnselectingRef = useRef(false);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -50,7 +50,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setIsDragging(true);
     setDragStart(date);
     setDragEnd(date);
-    setIsUnselecting(selectedDates.find((d) => d.isSame(date, 'day')) !== undefined);
+    isUnselectingRef.current = selectedDates.find((d) => d.isSame(date, 'day')) !== undefined;
   }
 
   function handleDragEnter(date: dayjs.Dayjs) {
@@ -76,12 +76,11 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       return;
     }
 
+    // get all dates from where drag started to where drag ended
     const start = dragStart.isBefore(dragEnd) ? dragStart : dragEnd;
     const end = dragStart.isBefore(dragEnd) ? dragEnd : dragStart;
-
     const affectedDates: dayjs.Dayjs[] = [];
     let current = start;
-
     while (current.isSameOrBefore(end, 'day')) {
       if (!current.isBefore(dayjs(), 'day')) {
         affectedDates.push(current);
@@ -89,8 +88,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       current = current.add(1, 'day');
     }
 
+    // select the dates if selecting and unselect otherwise
     let updatedDates: dayjs.Dayjs[];
-    if (isUnselecting) {
+    if (isUnselectingRef.current) {
       updatedDates = selectedDates.filter(
         (date) => !affectedDates.some((d) => d.isSame(date, 'day')),
       );
@@ -107,7 +107,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
-    setIsUnselecting(false);
+    isUnselectingRef.current = false;
   }
 
   const isDateInDragRange = (date: dayjs.Dayjs) => {
@@ -147,9 +147,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={navigatePrevMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${
-            isPrevMonthDisabled ? 'invisible' : ''
-          }`}
+          className={`p-2 rounded-full hover:bg-gray-200 ${isPrevMonthDisabled ? 'invisible' : ''}`}
           aria-label="navigate to previous month"
         >
           <MdNavigateBefore size={24} />
@@ -157,9 +155,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
         <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
         <button
           onClick={navigateNextMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${
-            isNextMonthDisabled ? 'invisible' : ''
-          }`}
+          className={`p-2 rounded-full hover:bg-gray-200 ${isNextMonthDisabled ? 'invisible' : ''}`}
           aria-label="navigate to next month"
         >
           <MdNavigateNext size={24} />
@@ -187,12 +183,12 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
               <div
                 className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
                   selectedDates.some((d) => d.isSame(day, 'day'))
-                    ? isUnselecting && isDateInDragRange(day)
+                    ? isUnselectingRef.current && isDateInDragRange(day)
                       ? 'bg-gray-300'
                       : 'bg-primary text-white'
                     : day.isBefore(dayjs(), 'day')
                       ? 'text-gray-400 cursor-not-allowed'
-                      : isDateInDragRange(day) && !isUnselecting
+                      : isDateInDragRange(day) && !isUnselectingRef.current
                         ? 'bg-primaryLight'
                         : 'hover:bg-gray-200'
                 }`}
