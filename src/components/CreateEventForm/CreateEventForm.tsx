@@ -67,7 +67,7 @@ const CreateEventForm: React.FC = () => {
       <div className="md:order-7">
         <PasswordInput value={password} onChange={setPassword} />
       </div>
-      <div className="md:order-9">
+      <div className="md:order-9 md:col-span-2">
         <CreateEventButton onClick={handleCreateEvent} />
       </div>
 
