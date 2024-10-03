@@ -3,12 +3,13 @@ import { useRef } from 'react';
 interface EventTitleInputProps {
   value: string;
   onChange: (value: string) => void;
+  showError: boolean;
 }
 
-const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange }) => {
+const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, showError }) => {
   const isInteracted = useRef(false);
 
-  const showError = isInteracted.current && value.length === 0;
+  const displayError = (showError || isInteracted.current) && value.trim().length === 0;
 
   return (
     <div className="max-w-md w-full">
@@ -24,11 +25,11 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange }) =>
           isInteracted.current = true;
         }}
         className={`mt-4 px-4 py-2 w-full rounded-md shadow-sm ${
-          showError ? 'border-2 border-red-500' : 'border border-gray-300'
+          displayError ? 'border-2 border-red-500' : 'border border-gray-300'
         }`}
         placeholder="例) テニスサークル・ボウリング大会"
       />
-      <p className={`mt-2 px-4 text-red-500 ${showError ? '' : 'hidden'}`}>
+      <p className={`mt-2 px-4 text-red-500 ${displayError ? '' : 'hidden'}`}>
         イベント名を入力してください
       </p>
     </div>

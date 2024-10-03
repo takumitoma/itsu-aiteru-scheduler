@@ -16,9 +16,15 @@ interface CalendarProps {
   selectedDates: string[];
   setSelectedDates: (dates: string[]) => void;
   timezone: string;
+  showError: boolean;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates, timezone }) => {
+const Calendar: React.FC<CalendarProps> = ({
+  selectedDates,
+  setSelectedDates,
+  timezone,
+  showError,
+}) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -28,7 +34,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates, ti
   const isUnselectingRef = useRef(false);
   const isInteracted = useRef(false);
 
-  const showErrorMin = isInteracted.current && selectedDates.length === 0;
+  const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
 
   useEffect(() => {
@@ -165,7 +171,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates, ti
 
   return (
     <div className="max-w-md">
-      <div className={showErrorMin ? 'border-2 border-red-500' : ''}>
+      <div className={displayError ? 'border-2 border-red-500' : ''}>
         <div className="flex justify-between items-center mb-4">
           <button
             type="button"
@@ -240,7 +246,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates, ti
           ))}
         </div>
       </div>
-      {showErrorMin ? (
+      {displayError ? (
         <p className="text-center mt-4 text-red-500">少なくとも1日を選択してください</p>
       ) : showErrorMax ? (
         <p className="text-center mt-4 text-red-500">最大選択数に達しました (31日)</p>

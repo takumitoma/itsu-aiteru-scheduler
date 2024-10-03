@@ -5,12 +5,17 @@ const dates = ['日', '月', '火', '水', '木', '金', '土'];
 interface WeekCalendarProps {
   selectedDays: number[];
   setSelectedDays: (dates: number[]) => void;
+  showError: boolean;
 }
 
-const WeekCalendar: React.FC<WeekCalendarProps> = ({ selectedDays, setSelectedDays }) => {
+const WeekCalendar: React.FC<WeekCalendarProps> = ({
+  selectedDays,
+  setSelectedDays,
+  showError,
+}) => {
   const isInteracted = useRef(false);
 
-  const showError = isInteracted.current && selectedDays.length === 0;
+  const displayError = (showError || isInteracted.current) && selectedDays.length === 0;
 
   function toggleWeekday(index: number) {
     isInteracted.current = true;
@@ -25,7 +30,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ selectedDays, setSelectedDa
       <label className="text-xl font-medium">曜日を選択</label>
       <div
         className={`flex w-full mt-6 rounded ${
-          showError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
+          displayError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
         }`}
       >
         {dates.map((day, index) => (
@@ -42,7 +47,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ selectedDays, setSelectedDa
           </button>
         ))}
       </div>
-      <p className={`mt-4 text-red-500 text-center ${showError ? '' : 'invisible'}`}>
+      <p className={`mt-4 text-red-500 text-center ${displayError ? '' : 'invisible'}`}>
         少なくとも1日を選択してください
       </p>
     </div>

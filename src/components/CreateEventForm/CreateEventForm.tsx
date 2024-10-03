@@ -18,31 +18,41 @@ const CreateEventForm: React.FC = () => {
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [password, setPassword] = useState('');
+  const [showErrors, setShowErrors] = useState(false);
 
-  function handleCreateEvent() {
-    console.log('Event created:', {
-      title: eventTitle,
-      timezone: selectedTimezone,
-      timeRange,
-      dates: selectedDates,
-      daysOfWeek: selectedDaysOfWeek,
-      password,
-    });
+  function formIsValid() {
+    if (eventTitle.trim().length === 0) {
+      return false;
+    }
+    if (surveyType === 'specific' && selectedDates.length === 0) {
+      return false;
+    }
+    if (surveyType === 'week' && selectedDaysOfWeek.length === 0) {
+      return false;
+    }
+    return true;
   }
 
-  console.log('Event created:', {
-    title: eventTitle,
-    timezone: selectedTimezone,
-    timeRange,
-    dates: selectedDates,
-    daysOfWeek: selectedDaysOfWeek,
-    password,
-  });
+  function handleCreateEvent() {
+    if (formIsValid()) {
+      console.log('Event created:', {
+        title: eventTitle,
+        timezone: selectedTimezone,
+        timeRange,
+        dates: selectedDates,
+        daysOfWeek: selectedDaysOfWeek,
+        password,
+      });
+    } else {
+      console.log('Error: Form validation failed');
+      setShowErrors(true);
+    }
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem]">
       <div className="md:order-1">
-        <EventTitleInput value={eventTitle} onChange={setEventTitle} />
+        <EventTitleInput value={eventTitle} onChange={setEventTitle} showError={showErrors} />
       </div>
 
       <div className="md:order-4">
@@ -61,9 +71,14 @@ const CreateEventForm: React.FC = () => {
             selectedDates={selectedDates}
             setSelectedDates={setSelectedDates}
             timezone={selectedTimezone}
+            showError={showErrors}
           />
         ) : (
-          <WeekCalendar selectedDays={selectedDaysOfWeek} setSelectedDays={setSelectedDaysOfWeek} />
+          <WeekCalendar
+            selectedDays={selectedDaysOfWeek}
+            setSelectedDays={setSelectedDaysOfWeek}
+            showError={showErrors}
+          />
         )}
       </div>
 
