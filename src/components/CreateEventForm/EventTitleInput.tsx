@@ -23,7 +23,9 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange }) =>
           onChange(e.target.value);
           isInteracted.current = true;
         }}
-        className="mt-4 px-4 py-2 w-full rounded-md border border-gray-300 shadow-sm"
+        className={`mt-4 px-4 py-2 w-full rounded-md shadow-sm ${
+          showError ? 'border-2 border-red-500' : 'border border-gray-300'
+        }`}
         placeholder="例) テニスサークル・ボウリング大会"
       />
       <p className={`mt-2 px-4 text-red-500 ${showError ? '' : 'hidden'}`}>
