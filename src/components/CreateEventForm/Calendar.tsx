@@ -18,7 +18,12 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
   const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
+  const isTouchScreen = useRef(false);
   const isUnselectingRef = useRef(false);
+  const isInteracted = useRef(false);
+
+  const showErrorMin = isInteracted.current && selectedDates.length === 0;
+  const showErrorMax = selectedDates.length === 31;
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -47,6 +52,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     if (isDragging || date.isBefore(dayjs(), 'day')) {
       return;
     }
+
     setIsDragging(true);
     setDragStart(date);
     setDragEnd(date);
@@ -104,6 +110,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
       setSelectedDates(updatedDates);
     }
 
+    isInteracted.current = true;
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
@@ -144,73 +151,87 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
 
   return (
     <div className="max-w-md">
-      <div className="flex justify-between items-center mb-4">
-        <button
-          type="button"
-          onClick={navigatePrevMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${isPrevMonthDisabled ? 'invisible' : ''}`}
-          aria-label="navigate to previous month"
-        >
-          <MdNavigateBefore size={24} />
-        </button>
-        <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
-        <button
-          type="button"
-          onClick={navigateNextMonth}
-          className={`p-2 rounded-full hover:bg-gray-200 ${isNextMonthDisabled ? 'invisible' : ''}`}
-          aria-label="navigate to next month"
-        >
-          <MdNavigateNext size={24} />
-        </button>
-      </div>
-      <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
-        {/* days of the week row */}
-        {['日', '月', '火', '水', '木', '金', '土'].map((day) => (
-          <div
-            key={day}
-            className="text-center border-b border-r border-gray-300 font-semibold py-2"
-          >
-            {day}
-          </div>
-        ))}
-        {/* calendar dates */}
-        {calendarDays.map((day, index) => (
-          <div
-            key={index}
-            className={`text-center border-b border-r border-gray-300 select-none ${
-              day && !day.isBefore(dayjs(), 'day') ? 'cursor-pointer' : ''
+      <div className={showErrorMin ? 'border-2 border-red-500' : ''}>
+        <div className="flex justify-between items-center mb-4">
+          <button
+            type="button"
+            onClick={navigatePrevMonth}
+            className={`p-2 rounded-full hover:bg-gray-200 ${
+              isPrevMonthDisabled ? 'invisible' : ''
             }`}
+            aria-label="navigate to previous month"
           >
-            {day && (
-              <div
-                className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
-                  selectedDates.some((d) => d.isSame(day, 'day'))
-                    ? isUnselectingRef.current && isDateInDragRange(day)
-                      ? 'bg-gray-300'
-                      : 'bg-primary text-white'
-                    : day.isBefore(dayjs(), 'day')
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : isDateInDragRange(day) && !isUnselectingRef.current
-                        ? 'bg-primaryLight'
-                        : 'hover:bg-gray-200'
-                }`}
-                onMouseDown={() => handleDragStart(day)}
-                onMouseEnter={() => handleDragEnter(day)}
-                onMouseUp={handleDragEnd}
-                onTouchStart={() => handleDragStart(day)}
-                onTouchMove={(e) => handleTouchMove(e)}
-                onTouchEnd={handleDragEnd}
-              >
-                {day.date()}
-              </div>
-            )}
-          </div>
-        ))}
+            <MdNavigateBefore size={24} />
+          </button>
+          <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
+          <button
+            type="button"
+            onClick={navigateNextMonth}
+            className={`p-2 rounded-full hover:bg-gray-200 ${
+              isNextMonthDisabled ? 'invisible' : ''
+            }`}
+            aria-label="navigate to next month"
+          >
+            <MdNavigateNext size={24} />
+          </button>
+        </div>
+        <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
+          {/* days of the week row */}
+          {['日', '月', '火', '水', '木', '金', '土'].map((day) => (
+            <div
+              key={day}
+              className="text-center border-b border-r border-gray-300 font-semibold py-2"
+            >
+              {day}
+            </div>
+          ))}
+          {/* calendar dates */}
+          {calendarDays.map((day, index) => (
+            <div
+              key={index}
+              className={`text-center border-b border-r border-gray-300 select-none ${
+                day && !day.isBefore(dayjs(), 'day') ? 'cursor-pointer' : ''
+              }`}
+            >
+              {day && (
+                <div
+                  className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
+                    selectedDates.some((d) => d.isSame(day, 'day'))
+                      ? isUnselectingRef.current && isDateInDragRange(day)
+                        ? 'bg-gray-300'
+                        : 'bg-primary text-white'
+                      : day.isBefore(dayjs(), 'day')
+                        ? 'text-gray-400 cursor-not-allowed'
+                        : isDateInDragRange(day) && !isUnselectingRef.current
+                          ? 'bg-primaryLight'
+                          : 'hover:bg-gray-200'
+                  }`}
+                  onMouseDown={() => {
+                    if (isTouchScreen.current) return;
+                    handleDragStart(day);
+                  }}
+                  onMouseEnter={() => handleDragEnter(day)}
+                  onMouseUp={handleDragEnd}
+                  onTouchStart={() => {
+                    isTouchScreen.current = true;
+                    handleDragStart(day);
+                  }}
+                  onTouchMove={(e) => handleTouchMove(e)}
+                  onTouchEnd={handleDragEnd}
+                >
+                  {day.date()}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-      {selectedDates.length < 31 ? (
-        <p className="text-center mt-4">選択数: {selectedDates.length} / 31日</p>
-      ) : (
+      {showErrorMin ? (
+        <p className="text-center mt-4 text-red-500">少なくとも1日を選択してください</p>
+      ) : showErrorMax ? (
         <p className="text-center mt-4 text-red-500">最大選択数に達しました (31日)</p>
+      ) : (
+        <p className="text-center mt-4">選択数: {selectedDates.length} / 31日</p>
       )}
       <div className="mt-4">
         <button
