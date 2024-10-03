@@ -21,6 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <link rel="icon" href="/logo/main-logo.svg" sizes="any" />
+        <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
+      </head>
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         <Header />
         <main className="pt-20">{children}</main>
