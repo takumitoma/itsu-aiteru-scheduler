@@ -3,17 +3,23 @@ import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface CalendarProps {
-  selectedDates: dayjs.Dayjs[];
-  setSelectedDates: (dates: dayjs.Dayjs[]) => void;
+  // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
+  selectedDates: string[];
+  setSelectedDates: (dates: string[]) => void;
+  timezone: string;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) => {
-  const [currentMonth, setCurrentMonth] = useState(dayjs());
+const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates, timezone }) => {
+  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
@@ -24,6 +30,10 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
 
   const showErrorMin = isInteracted.current && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
+
+  useEffect(() => {
+    setCurrentMonth(dayjs().tz(timezone));
+  }, [timezone]);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -49,18 +59,18 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   }, [currentMonth]);
 
   function handleDragStart(date: dayjs.Dayjs) {
-    if (isDragging || date.isBefore(dayjs(), 'day')) {
+    if (isDragging || date.isBefore(dayjs().tz(timezone), 'day')) {
       return;
     }
 
     setIsDragging(true);
     setDragStart(date);
     setDragEnd(date);
-    isUnselectingRef.current = selectedDates.find((d) => d.isSame(date, 'day')) !== undefined;
+    isUnselectingRef.current = selectedDates.includes(date.format('YYYY-MM-DD'));
   }
 
   function handleDragEnter(date: dayjs.Dayjs) {
-    if (!isDragging || date.isBefore(dayjs(), 'day')) {
+    if (!isDragging || date.isBefore(dayjs().tz(timezone), 'day')) {
       return;
     }
     setDragEnd(date);
@@ -85,25 +95,21 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
     // get all dates from where drag started to where drag ended
     const start = dragStart.isBefore(dragEnd) ? dragStart : dragEnd;
     const end = dragStart.isBefore(dragEnd) ? dragEnd : dragStart;
-    const affectedDates: dayjs.Dayjs[] = [];
+    const affectedDates: string[] = [];
     let current = start;
     while (current.isSameOrBefore(end, 'day')) {
-      if (!current.isBefore(dayjs(), 'day')) {
-        affectedDates.push(current);
+      if (!current.isBefore(dayjs().tz(timezone), 'day')) {
+        affectedDates.push(current.format('YYYY-MM-DD'));
       }
       current = current.add(1, 'day');
     }
 
     // select the dates if selecting and unselect otherwise
-    let updatedDates: dayjs.Dayjs[];
+    let updatedDates: string[];
     if (isUnselectingRef.current) {
-      updatedDates = selectedDates.filter(
-        (date) => !affectedDates.some((d) => d.isSame(date, 'day')),
-      );
+      updatedDates = selectedDates.filter((date) => !affectedDates.includes(date));
     } else {
-      updatedDates = Array.from(
-        new Set([...selectedDates, ...affectedDates].map((date) => date.startOf('day').toString())),
-      ).map((dateString) => dayjs(dateString));
+      updatedDates = Array.from(new Set([...selectedDates, ...affectedDates]));
     }
 
     if (updatedDates.length <= 31) {
@@ -129,7 +135,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
 
   function navigatePrevMonth() {
     const prevMonth = currentMonth.subtract(1, 'month');
-    if (prevMonth.isSameOrAfter(dayjs().startOf('month'))) {
+    if (prevMonth.isSameOrAfter(dayjs().tz(timezone).startOf('month'))) {
       setCurrentMonth(prevMonth);
     }
   }
@@ -145,8 +151,16 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
   // restrict calendar to
   // from current month
   // up to current month - 1 month in the next year
-  const isPrevMonthDisabled = currentMonth.isSame(dayjs().startOf('month'), 'month');
-  const maxAllowedMonth = dayjs().add(1, 'year').subtract(1, 'month').endOf('month');
+  // use Pacific/Midway because it is the latest time in the world
+  const isPrevMonthDisabled = currentMonth.isSame(
+    dayjs().tz('Pacific/Midway').startOf('month'),
+    'month',
+  );
+  const maxAllowedMonth = dayjs()
+    .tz('Pacific/Midway')
+    .add(1, 'year')
+    .subtract(1, 'month')
+    .endOf('month');
   const isNextMonthDisabled = currentMonth.isSame(maxAllowedMonth, 'month');
 
   return (
@@ -190,17 +204,17 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDates, setSelectedDates }) 
             <div
               key={index}
               className={`text-center border-b border-r border-gray-300 select-none ${
-                day && !day.isBefore(dayjs(), 'day') ? 'cursor-pointer' : ''
+                day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
               }`}
             >
               {day && (
                 <div
-                  className={`py-2 ${day.isSame(dayjs(), 'day') ? 'font-bold' : ''} ${
-                    selectedDates.some((d) => d.isSame(day, 'day'))
+                  className={`py-2 ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
+                    selectedDates.includes(day.format('YYYY-MM-DD'))
                       ? isUnselectingRef.current && isDateInDragRange(day)
                         ? 'bg-gray-300'
                         : 'bg-primary text-white'
-                      : day.isBefore(dayjs(), 'day')
+                      : day.isBefore(dayjs().tz(timezone), 'day')
                         ? 'text-gray-400 cursor-not-allowed'
                         : isDateInDragRange(day) && !isUnselectingRef.current
                           ? 'bg-primaryLight'

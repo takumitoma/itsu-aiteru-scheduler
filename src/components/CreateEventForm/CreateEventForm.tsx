@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import EventTitleInput from './EventTitleInput';
 import SurveyTypeSelector from './SurveyTypeSelector';
 import TimezoneSelector from './TimezoneSelector';
@@ -15,7 +14,7 @@ const CreateEventForm: React.FC = () => {
   const [eventTitle, setEventTitle] = useState('');
   const [surveyType, setSurveyType] = useState<'specific' | 'week'>('specific');
   const [timeRange, setTimeRange] = useState({ start: 9, end: 18 });
-  const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([]);
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [password, setPassword] = useState('');
@@ -58,7 +57,11 @@ const CreateEventForm: React.FC = () => {
       </div>
       <div className="md:order-5">
         {surveyType === 'specific' ? (
-          <Calendar selectedDates={selectedDates} setSelectedDates={setSelectedDates} />
+          <Calendar
+            selectedDates={selectedDates}
+            setSelectedDates={setSelectedDates}
+            timezone={selectedTimezone}
+          />
         ) : (
           <WeekCalendar selectedDays={selectedDaysOfWeek} setSelectedDays={setSelectedDaysOfWeek} />
         )}
