@@ -32,7 +32,8 @@ const CreateEventForm: React.FC = () => {
     return true;
   }
 
-  async function handleCreateEvent() {
+  async function handleCreateEvent(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     if (formIsValid()) {
       setIsSubmitting(true);
       try {
@@ -57,7 +58,10 @@ const CreateEventForm: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem]">
+    <form
+      className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem]"
+      onSubmit={handleCreateEvent}
+    >
       <div className="md:order-1">
         <EventTitleInput value={eventTitle} onChange={setEventTitle} showError={showErrors} />
       </div>
@@ -90,11 +94,11 @@ const CreateEventForm: React.FC = () => {
       </div>
 
       <div className="md:order-7 md:col-span-2">
-        <CreateEventButton onClick={handleCreateEvent} isSubmitting={isSubmitting} />
+        <CreateEventButton isSubmitting={isSubmitting} />
       </div>
 
       <div className="hidden md:block md:order-2"></div>
-    </div>
+    </form>
   );
 };
 

@@ -1,13 +1,11 @@
 interface CreateEventButtonProps {
-  onClick: () => void;
   isSubmitting: boolean;
 }
 
-const CreateEventButton: React.FC<CreateEventButtonProps> = ({ onClick, isSubmitting }) => {
+const CreateEventButton: React.FC<CreateEventButtonProps> = ({ isSubmitting }) => {
   return (
     <button
       type="submit"
-      onClick={onClick}
       disabled={isSubmitting}
       className={`bg-primary text-white text-xl text-center px-4 py-4 mt-8 mb-4 rounded-md w-full
         hover:bg-primaryHover focus:bg-primaryHover three-d ${
