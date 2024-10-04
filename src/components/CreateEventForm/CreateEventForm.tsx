@@ -17,6 +17,7 @@ const CreateEventForm: React.FC = () => {
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [showErrors, setShowErrors] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function formIsValid() {
     if (eventTitle.trim().length === 0) {
@@ -31,15 +32,24 @@ const CreateEventForm: React.FC = () => {
     return true;
   }
 
-  function handleCreateEvent() {
+  async function handleCreateEvent() {
     if (formIsValid()) {
-      console.log('Event created:', {
-        title: eventTitle,
-        timezone: selectedTimezone,
-        timeRange,
-        dates: selectedDates,
-        daysOfWeek: selectedDaysOfWeek,
-      });
+      setIsSubmitting(true);
+      try {
+        // Simulate post request
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log('Event created:', {
+          title: eventTitle,
+          timezone: selectedTimezone,
+          timeRange,
+          dates: selectedDates,
+          daysOfWeek: selectedDaysOfWeek,
+        });
+      } catch (error) {
+        console.log('Form validation passed but form creation failed', error);
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       console.log('Error: Form validation failed');
       setShowErrors(true);
@@ -80,7 +90,7 @@ const CreateEventForm: React.FC = () => {
       </div>
 
       <div className="md:order-7 md:col-span-2">
-        <CreateEventButton onClick={handleCreateEvent} />
+        <CreateEventButton onClick={handleCreateEvent} isSubmitting={isSubmitting} />
       </div>
 
       <div className="hidden md:block md:order-2"></div>
