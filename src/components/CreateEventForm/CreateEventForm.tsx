@@ -7,7 +7,6 @@ import TimezoneSelector from './TimezoneSelector';
 import TimeRangeSelector from './TimeRangeSelector';
 import Calendar from './Calendar';
 import WeekCalendar from './WeekCalendar';
-import PasswordInput from './PasswordInput';
 import CreateEventButton from './CreateEventButton';
 
 const CreateEventForm: React.FC = () => {
@@ -17,7 +16,6 @@ const CreateEventForm: React.FC = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
-  const [password, setPassword] = useState('');
   const [showErrors, setShowErrors] = useState(false);
 
   function formIsValid() {
@@ -41,7 +39,6 @@ const CreateEventForm: React.FC = () => {
         timeRange,
         dates: selectedDates,
         daysOfWeek: selectedDaysOfWeek,
-        password,
       });
     } else {
       console.log('Error: Form validation failed');
@@ -82,15 +79,11 @@ const CreateEventForm: React.FC = () => {
         )}
       </div>
 
-      <div className="md:order-7">
-        <PasswordInput value={password} onChange={setPassword} />
-      </div>
-      <div className="md:order-9 md:col-span-2">
+      <div className="md:order-7 md:col-span-2">
         <CreateEventButton onClick={handleCreateEvent} />
       </div>
 
       <div className="hidden md:block md:order-2"></div>
-      <div className="hidden md:block md:order-8"></div>
     </div>
   );
 };
