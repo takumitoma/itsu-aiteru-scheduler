@@ -13,7 +13,9 @@ const config: Config = {
         foreground: 'var(--foreground)',
         primary: 'var(--primary)',
         primaryHover: 'var(--primary-hover)',
-        primaryLight: 'var(--primary-light)'
+        primaryLight: 'var(--primary-light)',
+        primaryVeryLight: 'var(--primary-very-light)',
+        customBlack: 'var(--custom-black)'
       },
       fontFamily: {
         sans: ['var(--font-noto-sans-jp)'],

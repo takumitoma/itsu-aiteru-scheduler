@@ -176,23 +176,23 @@ const Calendar: React.FC<CalendarProps> = ({
           <button
             type="button"
             onClick={navigatePrevMonth}
-            className={`p-2 rounded-full hover:bg-gray-200 ${
+            className={`p-2 rounded-md hover:bg-primaryHover three-d text-white ${
               isPrevMonthDisabled ? 'invisible' : ''
             }`}
             aria-label="navigate to previous month"
           >
-            <MdNavigateBefore size={24} />
+            <MdNavigateBefore size={20} />
           </button>
           <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
           <button
             type="button"
             onClick={navigateNextMonth}
-            className={`p-2 rounded-full hover:bg-gray-200 ${
+            className={`p-2 rounded-md hover:bg-primaryHover three-d text-white ${
               isNextMonthDisabled ? 'invisible' : ''
             }`}
             aria-label="navigate to next month"
           >
-            <MdNavigateNext size={24} />
+            <MdNavigateNext size={20} />
           </button>
         </div>
         <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
@@ -257,7 +257,8 @@ const Calendar: React.FC<CalendarProps> = ({
         <button
           type="reset"
           onClick={clearSelection}
-          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded"
+          className="w-full py-2 bg-primaryVeryLight border border-primary text-black 
+            rounded focus:outline-none focus:ring-2 focus:ring-primary"
         >
           選択をクリア
         </button>

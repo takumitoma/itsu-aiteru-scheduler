@@ -36,7 +36,8 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm
+          className="w-full px-4 py-2 rounded-md border border-primary shadow-sm 
+            focus:outline-none focus:ring-2 focus:ring-primary bg-primaryVeryLight
             flex justify-between items-center"
           aria-hidden="true"
         >
@@ -48,13 +49,14 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
         </button>
         {isOpen && (
           <div
-            className="absolute z-10 w-full mt-1 bg-background border border-gray-300 
-              rounded-md shadow-sm"
+            className="absolute z-10 w-full mt-1 border border-gray-300 
+              rounded-md shadow-sm border-primary bg-primaryVeryLight"
             aria-hidden="true"
           >
             <button
               type="button"
-              className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:bg-primaryHover"
+              className="w-full px-4 py-2 text-left 
+                hover:bg-primaryHover focus:outline-none focus:ring-2 focus:ring-primary"
               onClick={() => {
                 onChange('specific');
                 setIsOpen(false);
@@ -64,7 +66,8 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
             </button>
             <button
               type="button"
-              className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:bg-primaryHover"
+              className="w-full px-4 py-2 text-left 
+                hover:bg-primaryHover focus:outline-none focus:ring-2 focus:ring-primary"
               onClick={() => {
                 onChange('week');
                 setIsOpen(false);

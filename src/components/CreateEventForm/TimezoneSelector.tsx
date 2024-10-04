@@ -46,7 +46,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm
+          className="w-full px-4 py-2 rounded-md border border-primary shadow-sm bg-primaryVeryLight
             flex justify-between items-center"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -59,7 +59,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
         </button>
         {isOpen && (
           <ul
-            className="absolute z-10 w-full mt-1 bg-background border border-gray-300 
+            className="absolute z-10 w-full mt-1 bg-primaryVeryLight border border-primary
               rounded-md shadow-sm max-h-60 overflow-auto"
             role="listbox"
           >

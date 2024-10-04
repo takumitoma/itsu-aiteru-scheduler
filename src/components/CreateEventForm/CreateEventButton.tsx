@@ -8,7 +8,7 @@ const CreateEventButton: React.FC<CreateEventButtonProps> = ({ onClick }) => {
       type="submit"
       onClick={onClick}
       className="bg-primary text-white text-xl text-center px-4 py-4 mt-8 mb-4 rounded-md w-full
-        hover:bg-primaryHover focus:bg-primaryHover"
+        hover:bg-primaryHover focus:bg-primaryHover three-d"
     >
       イベントを作成
     </button>

@@ -8,6 +8,8 @@
   --primary: #4a90e2;
   --primary-hover: #5aa0f2;
   --primary-light: #4A90E2CC;
+  --primary-very-light: #F0F8FF;
+  --custom-black: #171717;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -27,4 +29,16 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+button.three-d {
+  outline: none;
+  background: var(--primary);
+  border: none;
+  box-shadow: 0 3px #3b7bcf;
+}
+
+button.three-d:active {
+  box-shadow: none;
+  transform: translateY(3px);
 }
