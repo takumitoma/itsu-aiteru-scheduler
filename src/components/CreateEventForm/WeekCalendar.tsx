@@ -26,7 +26,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
   }
 
   return (
-    <div className="max-w-md w-full">
+    <div className="max-w-md w-full md:pt-1">
       <label className="text-xl font-medium">曜日を選択</label>
       <div
         className={`flex w-full mt-6 rounded ${
