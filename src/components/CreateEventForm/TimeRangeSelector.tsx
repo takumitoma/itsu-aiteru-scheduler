@@ -10,6 +10,12 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
     if (Array.isArray(newValue)) {
       let [start, end] = newValue.map(Math.round);
 
+      // Restrict left slider to only go up to 23
+      start = Math.min(start, 23);
+
+      // Restrict right slider to only go down to 1
+      end = Math.max(end, 1);
+
       // Prevent circles from overlapping
       if (end - start < 1) {
         if (start > value.start) {
