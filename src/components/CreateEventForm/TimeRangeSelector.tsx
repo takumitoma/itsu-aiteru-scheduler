@@ -40,7 +40,7 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
   return (
     <div className="max-w-md w-full md:pt-1">
       <label className="text-xl font-medium mb-4">時間帯を選択</label>
-      <div className="px-3 mt-6 mb-4">
+      <div className="my-4">
         <Slider
           value={[value.start, value.end]}
           onChange={handleChange}
@@ -50,10 +50,27 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
           max={24}
           marks={marks}
           className="text-primary"
+          sx={{
+            '& .MuiSlider-thumb': {
+              width: '28px',
+              height: '28px',
+              borderRadius: '4px',
+              '&:hover, &.Mui-focusVisible': {
+                boxShadow: 'none',
+              },
+            },
+            '& .MuiSlider-rail': {
+              borderRadius: '4px',
+            },
+            '& .MuiSlider-markLabel': {
+              marginTop: '16px',
+            },
+            height: '16px',
+          }}
         />
       </div>
       <p className="text-lg text-center my-4">
-        {value.start}時 から {value.end}時
+        {value.start}時 &#x2014; {value.end}時
       </p>
     </div>
   );

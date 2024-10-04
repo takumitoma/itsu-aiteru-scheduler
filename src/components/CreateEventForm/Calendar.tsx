@@ -176,9 +176,8 @@ const Calendar: React.FC<CalendarProps> = ({
           <button
             type="button"
             onClick={navigatePrevMonth}
-            className={`p-2 rounded-md hover:bg-primaryHover three-d text-white ${
-              isPrevMonthDisabled ? 'invisible' : ''
-            }`}
+            className={`p-2 rounded-md hover:bg-primaryHover focus:bg-primaryHover 
+              three-d text-white ${isPrevMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to previous month"
           >
             <MdNavigateBefore size={20} />
@@ -187,9 +186,8 @@ const Calendar: React.FC<CalendarProps> = ({
           <button
             type="button"
             onClick={navigateNextMonth}
-            className={`p-2 rounded-md hover:bg-primaryHover three-d text-white ${
-              isNextMonthDisabled ? 'invisible' : ''
-            }`}
+            className={`p-2 rounded-md hover:bg-primaryHover focus:bg-primaryHover 
+              three-d text-white ${isNextMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to next month"
           >
             <MdNavigateNext size={20} />
@@ -215,17 +213,18 @@ const Calendar: React.FC<CalendarProps> = ({
             >
               {day && (
                 <div
-                  className={`py-2 ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
-                    selectedDates.includes(day.format('YYYY-MM-DD'))
-                      ? isUnselectingRef.current && isDateInDragRange(day)
-                        ? 'bg-gray-300'
-                        : 'bg-primary text-white'
-                      : day.isBefore(dayjs().tz(timezone), 'day')
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : isDateInDragRange(day) && !isUnselectingRef.current
-                          ? 'bg-primaryLight'
-                          : 'hover:bg-gray-200'
-                  }`}
+                  className={`py-2 focus:outline-none focus:ring-2 focus:ring-primary
+                    ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
+                      selectedDates.includes(day.format('YYYY-MM-DD'))
+                        ? isUnselectingRef.current && isDateInDragRange(day)
+                          ? 'bg-gray-300'
+                          : 'bg-primary text-white'
+                        : day.isBefore(dayjs().tz(timezone), 'day')
+                          ? 'text-gray-400 cursor-not-allowed'
+                          : isDateInDragRange(day) && !isUnselectingRef.current
+                            ? 'bg-primaryLight'
+                            : 'hover:bg-gray-200'
+                    }`}
                   onMouseDown={() => {
                     if (isTouchScreen.current) return;
                     handleDragStart(day);
@@ -238,6 +237,7 @@ const Calendar: React.FC<CalendarProps> = ({
                   }}
                   onTouchMove={(e) => handleTouchMove(e)}
                   onTouchEnd={handleDragEnd}
+                  {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
                 >
                   {day.date()}
                 </div>
