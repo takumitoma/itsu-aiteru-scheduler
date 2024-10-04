@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import EventTitleInput from './EventTitleInput';
 import SurveyTypeSelector from './SurveyTypeSelector';
 import TimezoneSelector from './TimezoneSelector';
@@ -18,6 +18,7 @@ const CreateEventForm: React.FC = () => {
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [showErrors, setShowErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   function formIsValid() {
     if (eventTitle.trim().length === 0) {
@@ -27,6 +28,9 @@ const CreateEventForm: React.FC = () => {
       return false;
     }
     if (surveyType === 'week' && selectedDaysOfWeek.length === 0) {
+      return false;
+    }
+    if (honeypotRef.current && honeypotRef.current.checked) {
       return false;
     }
     return true;
@@ -98,6 +102,16 @@ const CreateEventForm: React.FC = () => {
       </div>
 
       <div className="hidden md:block md:order-2"></div>
+
+      {/* Honeypot */}
+      <input
+        type="checkbox"
+        name="contact_me_by_fax_only"
+        ref={honeypotRef}
+        tabIndex={-1}
+        className="absolute top-0 left-0 w-0 h-0 opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
     </form>
   );
 };
