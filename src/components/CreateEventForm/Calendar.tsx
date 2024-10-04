@@ -64,6 +64,27 @@ const Calendar: React.FC<CalendarProps> = ({
     setCalendarDays(days);
   }, [currentMonth]);
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>, date: dayjs.Dayjs) {
+    e.preventDefault();
+    if (!(e.key === ' ' || e.key === 'Enter')) {
+      return;
+    }
+
+    if (date.isBefore(dayjs().tz(timezone), 'day')) {
+      return;
+    }
+
+    const dateString = date.format('YYYY-MM-DD');
+    const updatedDates = selectedDates.includes(dateString)
+      ? selectedDates.filter((d) => d !== dateString)
+      : [...selectedDates, dateString];
+
+    if (updatedDates.length <= 31) {
+      setSelectedDates(updatedDates);
+    }
+    isInteracted.current = true;
+  }
+
   function handleDragStart(date: dayjs.Dayjs) {
     if (isDragging || date.isBefore(dayjs().tz(timezone), 'day')) {
       return;
@@ -129,7 +150,7 @@ const Calendar: React.FC<CalendarProps> = ({
     isUnselectingRef.current = false;
   }
 
-  const isDateInDragRange = (date: dayjs.Dayjs) => {
+  function isDateInDragRange(date: dayjs.Dayjs) {
     if (!isDragging || !dragStart || !dragEnd) {
       return false;
     }
@@ -137,7 +158,7 @@ const Calendar: React.FC<CalendarProps> = ({
       (date.isSameOrAfter(dragStart, 'day') && date.isSameOrBefore(dragEnd, 'day')) ||
       (date.isSameOrAfter(dragEnd, 'day') && date.isSameOrBefore(dragStart, 'day'))
     );
-  };
+  }
 
   function navigatePrevMonth() {
     const prevMonth = currentMonth.subtract(1, 'month');
@@ -237,6 +258,7 @@ const Calendar: React.FC<CalendarProps> = ({
                   }}
                   onTouchMove={(e) => handleTouchMove(e)}
                   onTouchEnd={handleDragEnd}
+                  onKeyDown={(e) => handleKeyDown(e, day)}
                   {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
                 >
                   {day.date()}
