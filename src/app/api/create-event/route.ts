@@ -34,7 +34,6 @@ export async function POST(request: Request) {
     }
 
     if (validatedData.surveyType === 'specific') {
-      validatedData.daysOfWeek = undefined;
       if (
         !validatedData.dates ||
         validatedData.dates.length === 0 ||
@@ -46,7 +45,7 @@ export async function POST(request: Request) {
       const now = dayjs().tz(validatedData.timezone);
       if (
         validatedData.dates.some((date) =>
-          dayjs.tz(date, validatedData.timezone).isBefore(now, 'day'),
+          dayjs(date).tz(validatedData.timezone).isBefore(now, 'day'),
         )
       ) {
         return new Response(JSON.stringify({ error: 'Past dates can not be selected' }), {
@@ -54,7 +53,6 @@ export async function POST(request: Request) {
         });
       }
     } else {
-      validatedData.dates = undefined;
       if (!validatedData.daysOfWeek || validatedData.daysOfWeek.length !== 7) {
         return new Response(JSON.stringify({ error: 'Invalid date selection' }), { status: 400 });
       }
@@ -66,7 +64,18 @@ export async function POST(request: Request) {
       }
     }
 
-    const { data, error } = await supabase.from('events').insert([validatedData]).select();
+    const { data, error } = await supabase
+      .from('events')
+      .insert({
+        title: validatedData.title,
+        survey_type: validatedData.surveyType,
+        timezone: validatedData.timezone,
+        time_range_start: `${validatedData.timeRange.start}:00`,
+        time_range_end: `${validatedData.timeRange.end}:00`,
+        dates: validatedData.surveyType === 'specific' ? validatedData.dates : null,
+        days_of_week: validatedData.surveyType === 'week' ? validatedData.daysOfWeek : null,
+      })
+      .select();
 
     if (error) throw error;
 
