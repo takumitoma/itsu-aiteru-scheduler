@@ -14,7 +14,7 @@ const CreateEventForm: React.FC = () => {
   const [surveyType, setSurveyType] = useState<'specific' | 'week'>('specific');
   const [timeRange, setTimeRange] = useState({ start: 9, end: 18 });
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
-  const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
+  const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([0, 0, 0, 0, 0, 0, 0]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [showErrors, setShowErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,7 +27,7 @@ const CreateEventForm: React.FC = () => {
     if (surveyType === 'specific' && selectedDates.length === 0) {
       return false;
     }
-    if (surveyType === 'week' && selectedDaysOfWeek.length === 0) {
+    if (surveyType === 'week' && !selectedDaysOfWeek.includes(1)) {
       return false;
     }
     if (honeypotRef.current && honeypotRef.current.checked) {

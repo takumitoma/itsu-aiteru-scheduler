@@ -4,7 +4,7 @@ const dates = ['日', '月', '火', '水', '木', '金', '土'];
 
 interface WeekCalendarProps {
   selectedDays: number[];
-  setSelectedDays: (dates: number[]) => void;
+  setSelectedDays: React.Dispatch<React.SetStateAction<number[]>>;
   showError: boolean;
 }
 
@@ -15,14 +15,15 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
 }) => {
   const isInteracted = useRef(false);
 
-  const displayError = (showError || isInteracted.current) && selectedDays.length === 0;
+  const displayError = (showError || isInteracted.current) && !selectedDays.includes(1);
 
   function toggleWeekday(index: number) {
     isInteracted.current = true;
-    const newSelectedDays = selectedDays.includes(index)
-      ? selectedDays.filter((day) => day !== index)
-      : [...selectedDays, index];
-    setSelectedDays(newSelectedDays);
+    setSelectedDays((prevState) => {
+      const newSelectedDays = [...prevState];
+      newSelectedDays[index] = newSelectedDays[index] === 0 ? 1 : 0;
+      return newSelectedDays;
+    });
   }
 
   return (
@@ -40,7 +41,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
             onClick={() => toggleWeekday(index)}
             className={`py-2 w-full 
               border-gray-300 border-r hover:bg-gray-200 ${
-                selectedDays.includes(index) ? 'bg-primary text-white hover:bg-primary' : ''
+                selectedDays[index] === 1 ? 'bg-primary text-white hover:bg-primary' : ''
               }`}
           >
             {day}
