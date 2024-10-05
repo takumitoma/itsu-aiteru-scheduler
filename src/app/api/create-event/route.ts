@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
 import dayjs from 'dayjs';
@@ -28,9 +29,7 @@ export async function POST(request: Request) {
 
     // more validation
     if (validatedData.timeRange.start >= validatedData.timeRange.end) {
-      return new Response(JSON.stringify({ error: 'Start time can not be before end time' }), {
-        status: 400,
-      });
+      return NextResponse.json({ error: 'Start time can not be before end time' }, { status: 400 });
     }
 
     if (validatedData.surveyType === 'specific') {
@@ -39,7 +38,7 @@ export async function POST(request: Request) {
         validatedData.dates.length === 0 ||
         validatedData.dates.length > 31
       ) {
-        return new Response(JSON.stringify({ error: 'Invalid date selection' }), { status: 400 });
+        return NextResponse.json({ error: 'Invalid date selection' }, { status: 400 });
       }
 
       const now = dayjs().tz(validatedData.timezone);
@@ -48,17 +47,15 @@ export async function POST(request: Request) {
           dayjs(date).tz(validatedData.timezone).isBefore(now, 'day'),
         )
       ) {
-        return new Response(JSON.stringify({ error: 'Past dates can not be selected' }), {
-          status: 400,
-        });
+        return NextResponse.json({ error: 'Past dates can not be selected' }, { status: 400 });
       }
     } else {
       if (!validatedData.daysOfWeek || validatedData.daysOfWeek.length !== 7) {
-        return new Response(JSON.stringify({ error: 'Invalid date selection' }), { status: 400 });
+        return NextResponse.json({ error: 'Invalid date selection' }, { status: 400 });
       }
       if (validatedData.daysOfWeek.every((day) => day === 0)) {
-        return new Response(
-          JSON.stringify({ error: 'At least one day of week must be selected' }),
+        return NextResponse.json(
+          { error: 'At least one day of week must be selected' },
           { status: 400 },
         );
       }
@@ -79,16 +76,11 @@ export async function POST(request: Request) {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify({ message: 'Event created successfully', data }), {
-      status: 200,
-    });
+    return NextResponse.json({ message: 'Event created successfully', data }, { status: 200 });
   } catch (error) {
-    console.error('Error creating event:', error);
-    return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
-      }),
-      { status: 400 },
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 },
     );
   }
 }
