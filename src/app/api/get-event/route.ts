@@ -37,9 +37,28 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ event }, { status: 200 });
   } catch (error) {
+    // return 404 even if id is in bad format ie not uuid
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: 'Invalid event ID' }, { status: 404 });
+    }
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 },
     );
   }
+}
+
+export async function getEvent(id: string) {
+  const response = await fetch(`/api/get-event?id=${id}`);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error('Event not found');
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'An error occurred while fetching the event');
+    }
+  }
+
+  return response.json();
 }
