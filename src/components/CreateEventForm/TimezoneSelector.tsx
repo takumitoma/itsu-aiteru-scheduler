@@ -3,7 +3,7 @@ import { MdArrowDropDown } from 'react-icons/md';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import allTimezones from '@/db/timezone';
+import allTimezones from '@/lib/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
