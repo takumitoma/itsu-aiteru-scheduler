@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import EventTitleInput from './EventTitleInput';
 import SurveyTypeSelector from './SurveyTypeSelector';
 import TimezoneSelector from './TimezoneSelector';
@@ -8,6 +9,7 @@ import TimeRangeSelector from './TimeRangeSelector';
 import Calendar from './Calendar';
 import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import dayjs from 'dayjs';
 import { createEvent } from '@/app/api/create-event/route';
 import { EventData } from '@/types/EventData';
@@ -21,7 +23,9 @@ const CreateEventForm: React.FC = () => {
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
   const [showErrors, setShowErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   function formIsValid() {
     if (eventTitle.trim().length === 0) {
@@ -43,6 +47,7 @@ const CreateEventForm: React.FC = () => {
     e.preventDefault();
     if (formIsValid()) {
       setIsSubmitting(true);
+      setApiError(null);
       try {
         const eventData: Omit<EventData, 'id'> = {
           title: eventTitle,
@@ -58,11 +63,11 @@ const CreateEventForm: React.FC = () => {
         };
 
         const result = await createEvent(eventData);
-        console.log('Event created:', result);
 
-        // todo: add redirect logic here
+        router.push(`/${result.event.id}`);
       } catch (error) {
         console.error('Error creating event:', error);
+        setApiError(error instanceof Error ? error.message : 'An unknown error occurred');
       } finally {
         setIsSubmitting(false);
       }
@@ -111,6 +116,12 @@ const CreateEventForm: React.FC = () => {
       <div className="md:order-7 md:col-span-2">
         <CreateEventButton isSubmitting={isSubmitting} />
       </div>
+
+      {apiError && (
+        <div className="md:order-8 md:col-span-2">
+          <ErrorMessage message={apiError} />
+        </div>
+      )}
 
       <div className="hidden md:block md:order-2"></div>
 
