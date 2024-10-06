@@ -10,6 +10,7 @@ import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
 import dayjs from 'dayjs';
 import { createEvent } from '@/app/api/create-event/route';
+import { EventData } from '@/types/EventData';
 
 const CreateEventForm: React.FC = () => {
   const [eventTitle, setEventTitle] = useState('');
@@ -43,19 +44,17 @@ const CreateEventForm: React.FC = () => {
     if (formIsValid()) {
       setIsSubmitting(true);
       try {
-        const eventData = {
+        const eventData: Omit<EventData, 'id'> = {
           title: eventTitle,
           surveyType,
-          timeRange: {
-            start: timeRange.start,
-            end: timeRange.end,
-          },
+          timeRangeStart: timeRange.start,
+          timeRangeEnd: timeRange.end,
           timezone: selectedTimezone,
           dates:
             surveyType === 'specific'
               ? selectedDates.map((date) => dayjs(date).startOf('day').toISOString())
-              : undefined,
-          daysOfWeek: surveyType === 'week' ? selectedDaysOfWeek : undefined,
+              : null,
+          daysOfWeek: surveyType === 'week' ? selectedDaysOfWeek : null,
         };
 
         const result = await createEvent(eventData);

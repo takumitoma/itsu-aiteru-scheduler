@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
+import { EventData } from '@/types/EventData';
 
 const EventIdInput = z.object({
   id: z.string().uuid(),
@@ -35,7 +36,18 @@ export async function GET(request: Request) {
 
     // todo: add logic to update "last accessed" column
 
-    return NextResponse.json({ event }, { status: 200 });
+    const eventData: EventData = {
+      id: event.id,
+      title: event.title,
+      surveyType: event.survey_type,
+      timezone: event.timezone,
+      timeRangeStart: event.time_range_start,
+      timeRangeEnd: event.time_range_end,
+      dates: event.dates,
+      daysOfWeek: event.days_of_week,
+    };
+
+    return NextResponse.json({ event: eventData }, { status: 200 });
   } catch (error) {
     // return 404 even if id is in bad format ie not uuid
     if (error instanceof z.ZodError) {
@@ -48,7 +60,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function getEvent(id: string) {
+export async function getEvent(id: string): Promise<{ event: EventData }> {
   const response = await fetch(`/api/get-event?id=${id}`);
 
   if (!response.ok) {

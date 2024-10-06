@@ -1,15 +1,5 @@
+import { EventData } from '@/types/EventData';
 import CopyEventLink from './CopyEventLink';
-
-interface EventData {
-  id: string;
-  title: string;
-  surveyType: 'specific' | 'week';
-  timezone: string;
-  timeRangeStart: string;
-  timeRangeEnd: string;
-  dates: string[] | null;
-  daysOfWeek: number[] | null;
-}
 
 interface ViewEventProps {
   eventData: EventData;

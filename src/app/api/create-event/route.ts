@@ -4,6 +4,7 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { EventData } from '@/types/EventData';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -11,12 +12,10 @@ dayjs.extend(timezone);
 const EventSchema = z.object({
   title: z.string().min(1).max(100),
   surveyType: z.enum(['specific', 'week']),
-  dates: z.array(z.string().datetime()).optional(),
-  daysOfWeek: z.array(z.number().min(0).max(1)).length(7).optional(),
-  timeRange: z.object({
-    start: z.number().min(0).max(23),
-    end: z.number().min(1).max(24),
-  }),
+  dates: z.array(z.string().datetime()).nullable(),
+  daysOfWeek: z.array(z.number().min(0).max(1)).length(7).nullable(),
+  timeRangeStart: z.number().min(0).max(23),
+  timeRangeEnd: z.number().min(1).max(24),
   timezone: z.string(),
 });
 
@@ -28,7 +27,7 @@ export async function POST(request: Request) {
     const validatedData = EventSchema.parse(eventData);
 
     // more validation
-    if (validatedData.timeRange.start >= validatedData.timeRange.end) {
+    if (validatedData.timeRangeStart >= validatedData.timeRangeEnd) {
       return NextResponse.json({ error: 'Start time can not be before end time' }, { status: 400 });
     }
 
@@ -67,8 +66,8 @@ export async function POST(request: Request) {
         title: validatedData.title,
         survey_type: validatedData.surveyType,
         timezone: validatedData.timezone,
-        time_range_start: validatedData.timeRange.start,
-        time_range_end: validatedData.timeRange.end,
+        time_range_start: validatedData.timeRangeStart,
+        time_range_end: validatedData.timeRangeEnd,
         dates: validatedData.surveyType === 'specific' ? validatedData.dates : null,
         days_of_week: validatedData.surveyType === 'week' ? validatedData.daysOfWeek : null,
       })
@@ -76,7 +75,21 @@ export async function POST(request: Request) {
 
     if (error) throw error;
 
-    return NextResponse.json({ message: 'Event created successfully', data }, { status: 200 });
+    const createdEvent: EventData = {
+      id: data[0].id,
+      title: data[0].title,
+      surveyType: data[0].survey_type,
+      timezone: data[0].timezone,
+      timeRangeStart: data[0].time_range_start,
+      timeRangeEnd: data[0].time_range_end,
+      dates: data[0].dates,
+      daysOfWeek: data[0].days_of_week,
+    };
+
+    return NextResponse.json(
+      { message: 'Event created successfully', event: createdEvent },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -85,7 +98,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function createEvent(eventData: z.infer<typeof EventSchema>) {
+export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
   const response = await fetch('/api/create-event', {
     method: 'POST',
     headers: {
