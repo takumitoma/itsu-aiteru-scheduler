@@ -84,3 +84,20 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function createEvent(eventData: z.infer<typeof EventSchema>) {
+  const response = await fetch('/api/create-event', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(eventData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to create event');
+  }
+
+  return response.json();
+}

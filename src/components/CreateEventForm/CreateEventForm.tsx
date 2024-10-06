@@ -9,6 +9,7 @@ import Calendar from './Calendar';
 import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
 import dayjs from 'dayjs';
+import { createEvent } from '@/app/api/create-event/route';
 
 const CreateEventForm: React.FC = () => {
   const [eventTitle, setEventTitle] = useState('');
@@ -57,20 +58,7 @@ const CreateEventForm: React.FC = () => {
           daysOfWeek: surveyType === 'week' ? selectedDaysOfWeek : undefined,
         };
 
-        const response = await fetch('/api/create-event', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(eventData),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to create event');
-        }
-
-        const result = await response.json();
+        const result = await createEvent(eventData);
         console.log('Event created:', result);
 
         // todo: add redirect logic here
