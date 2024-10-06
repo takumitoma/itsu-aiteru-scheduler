@@ -67,8 +67,8 @@ export async function POST(request: Request) {
         title: validatedData.title,
         survey_type: validatedData.surveyType,
         timezone: validatedData.timezone,
-        time_range_start: `${validatedData.timeRange.start}:00`,
-        time_range_end: `${validatedData.timeRange.end}:00`,
+        time_range_start: validatedData.timeRange.start,
+        time_range_end: validatedData.timeRange.end,
         dates: validatedData.surveyType === 'specific' ? validatedData.dates : null,
         days_of_week: validatedData.surveyType === 'week' ? validatedData.daysOfWeek : null,
       })
