@@ -46,21 +46,24 @@ const EventPage: React.FC = () => {
   }
 
   if (!eventData) {
-    setEventData( {
-      id: "dingding",
-      title: "tester",
+    setEventData({
+      id: 'dingding',
+      title: 'tester',
       surveyType: 'week',
-      timezone: "Japan",
+      timezone: 'Japan',
       timeRangeStart: 10,
       timeRangeEnd: 13,
       dates: null,
-      daysOfWeek: [0, 1, 1, 0, 0, 1, 1]
-    }
-    )
+      daysOfWeek: [1, 1, 1, 1, 1, 1, 1],
+    });
     return <div>No event data available.</div>;
   }
 
-  return <ViewEvent eventData={eventData} />;
+  return (
+    <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
+      <ViewEvent eventData={eventData} />
+    </div>
+  );
 };
 
 export default EventPage;

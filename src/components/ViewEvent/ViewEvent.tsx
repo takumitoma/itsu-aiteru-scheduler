@@ -1,5 +1,5 @@
 import { EventData } from '@/types/EventData';
-import WeekCalendar from './WeekCalendar';
+import WeekChart from './WeekChart';
 import CopyEventLink from './CopyEventLink';
 
 interface ViewEventProps {
@@ -10,7 +10,7 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   return (
     <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
       <h1 className="text-3xl font-bold mb-8">{eventData.title}</h1>
-      <WeekCalendar 
+      <WeekChart
         timezone={eventData.timezone}
         timeRangeStart={eventData.timeRangeStart}
         timeRangeEnd={eventData.timeRangeEnd}
