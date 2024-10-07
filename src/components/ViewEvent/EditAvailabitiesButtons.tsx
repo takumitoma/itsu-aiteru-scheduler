@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { IoInformationCircleOutline } from 'react-icons/io5';
+import { HiPlus } from 'react-icons/hi';
 
 interface EditAvailabitiesButtonsProps {
   isEditing: boolean;
@@ -72,11 +73,12 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
         ref={buttonRef}
         className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md 
           border border-primary hover:bg-primaryHover focus:bg-primaryHover 
-          shadow-sm flex-shrink-0 w-[132px] sm:w-[160px]"
+          shadow-sm flex-shrink-0 flex items-center space-x-2"
         type="button"
         onClick={toggleIsEditing}
       >
-        <p className="select-none">{isEditing ? '保存' : '空き時間を追加'}</p>
+        {!isEditing && <HiPlus size={20} />}
+        <p>{isEditing ? '保存' : '空き時間'}</p>
       </button>
       {isPopupOpen && (
         <div
@@ -89,7 +91,7 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
           >
             <div className="flex justify-between">
               <label htmlFor="participantName" className="text-xl font-medium">
-                名前
+                あなたのお名前
               </label>
               <button onClick={cancelNameChange} type="button">
                 <RxCross1 size={24} />
@@ -122,7 +124,7 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
                 className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
                   hover:bg-primaryHover focus:bg-primaryHover"
               >
-                追加
+                確認
               </button>
             </div>
           </form>

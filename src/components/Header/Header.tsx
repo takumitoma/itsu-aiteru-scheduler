@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import logoImg from '../../../public/logo/main-logo.svg';
-import { GoPlus } from 'react-icons/go';
 import Link from 'next/link';
 
 const Header: React.FC = () => {
@@ -14,18 +13,9 @@ const Header: React.FC = () => {
         <nav>
           <ul className="flex items-center space-x-8">
             <li>
-              <Link href="/about" className="hover:underline">
+              <Link href="/about" className="hover:underline text-xl">
                 詳細
               </Link>
-            </li>
-            <li>
-              <button
-                className="bg-primary text-white px-4 py-2 rounded-md hidden sm:flex
-                hover:bg-primaryHover transition-colors items-center"
-              >
-                <GoPlus size={28} />
-                新規イベント
-              </button>
             </li>
           </ul>
         </nav>
