@@ -27,6 +27,11 @@ export async function get(request: NextRequest) {
       .single();
 
     if (error) {
+      // if no rows returned
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Event was not found' }, { status: 404 });
+      }
+
       return NextResponse.json({ error: 'Failed to fetch event' }, { status: 500 });
     }
 

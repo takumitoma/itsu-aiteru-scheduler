@@ -15,25 +15,25 @@ const EventPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // useEffect(() => {
-  //   async function fetchEventData() {
-  //     try {
-  //       console.log("called")
-  //       const { event } = await getEvent(eventId);
-  //       setEventData(event);
-  //     } catch (err) {
-  //       setError(err instanceof Error ? err : new Error('An unknown error occurred'));
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchEventData() {
+      try {
+        console.log('called');
+        const { event } = await getEvent(eventId);
+        setEventData(event);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  //   fetchEventData();
-  // }, [eventId]);
+    fetchEventData();
+  }, [eventId]);
 
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (error) {
     if (error.message === 'Event not found') {
@@ -46,16 +46,6 @@ const EventPage: React.FC = () => {
   }
 
   if (!eventData) {
-    setEventData({
-      id: 'dingding',
-      title: 'tester',
-      surveyType: 'week',
-      timezone: 'Japan',
-      timeRangeStart: 10,
-      timeRangeEnd: 13,
-      dates: null,
-      daysOfWeek: [1, 1, 1, 1, 1, 1, 1],
-    });
     return <div>No event data available.</div>;
   }
 
