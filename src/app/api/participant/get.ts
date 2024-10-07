@@ -15,7 +15,7 @@ export async function get(request: NextRequest) {
     .eq('event_id', eventId);
 
   if (error) {
-    // if no rows returned
+    // if no rows returned check 1
     if (error.code === 'PGRST116') {
       return NextResponse.json(
         { message: 'No participants found for this event', participants: [] },
@@ -26,6 +26,7 @@ export async function get(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // if no rows returned check 2
   if (data.length === 0) {
     return NextResponse.json(
       { message: 'No participants found for this event', participants: [] },
