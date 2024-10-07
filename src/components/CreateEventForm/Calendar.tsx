@@ -234,7 +234,7 @@ const Calendar: React.FC<CalendarProps> = ({
             >
               {day && (
                 <div
-                  className={`py-2 focus:outline-none focus:ring-2 focus:ring-primary
+                  className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 focus:ring-primary
                     ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
                       selectedDates.includes(day.format('YYYY-MM-DD'))
                         ? isUnselectingRef.current && isDateInDragRange(day)
@@ -244,7 +244,7 @@ const Calendar: React.FC<CalendarProps> = ({
                           ? 'text-gray-400 cursor-not-allowed'
                           : isDateInDragRange(day) && !isUnselectingRef.current
                             ? 'bg-primaryLight'
-                            : 'hover:bg-gray-200'
+                            : 'bg-background'
                     }`}
                   onMouseDown={() => {
                     if (isTouchScreen.current) return;
