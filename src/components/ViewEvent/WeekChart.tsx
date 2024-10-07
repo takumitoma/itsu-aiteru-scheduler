@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface WeekChartProps {
   timezone: string;
   timeRangeStart: number;
@@ -18,6 +20,17 @@ const WeekChart: React.FC<WeekChartProps> = ({
     { length: timeRangeEnd - timeRangeStart },
     (_, index) => timeRangeStart + index,
   );
+
+  const [selectedBoxes, setSelectedBoxes] = useState<{ [key: string]: boolean }>({});
+
+  const toggleBoxSelection = (key: string) => {
+    setSelectedBoxes((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+
+  console.log(selectedBoxes);
 
   return (
     <section className="flex justify-center select-none w-full">
@@ -44,27 +57,26 @@ const WeekChart: React.FC<WeekChartProps> = ({
           ))}
         </div>
         <div className="flex border-customBlack border-r border-b min-w-max">
-          {selectedDays.map((day, dayIndex) => (
-            <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
+          {selectedDays.map((day) => (
+            <div key={`column-${day}`} className="w-[100px] flex flex-col flex-shrink-0">
               {timestamps.map((timestamp) => (
-                <div key={`cell-${dayIndex}-${timestamp}`}>
-                  <div
-                    className="w-[100px] h-[15px] border-t border-l border-customBlack 
-                    hover:bg-primaryHover"
-                  />
-                  <div
-                    className="w-[100px] h-[15px] border-l border-customBlack 
-                    hover:bg-primaryHover"
-                  />
-                  <div
-                    className="w-[100px] h-[15px] border-t border-t-gray-500 
-                      border-l border-l-customBlack hover:bg-primaryHover"
-                    style={{ borderTopStyle: 'dotted' }}
-                  />
-                  <div
-                    className="w-[100px] h-[15px] border-l border-customBlack 
-                    hover:bg-primaryHover"
-                  />
+                <div key={`cell-${day}-${timestamp}`}>
+                  {[0, 1, 2, 3].map((quarter) => (
+                    <div
+                      key={`quarter-${day}-${timestamp}-${quarter}`}
+                      className={`w-[100px] h-[15px] border-l border-customBlack 
+                        ${quarter === 0 ? 'border-t' : ''}
+                        ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
+                        ${
+                          selectedBoxes[`${day}-${timestamp}-${quarter}`]
+                            ? 'bg-primary'
+                            : 'bg-background'
+                        }
+                        hover:bg-primaryHover cursor-pointer`}
+                      style={{ borderTopStyle: quarter === 2 ? 'dotted' : 'solid' }}
+                      onClick={() => toggleBoxSelection(`${day}-${timestamp}-${quarter}`)}
+                    />
+                  ))}
                 </div>
               ))}
             </div>
