@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { EventData } from '@/types/EventData';
 import WeekChart from './WeekChart';
+import EditAvailabitiesButtons from './EditAvailabitiesButtons';
 import CopyEventLink from './CopyEventLink';
 
 interface ViewEventProps {
@@ -7,10 +9,16 @@ interface ViewEventProps {
 }
 
 const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const viewBoxes = {};
+
   return (
-    <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
-      <h1 className="text-3xl font-bold mb-8">{eventData.title}</h1>
+    <div className="container mx-auto flex flex-col items-center px-4 sm:px-0 max-w-[762px] w-full">
+      <h1 className="text-3xl font-bold">{eventData.title}</h1>
+      <EditAvailabitiesButtons isEditing={isEditing} setIsEditing={setIsEditing} />
       <WeekChart
+        isEditing={isEditing}
+        viewBoxes={viewBoxes}
         timezone={eventData.timezone}
         timeRangeStart={eventData.timeRangeStart}
         timeRangeEnd={eventData.timeRangeEnd}

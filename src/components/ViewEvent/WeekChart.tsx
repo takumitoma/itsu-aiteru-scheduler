@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface WeekChartProps {
+  isEditing: boolean;
+  viewBoxes: { [key: string]: boolean };
   timezone: string;
   timeRangeStart: number;
   timeRangeEnd: number;
@@ -10,6 +12,8 @@ interface WeekChartProps {
 const days = ['日', '月', '火', '水', '木', '金', '土'];
 
 const WeekChart: React.FC<WeekChartProps> = ({
+  isEditing,
+  viewBoxes,
   timezone,
   timeRangeStart,
   timeRangeEnd,
@@ -21,13 +25,25 @@ const WeekChart: React.FC<WeekChartProps> = ({
     (_, index) => timeRangeStart + index,
   );
 
-  const [selectedBoxes, setSelectedBoxes] = useState<{ [key: string]: boolean }>({});
+  const [selectedBoxes, setSelectedBoxes] = useState<{ [key: string]: boolean }>(viewBoxes);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setSelectedBoxes(viewBoxes);
+    }
+  }, [isEditing, viewBoxes]);
 
   const toggleBoxSelection = (key: string) => {
-    setSelectedBoxes((prevState) => ({
-      ...prevState,
-      [key]: !prevState[key],
-    }));
+    if (isEditing) {
+      setSelectedBoxes((prevState) => ({
+        ...prevState,
+        [key]: !prevState[key],
+      }));
+    }
+  };
+
+  const isBoxSelected = (key: string) => {
+    return isEditing ? selectedBoxes[key] : viewBoxes[key];
   };
 
   console.log(selectedBoxes);
@@ -64,15 +80,15 @@ const WeekChart: React.FC<WeekChartProps> = ({
                   {[0, 1, 2, 3].map((quarter) => (
                     <div
                       key={`quarter-${day}-${timestamp}-${quarter}`}
-                      className={`w-[100px] h-[15px] border-l border-customBlack 
+                      className={`w-[100px] h-[15px] border-l border-customBlack  
                         ${quarter === 0 ? 'border-t' : ''}
                         ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
                         ${
-                          selectedBoxes[`${day}-${timestamp}-${quarter}`]
+                          isBoxSelected(`${day}-${timestamp}-${quarter}`)
                             ? 'bg-primary'
                             : 'bg-background'
                         }
-                        hover:bg-primaryHover cursor-pointer`}
+                        ${isEditing ? 'hover:brightness-90 cursor-pointer' : ''}`}
                       style={{ borderTopStyle: quarter === 2 ? 'dotted' : 'solid' }}
                       onClick={() => toggleBoxSelection(`${day}-${timestamp}-${quarter}`)}
                     />
