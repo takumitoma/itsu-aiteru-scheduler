@@ -11,7 +11,7 @@ import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import dayjs from 'dayjs';
-import { createEvent } from '@/app/api/create-event/route';
+import { createEvent } from '@/app/api/event/route';
 import { EventData } from '@/types/EventData';
 
 const CreateEventForm: React.FC = () => {

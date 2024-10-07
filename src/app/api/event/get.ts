@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
 import { EventData } from '@/types/EventData';
 
-const EventIdInput = z.object({
+const GetEventInput = z.object({
   id: z.string().uuid(),
 });
 
-export async function GET(request: Request) {
+export async function get(request: NextRequest) {
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Event ID not specified' }, { status: 400 });
     }
 
-    const validatedData = EventIdInput.parse({ id });
+    const validatedData = GetEventInput.parse({ id });
 
     const { data: event, error } = await supabase
       .from('events')
@@ -58,19 +58,4 @@ export async function GET(request: Request) {
       { status: 500 },
     );
   }
-}
-
-export async function getEvent(id: string): Promise<{ event: EventData }> {
-  const response = await fetch(`/api/get-event?id=${id}`);
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('Event not found');
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'An error occurred while fetching the event');
-    }
-  }
-
-  return response.json();
 }

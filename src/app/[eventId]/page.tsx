@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import ViewEvent from '@/components/ViewEvent/ViewEvent';
 import Loading from '@/components/Loading/Loading';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
-import { getEvent } from '../api/get-event/route';
+import { getEvent } from '../api/event/route';
 import { EventData } from '@/types/EventData';
 
 const EventPage: React.FC = () => {

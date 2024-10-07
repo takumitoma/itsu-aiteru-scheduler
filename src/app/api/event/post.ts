@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
 import dayjs from 'dayjs';
@@ -9,7 +9,7 @@ import { EventData } from '@/types/EventData';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const EventSchema = z.object({
+const PostEventInput = z.object({
   title: z.string().min(1).max(100),
   surveyType: z.enum(['specific', 'week']),
   dates: z.array(z.string().datetime()).nullable(),
@@ -19,12 +19,12 @@ const EventSchema = z.object({
   timezone: z.string(),
 });
 
-export async function POST(request: Request) {
+export async function post(request: NextRequest) {
   try {
     const eventData = await request.json();
 
     // validation using zod
-    const validatedData = EventSchema.parse(eventData);
+    const validatedData = PostEventInput.parse(eventData);
 
     // more validation
     if (validatedData.timeRangeStart >= validatedData.timeRangeEnd) {
@@ -96,21 +96,4 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
-}
-
-export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
-  const response = await fetch('/api/create-event', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(eventData),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Failed to create event');
-  }
-
-  return response.json();
 }
