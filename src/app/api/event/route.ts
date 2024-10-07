@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { get } from './get';
 import { post } from './post';
 import { EventData } from '@/types/EventData';
