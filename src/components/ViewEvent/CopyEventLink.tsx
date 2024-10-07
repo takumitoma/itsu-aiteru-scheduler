@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 
@@ -11,7 +11,11 @@ interface CopyEventLinkProps {
 const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
   const [copied, setCopied] = useState(false);
 
+  // used to unfocus buttons on click
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const copyToClipboard = useCallback(() => {
+    buttonRef.current?.blur();
     navigator.clipboard
       .writeText(link)
       .then(() => {
@@ -52,6 +56,7 @@ const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
           className="bg-transparent border-none outline-none w-full mr-4"
         />
         <button
+          ref={buttonRef}
           className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 w-[136px] 
             flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover"
           type="button"

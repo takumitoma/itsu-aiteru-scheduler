@@ -34,6 +34,10 @@ const Calendar: React.FC<CalendarProps> = ({
   const isUnselectingRef = useRef(false);
   const isInteracted = useRef(false);
 
+  // used to unfocus buttons on click
+  const prevMonthButtonRef = useRef<HTMLButtonElement>(null);
+  const nextMonthButtonRef = useRef<HTMLButtonElement>(null);
+
   const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
 
@@ -161,6 +165,7 @@ const Calendar: React.FC<CalendarProps> = ({
   }
 
   function navigatePrevMonth() {
+    prevMonthButtonRef.current?.blur();
     const prevMonth = currentMonth.subtract(1, 'month');
     if (prevMonth.isSameOrAfter(dayjs().tz(timezone).startOf('month'))) {
       setCurrentMonth(prevMonth);
@@ -168,6 +173,7 @@ const Calendar: React.FC<CalendarProps> = ({
   }
 
   function navigateNextMonth() {
+    nextMonthButtonRef.current?.blur();
     setCurrentMonth((prevMonth) => prevMonth.add(1, 'month'));
   }
 
@@ -195,6 +201,7 @@ const Calendar: React.FC<CalendarProps> = ({
       <div className={displayError ? 'border-2 border-red-500' : ''}>
         <div className="flex justify-between items-center mb-4">
           <button
+            ref={prevMonthButtonRef}
             type="button"
             onClick={navigatePrevMonth}
             className={`p-2 rounded-md hover:bg-primaryHover focus:bg-primaryHover 
@@ -205,6 +212,7 @@ const Calendar: React.FC<CalendarProps> = ({
           </button>
           <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
           <button
+            ref={nextMonthButtonRef}
             type="button"
             onClick={navigateNextMonth}
             className={`p-2 rounded-md hover:bg-primaryHover focus:bg-primaryHover 
