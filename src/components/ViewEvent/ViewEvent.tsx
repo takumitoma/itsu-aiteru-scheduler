@@ -10,7 +10,7 @@ interface ViewEventProps {
 
 const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const viewBoxes = {};
+  const viewBoxes: Set<number>[] = new Array(7).fill(0).map(() => new Set<number>());
 
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
