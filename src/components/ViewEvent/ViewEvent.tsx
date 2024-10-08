@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EventData } from '@/types/EventData';
 import WeekChart from './WeekChart';
-import EditAvailabitiesButtons from './EditAvailabitiesButtons';
+import EditAvailability from './EditAvailability';
 import CopyEventLink from './CopyEventLink';
 
 interface ViewEventProps {
@@ -15,11 +15,7 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
       <h1 className="text-3xl font-bold">{eventData.title}</h1>
-      <EditAvailabitiesButtons
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        id={eventData.id}
-      />
+      <EditAvailability isEditing={isEditing} setIsEditing={setIsEditing} id={eventData.id} />
       <WeekChart
         isEditing={isEditing}
         viewBoxes={viewBoxes}

@@ -4,17 +4,13 @@ import { IoInformationCircleOutline } from 'react-icons/io5';
 import { HiPlus } from 'react-icons/hi';
 import { createParticipant } from '@/app/api/participant/route';
 
-interface EditAvailabitiesButtonsProps {
+interface EditAvailabilityProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
 }
 
-const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
-  isEditing,
-  setIsEditing,
-  id,
-}) => {
+const EditAvailability: React.FC<EditAvailabilityProps> = ({ isEditing, setIsEditing, id }) => {
   const [participantName, setParticipantName] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -67,8 +63,8 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
   return (
     <div className="flex flex-col w-full space-y-4 py-4">
       <div
-        className="flex flex-col sm:flex-row space-y-4 items-start sm:items-center w-full 
-          justify-between"
+        className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 items-start sm:items-center 
+          w-full justify-between"
       >
         <p className={`text-sm sm:text-xl font-bold truncate ${isEditing ? '' : 'invisible'}`}>
           空き時間を編集中: {participantName}
@@ -152,4 +148,4 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
   );
 };
 
-export default EditAvailabitiesButtons;
+export default EditAvailability;
