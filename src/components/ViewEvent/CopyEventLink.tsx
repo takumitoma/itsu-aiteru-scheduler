@@ -37,16 +37,16 @@ const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
   }, [copied]);
 
   return (
-    <section className="max-w-3xl w-full">
-      <label htmlFor="event-link" className="text-xl font-medium">
+    <section className="max-w-3xl w-full space-y-2">
+      <label htmlFor="event-link" className="text-md sm:text-xl font-medium">
         このイベントのリンク
       </label>
-      <p className="text-sm mt-2 text-gray-600">
-        リンクを共有して、他の参加者が空いている時間を入力できるようにしましょう。
+      <p className="text-xs sm:text-sm text-gray-600">
+        リンクを共有して、他の参加者が空き時間を入力できるようにしよう!
       </p>
       <div
         className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
-          text-customBlack flex justify-between items-center py-2 px-4 mt-2"
+          text-customBlack flex justify-between items-center py-1 px-2 sm:py-2 sm:px-4"
       >
         <input
           type="text"
@@ -57,12 +57,13 @@ const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
         />
         <button
           ref={buttonRef}
-          className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 w-[136px] 
-            flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover"
+          className="text-white bg-primary px-2 py-1 sm:px-4 sm:py-2 rounded-md flex-shrink-0  
+            flex items-center sm:space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
+            justify-center"
           type="button"
           onClick={copyToClipboard}
         >
-          {copied ? <FaCheck /> : <IoCopyOutline />}
+          <div className="hidden sm:block">{copied ? <FaCheck /> : <IoCopyOutline />}</div>
           <span>{copied ? 'コピー完了' : 'コピーする'}</span>
         </button>
       </div>

@@ -73,11 +73,11 @@ const EditAvailabitiesButtons: React.FC<EditAvailabitiesButtonsProps> = ({
         <p className={`text-sm sm:text-xl font-bold truncate ${isEditing ? '' : 'invisible'}`}>
           空き時間を編集中: {participantName}
         </p>
-        <div className="flex items-center space-x-4">
+        <div className={`flex items-center ${isEditing ? 'space-x-4' : ''}`}>
           <button
             className={`py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
               border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0 ${
-                isEditing ? '' : 'invisible'
+                isEditing ? '' : 'hidden'
               }`}
             type="button"
             onClick={cancelEditing}

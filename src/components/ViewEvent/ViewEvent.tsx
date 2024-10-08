@@ -13,7 +13,7 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   const viewBoxes = {};
 
   return (
-    <div className="container mx-auto flex flex-col items-center px-4 sm:px-0 max-w-[762px] w-full">
+    <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
       <h1 className="text-3xl font-bold">{eventData.title}</h1>
       <EditAvailabitiesButtons
         isEditing={isEditing}
