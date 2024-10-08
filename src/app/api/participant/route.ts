@@ -47,5 +47,6 @@ export async function createParticipant(eventId: string, name: string): Promise<
     id: data.id,
     eventId,
     name,
+    availability: [],
   };
 }
