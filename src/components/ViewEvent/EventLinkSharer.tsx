@@ -1,14 +1,12 @@
-'use client';
-
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 
-interface CopyEventLinkProps {
+interface EventLinkSharerProps {
   link: string;
 }
 
-const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
+const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
   const [copied, setCopied] = useState(false);
 
   // used to unfocus buttons on click
@@ -57,7 +55,7 @@ const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
         />
         <button
           ref={buttonRef}
-          className="text-white bg-primary px-2 py-1 sm:px-4 sm:py-2 rounded-md flex-shrink-0  
+          className="text-white bg-primary px-2 py-1 sm:px-4 sm:py-2 rounded-md flex-shrink-0 
             flex items-center sm:space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
             justify-center"
           type="button"
@@ -71,4 +69,4 @@ const CopyEventLink: React.FC<CopyEventLinkProps> = ({ link }) => {
   );
 };
 
-export default CopyEventLink;
+export default EventLinkSharer;

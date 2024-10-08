@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { EventData } from '@/types/EventData';
-import WeekChart from './WeekChart';
-import EditAvailability from './EditAvailability';
-import CopyEventLink from './CopyEventLink';
+import AvailabilityChart from './AvailabilityChart';
+import ParticipantEditor from './ParticipantEditor';
+import EventLinkSharer from './EventLinkSharer';
 
 interface ViewEventProps {
   eventData: EventData;
@@ -15,8 +15,8 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
       <h1 className="text-3xl font-bold">{eventData.title}</h1>
-      <EditAvailability isEditing={isEditing} setIsEditing={setIsEditing} id={eventData.id} />
-      <WeekChart
+      <ParticipantEditor isEditing={isEditing} setIsEditing={setIsEditing} id={eventData.id} />
+      <AvailabilityChart
         isEditing={isEditing}
         viewBoxes={viewBoxes}
         timezone={eventData.timezone}
@@ -24,7 +24,7 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
         timeRangeEnd={eventData.timeRangeEnd}
         daysOfWeek={eventData.daysOfWeek}
       />
-      <CopyEventLink link={`http://localhost:3000/${eventData.id}`} />
+      <EventLinkSharer link={`http://localhost:3000/${eventData.id}`} />
     </div>
   );
 };
