@@ -22,12 +22,17 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
     new Array(7).fill(0).map(() => new Set<number>()),
   );
 
+  function clearSelectedTimeslots() {
+    setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));
+  }
+
   const handleSave = useCallback(
     async (participantId: string) => {
       try {
         const newAvailability = selectedTimeSlots.map((daySet) => Array.from(daySet));
         // todo: add logic to update availability using endpoint here
         setIsEditing(false);
+        clearSelectedTimeslots();
       } catch (error) {
         console.error('Error updating availability:', error);
       }

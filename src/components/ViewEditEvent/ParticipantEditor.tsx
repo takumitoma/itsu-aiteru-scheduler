@@ -21,15 +21,14 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   const [participantId, setParticipantId] = useState<string | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  function toggleIsEditing() {
+  function openParticipantPopup() {
     buttonRef.current?.blur();
-    if (isEditing) {
-      if (participantId) {
-        onSave(participantId);
-      }
-    } else {
-      setIsPopupOpen(true);
-    }
+    setIsPopupOpen(true);
+  }
+
+  function saveAvailabities() {
+    buttonRef.current?.blur();
+    participantId && onSave(participantId);
   }
 
   async function handleCreateParticipant(name: string) {
@@ -49,8 +48,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
         className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 items-start sm:items-center 
           w-full justify-between"
       >
-        <p className={`text-sm sm:text-xl font-bold truncate ${isEditing ? '' : 'invisible'}`}>
-          空き時間を編集中: {participantName}
+        <p className="text-sm sm:text-xl font-bold truncate">
+          {isEditing ? `空き時間を編集中: ${participantName}` : '全員の空き時間'}
         </p>
         <div className={`flex items-center ${isEditing ? 'space-x-4' : ''}`}>
           {isEditing && (
@@ -69,7 +68,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
               border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
               flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center"
             type="button"
-            onClick={toggleIsEditing}
+            onClick={isEditing ? saveAvailabities : openParticipantPopup}
           >
             {!isEditing && <HiPlus size={20} />}
             <p>{isEditing ? '保存' : '空き時間'}</p>
