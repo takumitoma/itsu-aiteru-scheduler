@@ -1,7 +1,7 @@
 import TimeLabels from './TimeLabels';
 import DayLabels from './DayLabels';
-import TimeSlotsEditor from './TimeSlotsEditor';
-import TimeSlotsViewer from './TimeSlotsViewer';
+import AvailabilityEditor from './AvailabilityEditor';
+import AvailabilityViewer from './AvailabilityViewer';
 
 interface AvailabilityChartProps {
   isEditing: boolean;
@@ -39,7 +39,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
       <div className="flex flex-col overflow-x-auto">
         <DayLabels filteredDaysOfWeekLabels={filteredDaysOfWeekLabels} />
         {isEditing ? (
-          <TimeSlotsEditor
+          <AvailabilityEditor
             selectedTimeSlots={selectedTimeSlots}
             setSelectedTimeSlots={setSelectedTimeSlots}
             filteredDaysOfWeekLabels={filteredDaysOfWeekLabels}
@@ -47,7 +47,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
             timeRangeStart={timeRangeStart}
           />
         ) : (
-          <TimeSlotsViewer
+          <AvailabilityViewer
             viewBoxes={viewBoxes}
             filteredDaysOfWeekLabels={filteredDaysOfWeekLabels}
             hourLabels={hourLabels}

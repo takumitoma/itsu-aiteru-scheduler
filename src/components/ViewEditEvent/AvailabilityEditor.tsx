@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-interface TimeSlotsEditorProps {
+interface AvailabilityEditorProps {
   selectedTimeSlots: Set<number>[];
   setSelectedTimeSlots: React.Dispatch<React.SetStateAction<Set<number>[]>>;
   filteredDaysOfWeekLabels: string[];
@@ -10,7 +10,7 @@ interface TimeSlotsEditorProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-const TimeSlotsEditor: React.FC<TimeSlotsEditorProps> = ({
+const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
   selectedTimeSlots,
   setSelectedTimeSlots,
   filteredDaysOfWeekLabels,
@@ -120,4 +120,4 @@ const TimeSlotsEditor: React.FC<TimeSlotsEditorProps> = ({
   );
 };
 
-export default TimeSlotsEditor;
+export default AvailabilityEditor;

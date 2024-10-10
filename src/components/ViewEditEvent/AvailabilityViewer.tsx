@@ -1,4 +1,4 @@
-interface TimeSlotsViewerProps {
+interface AvailabilityViewerProps {
   viewBoxes: Set<number>[];
   filteredDaysOfWeekLabels: string[];
   hourLabels: number[];
@@ -7,7 +7,7 @@ interface TimeSlotsViewerProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-const TimeSlotsViewer: React.FC<TimeSlotsViewerProps> = ({
+const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   viewBoxes,
   filteredDaysOfWeekLabels,
   hourLabels,
@@ -41,4 +41,4 @@ const TimeSlotsViewer: React.FC<TimeSlotsViewerProps> = ({
   );
 };
 
-export default TimeSlotsViewer;
+export default AvailabilityViewer;

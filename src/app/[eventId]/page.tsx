@@ -2,7 +2,7 @@
 
 import { useParams, notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ViewEvent from '@/components/ViewEvent/ViewEvent';
+import ViewEditEvent from '@/components/ViewEditEvent/ViewEditEvent';
 import Loading from '@/components/Loading/Loading';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import { getEvent } from '../api/event/route';
@@ -51,7 +51,7 @@ const EventPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
-      <ViewEvent eventData={eventData} />
+      <ViewEditEvent eventData={eventData} />
     </div>
   );
 };

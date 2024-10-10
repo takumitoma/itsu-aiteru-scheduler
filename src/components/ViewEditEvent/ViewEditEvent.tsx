@@ -4,11 +4,11 @@ import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
 
-interface ViewEventProps {
+interface ViewEditEventProps {
   eventData: EventData;
 }
 
-const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
+const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
     new Array(7).fill(0).map(() => new Set<number>()),
@@ -59,4 +59,4 @@ const ViewEvent: React.FC<ViewEventProps> = ({ eventData }) => {
   );
 };
 
-export default ViewEvent;
+export default ViewEditEvent;
