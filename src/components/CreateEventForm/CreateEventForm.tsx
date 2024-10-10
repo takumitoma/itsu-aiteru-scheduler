@@ -9,7 +9,7 @@ import TimeRangeSelector from './TimeRangeSelector';
 import Calendar from './Calendar';
 import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
-import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import ErrorMessage from './ErrorMessage';
 import dayjs from 'dayjs';
 import { createEvent } from '@/app/api/event/route';
 import { EventData } from '@/types/EventData';
