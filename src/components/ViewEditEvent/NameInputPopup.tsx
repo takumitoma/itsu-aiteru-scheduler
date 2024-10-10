@@ -44,7 +44,9 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
         </div>
         <div className="flex">
           <IoInformationCircleOutline className="translate-y-[1px]" />
-          <p className="text-xs">再度アクセスする場合、同じ名前を入力して回答を編集してください</p>
+          <p className="text-xs">
+            再度アクセスする場合は、同じ名前を入力して空き時間を編集できます
+          </p>
         </div>
         <div>
           <input
