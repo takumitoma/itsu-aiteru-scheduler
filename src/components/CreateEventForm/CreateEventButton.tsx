@@ -8,7 +8,7 @@ const CreateEventButton: React.FC<CreateEventButtonProps> = ({ isSubmitting }) =
       type="submit"
       disabled={isSubmitting}
       className={`bg-primary text-white text-xl text-center px-4 py-4 mt-8 mb-4 rounded-md w-full
-        hover:bg-primaryHover focus:bg-primaryHover three-d ${
+        outline-customBlack outline-4 three-d ${
           isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
         }`}
     >

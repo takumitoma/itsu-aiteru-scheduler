@@ -32,13 +32,19 @@ body {
 }
 
 button.three-d {
-  outline: none;
   background: var(--primary);
   border: none;
-  box-shadow: 0 3px #3b7bcf;
+  box-shadow: 0 4px #3b7bcf;
+  transition: all 0.1s ease;
+}
+
+button.three-d:hover,
+button.three-d:focus { 
+  box-shadow: 0 3px #3b7bcf; 
+  transform: translateY(1px); 
 }
 
 button.three-d:active {
-  box-shadow: none;
-  transform: translateY(3px);
+  box-shadow: 0 1px #3b7bcf; 
+  transform: translateY(3px); 
 }
