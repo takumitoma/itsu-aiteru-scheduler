@@ -33,6 +33,9 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
     (_, index) => timeRangeStart + index,
   );
 
+  const numDays = filteredDaysOfWeekLabels.length;
+  const numHours = timeRangeEnd - timeRangeStart;
+
   return (
     <section className="flex justify-center select-none w-full">
       <TimeLabels hourLabels={hourLabels} timeRangeEnd={timeRangeEnd} />
@@ -42,17 +45,11 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
           <AvailabilityEditor
             selectedTimeSlots={selectedTimeSlots}
             setSelectedTimeSlots={setSelectedTimeSlots}
-            filteredDaysOfWeekLabels={filteredDaysOfWeekLabels}
-            hourLabels={hourLabels}
-            timeRangeStart={timeRangeStart}
+            numDays={numDays}
+            numHours={numHours}
           />
         ) : (
-          <AvailabilityViewer
-            viewBoxes={viewBoxes}
-            filteredDaysOfWeekLabels={filteredDaysOfWeekLabels}
-            hourLabels={hourLabels}
-            timeRangeStart={timeRangeStart}
-          />
+          <AvailabilityViewer viewBoxes={viewBoxes} numDays={numDays} numHours={numHours} />
         )}
       </div>
     </section>

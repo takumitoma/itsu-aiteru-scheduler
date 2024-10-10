@@ -3,9 +3,8 @@ import { useCallback, useRef, useState } from 'react';
 interface AvailabilityEditorProps {
   selectedTimeSlots: Set<number>[];
   setSelectedTimeSlots: React.Dispatch<React.SetStateAction<Set<number>[]>>;
-  filteredDaysOfWeekLabels: string[];
-  hourLabels: number[];
-  timeRangeStart: number;
+  numDays: number;
+  numHours: number;
 }
 
 const QUARTERS_PER_HOUR = 4;
@@ -13,9 +12,8 @@ const QUARTERS_PER_HOUR = 4;
 const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
   selectedTimeSlots,
   setSelectedTimeSlots,
-  filteredDaysOfWeekLabels,
-  hourLabels,
-  timeRangeStart,
+  numDays,
+  numHours,
 }) => {
   // temporary selection state for visual feedback during drags
   const [temporarySelection, setTemporarySelection] = useState<Set<number>[]>([]);
@@ -86,21 +84,23 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
     [updateTemporarySelection],
   );
 
+  console.log(selectedTimeSlots);
+
   return (
     <div className="flex border-customBlack border-r border-b min-w-max">
-      {filteredDaysOfWeekLabels.map((day, dayIndex) => (
-        <div key={`column-${day}`} className="w-[100px] flex flex-col flex-shrink-0">
-          {hourLabels.map((timestamp) => (
-            <div key={`cell-${day}-${timestamp}`}>
+      {Array.from({ length: numDays }).map((_, dayIndex) => (
+        <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
+          {Array.from({ length: numHours }).map((_, hourIndex) => (
+            <div key={`cell-${dayIndex}-${hourIndex}`}>
               {[0, 1, 2, 3].map((quarter) => {
-                const timeIndex = (timestamp - timeRangeStart) * QUARTERS_PER_HOUR + quarter;
+                const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
                 const isSelected =
                   temporarySelection.length > 0
                     ? temporarySelection[dayIndex]?.has(timeIndex)
                     : selectedTimeSlots[dayIndex]?.has(timeIndex);
                 return (
                   <div
-                    key={`quarter-${day}-${timestamp}-${quarter}`}
+                    key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
                     className={`w-[100px] h-[15px] border-l border-customBlack touch-none 
                       ${quarter === 0 ? 'border-t' : ''}
                       ${quarter === 2 ? 'border-t border-t-gray-500' : ''}

@@ -22,6 +22,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
     new Array(7).fill(0).map(() => new Set<number>()),
   );
 
+  console.log(selectedTimeSlots);
+
   function clearSelectedTimeslots() {
     setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));
   }
