@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 
@@ -12,7 +12,7 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
   // used to unfocus buttons on click
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const copyToClipboard = useCallback(() => {
+  function copyToClipboard() {
     buttonRef.current?.blur();
     navigator.clipboard
       .writeText(link)
@@ -20,7 +20,7 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
         setCopied(true);
       })
       .catch(() => {});
-  }, [link]);
+  }
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;

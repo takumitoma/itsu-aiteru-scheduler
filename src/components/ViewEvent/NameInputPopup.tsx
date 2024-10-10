@@ -14,7 +14,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
   // used to unfocus buttons on click
   const popupButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     popupButtonRef.current?.blur();
     if (name.trim()) {
@@ -23,7 +23,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
     } else {
       setShowError(true);
     }
-  };
+  }
 
   return (
     <div

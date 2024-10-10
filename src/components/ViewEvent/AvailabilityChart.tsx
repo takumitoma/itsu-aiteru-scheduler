@@ -6,6 +6,8 @@ import TimeSlotsViewer from './TimeSlotsViewer';
 interface AvailabilityChartProps {
   isEditing: boolean;
   viewBoxes: Set<number>[];
+  selectedTimeSlots: Set<number>[];
+  setSelectedTimeSlots: React.Dispatch<React.SetStateAction<Set<number>[]>>;
   timezone: string;
   timeRangeStart: number;
   timeRangeEnd: number;
@@ -15,12 +17,13 @@ interface AvailabilityChartProps {
 const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
   isEditing,
   viewBoxes,
+  selectedTimeSlots,
+  setSelectedTimeSlots,
   timezone,
   timeRangeStart,
   timeRangeEnd,
   daysOfWeek,
 }) => {
-  // computations for x and y axis labels of the chart
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const filteredDaysOfWeekLabels = daysOfWeek
     ? daysOfWeekLabels.filter((_, index) => daysOfWeek[index] === 1)
@@ -37,7 +40,8 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
         <DayLabels filteredDaysOfWeekLabels={filteredDaysOfWeekLabels} />
         {isEditing ? (
           <TimeSlotsEditor
-            initialTimeSlots={viewBoxes}
+            selectedTimeSlots={selectedTimeSlots}
+            setSelectedTimeSlots={setSelectedTimeSlots}
             filteredDaysOfWeekLabels={filteredDaysOfWeekLabels}
             hourLabels={hourLabels}
             timeRangeStart={timeRangeStart}

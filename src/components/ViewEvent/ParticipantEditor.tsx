@@ -6,28 +6,42 @@ import { HiPlus } from 'react-icons/hi';
 interface ParticipantEditorProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  id: string;
+  eventId: string;
+  onSave: (participantId: string) => void;
 }
 
-const ParticipantEditor: React.FC<ParticipantEditorProps> = ({ isEditing, setIsEditing, id }) => {
+const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
+  isEditing,
+  setIsEditing,
+  eventId,
+  onSave,
+}) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [participantName, setParticipantName] = useState('');
+  const [participantId, setParticipantId] = useState<string | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleIsEditing = () => {
+  function toggleIsEditing() {
     buttonRef.current?.blur();
-    setIsPopupOpen(true);
-  };
+    if (isEditing) {
+      if (participantId) {
+        onSave(participantId);
+      }
+    } else {
+      setIsPopupOpen(true);
+    }
+  }
 
-  const handleCreateParticipant = async (name: string) => {
+  async function handleCreateParticipant(name: string) {
     try {
-      await createParticipant(id, name);
+      const newParticipant = await createParticipant(eventId, name);
       setParticipantName(name);
+      setParticipantId(newParticipant.id);
       setIsEditing(true);
     } catch (error) {
       console.error('Error creating participant:', error);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col w-full space-y-4 py-4">
