@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 import { EventData } from '@/types/EventData';
 import AvailabilityChart from './AvailabilityChart';
@@ -21,8 +23,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<Set<number>[]>(
     new Array(7).fill(0).map(() => new Set<number>()),
   );
-
-  console.log(selectedTimeSlots);
 
   function clearSelectedTimeslots() {
     setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));

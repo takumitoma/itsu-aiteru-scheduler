@@ -12,7 +12,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function getEvent(id: string): Promise<{ event: EventData }> {
-  const response = await fetch(`/api/event?id=${id}`);
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  const response = await fetch(`${apiBaseUrl}/api/event?id=${id}`);
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -27,7 +28,9 @@ export async function getEvent(id: string): Promise<{ event: EventData }> {
 }
 
 export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
-  const response = await fetch('/api/event', {
+  // backup: const response = await fetch('/api/event', {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  const response = await fetch(`${apiBaseUrl}/api/event`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
