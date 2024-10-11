@@ -11,8 +11,8 @@ import WeekCalendar from './WeekCalendar';
 import CreateEventButton from './CreateEventButton';
 import ErrorMessage from './ErrorMessage';
 import dayjs from 'dayjs';
-import { createEvent } from '@/app/api/event/route';
-import { EventData } from '@/types/EventData';
+import { createEvent } from '@/lib/api-client/event';
+import { Event } from '@/types/Event';
 
 const CreateEventForm: React.FC = () => {
   // form fields
@@ -54,7 +54,7 @@ const CreateEventForm: React.FC = () => {
       setIsSubmitting(true);
       setApiError(null);
       try {
-        const eventData: Omit<EventData, 'id'> = {
+        const event: Omit<Event, 'id'> = {
           title: eventTitle,
           surveyType,
           timeRangeStart: timeRange.start,
@@ -67,7 +67,7 @@ const CreateEventForm: React.FC = () => {
           daysOfWeek: surveyType === 'week' ? selectedDaysOfWeek : null,
         };
 
-        const result = await createEvent(eventData);
+        const result = await createEvent(event);
 
         router.push(`/${result.event.id}`);
       } catch (error) {

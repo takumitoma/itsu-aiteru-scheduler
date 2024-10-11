@@ -8,7 +8,7 @@ import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
 import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
-import { updateAvailability } from '@/app/api/availability/route';
+import { updateAvailability } from '@/lib/api-client/availability';
 
 const QUARTERS_PER_HOUR = 4;
 
@@ -20,6 +20,8 @@ interface ViewEditEventProps {
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log(participants);
 
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels =

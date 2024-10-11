@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { createParticipant } from '@/app/api/participant/route';
+import { createParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
 import { HiPlus } from 'react-icons/hi';
 

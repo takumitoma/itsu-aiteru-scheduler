@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import ViewEditEvent from '@/components/ViewEditEvent/ViewEditEvent';
-import { getEvent } from '../api/event/route';
-import { getParticipants } from '../api/participant/route';
+import { getEvent } from '@/lib/api-client/event';
+import { getParticipants } from '@/lib/api-client/participant';
 
 interface EventPageProps {
   params: { eventId: string };

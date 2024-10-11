@@ -4,7 +4,7 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { EventData } from '@/types/EventData';
+import { Event } from '@/types/Event';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -75,7 +75,7 @@ export async function post(request: NextRequest) {
 
     if (error) throw error;
 
-    const createdEvent: EventData = {
+    const createdEvent: Event = {
       id: data[0].id,
       title: data[0].title,
       surveyType: data[0].survey_type,
