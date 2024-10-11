@@ -1,6 +1,5 @@
-export interface ParticipantData {
+export interface Participant {
   id: string;
-  eventId: string;
   name: string;
   availability: Set<number>[];
 }

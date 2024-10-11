@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { EventData } from '@/types/EventData';
-import { ParticipantData } from '@/types/ParticipantData';
+import { Event } from '@/types/Event';
+import { Participant } from '@/types/Participant';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
@@ -13,26 +13,26 @@ import { updateAvailability } from '@/app/api/availability/route';
 const QUARTERS_PER_HOUR = 4;
 
 interface ViewEditEventProps {
-  eventData: EventData;
-  participantsData: ParticipantData[];
+  event: Event;
+  participants: Participant[];
 }
 
-const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData, participantsData }) => {
+const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels =
-    eventData.surveyType === 'specific'
-      ? eventData.dates || []
-      : daysOfWeekLabels.filter((_, index) => eventData.daysOfWeek?.[index] === 1) || [];
+    event.surveyType === 'specific'
+      ? event.dates || []
+      : daysOfWeekLabels.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
   const hourLabels = Array.from(
-    { length: eventData.timeRangeEnd - eventData.timeRangeStart },
-    (_, index) => eventData.timeRangeStart + index,
+    { length: event.timeRangeEnd - event.timeRangeStart },
+    (_, index) => event.timeRangeStart + index,
   );
 
   const numDays = dayLabels?.length || 0;
-  const numHours = eventData.timeRangeEnd - eventData.timeRangeStart;
+  const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numHours * QUARTERS_PER_HOUR;
 
   const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
@@ -61,18 +61,18 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData, participantsDa
 
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
-      <h1 className="text-3xl font-bold">{eventData.title}</h1>
+      <h1 className="text-3xl font-bold">{event.title}</h1>
       <ParticipantEditor
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         setIsLoading={setIsLoading}
-        eventId={eventData.id}
+        eventId={event.id}
         onSaveAvailability={handleSaveAvailability}
       />
       <AvailabilityChart
         isLoading={isLoading}
         hourLabels={hourLabels}
-        timeRangeEnd={eventData.timeRangeEnd}
+        timeRangeEnd={event.timeRangeEnd}
         dayLabels={dayLabels}
       >
         {isEditing ? (
@@ -86,7 +86,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData, participantsDa
           <AvailabilityViewer viewBoxes={viewBoxes} numDays={numDays} numHours={numHours} />
         )}
       </AvailabilityChart>
-      <EventLinkSharer link={`http://localhost:3000/${eventData.id}`} />
+      <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
     </div>
   );
 };

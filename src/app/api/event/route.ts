@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { get } from './get';
 import { post } from './post';
-import { EventData } from '@/types/EventData';
+import { Event } from '@/types/Event';
 
 const ONE_DAY = 86400;
 
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   return post(request);
 }
 
-export async function getEvent(id: string): Promise<EventData> {
+export async function getEvent(id: string): Promise<Event> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const response = await fetch(`${apiBaseUrl}/api/event?id=${id}`, {
     method: 'GET',
@@ -33,7 +33,7 @@ export async function getEvent(id: string): Promise<EventData> {
   return data.event;
 }
 
-export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
+export async function createEvent(eventData: Omit<Event, 'id'>): Promise<{ event: Event }> {
   // backup: const response = await fetch('/api/event', {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const response = await fetch(`${apiBaseUrl}/api/event`, {

@@ -1,4 +1,4 @@
-export interface EventData {
+export interface Event {
   id: string;
   title: string;
   surveyType: 'specific' | 'week';

@@ -12,17 +12,17 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
 
   // catch errors with error.tsx
   try {
-    const eventData = await getEvent(eventId);
+    const event = await getEvent(eventId);
 
-    if (!eventData) {
+    if (!event) {
       notFound();
     }
 
-    const participantsData = await getParticipants(eventId);
+    const participants = await getParticipants(eventId);
 
     return (
       <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
-        <ViewEditEvent eventData={eventData} participantsData={participantsData} />
+        <ViewEditEvent event={event} participants={participants} />
       </div>
     );
   } catch (error) {

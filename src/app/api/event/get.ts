@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
-import { EventData } from '@/types/EventData';
+import { Event } from '@/types/Event';
 
 const GetEventInput = z.object({
   id: z.string().uuid(),
@@ -39,7 +39,7 @@ export async function get(request: NextRequest) {
       return NextResponse.json({ error: 'Event was not found' }, { status: 404 });
     }
 
-    const eventData: EventData = {
+    const eventData: Event = {
       id: event.id,
       title: event.title,
       surveyType: event.survey_type,

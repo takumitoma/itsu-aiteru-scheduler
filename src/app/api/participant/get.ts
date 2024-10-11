@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
-import { ParticipantData } from '@/types/ParticipantData';
+import { Participant } from '@/types/Participant';
 
 export async function get(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -38,7 +38,7 @@ export async function get(request: NextRequest) {
   // example: [{1, 1, 1, 0 ..... 0, 1, 0, 0}] becomes [{0, 1, 2, 93}]
   // this is bc PostreSQL only stores perfectly square 2d arrays but i want to compress the data
   // for client
-  const compressedParticipants: ParticipantData[] = participants.map((participant) => ({
+  const compressedParticipants: Participant[] = participants.map((participant) => ({
     id: participant.id,
     eventId: eventId,
     name: participant.name,
