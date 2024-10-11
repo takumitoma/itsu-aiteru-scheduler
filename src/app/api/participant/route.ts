@@ -3,6 +3,8 @@ import { get } from './get';
 import { post } from './post';
 import { ParticipantData } from '@/types/ParticipantData';
 
+const ONE_MINUTE = 60;
+
 export async function GET(request: NextRequest) {
   return get(request);
 }
@@ -11,12 +13,11 @@ export async function POST(request: NextRequest) {
   return post(request);
 }
 
-export async function getParticipantsByEventId(eventId: string): Promise<ParticipantData[]> {
-  const response = await fetch(`/api/participant?eventId=${eventId}`, {
+export async function getParticipants(eventId: string): Promise<ParticipantData[]> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  const response = await fetch(`${apiBaseUrl}/api/participant?eventId=${eventId}`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    next: { revalidate: ONE_MINUTE },
   });
 
   if (!response.ok) {
@@ -25,7 +26,7 @@ export async function getParticipantsByEventId(eventId: string): Promise<Partici
 
   const data = await response.json();
 
-  return data.participants || [];
+  return data.participants;
 }
 
 export async function createParticipant(eventId: string, name: string): Promise<ParticipantData> {

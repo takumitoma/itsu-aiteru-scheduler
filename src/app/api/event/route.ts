@@ -2,7 +2,8 @@ import { NextRequest } from 'next/server';
 import { get } from './get';
 import { post } from './post';
 import { EventData } from '@/types/EventData';
-import { ParticipantData } from '@/types/ParticipantData';
+
+const ONE_DAY = 86400;
 
 export async function GET(request: NextRequest) {
   return get(request);
@@ -12,29 +13,25 @@ export async function POST(request: NextRequest) {
   return post(request);
 }
 
-export async function getEvent(
-  id: string,
-): Promise<{ event: EventData; participants: ParticipantData[] }> {
+export async function getEvent(id: string): Promise<EventData> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const response = await fetch(`${apiBaseUrl}/api/event?id=${id}`);
+  const response = await fetch(`${apiBaseUrl}/api/event?id=${id}`, {
+    method: 'GET',
+    next: { revalidate: ONE_DAY },
+  });
+
+  const data = await response.json();
 
   if (!response.ok) {
     if (response.status === 404) {
       throw new Error('Event not found');
     } else {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'An error occurred while fetching the event');
+      throw new Error(data.error || 'An error occurred while fetching the event');
     }
   }
 
-  const data = await response.json();
-  return {
-    event: data.event,
-    participants: data.participants,
-  };
+  return data.event;
 }
-
-//Array.isArray(data.participants) ? data.participants : [];
 
 export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
   // backup: const response = await fetch('/api/event', {

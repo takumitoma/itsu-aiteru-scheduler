@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { EventData } from '@/types/EventData';
 import { ParticipantData } from '@/types/ParticipantData';
 import AvailabilityChart from './AvailabilityChart';
@@ -14,16 +14,12 @@ const QUARTERS_PER_HOUR = 4;
 
 interface ViewEditEventProps {
   eventData: EventData;
-  participantData: ParticipantData[];
+  participantsData: ParticipantData[];
 }
 
-const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData, participantData }) => {
+const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData, participantsData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    console.log(participantData);
-  }, [participantData]);
 
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels =
