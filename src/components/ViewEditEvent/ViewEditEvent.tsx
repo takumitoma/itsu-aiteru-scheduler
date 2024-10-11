@@ -17,6 +17,7 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels =
@@ -45,11 +46,14 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
 
   async function handleSaveAvailability(participantId: string) {
     try {
+      setIsLoading(true);
       await updateAvailability(participantId, selectedTimeSlots, numSlots);
       setIsEditing(false);
       clearSelectedTimeslots();
     } catch (error) {
       console.error('Error updating availability:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -59,10 +63,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
       <ParticipantEditor
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        setIsLoading={setIsLoading}
         eventId={eventData.id}
         onSaveAvailability={handleSaveAvailability}
       />
       <AvailabilityChart
+        isLoading={isLoading}
         hourLabels={hourLabels}
         timeRangeEnd={eventData.timeRangeEnd}
         dayLabels={dayLabels}

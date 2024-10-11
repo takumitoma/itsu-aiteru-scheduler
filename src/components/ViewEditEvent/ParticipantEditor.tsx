@@ -6,6 +6,7 @@ import { HiPlus } from 'react-icons/hi';
 interface ParticipantEditorProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   onSaveAvailability: (participantId: string) => void;
 }
@@ -13,6 +14,7 @@ interface ParticipantEditorProps {
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   isEditing,
   setIsEditing,
+  setIsLoading,
   eventId,
   onSaveAvailability,
 }) => {
@@ -33,12 +35,15 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
 
   async function handleCreateParticipant(name: string) {
     try {
+      setIsLoading(true);
       const newParticipant = await createParticipant(eventId, name);
       setParticipantName(name);
       setParticipantId(newParticipant.id);
       setIsEditing(true);
     } catch (error) {
       console.error('Error creating participant:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
