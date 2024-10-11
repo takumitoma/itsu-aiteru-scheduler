@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { EventData } from '@/types/EventData';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
+import AvailabilityEditor from './AvailabilityEditor';
+import AvailabilityViewer from './AvailabilityViewer';
 
 interface ViewEditEventProps {
   eventData: EventData;
@@ -12,35 +14,41 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
+  const dayLabels =
+    eventData.surveyType === 'specific'
+      ? eventData.dates || []
+      : daysOfWeekLabels.filter((_, index) => eventData.daysOfWeek?.[index] === 1) || [];
+  const hourLabels = Array.from(
+    { length: eventData.timeRangeEnd - eventData.timeRangeStart },
+    (_, index) => eventData.timeRangeStart + index,
+  );
+
+  const numDays = dayLabels?.length || 0;
+  const numHours = eventData.timeRangeEnd - eventData.timeRangeStart;
+
   const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
-    new Array(7).fill(0).map(() => new Set<number>()),
+    new Array(numDays).fill(0).map(() => new Set<number>()),
   );
-  // Each Set represents a day and each number in a Set represents the time of the day starting at
-  // timeRangeStart and in 15 minute intervals. for example, if timeRangeStart is 9, timeRangeEnd
-  // is 11, and daysOfWeek is [1, 0, 0, 0, 0, 0, 0] and selectedDates is
-  // [Set {3, 4, 5, 7}, Set {}, Set {}, Set {}, Set {}, Set {}, Set {}] the selected dates and
-  // times are 9:45-10:30 and 10:45-11:00 of Sunday.
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<Set<number>[]>(
-    new Array(7).fill(0).map(() => new Set<number>()),
+    new Array(numDays).fill(0).map(() => new Set<number>()),
   );
 
-  function clearSelectedTimeslots() {
+  const clearSelectedTimeslots = () => {
     setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));
-  }
+  };
 
-  const handleSave = useCallback(
-    async (participantId: string) => {
-      try {
-        const newAvailability = selectedTimeSlots.map((daySet) => Array.from(daySet));
-        // todo: add logic to update availability using endpoint here
-        setIsEditing(false);
-        clearSelectedTimeslots();
-      } catch (error) {
-        console.error('Error updating availability:', error);
-      }
-    },
-    [selectedTimeSlots],
-  );
+  const updateAvailability = async (participantId: string) => {
+    try {
+      const newAvailability = selectedTimeSlots.map((daySet) => Array.from(daySet));
+      // todo: add logic to update availability using endpoint here
+      setIsEditing(false);
+      clearSelectedTimeslots();
+    } catch (error) {
+      console.error('Error updating availability:', error);
+    }
+  };
 
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
@@ -49,18 +57,24 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         eventId={eventData.id}
-        onSave={handleSave}
+        onSave={updateAvailability}
       />
       <AvailabilityChart
-        isEditing={isEditing}
-        viewBoxes={viewBoxes}
-        selectedTimeSlots={selectedTimeSlots}
-        setSelectedTimeSlots={setSelectedTimeSlots}
-        timezone={eventData.timezone}
-        timeRangeStart={eventData.timeRangeStart}
+        hourLabels={hourLabels}
         timeRangeEnd={eventData.timeRangeEnd}
-        daysOfWeek={eventData.daysOfWeek}
-      />
+        dayLabels={dayLabels}
+      >
+        {isEditing ? (
+          <AvailabilityEditor
+            selectedTimeSlots={selectedTimeSlots}
+            setSelectedTimeSlots={setSelectedTimeSlots}
+            numDays={numDays}
+            numHours={numHours}
+          />
+        ) : (
+          <AvailabilityViewer viewBoxes={viewBoxes} numDays={numDays} numHours={numHours} />
+        )}
+      </AvailabilityChart>
       <EventLinkSharer link={`http://localhost:3000/${eventData.id}`} />
     </div>
   );

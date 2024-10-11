@@ -1,10 +1,10 @@
 interface DayLabelsProps {
-  filteredDaysOfWeekLabels: string[];
+  dayLabels: string[];
 }
 
-const DayLabels: React.FC<DayLabelsProps> = ({ filteredDaysOfWeekLabels }) => (
+const DayLabels: React.FC<DayLabelsProps> = ({ dayLabels }) => (
   <div className="flex h-[30px] min-w-max">
-    {filteredDaysOfWeekLabels.map((day, index) => (
+    {dayLabels.map((day, index) => (
       <div key={`day-${index}`} className="w-[100px] h-[30px] flex justify-center">
         {day}
       </div>
