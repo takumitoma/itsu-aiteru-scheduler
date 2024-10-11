@@ -7,14 +7,14 @@ interface ParticipantEditorProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   eventId: string;
-  onSave: (participantId: string) => void;
+  onSaveAvailability: (participantId: string) => void;
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   isEditing,
   setIsEditing,
   eventId,
-  onSave,
+  onSaveAvailability,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [participantName, setParticipantName] = useState('');
@@ -28,7 +28,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
 
   function saveAvailabities() {
     buttonRef.current?.blur();
-    participantId && onSave(participantId);
+    participantId && onSaveAvailability(participantId);
   }
 
   async function handleCreateParticipant(name: string) {

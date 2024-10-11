@@ -7,6 +7,9 @@ import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
 import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
+import { updateAvailability } from '@/app/api/availability/route';
+
+const QUARTERS_PER_HOUR = 4;
 
 interface ViewEditEventProps {
   eventData: EventData;
@@ -27,6 +30,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
 
   const numDays = dayLabels?.length || 0;
   const numHours = eventData.timeRangeEnd - eventData.timeRangeStart;
+  const numSlots = numHours * QUARTERS_PER_HOUR;
 
   const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
     new Array(numDays).fill(0).map(() => new Set<number>()),
@@ -39,16 +43,15 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
     setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));
   };
 
-  const updateAvailability = async (participantId: string) => {
+  async function handleSaveAvailability(participantId: string) {
     try {
-      const newAvailability = selectedTimeSlots.map((daySet) => Array.from(daySet));
-      // todo: add logic to update availability using endpoint here
+      await updateAvailability(participantId, selectedTimeSlots, numSlots);
       setIsEditing(false);
       clearSelectedTimeslots();
     } catch (error) {
       console.error('Error updating availability:', error);
     }
-  };
+  }
 
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
@@ -57,7 +60,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ eventData }) => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         eventId={eventData.id}
-        onSave={updateAvailability}
+        onSaveAvailability={handleSaveAvailability}
       />
       <AvailabilityChart
         hourLabels={hourLabels}

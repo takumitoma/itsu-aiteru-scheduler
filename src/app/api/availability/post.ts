@@ -24,9 +24,10 @@ export async function post(request: NextRequest) {
 
     const event = participant.events;
 
+    const numDaysOfWeek = (event.days_of_week as number[]).filter((value) => value === 1).length;
+
     // the length of availability array should equal length of dates or daysOfWeek array
-    const expectedLength =
-      event.survey_type === 'specific' ? event.dates?.length : event.days_of_week?.length;
+    const expectedLength = event.survey_type === 'specific' ? event.dates?.length : numDaysOfWeek;
     if (availability.length !== expectedLength) {
       return NextResponse.json({ error: 'Invalid availability array length' }, { status: 400 });
     }
