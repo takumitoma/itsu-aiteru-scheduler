@@ -10,7 +10,7 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
   const eventId = params.eventId;
 
   try {
-    const { event } = await getEvent(eventId);
+    const { event, participants } = await getEvent(eventId);
 
     if (!event) {
       notFound();
@@ -18,7 +18,7 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
 
     return (
       <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
-        <ViewEditEvent eventData={event} />
+        <ViewEditEvent eventData={event} participantData={participants} />
       </div>
     );
   } catch (error) {

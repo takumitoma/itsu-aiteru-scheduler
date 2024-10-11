@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
 import { EventData } from '@/types/EventData';
+import { ParticipantData } from '@/types/ParticipantData';
 
 const GetEventInput = z.object({
   id: z.string().uuid(),
@@ -18,7 +19,7 @@ export async function get(request: NextRequest) {
 
     const validatedData = GetEventInput.parse({ id });
 
-    const { data: event, error } = await supabase
+    const { data: event, error: eventError } = await supabase
       .from('events')
       .select(
         'id, title, survey_type, timezone, time_range_start, time_range_end, dates, days_of_week',
@@ -26,9 +27,9 @@ export async function get(request: NextRequest) {
       .eq('id', validatedData.id)
       .single();
 
-    if (error) {
+    if (eventError) {
       // if no rows returned
-      if (error.code === 'PGRST116') {
+      if (eventError.code === 'PGRST116') {
         return NextResponse.json({ error: 'Event was not found' }, { status: 404 });
       }
 
@@ -38,8 +39,6 @@ export async function get(request: NextRequest) {
     if (!event) {
       return NextResponse.json({ error: 'Event was not found' }, { status: 404 });
     }
-
-    // todo: add logic to update "last accessed" column
 
     const eventData: EventData = {
       id: event.id,
@@ -52,7 +51,43 @@ export async function get(request: NextRequest) {
       daysOfWeek: event.days_of_week,
     };
 
-    return NextResponse.json({ event: eventData }, { status: 200 });
+    // Fetch participants data
+    const { data: participants, error: participantsError } = await supabase
+      .from('participants')
+      .select('id, name, availability')
+      .eq('event_id', validatedData.id);
+
+    if (participantsError) {
+      return NextResponse.json({ error: 'Failed to fetch participants' }, { status: 500 });
+    }
+
+    // example: [{1, 1, 1, 0 ..... 0, 1, 0, 0}] becomes [{0, 1, 2, 93}]
+    // this is necessary bc PostreSQL only stores perfectly square 2d arrays
+    const formattedParticipants: ParticipantData[] = participants.map((participant) => ({
+      id: participant.id,
+      eventId: validatedData.id,
+      name: participant.name,
+      availability: participant.availability.map((day: number[]) => {
+        const timeslots: number[] = [];
+        day.forEach((timeslot, index) => {
+          if (timeslot === 1) {
+            timeslots.push(index);
+          }
+        });
+        return timeslots;
+      }),
+    }));
+
+    // Update last_accessed
+    await supabase
+      .from('events')
+      .update({ last_accessed: new Date().toISOString() })
+      .eq('id', validatedData.id);
+
+    return NextResponse.json(
+      { event: eventData, participants: formattedParticipants || [] },
+      { status: 200 },
+    );
   } catch (error) {
     // return 404 even if id is in bad format ie not uuid
     if (error instanceof z.ZodError) {

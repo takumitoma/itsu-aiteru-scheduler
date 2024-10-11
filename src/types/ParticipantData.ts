@@ -2,5 +2,5 @@ export interface ParticipantData {
   id: string;
   eventId: string;
   name: string;
-  availability: number[][];
+  availability: Set<number>[];
 }

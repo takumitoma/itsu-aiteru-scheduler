@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { get } from './get';
 import { post } from './post';
 import { EventData } from '@/types/EventData';
+import { ParticipantData } from '@/types/ParticipantData';
 
 export async function GET(request: NextRequest) {
   return get(request);
@@ -11,7 +12,9 @@ export async function POST(request: NextRequest) {
   return post(request);
 }
 
-export async function getEvent(id: string): Promise<{ event: EventData }> {
+export async function getEvent(
+  id: string,
+): Promise<{ event: EventData; participants: ParticipantData[] }> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const response = await fetch(`${apiBaseUrl}/api/event?id=${id}`);
 
@@ -24,8 +27,14 @@ export async function getEvent(id: string): Promise<{ event: EventData }> {
     }
   }
 
-  return response.json();
+  const data = await response.json();
+  return {
+    event: data.event,
+    participants: data.participants,
+  };
 }
+
+//Array.isArray(data.participants) ? data.participants : [];
 
 export async function createEvent(eventData: Omit<EventData, 'id'>): Promise<{ event: EventData }> {
   // backup: const response = await fetch('/api/event', {
