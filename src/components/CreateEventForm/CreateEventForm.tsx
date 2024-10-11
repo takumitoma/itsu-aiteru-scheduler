@@ -15,15 +15,20 @@ import { createEvent } from '@/app/api/event/route';
 import { EventData } from '@/types/EventData';
 
 const CreateEventForm: React.FC = () => {
+  // form fields
   const [eventTitle, setEventTitle] = useState('');
   const [surveyType, setSurveyType] = useState<'specific' | 'week'>('specific');
   const [timeRange, setTimeRange] = useState({ start: 9, end: 18 });
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([0, 0, 0, 0, 0, 0, 0]);
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Tokyo');
+  // used to display client side form errors (bad form inputs)
   const [showErrors, setShowErrors] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // used to display server side form errors
   const [apiError, setApiError] = useState<string | null>(null);
+  // used to disable submit button during processing to counteract spam clicking
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const honeypotRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -79,7 +84,9 @@ const CreateEventForm: React.FC = () => {
 
   return (
     <form
-      className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem]"
+      className={`grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem] ${
+        isSubmitting ? 'opacity-50' : 'opacity-100'
+      }`}
       onSubmit={handleCreateEvent}
     >
       <div className="md:order-1">
