@@ -120,15 +120,15 @@ const CreateEventForm: React.FC = () => {
         )}
       </div>
 
-      <div className="md:order-7 md:col-span-2">
-        <CreateEventButton isSubmitting={isSubmitting} />
-      </div>
-
       {apiError && (
-        <div className="md:order-8 md:col-span-2">
-          <ErrorMessage message={apiError} />
+        <div className="md:order-7 md:col-span-2">
+          <ErrorMessage />
         </div>
       )}
+
+      <div className="md:order-8 md:col-span-2">
+        <CreateEventButton isSubmitting={isSubmitting} />
+      </div>
 
       <div className="hidden md:block md:order-2"></div>
 

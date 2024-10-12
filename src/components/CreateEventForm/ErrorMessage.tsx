@@ -1,12 +1,7 @@
-interface ErrorProps {
-  message: string;
-}
-
-const ErrorMessage: React.FC<ErrorProps> = ({ message }) => {
+const ErrorMessage: React.FC = () => {
   return (
-    <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
-      <h1 className="text-3xl font-bold mb-8">Error</h1>
-      <p>{message}</p>
+    <div className="container mx-auto mt-4 flex flex-col items-center">
+      <h1 className="text-md font-bold text-red-500">エラーが発生しました</h1>
     </div>
   );
 };
