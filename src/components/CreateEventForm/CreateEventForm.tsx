@@ -67,9 +67,9 @@ const CreateEventForm: React.FC = () => {
           daysOfWeek: surveyType === 'week' ? selectedDaysOfWeek : null,
         };
 
-        const result = await createEvent(event);
+        const createdEventId = await createEvent(event);
 
-        router.push(`/${result.event.id}`);
+        router.push(`/${createdEventId}`);
       } catch (error) {
         console.error('Error creating event:', error);
         setApiError(error instanceof Error ? error.message : 'An unknown error occurred');

@@ -4,7 +4,6 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { Event } from '@/types/Event';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -75,21 +74,9 @@ export async function post(request: NextRequest) {
 
     if (error) throw error;
 
-    const createdEvent: Event = {
-      id: data[0].id,
-      title: data[0].title,
-      surveyType: data[0].survey_type,
-      timezone: data[0].timezone,
-      timeRangeStart: data[0].time_range_start,
-      timeRangeEnd: data[0].time_range_end,
-      dates: data[0].dates,
-      daysOfWeek: data[0].days_of_week,
-    };
+    const createdEvent = data[0];
 
-    return NextResponse.json(
-      { message: 'Event created successfully', event: createdEvent },
-      { status: 200 },
-    );
+    return NextResponse.json({ eventId: createdEvent.id }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
