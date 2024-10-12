@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
 import AvailabilityChart from './AvailabilityChart';
@@ -12,12 +12,23 @@ import { updateAvailability } from '@/lib/api-client/availability';
 
 const QUARTERS_PER_HOUR = 4;
 
+interface RGB {
+  R: number;
+  G: number;
+  B: number;
+}
+
+const NO_PARTICIPANT_COLOR: RGB = { R: 255, G: 255, B: 255 };
+const MAX_PARTICIPANT_COLOR: RGB = { R: 74, G: 144, B: 226 };
+
 interface ViewEditEventProps {
   event: Event;
   participants: Participant[];
 }
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
+  const [participantsState, setParticipants] = useState<Participant[]>(participants);
+
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,15 +46,47 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numHours * QUARTERS_PER_HOUR;
   const totalSlots = numDays * numSlots;
+  const numParticipants = participantsState.length;
 
-  const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
-    new Array(numDays).fill(0).map(() => new Set<number>()),
-  );
+  const [heatMap, setHeatMap] = useState<number[]>(new Array(totalSlots).fill(0));
+  function rgbToString(rgb: RGB): string {
+    return `rgb(${rgb.R}, ${rgb.G}, ${rgb.B})`;
+  }
+  const colorScale: string[] = useMemo(() => {
+    const numColors = numParticipants + 1;
+    if (numColors === 1) {
+      return [rgbToString(NO_PARTICIPANT_COLOR)];
+    } else if (numColors === 2) {
+      return [rgbToString(NO_PARTICIPANT_COLOR), rgbToString(MAX_PARTICIPANT_COLOR)];
+    } else {
+      const result = [rgbToString(NO_PARTICIPANT_COLOR)];
+
+      for (let i = 1; i < numColors - 1; ++i) {
+        const ratio = i / (numColors - 1);
+
+        const r = Math.round(
+          NO_PARTICIPANT_COLOR.R + ratio * (MAX_PARTICIPANT_COLOR.R - NO_PARTICIPANT_COLOR.R),
+        );
+        const g = Math.round(
+          NO_PARTICIPANT_COLOR.G + ratio * (MAX_PARTICIPANT_COLOR.G - NO_PARTICIPANT_COLOR.G),
+        );
+        const b = Math.round(
+          NO_PARTICIPANT_COLOR.B + ratio * (MAX_PARTICIPANT_COLOR.B - NO_PARTICIPANT_COLOR.B),
+        );
+
+        result.push(rgbToString({ R: r, G: g, B: b }));
+      }
+
+      result.push(rgbToString(MAX_PARTICIPANT_COLOR));
+      return result;
+    }
+  }, [numParticipants]);
+
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(
     new Array(totalSlots).fill(0),
   );
 
-  console.log(selectedTimeSlots);
+  // console.log(colorScale);
 
   const clearSelectedTimeslots = () => {
     setSelectedTimeSlots(new Array(totalSlots).fill(0));
@@ -92,7 +135,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             numHours={numHours}
           />
         ) : (
-          <AvailabilityViewer viewBoxes={viewBoxes} numDays={numDays} numHours={numHours} />
+          <AvailabilityViewer
+            heatMap={heatMap}
+            numDays={numDays}
+            numHours={numHours}
+            colorScale={colorScale}
+          />
         )}
       </AvailabilityChart>
       <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
