@@ -23,7 +23,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const { eventId: validatedEventId } = GetParticipantsSchema.parse({ eventId });
 
-    const { data: participants, error } = await supabase
+    const { data, error } = await supabase
       .from('participants')
       .select('id, name, availability')
       .eq('event_id', validatedEventId);
@@ -38,29 +38,20 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    if (participants.length === 0) {
+    if (data.length === 0) {
       return NextResponse.json(
         { message: 'No participants found for this event', participants: [] },
         { status: 200 },
       );
     }
 
-    const compressedParticipants: Participant[] = participants.map((participant) => ({
+    const participants: Participant[] = data.map((participant) => ({
       id: participant.id,
-      eventId: validatedEventId,
       name: participant.name,
-      availability: participant.availability.map((day: number[]) => {
-        const timeslots: number[] = [];
-        day.forEach((timeslot, index) => {
-          if (timeslot === 1) {
-            timeslots.push(index);
-          }
-        });
-        return timeslots;
-      }),
+      availability: participant.availability,
     }));
 
-    return NextResponse.json({ participants: compressedParticipants }, { status: 200 });
+    return NextResponse.json({ participants }, { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid input data' }, { status: 400 });
