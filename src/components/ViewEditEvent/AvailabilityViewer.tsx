@@ -25,15 +25,18 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
                 const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
                 const slotIndex = dayIndex * numSlotsPerDay + timeIndex;
                 const saturation = heatMap[slotIndex];
+                console.log(colorScale[saturation]);
                 return (
                   <div
                     key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
                     className={`w-[100px] h-[15px] border-l border-customBlack 
-                      bg-[${colorScale[saturation]}]
                       ${quarter === 0 ? 'border-t' : ''}
                       ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
                     `}
-                    style={{ borderTopStyle: quarter === 2 ? 'dotted' : 'solid' }}
+                    style={{
+                      backgroundColor: colorScale[saturation],
+                      borderTopStyle: quarter === 2 ? 'dotted' : 'solid',
+                    }}
                   />
                 );
               })}

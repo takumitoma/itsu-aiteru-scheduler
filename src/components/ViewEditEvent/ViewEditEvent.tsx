@@ -59,10 +59,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return result;
   }, [numSlots, participantsState]);
 
-  console.log(heatMap);
-
   function rgbToString(rgb: RGB): string {
-    return `rgb(${rgb.R}, ${rgb.G}, ${rgb.B})`;
+    return `rgb(${rgb.R},${rgb.G},${rgb.B})`;
   }
   const colorScale: string[] = useMemo(() => {
     const numParticipants = participantsState.length;
