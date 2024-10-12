@@ -9,6 +9,7 @@ interface ParticipantEditorProps {
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   onSaveAvailability: (participantId: string) => void;
+  onCancelEditing: () => void;
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
@@ -17,6 +18,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setIsLoading,
   eventId,
   onSaveAvailability,
+  onCancelEditing,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [participantName, setParticipantName] = useState('');
@@ -62,7 +64,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
               className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
                 border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0"
               type="button"
-              onClick={() => setIsEditing(false)}
+              onClick={onCancelEditing}
             >
               キャンセル
             </button>

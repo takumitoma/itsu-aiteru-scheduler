@@ -61,6 +61,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     }
   }
 
+  function handleCancelEditing() {
+    setIsEditing(false);
+    clearSelectedTimeslots();
+  }
+
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
       <h1 className="text-3xl font-bold">{event.title}</h1>
@@ -70,6 +75,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         setIsLoading={setIsLoading}
         eventId={event.id}
         onSaveAvailability={handleSaveAvailability}
+        onCancelEditing={handleCancelEditing}
       />
       <AvailabilityChart
         isLoading={isLoading}
