@@ -21,8 +21,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(participants);
-
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels =
     event.surveyType === 'specific'
@@ -36,22 +34,25 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numDays = dayLabels?.length || 0;
   const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numHours * QUARTERS_PER_HOUR;
+  const totalSlots = numDays * numSlots;
 
   const [viewBoxes, setViewBoxes] = useState<Set<number>[]>(
     new Array(numDays).fill(0).map(() => new Set<number>()),
   );
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState<Set<number>[]>(
-    new Array(numDays).fill(0).map(() => new Set<number>()),
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(
+    new Array(totalSlots).fill(0),
   );
 
+  console.log(selectedTimeSlots);
+
   const clearSelectedTimeslots = () => {
-    setSelectedTimeSlots(new Array(7).fill(0).map(() => new Set<number>()));
+    setSelectedTimeSlots(new Array(totalSlots).fill(0));
   };
 
   async function handleSaveAvailability(participantId: string) {
     try {
       setIsLoading(true);
-      await updateAvailability(participantId, selectedTimeSlots, numSlots);
+      await updateAvailability(participantId, selectedTimeSlots);
       setIsEditing(false);
       clearSelectedTimeslots();
     } catch (error) {

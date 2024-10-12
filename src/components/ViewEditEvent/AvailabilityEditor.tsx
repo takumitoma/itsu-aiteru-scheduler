@@ -1,8 +1,8 @@
 import { useCallback, useRef, useState } from 'react';
 
 interface AvailabilityEditorProps {
-  selectedTimeSlots: Set<number>[];
-  setSelectedTimeSlots: React.Dispatch<React.SetStateAction<Set<number>[]>>;
+  selectedTimeSlots: number[];
+  setSelectedTimeSlots: React.Dispatch<React.SetStateAction<number[]>>;
   numDays: number;
   numHours: number;
 }
@@ -15,14 +15,16 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
   numDays,
   numHours,
 }) => {
+  const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
+
   // temporary selection state for visual feedback during drags
-  const [temporarySelection, setTemporarySelection] = useState<Set<number>[]>([]);
+  const [temporarySelection, setTemporarySelection] = useState<number[]>([]);
 
   // refs for tracking drag state without causing re-renders
   const isMouseDragging = useRef(false);
   const isAddingTimeSlots = useRef(false);
   const selectionStartPosition = useRef<{ dayIndex: number; timeIndex: number } | null>(null);
-  const temporarySelectionRef = useRef<Set<number>[]>([]);
+  const temporarySelectionRef = useRef<number[]>([]);
 
   // update temporary selection during drag operations
   const updateTemporarySelection = useCallback(
@@ -36,28 +38,27 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
       const maxTime = Math.max(selectionStartPosition.current.timeIndex, timeIndex);
 
       // create updated selection based on drag range
-      const updatedTemporarySelection = selectedTimeSlots.map((daySet, day) => {
-        if (day < minDay || day > maxDay) return daySet;
-        const newSet = new Set(daySet);
+      const updatedTemporarySelection = [...selectedTimeSlots];
+      for (let day = minDay; day <= maxDay; day++) {
         for (let time = minTime; time <= maxTime; time++) {
-          isAddingTimeSlots.current ? newSet.add(time) : newSet.delete(time);
+          const index = day * numSlotsPerDay + time;
+          updatedTemporarySelection[index] = isAddingTimeSlots.current ? 1 : 0;
         }
-        return newSet;
-      });
+      }
 
       setTemporarySelection(updatedTemporarySelection);
       temporarySelectionRef.current = updatedTemporarySelection;
     },
-    [selectedTimeSlots],
+    [selectedTimeSlots, numSlotsPerDay],
   );
 
   const handlePointerDown = useCallback(
     (dayIndex: number, timeIndex: number) => (e: React.PointerEvent) => {
       e.preventDefault();
       isMouseDragging.current = true;
+      const slotIndex = dayIndex * numSlotsPerDay + timeIndex;
       // determine if we're adding or removing time slots based on initial click
-      // if initial cell is selected everything dragged becomes unselected vice versa
-      isAddingTimeSlots.current = !selectedTimeSlots[dayIndex].has(timeIndex);
+      isAddingTimeSlots.current = selectedTimeSlots[slotIndex] === 0;
       selectionStartPosition.current = { dayIndex, timeIndex };
       e.currentTarget.releasePointerCapture(e.pointerId);
 
@@ -74,7 +75,7 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
 
       document.addEventListener('pointerup', handlePointerUp);
     },
-    [selectedTimeSlots, updateTemporarySelection, setSelectedTimeSlots],
+    [selectedTimeSlots, updateTemporarySelection, setSelectedTimeSlots, numSlotsPerDay],
   );
 
   const handlePointerEnter = useCallback(
@@ -84,8 +85,6 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
     [updateTemporarySelection],
   );
 
-  console.log(selectedTimeSlots);
-
   return (
     <div className="flex border-customBlack border-r border-b min-w-max">
       {Array.from({ length: numDays }).map((_, dayIndex) => (
@@ -94,10 +93,11 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
             <div key={`cell-${dayIndex}-${hourIndex}`}>
               {[0, 1, 2, 3].map((quarter) => {
                 const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
+                const slotIndex = dayIndex * numSlotsPerDay + timeIndex;
                 const isSelected =
                   temporarySelection.length > 0
-                    ? temporarySelection[dayIndex]?.has(timeIndex)
-                    : selectedTimeSlots[dayIndex]?.has(timeIndex);
+                    ? temporarySelection[slotIndex] === 1
+                    : selectedTimeSlots[slotIndex] === 1;
                 return (
                   <div
                     key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}

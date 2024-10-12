@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 const UpdateAvailabilitySchema = z.object({
   participantId: z.string().uuid(),
-  availability: z.array(z.array(z.number().int().nonnegative())),
+  availability: z.array(z.number().int().min(0).max(1)),
 });
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -26,18 +26,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const numDaysOfWeek = (event.days_of_week as number[]).filter((value) => value === 1).length;
     const expectedLength = event.survey_type === 'specific' ? event.dates?.length : numDaysOfWeek;
+    const slotsPerDay = (event.time_range_end - event.time_range_start) * 4;
+    const expectedTotalSlots = expectedLength * slotsPerDay;
 
-    if (availability.length !== expectedLength) {
+    if (availability.length !== expectedTotalSlots) {
       return NextResponse.json({ error: 'Invalid availability array length' }, { status: 400 });
-    }
-
-    const maxIndex = (event.time_range_end - event.time_range_start) * 4 - 1;
-    const isValidRowValues = availability.every((row) =>
-      row.every((index) => index >= 0 && index <= maxIndex),
-    );
-
-    if (!isValidRowValues) {
-      return NextResponse.json({ error: 'Invalid availability index values' }, { status: 400 });
     }
 
     const { error: updateError } = await supabase
