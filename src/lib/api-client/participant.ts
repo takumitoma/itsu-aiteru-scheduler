@@ -14,7 +14,7 @@ export async function getParticipants(eventId: string): Promise<Participant[]> {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: { participants: Participant[] } = await response.json();
     return data.participants;
   } catch (error) {
     console.error('Error fetching participants:', error);
