@@ -44,15 +44,28 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   const numDays = dayLabels?.length || 0;
   const numHours = event.timeRangeEnd - event.timeRangeStart;
-  const numSlots = numHours * QUARTERS_PER_HOUR;
-  const totalSlots = numDays * numSlots;
-  const numParticipants = participantsState.length;
+  const numSlots = numDays * numHours * QUARTERS_PER_HOUR;
 
-  const [heatMap, setHeatMap] = useState<number[]>(new Array(totalSlots).fill(0));
+  const heatMap: number[] = useMemo(() => {
+    const availabilites: number[][] = participantsState.map(
+      (participant) => participant.availability,
+    );
+    const result: number[] = new Array(numSlots).fill(0);
+    for (let i = 0; i < availabilites.length; ++i) {
+      for (let j = 0; j < availabilites[i].length; ++j) {
+        result[j] += availabilites[i][j];
+      }
+    }
+    return result;
+  }, [numSlots, participantsState]);
+
+  console.log(heatMap);
+
   function rgbToString(rgb: RGB): string {
     return `rgb(${rgb.R}, ${rgb.G}, ${rgb.B})`;
   }
   const colorScale: string[] = useMemo(() => {
+    const numParticipants = participantsState.length;
     const numColors = numParticipants + 1;
     if (numColors === 1) {
       return [rgbToString(NO_PARTICIPANT_COLOR)];
@@ -80,16 +93,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       result.push(rgbToString(MAX_PARTICIPANT_COLOR));
       return result;
     }
-  }, [numParticipants]);
+  }, [participantsState]);
 
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(
-    new Array(totalSlots).fill(0),
-  );
-
-  // console.log(colorScale);
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
   const clearSelectedTimeslots = () => {
-    setSelectedTimeSlots(new Array(totalSlots).fill(0));
+    setSelectedTimeSlots(new Array(numSlots).fill(0));
   };
 
   async function handleSaveAvailability(participantId: string) {
