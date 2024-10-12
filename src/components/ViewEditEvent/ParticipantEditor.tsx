@@ -36,9 +36,9 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   async function handleCreateParticipant(name: string) {
     try {
       setIsLoading(true);
-      const newParticipant = await createParticipant(eventId, name);
+      const { id: createdParticipantId } = await createParticipant(eventId, name);
       setParticipantName(name);
-      setParticipantId(newParticipant.id);
+      setParticipantId(createdParticipantId);
       setIsEditing(true);
     } catch (error) {
       console.error('Error creating participant:', error);
