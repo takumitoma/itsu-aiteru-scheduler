@@ -87,10 +87,13 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
 
   return (
     <div className="flex border-customBlack border-r border-b min-w-max">
+      {/* day column */}
       {Array.from({ length: numDays }).map((_, dayIndex) => (
         <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
+          {/* hour cell */}
           {Array.from({ length: numHours }).map((_, hourIndex) => (
             <div key={`cell-${dayIndex}-${hourIndex}`}>
+              {/* quarter cells within hour cells */}
               {[0, 1, 2, 3].map((quarter) => {
                 const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
                 const slotIndex = dayIndex * numSlotsPerDay + timeIndex;

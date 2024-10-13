@@ -47,6 +47,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numDays * numHours * QUARTERS_PER_HOUR;
 
+  // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot
+  // adds every participants availability array together, example:
+  // participant 1: [0, 0, 1, 1, 0, 1]
+  // participant 2: [0, 1, 1, 0, 0, 0]
+  // heat map:      [0, 1, 2, 1, 0, 1]
   const heatMap: number[] = useMemo(() => {
     const availabilites: number[][] = participantsState.map(
       (participant) => participant.availability,
@@ -60,9 +65,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return result;
   }, [numSlots, participantsState]);
 
+  // used for colorScale
   function rgbToString(rgb: RGB): string {
     return `rgb(${rgb.R},${rgb.G},${rgb.B})`;
   }
+
+  // defines the color scale legend for AvailabilityViewer
   const colorScale: string[] = useMemo(() => {
     const numParticipants = participantsState.length;
     const numColors = numParticipants + 1;
@@ -96,9 +104,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
-  const clearSelectedTimeslots = () => {
+  function clearSelectedTimeslots() {
     setSelectedTimeSlots(new Array(numSlots).fill(0));
-  };
+  }
 
   async function handleSaveAvailability(participantId: string) {
     try {
