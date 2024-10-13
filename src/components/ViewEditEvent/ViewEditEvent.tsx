@@ -140,6 +140,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       {!isEditing && (
         <ColorScale colorScale={colorScale} numParticipants={participantsState.length} />
       )}
+      {!isEditing && (
+        <p className="text-xs sm:text-lg font-bold">
+          スケジュール表をマウスオーバーもしくはタップで詳細を確認
+        </p>
+      )}
       <AvailabilityChart
         isLoading={isLoading}
         hourLabels={hourLabels}
