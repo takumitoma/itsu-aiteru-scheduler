@@ -1,3 +1,5 @@
+import TimeSlot from './TimeSlot';
+
 interface AvailabilityViewerProps {
   heatMap: number[];
   numDays: number;
@@ -24,19 +26,15 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
               {[0, 1, 2, 3].map((quarter) => {
                 const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
                 const slotIndex = dayIndex * numSlotsPerDay + timeIndex;
-                const saturation = heatMap[slotIndex];
-                console.log(colorScale[saturation]);
+                const saturation: number = heatMap[slotIndex];
                 return (
-                  <div
+                  <TimeSlot
                     key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
-                    className={`w-[100px] h-[15px] border-l border-customBlack 
-                      ${quarter === 0 ? 'border-t' : ''}
-                      ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
-                    `}
-                    style={{
-                      backgroundColor: colorScale[saturation],
-                      borderTopStyle: quarter === 2 ? 'dotted' : 'solid',
-                    }}
+                    backgroundColor={colorScale[saturation]}
+                    isBorderTop={quarter === 0}
+                    isDottedBorderTop={quarter === 2}
+                    numParticipants={saturation}
+                    numTotalParticipants={colorScale.length - 1}
                   />
                 );
               })}
