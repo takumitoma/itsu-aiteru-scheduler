@@ -23,7 +23,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
       }`}
     >
       <TimeLabels hourLabels={hourLabels} timeRangeEnd={timeRangeEnd} />
-      <div className="flex flex-col overflow-x-auto">
+      <div id="scrollableContainer" className="flex flex-col overflow-x-auto">
         <DayLabels dayLabels={dayLabels} />
         {children}
       </div>

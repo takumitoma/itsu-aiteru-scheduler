@@ -1,15 +1,20 @@
-interface TimeSlotTooltip {
-  numParticipants: number;
-  numTotalParticipants: number;
+interface TimeSlotTooltipProps {
+  tooltipData: { x: number; y: number; content: React.ReactNode } | null;
 }
 
-const TimeSlotTooltip: React.FC<TimeSlotTooltip> = ({ numParticipants, numTotalParticipants }) => {
+const TimeSlotTooltip: React.FC<TimeSlotTooltipProps> = ({ tooltipData }) => {
+  if (!tooltipData) return null;
+
   return (
     <div
-      className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 bg-background 
-        text-foreground text-sm rounded-md shadow-sm whitespace-nowrap border border-foreground"
+      className="z-20 fixed"
+      style={{
+        left: tooltipData.x,
+        top: tooltipData.y,
+        transform: 'translate(-50%, 8px)',
+      }}
     >
-      <p>{`${numParticipants}/${numTotalParticipants} 人`}</p>
+      {tooltipData.content}
     </div>
   );
 };
