@@ -137,7 +137,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
       />
-      <ColorScale colorScale={colorScale} numParticipants={participantsState.length} />
+      {!isEditing && (
+        <ColorScale colorScale={colorScale} numParticipants={participantsState.length} />
+      )}
       <AvailabilityChart
         isLoading={isLoading}
         hourLabels={hourLabels}
