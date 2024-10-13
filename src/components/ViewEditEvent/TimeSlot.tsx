@@ -32,7 +32,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
           className="px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm 
             whitespace-nowrap border border-foreground"
         >
-          <p>{`${numParticipants}/${numTotalParticipants} 人`}</p>
+          <p>{`${numParticipants}/${numTotalParticipants} 人空いてる`}</p>
         </div>
       ),
     });
