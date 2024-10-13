@@ -8,6 +8,7 @@ import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
 import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
+import ColorScale from './ColorScale';
 import { updateAvailability } from '@/lib/api-client/availability';
 
 const QUARTERS_PER_HOUR = 4;
@@ -128,6 +129,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
       />
+      <ColorScale colorScale={colorScale} numParticipants={participantsState.length} />
       <AvailabilityChart
         isLoading={isLoading}
         hourLabels={hourLabels}
