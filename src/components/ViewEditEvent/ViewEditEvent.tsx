@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Event } from '@/types/Event';
-import { Participant } from '@/types/Participant';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
@@ -10,6 +8,8 @@ import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
 import ColorScale from './ColorScale';
 import { updateAvailability } from '@/lib/api-client/availability';
+import { Event } from '@/types/Event';
+import { Participant } from '@/types/Participant';
 
 const QUARTERS_PER_HOUR = 4;
 
@@ -43,17 +43,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     (_, index) => event.timeRangeStart + index,
   );
 
-  // date-time labels for each time slot to be used in tooltip
-  const dateTimeLabels: string[] = [];
-  for (let i = 0; i < dayLabels.length; ++i) {
-    for (let j = 0; j < hourLabels.length; ++j) {
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:00`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:15`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:30`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:45`);
-    }
-  }
-
   const numDays = dayLabels?.length || 0;
   const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numDays * numHours * QUARTERS_PER_HOUR;
@@ -73,6 +62,18 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return result;
   }, [numSlots, participantsState]);
 
+  // date-time labels for each time slot to be used in each slot's tooltip
+  const dateTimeLabels: string[] = [];
+  for (let i = 0; i < dayLabels.length; ++i) {
+    for (let j = 0; j < hourLabels.length; ++j) {
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:00`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:15`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:30`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:45`);
+    }
+  }
+
+  // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {
     const available: string[][] = Array.from({ length: numSlots }, () => []);
     const unavailable: string[][] = Array.from({ length: numSlots }, () => []);
@@ -90,15 +91,15 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return [available, unavailable];
   }, [numSlots, participantsState]);
 
-  // used for colorScale
+  //  used to define colorScale
+  const numParticipants = participantsState.length;
+  const numColors = numParticipants + 1;
   function rgbToString(rgb: RGB): string {
     return `rgb(${rgb.R},${rgb.G},${rgb.B})`;
   }
 
-  // defines the color scale legend for AvailabilityViewer
+  // the color scale legend for AvailabilityViewer
   const colorScale: string[] = [];
-  const numParticipants = participantsState.length;
-  const numColors = numParticipants + 1;
   if (numColors === 1) {
     colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
   } else if (numColors === 2) {
@@ -144,7 +145,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     }
   }
 
-  // Handle canceling the editing process
   function handleCancelEditing() {
     setIsEditing(false);
     clearSelectedTimeslots();

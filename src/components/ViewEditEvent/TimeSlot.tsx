@@ -29,6 +29,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
 
   function handleMouseEnter(event: React.MouseEvent<HTMLDivElement>) {
     setIsHovered(true);
+    // show content on the bottom and center of the element that triggered the event
     const rect = event.currentTarget.getBoundingClientRect();
     onHover({
       x: rect.left + rect.width / 2,
@@ -47,8 +48,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
               <div
                 key={participant}
                 className="border border-primary px-1 rounded-md whitespace-nowrap 
-                  overflow-hidden text-ellipsis max-w-full"
-                style={{ minWidth: '0' }}
+                  overflow-hidden text-ellipsis max-w-full min-w-0"
               >
                 {participant}
               </div>
@@ -57,8 +57,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
               <div
                 key={participant}
                 className="border border-foreground px-1 rounded-md opacity-60 whitespace-nowrap 
-                  overflow-hidden text-ellipsis max-w-full"
-                style={{ minWidth: '0' }}
+                  overflow-hidden text-ellipsis max-w-full min-w-0"
               >
                 {participant}
               </div>
