@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const TOOLTIP_WIDTH = 200; //px
+
 interface TimeSlotProps {
   backgroundColor: string;
   isBorderTop: boolean;
@@ -27,17 +29,28 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  // show tooltip on the bottom and center* of the element that triggered the event
+  // * as center as possible
   function handleMouseEnter(event: React.MouseEvent<HTMLDivElement>) {
     setIsHovered(true);
-    // show content on the bottom and center of the element that triggered the event
+
     const rect = event.currentTarget.getBoundingClientRect();
+    let xPosition = rect.left + rect.width / 2;
+
+    // if the content would overflow on the left or right edge, adjust x position accordingly
+    if (xPosition + TOOLTIP_WIDTH / 2 > window.innerWidth) {
+      xPosition = window.innerWidth - TOOLTIP_WIDTH / 2;
+    } else if (xPosition - TOOLTIP_WIDTH / 2 < 0) {
+      xPosition = TOOLTIP_WIDTH / 2;
+    }
     onHover({
-      x: rect.left + rect.width / 2,
+      x: xPosition,
       y: rect.bottom,
       content: (
         <div
-          className="px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm border 
-            border-foreground w-[200px] space-y-1"
+          className={`px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm border 
+            border-foreground space-y-1`}
+          style={{ width: `${TOOLTIP_WIDTH}px` }}
         >
           <p className="font-medium font-xl">
             {`${numParticipants}/${numTotalParticipants} 人空いてる`}
