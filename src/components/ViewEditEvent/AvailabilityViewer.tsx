@@ -7,6 +7,7 @@ interface AvailabilityViewerProps {
   numDays: number;
   numHours: number;
   colorScale: string[];
+  dateTimeLabels: string[];
 }
 
 const QUARTERS_PER_HOUR = 4;
@@ -16,6 +17,7 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   numDays,
   numHours,
   colorScale,
+  dateTimeLabels,
 }) => {
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -67,6 +69,7 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
                       isDottedBorderTop={quarter === 2}
                       numParticipants={saturation}
                       numTotalParticipants={colorScale.length - 1}
+                      dateTimeLabel={dateTimeLabels[slotIndex]}
                       onHover={setTooltipData}
                       onLeave={() => setTooltipData(null)}
                     />

@@ -6,6 +6,7 @@ interface TimeSlotProps {
   isDottedBorderTop: boolean;
   numParticipants: number;
   numTotalParticipants: number;
+  dateTimeLabel: string;
   onHover: (data: { x: number; y: number; content: React.ReactNode }) => void;
   onLeave: () => void;
 }
@@ -16,6 +17,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   isDottedBorderTop,
   numParticipants,
   numTotalParticipants,
+  dateTimeLabel,
   onHover,
   onLeave,
 }) => {
@@ -30,9 +32,12 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
       content: (
         <div
           className="px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm 
-            whitespace-nowrap border border-foreground"
+            whitespace-nowrap border border-foreground w-[200px]"
         >
-          <p>{`${numParticipants}/${numTotalParticipants} 人空いてる`}</p>
+          <p className="font-medium font-xl">
+            {`${numParticipants}/${numTotalParticipants} 人空いてる`}
+          </p>
+          <p>{dateTimeLabel}</p>
         </div>
       ),
     });

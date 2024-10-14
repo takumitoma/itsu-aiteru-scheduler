@@ -43,6 +43,17 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     (_, index) => event.timeRangeStart + index,
   );
 
+  // date-time labels for each time slot to be used in tooltip
+  const dateTimeLabels: string[] = [];
+  for (let i = 0; i < dayLabels.length; ++i) {
+    for (let j = 0; j < hourLabels.length; ++j) {
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:00`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:15`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:30`);
+      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:45`);
+    }
+  }
+
   const numDays = dayLabels?.length || 0;
   const numHours = event.timeRangeEnd - event.timeRangeStart;
   const numSlots = numDays * numHours * QUARTERS_PER_HOUR;
@@ -52,14 +63,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 1: [0, 0, 1, 1, 0, 1]
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
-  const heatMap: number[] = useMemo(() => {
-    const availabilites: number[][] = participantsState.map(
-      (participant) => participant.availability,
-    );
+  const heatMap = useMemo(() => {
     const result: number[] = new Array(numSlots).fill(0);
-    for (let i = 0; i < availabilites.length; ++i) {
-      for (let j = 0; j < availabilites[i].length; ++j) {
-        result[j] += availabilites[i][j];
+    for (const participant of participantsState) {
+      for (let i = 0; i < participant.availability.length; ++i) {
+        result[i] += participant.availability[i];
       }
     }
     return result;
@@ -71,36 +79,34 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   }
 
   // defines the color scale legend for AvailabilityViewer
-  const colorScale: string[] = useMemo(() => {
-    const numParticipants = participantsState.length;
-    const numColors = numParticipants + 1;
-    if (numColors === 1) {
-      return [rgbToString(NO_PARTICIPANT_COLOR)];
-    } else if (numColors === 2) {
-      return [rgbToString(NO_PARTICIPANT_COLOR), rgbToString(MAX_PARTICIPANT_COLOR)];
-    } else {
-      const result = [rgbToString(NO_PARTICIPANT_COLOR)];
+  const colorScale: string[] = [];
+  const numParticipants = participantsState.length;
+  const numColors = numParticipants + 1;
+  if (numColors === 1) {
+    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
+  } else if (numColors === 2) {
+    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR), rgbToString(MAX_PARTICIPANT_COLOR));
+  } else {
+    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
 
-      for (let i = 1; i < numColors - 1; ++i) {
-        const ratio = i / (numColors - 1);
+    for (let i = 1; i < numColors - 1; ++i) {
+      const ratio = i / (numColors - 1);
 
-        const r = Math.round(
-          NO_PARTICIPANT_COLOR.R + ratio * (MAX_PARTICIPANT_COLOR.R - NO_PARTICIPANT_COLOR.R),
-        );
-        const g = Math.round(
-          NO_PARTICIPANT_COLOR.G + ratio * (MAX_PARTICIPANT_COLOR.G - NO_PARTICIPANT_COLOR.G),
-        );
-        const b = Math.round(
-          NO_PARTICIPANT_COLOR.B + ratio * (MAX_PARTICIPANT_COLOR.B - NO_PARTICIPANT_COLOR.B),
-        );
+      const r = Math.round(
+        NO_PARTICIPANT_COLOR.R + ratio * (MAX_PARTICIPANT_COLOR.R - NO_PARTICIPANT_COLOR.R),
+      );
+      const g = Math.round(
+        NO_PARTICIPANT_COLOR.G + ratio * (MAX_PARTICIPANT_COLOR.G - NO_PARTICIPANT_COLOR.G),
+      );
+      const b = Math.round(
+        NO_PARTICIPANT_COLOR.B + ratio * (MAX_PARTICIPANT_COLOR.B - NO_PARTICIPANT_COLOR.B),
+      );
 
-        result.push(rgbToString({ R: r, G: g, B: b }));
-      }
-
-      result.push(rgbToString(MAX_PARTICIPANT_COLOR));
-      return result;
+      colorScale.push(rgbToString({ R: r, G: g, B: b }));
     }
-  }, [participantsState]);
+
+    colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
+  }
 
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
@@ -121,6 +127,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     }
   }
 
+  // Handle canceling the editing process
   function handleCancelEditing() {
     setIsEditing(false);
     clearSelectedTimeslots();
@@ -164,6 +171,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             numDays={numDays}
             numHours={numHours}
             colorScale={colorScale}
+            dateTimeLabels={dateTimeLabels}
           />
         )}
       </AvailabilityChart>
