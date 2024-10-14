@@ -7,6 +7,8 @@ interface TimeSlotProps {
   numParticipants: number;
   numTotalParticipants: number;
   dateTimeLabel: string;
+  availableParticipants: string[];
+  unavailableParticipants: string[];
   onHover: (data: { x: number; y: number; content: React.ReactNode }) => void;
   onLeave: () => void;
 }
@@ -18,6 +20,8 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   numParticipants,
   numTotalParticipants,
   dateTimeLabel,
+  availableParticipants,
+  unavailableParticipants,
   onHover,
   onLeave,
 }) => {
@@ -38,6 +42,20 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
             {`${numParticipants}/${numTotalParticipants} 人空いてる`}
           </p>
           <p>{dateTimeLabel}</p>
+          <div className="flex">
+            <ul className="flex">
+              {availableParticipants.map((participant) => (
+                <li key={participant}>{participant}</li>
+              ))}
+            </ul>
+            <ul className="flex">
+              {unavailableParticipants.map((participant) => (
+                <li key={participant} className="opacity-60">
+                  {participant}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ),
     });

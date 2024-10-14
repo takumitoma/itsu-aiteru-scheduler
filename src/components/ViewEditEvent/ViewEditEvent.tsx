@@ -63,7 +63,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 1: [0, 0, 1, 1, 0, 1]
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
-  const heatMap = useMemo(() => {
+  const heatMap: number[] = useMemo(() => {
     const result: number[] = new Array(numSlots).fill(0);
     for (const participant of participantsState) {
       for (let i = 0; i < participant.availability.length; ++i) {
@@ -71,6 +71,23 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       }
     }
     return result;
+  }, [numSlots, participantsState]);
+
+  const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {
+    const available: string[][] = Array.from({ length: numSlots }, () => []);
+    const unavailable: string[][] = Array.from({ length: numSlots }, () => []);
+
+    for (const participant of participantsState) {
+      for (let i = 0; i < numSlots; ++i) {
+        if (participant.availability[i]) {
+          available[i].push(participant.name);
+        } else {
+          unavailable[i].push(participant.name);
+        }
+      }
+    }
+
+    return [available, unavailable];
   }, [numSlots, participantsState]);
 
   // used for colorScale
@@ -172,6 +189,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             numHours={numHours}
             colorScale={colorScale}
             dateTimeLabels={dateTimeLabels}
+            availableParticipantsPerSlot={availableParticipantsPerSlot}
+            unavailableParticipantsPerSlot={unavailableParticipantsPerSlot}
           />
         )}
       </AvailabilityChart>
