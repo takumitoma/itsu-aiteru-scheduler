@@ -35,26 +35,34 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
       y: rect.bottom,
       content: (
         <div
-          className="px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm 
-            whitespace-nowrap border border-foreground w-[200px]"
+          className="px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm border 
+            border-foreground w-[200px] space-y-1"
         >
           <p className="font-medium font-xl">
             {`${numParticipants}/${numTotalParticipants} 人空いてる`}
           </p>
           <p>{dateTimeLabel}</p>
-          <div className="flex">
-            <ul className="flex">
-              {availableParticipants.map((participant) => (
-                <li key={participant}>{participant}</li>
-              ))}
-            </ul>
-            <ul className="flex">
-              {unavailableParticipants.map((participant) => (
-                <li key={participant} className="opacity-60">
-                  {participant}
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-wrap gap-1">
+            {availableParticipants.map((participant) => (
+              <div
+                key={participant}
+                className="border border-primary px-1 rounded-md whitespace-nowrap 
+                  overflow-hidden text-ellipsis max-w-full"
+                style={{ minWidth: '0' }}
+              >
+                {participant}
+              </div>
+            ))}
+            {unavailableParticipants.map((participant) => (
+              <div
+                key={participant}
+                className="border border-foreground px-1 rounded-md opacity-60 whitespace-nowrap 
+                  overflow-hidden text-ellipsis max-w-full"
+                style={{ minWidth: '0' }}
+              >
+                {participant}
+              </div>
+            ))}
           </div>
         </div>
       ),
