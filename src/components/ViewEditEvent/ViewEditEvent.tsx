@@ -7,6 +7,7 @@ import EventLinkSharer from './EventLinkSharer';
 import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
 import ColorScale from './ColorScale';
+import ParticipantsList from './ParticipantsList';
 import { updateAvailability } from '@/lib/api-client/availability';
 import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
@@ -126,6 +127,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
   }
 
+  const participantNames: string[] = [];
+  for (const participant of participantsState) {
+    participantNames.push(participant.name);
+  }
+
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
   function clearSelectedTimeslots() {
@@ -194,6 +200,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           />
         )}
       </AvailabilityChart>
+      <ParticipantsList participantNames={participantNames} />
       <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
     </div>
   );
