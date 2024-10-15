@@ -30,6 +30,7 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const [participantsState, setParticipants] = useState<Participant[]>(participants);
+  const [selectedParticipant, setSelectedParticipant] = useState<string>('');
 
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +55,14 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
   const heatMap: number[] = useMemo(() => {
+    if (selectedParticipant) {
+      // O(n) but ok for now bc number of participants is capped at 100
+      const participantObject = participantsState.find(
+        (participant) => participant.name === selectedParticipant,
+      );
+      return participantObject?.availability || [];
+    }
+
     const result: number[] = new Array(numSlots).fill(0);
     for (const participant of participantsState) {
       for (let i = 0; i < participant.availability.length; ++i) {
@@ -61,7 +70,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       }
     }
     return result;
-  }, [numSlots, participantsState]);
+  }, [numSlots, participantsState, selectedParticipant]);
 
   // date-time labels for each time slot to be used in each slot's tooltip
   const dateTimeLabels: string[] = [];
@@ -127,6 +136,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
   }
 
+  // to be used in ParticipantsList
   const participantNames: string[] = [];
   for (const participant of participantsState) {
     participantNames.push(participant.name);
@@ -200,7 +210,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           />
         )}
       </AvailabilityChart>
-      <ParticipantsList participantNames={participantNames} />
+      <ParticipantsList
+        participantNames={participantNames}
+        selectedParticipant={selectedParticipant}
+        setSelectedParticipant={setSelectedParticipant}
+      />
       <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
     </div>
   );

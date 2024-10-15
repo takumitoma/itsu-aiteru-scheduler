@@ -1,12 +1,14 @@
-import { useState } from 'react';
-
 interface ParticipantsListProps {
   participantNames: string[];
+  selectedParticipant: string;
+  setSelectedParticipant: (participant: string | ((prev: string) => string)) => void;
 }
 
-const ParticipantsList: React.FC<ParticipantsListProps> = ({ participantNames }) => {
-  const [selectedParticipant, setSelectedParticipant] = useState<string>('');
-
+const ParticipantsList: React.FC<ParticipantsListProps> = ({
+  participantNames,
+  selectedParticipant,
+  setSelectedParticipant,
+}) => {
   function handleClick(participant: string) {
     setSelectedParticipant((prevParticipant) => {
       if (prevParticipant === participant) {
