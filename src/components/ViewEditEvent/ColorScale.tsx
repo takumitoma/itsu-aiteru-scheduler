@@ -1,28 +1,14 @@
 import { useState } from 'react';
 
-const MAX_VISIBLE_COLORS = 20;
-
 interface ColorScaleProps {
   colorScale: string[];
+  displayColors: string[];
   numParticipants: number;
 }
 
-const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, numParticipants }) => {
+const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, displayColors, numParticipants }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  // if color scale is length <= MAX_VISIBLE_COLORS, let each index represent X people
-  // otherwise, let each index represent X-Y people
-  function getDisplayColors() {
-    if (colorScale.length <= MAX_VISIBLE_COLORS) {
-      return colorScale;
-    }
-
-    const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
-    return colorScale.filter((_, index) => index % groupSize === 0);
-  }
-
-  const displayColors = getDisplayColors();
 
   // get the range of colorScale indices by displayColors index
   function getColorRangeText(index: number) {

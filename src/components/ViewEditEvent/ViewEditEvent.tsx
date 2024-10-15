@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
@@ -13,6 +13,7 @@ import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
 
 const QUARTERS_PER_HOUR = 4;
+const MAX_VISIBLE_COLORS = 20;
 
 interface RGB {
   R: number;
@@ -100,7 +101,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return `rgb(${rgb.R},${rgb.G},${rgb.B})`;
   }
 
-  // the color scale legend for AvailabilityViewer
+  // the color scale legend in that would be used if MAX_VISIBLE_COLORS did not exist
+  // the literal color scale
   const colorScale: string[] = [];
   if (numColors === 1) {
     colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
@@ -127,6 +129,25 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
     colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
   }
+
+  // the color scale that factors in MAX_VISIBLE_COLORS
+  // if color scale is length <= MAX_VISIBLE_COLORS, let each index represent X people
+  // otherwise, let each index represent X-Y people
+  const displayColors =
+    colorScale.length <= MAX_VISIBLE_COLORS
+      ? colorScale
+      : colorScale.filter(
+          (_, index) => index % Math.ceil(colorScale.length / MAX_VISIBLE_COLORS) === 0,
+        );
+
+  // get the displayColor index based on the colorScale index
+  const getColorIndex = (value: number) => {
+    if (colorScale.length <= MAX_VISIBLE_COLORS) {
+      return value;
+    }
+    const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
+    return Math.min(Math.floor(value / groupSize), MAX_VISIBLE_COLORS - 1);
+  };
 
   // to be used in ParticipantsList
   const participantNames: string[] = [];
@@ -176,7 +197,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         onCancelEditing={handleCancelEditing}
       />
       {!isEditing && (
-        <ColorScale colorScale={colorScale} numParticipants={participantsState.length} />
+        <ColorScale
+          colorScale={colorScale}
+          displayColors={displayColors}
+          numParticipants={numParticipants}
+        />
       )}
       {!isEditing && (
         <p className="text-xs sm:text-lg font-bold">
@@ -202,6 +227,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             numDays={numDays}
             numHours={numHours}
             colorScale={colorScale}
+            displayColors={displayColors}
+            getColorIndex={getColorIndex}
             dateTimeLabels={dateTimeLabels}
             availableParticipantsPerSlot={availableParticipantsPerSlot}
             unavailableParticipantsPerSlot={unavailableParticipantsPerSlot}

@@ -7,6 +7,8 @@ interface AvailabilityViewerProps {
   numDays: number;
   numHours: number;
   colorScale: string[];
+  displayColors: string[];
+  getColorIndex: (value: number) => number;
   dateTimeLabels: string[];
   availableParticipantsPerSlot: string[][];
   unavailableParticipantsPerSlot: string[][];
@@ -15,13 +17,14 @@ interface AvailabilityViewerProps {
 }
 
 const QUARTERS_PER_HOUR = 4;
-const MAX_VISIBLE_COLORS = 20;
 
 const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   heatMap,
   numDays,
   numHours,
   colorScale,
+  displayColors,
+  getColorIndex,
   dateTimeLabels,
   availableParticipantsPerSlot,
   unavailableParticipantsPerSlot,
@@ -34,25 +37,6 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
     content: React.ReactNode;
   } | null>(null);
   const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
-
-  function getDisplayColors() {
-    if (colorScale.length <= MAX_VISIBLE_COLORS) {
-      return colorScale;
-    }
-    const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
-    return colorScale.filter((_, index) => index % groupSize === 0);
-  }
-
-  const displayColors = getDisplayColors();
-
-  // get color index based on heat map value
-  const getColorIndex = (value: number) => {
-    if (colorScale.length <= MAX_VISIBLE_COLORS) {
-      return value;
-    }
-    const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
-    return Math.min(Math.floor(value / groupSize), MAX_VISIBLE_COLORS - 1);
-  };
 
   // if the tooltip is open and the page is hovered, close the tooltip
   useEffect(() => {
