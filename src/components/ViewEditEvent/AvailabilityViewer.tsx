@@ -10,6 +10,8 @@ interface AvailabilityViewerProps {
   dateTimeLabels: string[];
   availableParticipantsPerSlot: string[][];
   unavailableParticipantsPerSlot: string[][];
+  isParticipantSelected: boolean;
+  participantHeatMap: number[];
 }
 
 const QUARTERS_PER_HOUR = 4;
@@ -22,6 +24,8 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   dateTimeLabels,
   availableParticipantsPerSlot,
   unavailableParticipantsPerSlot,
+  isParticipantSelected,
+  participantHeatMap,
 }) => {
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -64,14 +68,19 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
                 {[0, 1, 2, 3].map((quarter) => {
                   const timeIndex = hourIndex * QUARTERS_PER_HOUR + quarter;
                   const slotIndex = dayIndex * numSlotsPerDay + timeIndex;
-                  const saturation: number = heatMap[slotIndex];
+                  const saturation: number = isParticipantSelected
+                    ? participantHeatMap[slotIndex] === 1
+                      ? colorScale.length - 1
+                      : 0
+                    : heatMap[slotIndex];
+                  const numParticipants: number = heatMap[slotIndex];
                   return (
                     <TimeSlot
                       key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
                       backgroundColor={colorScale[saturation]}
                       isBorderTop={quarter === 0}
                       isDottedBorderTop={quarter === 2}
-                      numParticipants={saturation}
+                      numParticipants={numParticipants}
                       numTotalParticipants={colorScale.length - 1}
                       dateTimeLabel={dateTimeLabels[slotIndex]}
                       availableParticipants={availableParticipantsPerSlot[slotIndex]}

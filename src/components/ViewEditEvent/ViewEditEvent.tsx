@@ -55,14 +55,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
   const heatMap: number[] = useMemo(() => {
-    if (selectedParticipant) {
-      // O(n) but ok for now bc number of participants is capped at 100
-      const participantObject = participantsState.find(
-        (participant) => participant.name === selectedParticipant,
-      );
-      return participantObject?.availability || [];
-    }
-
     const result: number[] = new Array(numSlots).fill(0);
     for (const participant of participantsState) {
       for (let i = 0; i < participant.availability.length; ++i) {
@@ -70,7 +62,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       }
     }
     return result;
-  }, [numSlots, participantsState, selectedParticipant]);
+  }, [numSlots, participantsState]);
 
   // date-time labels for each time slot to be used in each slot's tooltip
   const dateTimeLabels: string[] = [];
@@ -142,6 +134,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     participantNames.push(participant.name);
   }
 
+  function getAvailabilityByName(name: string): number[] {
+    // O(n) but ok for now bc number of participants is capped at 100
+    const participantObject = participantsState.find((participant) => participant.name === name);
+    return participantObject?.availability || [];
+  }
+
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
   function clearSelectedTimeslots() {
@@ -207,6 +205,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             dateTimeLabels={dateTimeLabels}
             availableParticipantsPerSlot={availableParticipantsPerSlot}
             unavailableParticipantsPerSlot={unavailableParticipantsPerSlot}
+            isParticipantSelected={selectedParticipant !== ''}
+            participantHeatMap={getAvailabilityByName(selectedParticipant)}
           />
         )}
       </AvailabilityChart>
