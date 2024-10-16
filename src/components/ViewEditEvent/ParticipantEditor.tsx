@@ -8,6 +8,7 @@ interface ParticipantEditorProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
+  selectedParticipant: string;
   onSaveAvailability: (participantId: string) => void;
   onCancelEditing: () => void;
 }
@@ -17,6 +18,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setIsEditing,
   setIsLoading,
   eventId,
+  selectedParticipant,
   onSaveAvailability,
   onCancelEditing,
 }) => {
@@ -49,15 +51,24 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
+  function getHeadingText(): string {
+    if (isEditing) {
+      return `空き時間を編集中: ${participantName}`;
+    }
+    if (selectedParticipant) {
+      return `空き時間を表示中: ${selectedParticipant}`;
+    }
+
+    return '全員の空き時間';
+  }
+
   return (
     <div className="flex flex-col w-full space-y-4 py-4">
       <div
         className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 items-start sm:items-center 
           w-full justify-between"
       >
-        <p className="text-sm sm:text-xl font-bold truncate">
-          {isEditing ? `空き時間を編集中: ${participantName}` : '全員の空き時間'}
-        </p>
+        <p className="text-sm sm:text-xl font-bold truncate sm:pr-4">{getHeadingText()}</p>
         <div className={`flex items-center ${isEditing ? 'space-x-4' : ''}`}>
           {isEditing && (
             <button

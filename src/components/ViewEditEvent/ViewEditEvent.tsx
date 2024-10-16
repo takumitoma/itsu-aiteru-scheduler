@@ -193,6 +193,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         setIsEditing={setIsEditing}
         setIsLoading={setIsLoading}
         eventId={event.id}
+        selectedParticipant={selectedParticipant}
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
       />
