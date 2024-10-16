@@ -13,21 +13,40 @@ const SubHeading: React.FC<SubHeadingProps> = ({
   selectedColorScaleIndex,
   editingParticipant,
 }) => {
-  function getHeadingText(): string {
+  function getHeadingText(): string | JSX.Element {
     if (isEditing) {
       return `空き時間を編集中: ${editingParticipant}`;
     }
     if (selectedParticipant) {
-      return `空き時間を表示中: ${selectedParticipant}`;
+      return (
+        <div className="flex items-center whitespace-nowrap">
+          <span className="truncate">{selectedParticipant}</span>
+          <span className="font-normal flex-shrink-0">の空き時間</span>
+        </div>
+      );
     }
     if (selectedColorScaleIndex !== null) {
-      return `空き時間を表示中: ${getColorRangeText(selectedColorScaleIndex)}人参加可能`;
+      return (
+        <>
+          {`${getColorRangeText(selectedColorScaleIndex)}人`}
+          <span className="font-normal">の空き時間</span>
+        </>
+      );
     }
 
-    return '全員の空き時間';
+    return 'スケジュール調整表';
   }
 
-  return <h2 className="text-sm sm:text-xl font-bold truncate">{getHeadingText()}</h2>;
+  return (
+    <section className="flex flex-col space-y-2 w-full">
+      <h2 className="text-sm sm:text-xl font-bold truncate">{getHeadingText()}</h2>
+      {!isEditing && (
+        <p className="text-xs sm:text-sm text-gray-600">
+          スケジュール表をマウスオーバーもしくはタップで詳細を確認
+        </p>
+      )}
+    </section>
+  );
 };
 
 export default SubHeading;

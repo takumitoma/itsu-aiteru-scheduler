@@ -60,43 +60,38 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   }
 
   return (
-    <div className="flex flex-col w-full space-y-4 py-4">
-      <div
-        className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 items-start sm:items-center 
-          w-full justify-between"
-      >
-        <div className={`flex items-center ${isEditing ? 'space-x-4' : ''}`}>
-          {isEditing && (
-            <button
-              className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
-                border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-                disabled:opacity-50 disabled:cursor-not-allowed"
-              type="button"
-              onClick={onCancelEditing}
-              disabled={isSubmitting}
-            >
-              キャンセル
-            </button>
-          )}
+    <section className="w-full">
+      <div className="flex items-center justify-end w-full space-x-4">
+        <button
+          ref={buttonRef}
+          className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
+            border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
+            flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+            disabled:opacity-50 disabled:cursor-not-allowed"
+          type="button"
+          onClick={isEditing ? saveAvailabilities : openParticipantPopup}
+          disabled={isSubmitting}
+        >
+          {!isEditing && <HiPlus size={20} />}
+          <p>{isEditing ? '保存' : '空き時間'}</p>
+        </button>
+        {isEditing && (
           <button
-            ref={buttonRef}
-            className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
-              border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
-              flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+            className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
+              border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
               disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            onClick={isEditing ? saveAvailabilities : openParticipantPopup}
+            onClick={onCancelEditing}
             disabled={isSubmitting}
           >
-            {!isEditing && <HiPlus size={20} />}
-            <p>{isEditing ? '保存' : '空き時間'}</p>
+            キャンセル
           </button>
-        </div>
+        )}
       </div>
       {isPopupOpen && (
         <NameInputPopup onSubmit={handleCreateParticipant} onClose={() => setIsPopupOpen(false)} />
       )}
-    </div>
+    </section>
   );
 };
 

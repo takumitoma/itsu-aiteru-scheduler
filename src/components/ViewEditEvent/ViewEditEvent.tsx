@@ -215,7 +215,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   }
 
   return (
-    <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
+    <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full space-y-6">
       <h1 className="text-3xl font-bold">{event.title}</h1>
       <SubHeading
         isEditing={isEditing}
@@ -223,15 +223,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         getColorRangeText={getColorRangeText}
         selectedColorScaleIndex={selectedColorScaleIndex}
         editingParticipant={editingParticipant}
-      />
-      <ParticipantEditor
-        isEditing={isEditing}
-        setParticipantName={setEditingParticipant}
-        setIsEditing={setIsEditing}
-        setIsLoading={setIsLoading}
-        eventId={event.id}
-        onSaveAvailability={handleSaveAvailability}
-        onCancelEditing={handleCancelEditing}
       />
       {!isEditing && (
         <ColorScale
@@ -242,11 +233,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}
           setSelectedParticipant={setSelectedParticipant}
         />
-      )}
-      {!isEditing && (
-        <p className="text-xs sm:text-lg font-bold">
-          スケジュール表をマウスオーバーもしくはタップで詳細を確認
-        </p>
       )}
       <AvailabilityChart
         isLoading={isLoading}
@@ -279,12 +265,23 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           />
         )}
       </AvailabilityChart>
-      <ParticipantsList
-        participantNames={participantNames}
-        selectedParticipant={selectedParticipant}
-        setSelectedParticipant={setSelectedParticipant}
-        setSelectedColorScaleIndex={setSelectedColorScaleIndex}
+      <ParticipantEditor
+        isEditing={isEditing}
+        setParticipantName={setEditingParticipant}
+        setIsEditing={setIsEditing}
+        setIsLoading={setIsLoading}
+        eventId={event.id}
+        onSaveAvailability={handleSaveAvailability}
+        onCancelEditing={handleCancelEditing}
       />
+      {!isEditing && (
+        <ParticipantsList
+          participantNames={participantNames}
+          selectedParticipant={selectedParticipant}
+          setSelectedParticipant={setSelectedParticipant}
+          setSelectedColorScaleIndex={setSelectedColorScaleIndex}
+        />
+      )}
       <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
     </div>
   );

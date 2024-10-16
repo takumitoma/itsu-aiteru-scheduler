@@ -28,20 +28,21 @@ const ColorScale: React.FC<ColorScaleProps> = ({
   }
 
   return (
-    <section className="flex w-full space-x-1">
+    <section className="flex w-full space-x-1 sm:px-8 items-center">
       <span className="whitespace-nowrap">{`0 人`}</span>
       <div className="flex w-full border border-foreground">
         {displayColors.map((color, index) => (
           <button
             key={index}
             type="button"
-            className={`w-full h-6 flex items-center justify-center cursor-pointer border-foreground
+            className={`w-full h-[30px] flex items-center justify-center cursor-pointer 
+              border-foreground 
               ${
                 hoveredIndex === index && selectedColorScaleIndex !== index
                   ? 'border-2 opacity-60'
                   : ''
               }
-              ${selectedColorScaleIndex === index ? 'border-2 opacity-100' : ''}
+              ${selectedColorScaleIndex === index ? 'border-2 opacity-100 font-bold' : ''}
             `}
             style={{ backgroundColor: color }}
             onMouseEnter={() => setHoveredIndex(index)}
@@ -50,7 +51,7 @@ const ColorScale: React.FC<ColorScaleProps> = ({
             onClick={(e) => handleClick(e, index)}
           >
             {(hoveredIndex === index || selectedColorScaleIndex === index) && (
-              <span className="text-customBlack text-xs font-medium leading-none">
+              <span className="text-customBlack text-sm leading-none">
                 {getColorRangeText(index)}
               </span>
             )}
