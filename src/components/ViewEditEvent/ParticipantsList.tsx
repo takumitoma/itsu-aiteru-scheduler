@@ -3,17 +3,20 @@ import { useRef } from 'react';
 interface ParticipantsListProps {
   participantNames: string[];
   selectedParticipant: string;
-  setSelectedParticipant: (participant: string | ((prev: string) => string)) => void;
+  setSelectedParticipant: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedColorScaleIndex: (index: number | null) => void;
 }
 
 const ParticipantsList: React.FC<ParticipantsListProps> = ({
   participantNames,
   selectedParticipant,
   setSelectedParticipant,
+  setSelectedColorScaleIndex,
 }) => {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   function handleClick(participant: string, index: number) {
+    setSelectedColorScaleIndex(null);
     setSelectedParticipant((prevParticipant) => {
       if (prevParticipant === participant) {
         return '';

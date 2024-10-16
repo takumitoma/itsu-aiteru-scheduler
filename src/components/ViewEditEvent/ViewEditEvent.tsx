@@ -31,6 +31,7 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const [participantsState, setParticipants] = useState<Participant[]>(participants);
+  const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
   const [selectedParticipant, setSelectedParticipant] = useState<string>('');
 
   const [isEditing, setIsEditing] = useState(false);
@@ -202,6 +203,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           colorScale={colorScale}
           displayColors={displayColors}
           numParticipants={numParticipants}
+          selectedColorScaleIndex={selectedColorScaleIndex}
+          setSelectedColorScaleIndex={setSelectedColorScaleIndex}
+          setSelectedParticipant={setSelectedParticipant}
         />
       )}
       {!isEditing && (
@@ -242,6 +246,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         participantNames={participantNames}
         selectedParticipant={selectedParticipant}
         setSelectedParticipant={setSelectedParticipant}
+        setSelectedColorScaleIndex={setSelectedColorScaleIndex}
       />
       <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
     </div>

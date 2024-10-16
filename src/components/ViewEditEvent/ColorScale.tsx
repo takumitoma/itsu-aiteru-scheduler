@@ -4,11 +4,20 @@ interface ColorScaleProps {
   colorScale: string[];
   displayColors: string[];
   numParticipants: number;
+  selectedColorScaleIndex: number | null;
+  setSelectedColorScaleIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  setSelectedParticipant: (participant: string) => void;
 }
 
-const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, displayColors, numParticipants }) => {
+const ColorScale: React.FC<ColorScaleProps> = ({
+  colorScale,
+  displayColors,
+  numParticipants,
+  selectedColorScaleIndex,
+  setSelectedColorScaleIndex,
+  setSelectedParticipant,
+}) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   // get the range of colorScale indices by displayColors index
   function getColorRangeText(index: number) {
@@ -24,7 +33,10 @@ const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, displayColors, numP
 
   function handleClick(e: React.MouseEvent<HTMLElement>, index: number) {
     e.preventDefault();
-    setSelectedIndex(selectedIndex === index ? null : index);
+    setSelectedParticipant('');
+    setSelectedColorScaleIndex((prevIndex) =>
+      prevIndex !== null && prevIndex === index ? null : index,
+    );
   }
 
   return (
@@ -36,8 +48,12 @@ const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, displayColors, numP
             key={index}
             type="button"
             className={`w-full h-6 flex items-center justify-center cursor-pointer border-foreground
-              ${hoveredIndex === index && selectedIndex !== index ? 'border-2 opacity-60' : ''}
-              ${selectedIndex === index ? 'border-2 opacity-100' : ''}
+              ${
+                hoveredIndex === index && selectedColorScaleIndex !== index
+                  ? 'border-2 opacity-60'
+                  : ''
+              }
+              ${selectedColorScaleIndex === index ? 'border-2 opacity-100' : ''}
             `}
             style={{ backgroundColor: color }}
             onMouseEnter={() => setHoveredIndex(index)}
@@ -45,7 +61,7 @@ const ColorScale: React.FC<ColorScaleProps> = ({ colorScale, displayColors, numP
             onFocus={() => setHoveredIndex(index)}
             onClick={(e) => handleClick(e, index)}
           >
-            {(hoveredIndex === index || selectedIndex === index) && (
+            {(hoveredIndex === index || selectedColorScaleIndex === index) && (
               <span className="text-customBlack text-xs font-medium leading-none">
                 {getColorRangeText(index)}
               </span>
