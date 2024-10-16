@@ -3,7 +3,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
 interface NameInputPopupProps {
-  onSubmit: (name: string) => void;
+  onSubmit: (name: string) => Promise<void>;
   onClose: () => void;
 }
 
@@ -15,16 +15,21 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
   // used to unfocus buttons on click
   const popupButtonRef = useRef<HTMLButtonElement>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  function isParticipantNameValid() {
+    return name.trim() && name.length >= 2 && name.length <= 20;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     popupButtonRef.current?.blur();
-    if (name.trim()) {
-      setIsSubmitting(true);
-      onSubmit(name.trim());
+    setIsSubmitting(true);
+    if (isParticipantNameValid()) {
+      await onSubmit(name.trim());
       onClose();
     } else {
       setShowError(true);
     }
+    setIsSubmitting(false);
   }
 
   return (
@@ -68,7 +73,9 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
               }`}
             disabled={isSubmitting}
           />
-          {showError && <p className="text-red-500 mt-1">名前を入力してください</p>}
+          {showError && (
+            <p className="text-red-500 mt-1">名前は2文字から20文字で入力してください</p>
+          )}
         </div>
         <div className="flex justify-end">
           <button
