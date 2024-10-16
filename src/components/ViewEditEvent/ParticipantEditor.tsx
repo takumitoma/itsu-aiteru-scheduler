@@ -5,29 +5,24 @@ import { HiPlus } from 'react-icons/hi';
 
 interface ParticipantEditorProps {
   isEditing: boolean;
+  setParticipantName: (name: string) => void;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
-  selectedParticipant: string;
-  getColorRangeText: (index: number) => string;
-  selectedColorScaleIndex: number | null;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   isEditing,
+  setParticipantName,
   setIsEditing,
   setIsLoading,
   eventId,
-  selectedParticipant,
-  getColorRangeText,
-  selectedColorScaleIndex,
   onSaveAvailability,
   onCancelEditing,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [participantName, setParticipantName] = useState('');
   const [participantId, setParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -64,27 +59,12 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
-  function getHeadingText(): string {
-    if (isEditing) {
-      return `空き時間を編集中: ${participantName}`;
-    }
-    if (selectedParticipant) {
-      return `空き時間を表示中: ${selectedParticipant}`;
-    }
-    if (selectedColorScaleIndex !== null) {
-      return `空き時間を表示中: ${getColorRangeText(selectedColorScaleIndex)}人参加可能`;
-    }
-
-    return '全員の空き時間';
-  }
-
   return (
     <div className="flex flex-col w-full space-y-4 py-4">
       <div
         className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 items-start sm:items-center 
           w-full justify-between"
       >
-        <p className="text-sm sm:text-xl font-bold truncate sm:pr-4">{getHeadingText()}</p>
         <div className={`flex items-center ${isEditing ? 'space-x-4' : ''}`}>
           {isEditing && (
             <button

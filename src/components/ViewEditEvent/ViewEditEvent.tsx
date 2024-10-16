@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import SubHeading from './SubHeading';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
@@ -33,6 +34,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const [participantsState, setParticipants] = useState<Participant[]>(participants);
   const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
   const [selectedParticipant, setSelectedParticipant] = useState<string>('');
+  const [editingParticipant, setEditingParticipant] = useState('');
 
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -215,14 +217,19 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full">
       <h1 className="text-3xl font-bold">{event.title}</h1>
-      <ParticipantEditor
+      <SubHeading
         isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        setIsLoading={setIsLoading}
-        eventId={event.id}
         selectedParticipant={selectedParticipant}
         getColorRangeText={getColorRangeText}
         selectedColorScaleIndex={selectedColorScaleIndex}
+        editingParticipant={editingParticipant}
+      />
+      <ParticipantEditor
+        isEditing={isEditing}
+        setParticipantName={setEditingParticipant}
+        setIsEditing={setIsEditing}
+        setIsLoading={setIsLoading}
+        eventId={event.id}
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
       />
