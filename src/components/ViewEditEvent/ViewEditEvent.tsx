@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
@@ -156,10 +156,24 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     participantNames.push(participant.name);
   }
 
+  // the heat map when participant is selected
   function getAvailabilityByName(name: string): number[] {
     // O(n) but ok for now bc number of participants is capped at 100
     const participantObject = participantsState.find((participant) => participant.name === name);
     return participantObject?.availability || [];
+  }
+
+  // the heat map when color scale index is selected
+  function getColorScaleHeatMap(): number[] {
+    if (selectedColorScaleIndex === null) {
+      return new Array(numSlots).fill(0);
+    }
+
+    const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
+    const minValue = selectedColorScaleIndex * groupSize;
+    const maxValue = Math.min((selectedColorScaleIndex + 1) * groupSize - 1, colorScale.length - 1);
+
+    return heatMap.map((value) => (value >= minValue && value <= maxValue ? 1 : 0));
   }
 
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
@@ -239,6 +253,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             unavailableParticipantsPerSlot={unavailableParticipantsPerSlot}
             isParticipantSelected={selectedParticipant !== ''}
             participantHeatMap={getAvailabilityByName(selectedParticipant)}
+            isColorScaleIndexSelected={selectedColorScaleIndex !== null}
+            colorScaleHeatMap={getColorScaleHeatMap()}
           />
         )}
       </AvailabilityChart>
