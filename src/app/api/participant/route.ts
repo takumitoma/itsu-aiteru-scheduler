@@ -9,7 +9,7 @@ const GetParticipantsSchema = z.object({
 
 const PostParticipantSchema = z.object({
   eventId: z.string().uuid(),
-  name: z.string().min(1).max(100),
+  name: z.string().min(2).max(20),
 });
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -54,7 +54,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ participants }, { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Invalid input data' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Name must be between 2 to 20 characters or the event id is not an uuid' },
+        { status: 400 },
+      );
     }
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
