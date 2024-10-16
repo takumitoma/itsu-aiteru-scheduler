@@ -9,7 +9,7 @@ interface ParticipantEditorProps {
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   selectedParticipant: string;
-  onSaveAvailability: (participantId: string) => void;
+  onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
 }
 
@@ -25,6 +25,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [participantName, setParticipantName] = useState('');
   const [participantId, setParticipantId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   function openParticipantPopup() {
@@ -32,14 +33,21 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     setIsPopupOpen(true);
   }
 
-  function saveAvailabities() {
+  async function saveAvailabilities() {
+    if (!participantId) return;
     buttonRef.current?.blur();
-    participantId && onSaveAvailability(participantId);
+    setIsSubmitting(true);
+    try {
+      await onSaveAvailability(participantId);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   async function handleCreateParticipant(name: string) {
     try {
       setIsLoading(true);
+      setIsSubmitting(true);
       const { id: createdParticipantId } = await createParticipant(eventId, name);
       setParticipantName(name);
       setParticipantId(createdParticipantId);
@@ -48,6 +56,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       console.error('Error creating participant:', error);
     } finally {
       setIsLoading(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -73,9 +82,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           {isEditing && (
             <button
               className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
-                border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0"
+                border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
+                disabled:opacity-50 disabled:cursor-not-allowed"
               type="button"
               onClick={onCancelEditing}
+              disabled={isSubmitting}
             >
               キャンセル
             </button>
@@ -84,9 +95,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             ref={buttonRef}
             className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
               border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
-              flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center"
+              flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+              disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            onClick={isEditing ? saveAvailabities : openParticipantPopup}
+            onClick={isEditing ? saveAvailabilities : openParticipantPopup}
+            disabled={isSubmitting}
           >
             {!isEditing && <HiPlus size={20} />}
             <p>{isEditing ? '保存' : '空き時間'}</p>

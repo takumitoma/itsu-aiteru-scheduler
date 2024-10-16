@@ -10,6 +10,7 @@ interface NameInputPopupProps {
 const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) => {
   const [name, setName] = useState('');
   const [showError, setShowError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // used to unfocus buttons on click
   const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -18,6 +19,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
     e.preventDefault();
     popupButtonRef.current?.blur();
     if (name.trim()) {
+      setIsSubmitting(true);
       onSubmit(name.trim());
       onClose();
     } else {
@@ -38,7 +40,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
           <label htmlFor="participantName" className="text-xl font-medium">
             あなたのお名前
           </label>
-          <button onClick={onClose} type="button">
+          <button onClick={onClose} type="button" disabled={isSubmitting}>
             <RxCross1 size={24} />
           </button>
         </div>
@@ -64,6 +66,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
               focus:outline-none focus:ring-2 focus:ring-primary border ${
                 showError ? 'border-red-500' : 'border-primary'
               }`}
+            disabled={isSubmitting}
           />
           {showError && <p className="text-red-500 mt-1">名前を入力してください</p>}
         </div>
@@ -72,7 +75,9 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
             ref={popupButtonRef}
             type="submit"
             className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
-              hover:bg-primaryHover focus:bg-primaryHover"
+              hover:bg-primaryHover focus:bg-primaryHover disabled:opacity-50 
+              disabled:cursor-not-allowed"
+            disabled={isSubmitting}
           >
             確認
           </button>
