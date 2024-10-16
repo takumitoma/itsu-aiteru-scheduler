@@ -156,6 +156,18 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     participantNames.push(participant.name);
   }
 
+  // get the range of colorScale indices by displayColors index
+  function getColorRangeText(index: number) {
+    // determine size of each color group, take ceiling to ensure all colors are covered
+    const groupSize = Math.ceil(colorScale.length / displayColors.length);
+    const start = index * groupSize;
+    // get the last colorScake index in this display color's group
+    // naively it is the start of the next group minus 1, but with edge case,
+    // take the min of naive solution and last color index to avoid going out of bounds
+    const end = Math.min((index + 1) * groupSize - 1, colorScale.length - 1);
+    return start === end ? `${start}` : `${start}-${end}`;
+  }
+
   // the heat map when participant is selected
   function getAvailabilityByName(name: string): number[] {
     // O(n) but ok for now bc number of participants is capped at 100
@@ -209,14 +221,16 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         setIsLoading={setIsLoading}
         eventId={event.id}
         selectedParticipant={selectedParticipant}
+        getColorRangeText={getColorRangeText}
+        selectedColorScaleIndex={selectedColorScaleIndex}
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
       />
       {!isEditing && (
         <ColorScale
-          colorScale={colorScale}
           displayColors={displayColors}
           numParticipants={numParticipants}
+          getColorRangeText={getColorRangeText}
           selectedColorScaleIndex={selectedColorScaleIndex}
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}
           setSelectedParticipant={setSelectedParticipant}

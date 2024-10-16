@@ -1,35 +1,23 @@
 import { useState } from 'react';
 
 interface ColorScaleProps {
-  colorScale: string[];
   displayColors: string[];
   numParticipants: number;
   selectedColorScaleIndex: number | null;
   setSelectedColorScaleIndex: React.Dispatch<React.SetStateAction<number | null>>;
   setSelectedParticipant: (participant: string) => void;
+  getColorRangeText: (index: number) => string;
 }
 
 const ColorScale: React.FC<ColorScaleProps> = ({
-  colorScale,
   displayColors,
   numParticipants,
   selectedColorScaleIndex,
   setSelectedColorScaleIndex,
   setSelectedParticipant,
+  getColorRangeText,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // get the range of colorScale indices by displayColors index
-  function getColorRangeText(index: number) {
-    // determine size of each color group, take ceiling to ensure all colors are covered
-    const groupSize = Math.ceil(colorScale.length / displayColors.length);
-    const start = index * groupSize;
-    // get the last colorScake index in this display color's group
-    // naively it is the start of the next group minus 1, but with edge case,
-    // take the min of naive solution and last color index to avoid going out of bounds
-    const end = Math.min((index + 1) * groupSize - 1, colorScale.length - 1);
-    return start === end ? `${start}` : `${start}-${end}`;
-  }
 
   function handleClick(e: React.MouseEvent<HTMLElement>, index: number) {
     e.preventDefault();

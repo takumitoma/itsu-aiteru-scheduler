@@ -9,6 +9,8 @@ interface ParticipantEditorProps {
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   selectedParticipant: string;
+  getColorRangeText: (index: number) => string;
+  selectedColorScaleIndex: number | null;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
 }
@@ -19,6 +21,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setIsLoading,
   eventId,
   selectedParticipant,
+  getColorRangeText,
+  selectedColorScaleIndex,
   onSaveAvailability,
   onCancelEditing,
 }) => {
@@ -66,6 +70,9 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
     if (selectedParticipant) {
       return `空き時間を表示中: ${selectedParticipant}`;
+    }
+    if (selectedColorScaleIndex !== null) {
+      return `空き時間を表示中: ${getColorRangeText(selectedColorScaleIndex)}人参加可能`;
     }
 
     return '全員の空き時間';
