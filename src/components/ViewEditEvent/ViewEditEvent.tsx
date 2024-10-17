@@ -122,6 +122,17 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return participantObject?.availability || [];
   }
 
+  function setAvailabilityById(id: string, availability: number[]): void {
+    setParticipants((prevParticipants) => {
+      return prevParticipants.map((participant) => {
+        if (participant.id === id) {
+          return { ...participant, availability };
+        }
+        return participant;
+      });
+    });
+  }
+
   // the heat map when color scale index is selected
   function getColorScaleHeatMap(): number[] {
     if (selectedColorScaleIndex === null) {
@@ -153,6 +164,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     try {
       setIsLoading(true);
       await updateAvailability(participantId, selectedTimeSlots);
+      setAvailabilityById(participantId, selectedTimeSlots);
       setIsEditing(false);
       clearSelectedTimeslots();
     } catch (error) {
