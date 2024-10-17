@@ -32,26 +32,28 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const [participantsState, setParticipants] = useState<Participant[]>(participants);
+
   const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
-  const [selectedParticipant, setSelectedParticipant] = useState<string>('');
+  const [selectedParticipant, setSelectedParticipant] = useState('');
+
   const [editingParticipant, setEditingParticipant] = useState('');
 
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
-  const dayLabels =
+  const dayLabels: string[] =
     event.surveyType === 'specific'
       ? event.dates || []
       : daysOfWeekLabels.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
-  const hourLabels = Array.from(
+  const hourLabels: number[] = Array.from(
     { length: event.timeRangeEnd - event.timeRangeStart },
     (_, index) => event.timeRangeStart + index,
   );
 
-  const numDays = dayLabels?.length || 0;
-  const numHours = event.timeRangeEnd - event.timeRangeStart;
-  const numSlots = numDays * numHours * QUARTERS_PER_HOUR;
+  const numDays: number = dayLabels.length;
+  const numHours: number = event.timeRangeEnd - event.timeRangeStart;
+  const numSlots: number = numDays * numHours * QUARTERS_PER_HOUR;
 
   // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot
   // adds every participants availability array together, example:
@@ -98,8 +100,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   }, [numSlots, participantsState]);
 
   //  used to define colorScale
-  const numParticipants = participantsState.length;
-  const numColors = numParticipants + 1;
+  const numParticipants: number = participantsState.length;
+  const numColors: number = numParticipants + 1;
   function rgbToString(rgb: RGB): string {
     return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
   }
@@ -144,22 +146,18 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         );
 
   // get the displayColor index based on the colorScale index
-  const getColorIndex = (value: number) => {
+  const getColorIndex = (index: number): number => {
     if (colorScale.length <= MAX_VISIBLE_COLORS) {
-      return value;
+      return index;
     }
     const groupSize = Math.ceil(colorScale.length / MAX_VISIBLE_COLORS);
-    return Math.min(Math.floor(value / groupSize), MAX_VISIBLE_COLORS - 1);
+    return Math.min(Math.floor(index / groupSize), MAX_VISIBLE_COLORS - 1);
   };
 
-  // to be used in ParticipantsList
-  const participantNames: string[] = [];
-  for (const participant of participantsState) {
-    participantNames.push(participant.name);
-  }
+  const participantNames: string[] = participantsState.map(participant => participant.name);
 
-  // get the range of colorScale indices by displayColors index
-  function getColorRangeText(index: number) {
+  // get the range of colorScale indices (in string format) by displayColors index
+  function getColorRangeText(index: number): string {
     // determine size of each color group, take ceiling to ensure all colors are covered
     const groupSize = Math.ceil(colorScale.length / displayColors.length);
     const start = index * groupSize;
