@@ -14,6 +14,7 @@ interface ParticipantEditorProps {
   setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
+  onLoadSelectedTimeSlots: (participantName: string) => void;
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
@@ -26,6 +27,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setParticipants,
   onSaveAvailability,
   onCancelEditing,
+  onLoadSelectedTimeSlots,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
@@ -71,6 +73,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       setEditingParticipantName(name);
       setEditingParticipantId(createdParticipantId);
       setIsEditing(true);
+      onLoadSelectedTimeSlots(name);
     } catch (error) {
       console.error('Error creating participant:', error);
     } finally {

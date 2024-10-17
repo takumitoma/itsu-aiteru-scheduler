@@ -137,6 +137,14 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
+  function handleLoadSelectedTimeSlots(participantName: string): void {
+    const availability = getAvailabilityByName(participantName);
+
+    if (availability.length !== 0) {
+      setSelectedTimeSlots(availability);
+    }
+  }
+
   function clearSelectedTimeslots() {
     setSelectedTimeSlots(new Array(numSlots).fill(0));
   }
@@ -220,6 +228,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         setParticipants={setParticipants}
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
+        onLoadSelectedTimeSlots={handleLoadSelectedTimeSlots}
       />
       {!isEditing && (
         <ParticipantsList
