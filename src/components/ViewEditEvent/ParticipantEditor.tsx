@@ -6,7 +6,8 @@ import { Participant } from '@/types/Participant';
 
 interface ParticipantEditorProps {
   isEditing: boolean;
-  setParticipantName: (name: string) => void;
+  setEditingParticipantName: (name: string) => void;
+  getParticipantIdByName: (name: string) => string;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
@@ -17,7 +18,8 @@ interface ParticipantEditorProps {
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   isEditing,
-  setParticipantName,
+  setEditingParticipantName,
+  getParticipantIdByName,
   setIsEditing,
   setIsLoading,
   eventId,
@@ -26,7 +28,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onCancelEditing,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [participantId, setParticipantId] = useState<string | null>(null);
+  const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -36,11 +38,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   }
 
   async function saveAvailabilities() {
-    if (!participantId) return;
+    if (!editingParticipantId) return;
     buttonRef.current?.blur();
     setIsSubmitting(true);
     try {
-      await onSaveAvailability(participantId);
+      await onSaveAvailability(editingParticipantId);
     } finally {
       setIsSubmitting(false);
     }
@@ -50,20 +52,24 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     try {
       setIsLoading(true);
       setIsSubmitting(true);
-      const { id: createdParticipantId, new: participantIsNew } = await createParticipant(
-        eventId,
-        name,
-      );
-      setParticipantName(name);
-      setParticipantId(createdParticipantId);
-      const createdParticipant: Participant = {
-        id: createdParticipantId,
-        name: name,
-        availability: [],
-      };
-      if (participantIsNew) {
+      let createdParticipantId = '';
+
+      // check if participant exists client side first
+      // if participant does not exist create participant using API
+      if (!(createdParticipantId = getParticipantIdByName(name))) {
+        const result = await createParticipant(eventId, name);
+        createdParticipantId = result.id;
+
+        const createdParticipant: Participant = {
+          id: createdParticipantId,
+          name: name,
+          availability: [],
+        };
         setParticipants((prev) => [...prev, createdParticipant]);
       }
+
+      setEditingParticipantName(name);
+      setEditingParticipantId(createdParticipantId);
       setIsEditing(true);
     } catch (error) {
       console.error('Error creating participant:', error);

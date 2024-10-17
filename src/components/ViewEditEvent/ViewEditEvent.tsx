@@ -110,6 +110,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return start === end ? `${start}` : `${start}-${end}`;
   }
 
+  function getParticipantIdByName(name: string): string {
+    const participantObject = participantsState.find((participant) => participant.name === name);
+    return participantObject?.id || '';
+  }
+
   // the heat map when participant is selected
   function getAvailabilityByName(name: string): number[] {
     // O(n) but ok for now bc number of participants is capped at 100
@@ -207,7 +212,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       </AvailabilityChart>
       <ParticipantEditor
         isEditing={isEditing}
-        setParticipantName={setEditingParticipant}
+        setEditingParticipantName={setEditingParticipant}
+        getParticipantIdByName={getParticipantIdByName}
         setIsEditing={setIsEditing}
         setIsLoading={setIsLoading}
         eventId={event.id}
