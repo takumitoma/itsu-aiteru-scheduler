@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { createParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
 import { HiPlus } from 'react-icons/hi';
+import { Participant } from '@/types/Participant';
 
 interface ParticipantEditorProps {
   isEditing: boolean;
@@ -9,6 +10,7 @@ interface ParticipantEditorProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
+  setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
 }
@@ -19,6 +21,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setIsEditing,
   setIsLoading,
   eventId,
+  setParticipants,
   onSaveAvailability,
   onCancelEditing,
 }) => {
@@ -47,9 +50,20 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     try {
       setIsLoading(true);
       setIsSubmitting(true);
-      const { id: createdParticipantId } = await createParticipant(eventId, name);
+      const { id: createdParticipantId, new: participantIsNew } = await createParticipant(
+        eventId,
+        name,
+      );
       setParticipantName(name);
       setParticipantId(createdParticipantId);
+      const createdParticipant: Participant = {
+        id: createdParticipantId,
+        name: name,
+        availability: [],
+      };
+      if (participantIsNew) {
+        setParticipants((prev) => [...prev, createdParticipant]);
+      }
       setIsEditing(true);
     } catch (error) {
       console.error('Error creating participant:', error);

@@ -84,7 +84,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (existingParticipant) {
       return NextResponse.json(
-        { id: existingParticipant.id, message: 'Participant already exists' },
+        { id: existingParticipant.id, message: 'Participant already exists', new: false },
         { status: 200 },
       );
     }
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     return NextResponse.json(
-      { message: 'Participant created successfully', id: data.id },
+      { message: 'Participant created successfully', id: data.id, new: false },
       { status: 200 },
     );
   } catch (error) {
