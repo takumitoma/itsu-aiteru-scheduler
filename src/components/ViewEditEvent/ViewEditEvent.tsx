@@ -12,18 +12,16 @@ import ParticipantsList from './ParticipantsList';
 import { updateAvailability } from '@/lib/api-client/availability';
 import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
+import {
+  calculateHeatMap,
+  generateDateTimeLabels,
+  generateParticipantLists,
+  generateColorScale,
+} from '@/utils/availabilityCalculations';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
-
-interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
-
-const NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
-const MAX_PARTICIPANT_COLOR: RGB = { r: 74, g: 144, b: 226 };
+const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
 
 interface ViewEditEventProps {
   event: Event;
@@ -41,11 +39,10 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const daysOfWeekLabels = ['日', '月', '火', '水', '木', '金', '土'];
   const dayLabels: string[] =
     event.surveyType === 'specific'
       ? event.dates || []
-      : daysOfWeekLabels.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
+      : DAYS_OF_WEEK_LABELS.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
   const hourLabels: number[] = Array.from(
     { length: event.timeRangeEnd - event.timeRangeStart },
     (_, index) => event.timeRangeStart + index,
@@ -60,80 +57,25 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 1: [0, 0, 1, 1, 0, 1]
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
-  const heatMap: number[] = useMemo(() => {
-    const result: number[] = new Array(numSlots).fill(0);
-    for (const participant of participantsState) {
-      for (let i = 0; i < participant.availability.length; ++i) {
-        result[i] += participant.availability[i];
-      }
-    }
-    return result;
-  }, [numSlots, participantsState]);
+  const heatMap: number[] = useMemo(
+    () => calculateHeatMap(participantsState, numSlots),
+    [participantsState, numSlots],
+  );
 
   // date-time labels for each time slot to be used in each slot's tooltip
-  const dateTimeLabels: string[] = [];
-  for (let i = 0; i < dayLabels.length; ++i) {
-    for (let j = 0; j < hourLabels.length; ++j) {
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:00`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:15`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:30`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:45`);
-    }
-  }
+  const dateTimeLabels: string[] = generateDateTimeLabels(dayLabels, hourLabels);
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {
-    const available: string[][] = Array.from({ length: numSlots }, () => []);
-    const unavailable: string[][] = Array.from({ length: numSlots }, () => []);
-
-    for (const participant of participantsState) {
-      for (let i = 0; i < numSlots; ++i) {
-        if (participant.availability[i]) {
-          available[i].push(participant.name);
-        } else {
-          unavailable[i].push(participant.name);
-        }
-      }
-    }
-
-    return [available, unavailable];
-  }, [numSlots, participantsState]);
+    return generateParticipantLists(participantsState, numSlots);
+  }, [participantsState, numSlots]);
 
   //  used to define colorScale
   const numParticipants: number = participantsState.length;
-  const numColors: number = numParticipants + 1;
-  function rgbToString(rgb: RGB): string {
-    return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
-  }
 
   // the color scale legend in that would be used if MAX_VISIBLE_COLORS did not exist
   // the literal color scale
-  const colorScale: string[] = [];
-  if (numColors === 1) {
-    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
-  } else if (numColors === 2) {
-    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR), rgbToString(MAX_PARTICIPANT_COLOR));
-  } else {
-    colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));
-
-    for (let i = 1; i < numColors - 1; ++i) {
-      const ratio = i / (numColors - 1);
-
-      const r = Math.round(
-        NO_PARTICIPANT_COLOR.r + ratio * (MAX_PARTICIPANT_COLOR.r - NO_PARTICIPANT_COLOR.r),
-      );
-      const g = Math.round(
-        NO_PARTICIPANT_COLOR.g + ratio * (MAX_PARTICIPANT_COLOR.g - NO_PARTICIPANT_COLOR.g),
-      );
-      const b = Math.round(
-        NO_PARTICIPANT_COLOR.b + ratio * (MAX_PARTICIPANT_COLOR.b - NO_PARTICIPANT_COLOR.b),
-      );
-
-      colorScale.push(rgbToString({ r, g, b }));
-    }
-
-    colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
-  }
+  const colorScale: string[] = generateColorScale(numParticipants);
 
   // the color scale that factors in MAX_VISIBLE_COLORS
   // if color scale is length <= MAX_VISIBLE_COLORS, let each index represent X people
@@ -154,7 +96,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return Math.min(Math.floor(index / groupSize), MAX_VISIBLE_COLORS - 1);
   };
 
-  const participantNames: string[] = participantsState.map(participant => participant.name);
+  const participantNames: string[] = participantsState.map((participant) => participant.name);
 
   // get the range of colorScale indices (in string format) by displayColors index
   function getColorRangeText(index: number): string {
