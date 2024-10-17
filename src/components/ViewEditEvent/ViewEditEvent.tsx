@@ -17,13 +17,13 @@ const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
 
 interface RGB {
-  R: number;
-  G: number;
-  B: number;
+  r: number;
+  g: number;
+  b: number;
 }
 
-const NO_PARTICIPANT_COLOR: RGB = { R: 255, G: 255, B: 255 };
-const MAX_PARTICIPANT_COLOR: RGB = { R: 74, G: 144, B: 226 };
+const NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
+const MAX_PARTICIPANT_COLOR: RGB = { r: 74, g: 144, b: 226 };
 
 interface ViewEditEventProps {
   event: Event;
@@ -101,7 +101,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numParticipants = participantsState.length;
   const numColors = numParticipants + 1;
   function rgbToString(rgb: RGB): string {
-    return `rgb(${rgb.R},${rgb.G},${rgb.B})`;
+    return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
   }
 
   // the color scale legend in that would be used if MAX_VISIBLE_COLORS did not exist
@@ -118,16 +118,16 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       const ratio = i / (numColors - 1);
 
       const r = Math.round(
-        NO_PARTICIPANT_COLOR.R + ratio * (MAX_PARTICIPANT_COLOR.R - NO_PARTICIPANT_COLOR.R),
+        NO_PARTICIPANT_COLOR.r + ratio * (MAX_PARTICIPANT_COLOR.r - NO_PARTICIPANT_COLOR.r),
       );
       const g = Math.round(
-        NO_PARTICIPANT_COLOR.G + ratio * (MAX_PARTICIPANT_COLOR.G - NO_PARTICIPANT_COLOR.G),
+        NO_PARTICIPANT_COLOR.g + ratio * (MAX_PARTICIPANT_COLOR.g - NO_PARTICIPANT_COLOR.g),
       );
       const b = Math.round(
-        NO_PARTICIPANT_COLOR.B + ratio * (MAX_PARTICIPANT_COLOR.B - NO_PARTICIPANT_COLOR.B),
+        NO_PARTICIPANT_COLOR.b + ratio * (MAX_PARTICIPANT_COLOR.b - NO_PARTICIPANT_COLOR.b),
       );
 
-      colorScale.push(rgbToString({ R: r, G: g, B: b }));
+      colorScale.push(rgbToString({ r, g, b }));
     }
 
     colorScale.push(rgbToString(MAX_PARTICIPANT_COLOR));
