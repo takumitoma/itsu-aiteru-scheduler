@@ -47,3 +47,22 @@ export async function createParticipant(
     throw error;
   }
 }
+
+export async function deleteParticipant(id: string): Promise<{ success: boolean }> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/participant?id=${id}`, {
+      method: 'DELETE',
+    })
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to delete participant');
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting participant: ', error);
+    throw error;
+  }
+}
