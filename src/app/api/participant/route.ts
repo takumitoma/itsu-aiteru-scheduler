@@ -12,9 +12,13 @@ const PostParticipantSchema = z.object({
   name: z.string().min(2).max(20),
 });
 
+const DeleteParticipantSchema = z.object({
+  id: z.string().uuid(),
+});
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const { searchParams } = new URL(request.url);
+    const searchParams = request.nextUrl.searchParams;
     const eventId = searchParams.get('eventId');
 
     if (!eventId) {
@@ -103,6 +107,38 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       { message: 'Participant created successfully', id: data.id, new: false },
       { status: 200 },
     );
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    }
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    const { id: validatedId } = DeleteParticipantSchema.parse({ id });
+
+    const { error } = await supabase.from('participants').delete().eq('id', validatedId);
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ message: 'Participant not found' }, { status: 404 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: 'Participant deleted successfully' }, { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors }, { status: 400 });
