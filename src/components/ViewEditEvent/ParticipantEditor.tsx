@@ -34,17 +34,17 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const blueButtonRef = useRef<HTMLButtonElement>(null);
-  const redButtonRef = useRef<HTMLButtonElement>(null);
+  const addOrSaveButtonRef = useRef<HTMLButtonElement>(null);
+  const deleteOrCancelButtonRef = useRef<HTMLButtonElement>(null);
 
   function openParticipantPopup() {
-    blueButtonRef.current?.blur();
+    addOrSaveButtonRef.current?.blur();
     setIsPopupOpen(true);
   }
 
   async function saveAvailabilities() {
     if (!editingParticipantId) return;
-    blueButtonRef.current?.blur();
+    addOrSaveButtonRef.current?.blur();
     setIsSubmitting(true);
     try {
       await onSaveAvailability(editingParticipantId);
@@ -86,14 +86,14 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   }
 
   async function handleDeleteParticipant() {
-    redButtonRef.current?.blur();
+    deleteOrCancelButtonRef.current?.blur();
     setIsDeleting(true);
     //todo try catch api
     setIsDeleting(false);
   }
 
   function handleCancelEditing() {
-    redButtonRef.current?.blur();
+    deleteOrCancelButtonRef.current?.blur();
     onCancelEditing();
   }
 
@@ -101,7 +101,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     <section className="w-full">
       <div className="flex items-center justify-end w-full space-x-4">
         <button
-          ref={blueButtonRef}
+          ref={addOrSaveButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
             border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
             flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
@@ -110,11 +110,17 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           onClick={isEditing ? saveAvailabilities : openParticipantPopup}
           disabled={isSubmitting || isDeleting}
         >
-          {!isEditing && <HiPlus size={20} />}
-          <p>{isEditing ? '保存' : '空き時間'}</p>
+          {isEditing ? (
+            <p>保存</p>
+          ) : (
+            <>
+              <HiPlus size={20} />
+              <p>空き時間</p>
+            </>
+          )}
         </button>
         <button
-          ref={redButtonRef}
+          ref={deleteOrCancelButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
             border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
             flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center

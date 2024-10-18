@@ -52,7 +52,7 @@ export async function deleteParticipant(id: string): Promise<{ success: boolean 
   try {
     const response = await fetch(`${API_BASE_URL}/api/participant?id=${id}`, {
       method: 'DELETE',
-    })
+    });
 
     const data = await response.json();
 
