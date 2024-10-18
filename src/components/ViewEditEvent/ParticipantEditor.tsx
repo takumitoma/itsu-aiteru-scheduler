@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { createParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
 import { HiPlus } from 'react-icons/hi';
+import { FaTrash } from 'react-icons/fa';
 import { Participant } from '@/types/Participant';
 
 interface ParticipantEditorProps {
@@ -32,16 +33,18 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const blueButtonRef = useRef<HTMLButtonElement>(null);
+  const redButtonRef = useRef<HTMLButtonElement>(null);
 
   function openParticipantPopup() {
-    buttonRef.current?.blur();
+    blueButtonRef.current?.blur();
     setIsPopupOpen(true);
   }
 
   async function saveAvailabilities() {
     if (!editingParticipantId) return;
-    buttonRef.current?.blur();
+    blueButtonRef.current?.blur();
     setIsSubmitting(true);
     try {
       await onSaveAvailability(editingParticipantId);
@@ -82,34 +85,53 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
+  async function handleDeleteParticipant() {
+    redButtonRef.current?.blur();
+    setIsDeleting(true);
+    //todo try catch api
+    setIsDeleting(false);
+  }
+
+  function handleCancelEditing() {
+    redButtonRef.current?.blur();
+    onCancelEditing();
+  }
+
   return (
     <section className="w-full">
       <div className="flex items-center justify-end w-full space-x-4">
         <button
-          ref={buttonRef}
+          ref={blueButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
             border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
             flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
           onClick={isEditing ? saveAvailabilities : openParticipantPopup}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isDeleting}
         >
           {!isEditing && <HiPlus size={20} />}
           <p>{isEditing ? '保存' : '空き時間'}</p>
         </button>
-        {isEditing && (
-          <button
-            className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
-              border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-              disabled:opacity-50 disabled:cursor-not-allowed"
-            type="button"
-            onClick={onCancelEditing}
-            disabled={isSubmitting}
-          >
-            キャンセル
-          </button>
-        )}
+        <button
+          ref={redButtonRef}
+          className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
+            border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
+            flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+            disabled:opacity-50 disabled:cursor-not-allowed"
+          type="button"
+          onClick={isEditing ? handleCancelEditing : handleDeleteParticipant}
+          disabled={isSubmitting || isDeleting}
+        >
+          {isEditing ? (
+            <p>キャンセル</p>
+          ) : (
+            <>
+              <FaTrash size={20} />
+              <p>空き時間</p>
+            </>
+          )}
+        </button>
       </div>
       {isPopupOpen && (
         <NameInputPopup onSubmit={handleCreateParticipant} onClose={() => setIsPopupOpen(false)} />
