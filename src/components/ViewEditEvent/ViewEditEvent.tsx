@@ -238,19 +238,21 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         setIsLoading={setIsLoading}
         eventId={event.id}
         setParticipants={setParticipants}
+        selectedParticipant={selectedParticipant}
         onSaveAvailability={handleSaveAvailability}
         onCancelEditing={handleCancelEditing}
         onLoadSelectedTimeSlots={handleLoadSelectedTimeSlots}
       />
-      {mode === 'view' && (
+      {(mode === 'view' || mode === 'delete') && (
         <ParticipantsList
+          mode={mode}
           participantNames={participantNames}
           selectedParticipant={selectedParticipant}
           setSelectedParticipant={setSelectedParticipant}
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}
         />
       )}
-      <EventLinkSharer link={`http://localhost:3000/${event.id}`} />
+      {mode === 'view' && <EventLinkSharer link={`http://localhost:3000/${event.id}`} />}
     </div>
   );
 };

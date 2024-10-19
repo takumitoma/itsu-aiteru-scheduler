@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 
 interface ParticipantsListProps {
+  mode: 'view' | 'edit' | 'delete';
   participantNames: string[];
   selectedParticipant: string;
   setSelectedParticipant: React.Dispatch<React.SetStateAction<string>>;
@@ -8,6 +9,7 @@ interface ParticipantsListProps {
 }
 
 const ParticipantsList: React.FC<ParticipantsListProps> = ({
+  mode,
   participantNames,
   selectedParticipant,
   setSelectedParticipant,
@@ -29,7 +31,11 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
   return (
     <section className="w-full space-y-2">
       <h2 className="text-md sm:text-xl font-medium">{`参加者数: ${participantNames.length}人`}</h2>
-      <p className="text-xs sm:text-sm text-gray-600">名前をクリックで、それぞれの空き時間を表示</p>
+      <p className="text-xs sm:text-sm text-gray-600">
+        {mode === 'view'
+          ? '名前をクリックで、それぞれの空き時間を表示'
+          : '名前をクリックで、削除したい参加者を選択'}
+      </p>
       <ul className="flex flex-wrap gap-2 text-xs sm:text-lg">
         {participantNames.map((participant, index) => (
           <li key={`participant-${index}`}>

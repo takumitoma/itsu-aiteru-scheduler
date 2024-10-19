@@ -14,6 +14,7 @@ interface ParticipantEditorProps {
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
+  selectedParticipant: string;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
   onLoadSelectedTimeSlots: (participantName: string) => void;
@@ -27,6 +28,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setIsLoading,
   eventId,
   setParticipants,
+  selectedParticipant,
   onSaveAvailability,
   onCancelEditing,
   onLoadSelectedTimeSlots,
@@ -130,7 +132,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             type="button"
             className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
             hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
-            disabled:cursor-not-allowed text-xs sm:text-lg"
+            disabled:cursor-not-allowed text-sm sm:text-lg"
             onClick={handleDelete}
           >
             削除
@@ -164,7 +166,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       )}
       {isConfirmDeletePopupOpen && (
         <ConfirmDeletePopup
-          participantName={'temporary'}
+          participantName={selectedParticipant}
           onSubmit={() => {}}
           onClose={() => setIsConfirmDeletePopupOpen(false)}
         />

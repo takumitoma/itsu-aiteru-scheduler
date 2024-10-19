@@ -36,7 +36,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
             <RxCross1 size={24} />
           </button>
         </div>
-        <p className="text-xs sm:text-md">{participantName}</p>
+        <p className="text-xs sm:text-lg">{participantName}</p>
         <div className="flex w-full justify-end">
           <button
             type="submit"
