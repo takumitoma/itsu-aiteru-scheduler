@@ -33,10 +33,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
   }
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
-        z-50 px-2"
-    >
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit}
         className="bg-background p-6 rounded-md max-w-md w-full space-y-4"
@@ -51,7 +48,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
         </div>
         <div className="flex">
           <IoInformationCircleOutline className="translate-y-[1px]" />
-          <p className="text-xs">
+          <p className="text-xs sm:text-md">
             再度アクセスする場合は、同じ名前を入力して空き時間を編集できます
           </p>
         </div>
@@ -74,7 +71,9 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
             disabled={isSubmitting}
           />
           {showError && (
-            <p className="text-red-500 mt-1">名前は2文字から20文字で入力してください</p>
+            <p className="text-red-500 mt-1 text-xs sm:text-md">
+              名前は2文字から20文字で入力してください
+            </p>
           )}
         </div>
         <div className="flex justify-end">
@@ -83,7 +82,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
             type="submit"
             className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
               hover:bg-primaryHover focus:bg-primaryHover disabled:opacity-50 
-              disabled:cursor-not-allowed"
+              disabled:cursor-not-allowed w-[95px] sm:w-[125px]"
             disabled={isSubmitting}
           >
             確認
