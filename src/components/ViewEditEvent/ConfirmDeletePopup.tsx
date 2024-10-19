@@ -22,7 +22,10 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
+        z-50 px-2"
+    >
       <form
         onSubmit={handleSubmit}
         className="p-6 bg-background rounded-md max-w-md w-full space-y-4"
