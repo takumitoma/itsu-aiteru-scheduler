@@ -30,16 +30,15 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onCancelEditing,
   onLoadSelectedTimeSlots,
 }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
   const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const addOrSaveButtonRef = useRef<HTMLButtonElement>(null);
   const deleteOrCancelButtonRef = useRef<HTMLButtonElement>(null);
 
   function openParticipantPopup() {
     addOrSaveButtonRef.current?.blur();
-    setIsPopupOpen(true);
+    setIsNameInputPopupOpen(true);
   }
 
   async function saveAvailabilities() {
@@ -85,11 +84,15 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
-  async function handleDeleteParticipant() {
+  function handleCancelOrDeleteButtonClick() {
     deleteOrCancelButtonRef.current?.blur();
-    setIsDeleting(true);
-    //todo try catch api
-    setIsDeleting(false);
+    if (mode === 'edit') {
+      handleCancelEditing();
+    } else if (mode === 'view') {
+      setMode('delete');
+    } else if (mode === 'delete') {
+      setMode('view');
+    }
   }
 
   function handleCancelEditing() {
@@ -100,25 +103,27 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   return (
     <section className="w-full">
       <div className="flex items-center justify-end w-full space-x-4">
-        <button
-          ref={addOrSaveButtonRef}
-          className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
-            border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
-            flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
-            disabled:opacity-50 disabled:cursor-not-allowed"
-          type="button"
-          onClick={mode === 'edit' ? saveAvailabilities : openParticipantPopup}
-          disabled={isSubmitting || isDeleting}
-        >
-          {mode === 'edit' ? (
-            <p>保存</p>
-          ) : (
-            <>
-              <HiPlus size={20} />
-              <p>空き時間</p>
-            </>
-          )}
-        </button>
+        {mode !== 'delete' && (
+          <button
+            ref={addOrSaveButtonRef}
+            className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
+              border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
+              flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
+              disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
+            onClick={mode === 'edit' ? saveAvailabilities : openParticipantPopup}
+            disabled={isSubmitting}
+          >
+            {mode === 'edit' ? (
+              <p>保存</p>
+            ) : (
+              <>
+                <HiPlus size={20} />
+                <p>空き時間</p>
+              </>
+            )}
+          </button>
+        )}
         <button
           ref={deleteOrCancelButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
@@ -126,10 +131,10 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
-          onClick={mode === 'edit' ? handleCancelEditing : handleDeleteParticipant}
-          disabled={isSubmitting || isDeleting}
+          onClick={handleCancelOrDeleteButtonClick}
+          disabled={isSubmitting}
         >
-          {mode === 'edit' ? (
+          {mode === 'edit' || mode === 'delete' ? (
             <p>キャンセル</p>
           ) : (
             <>
@@ -139,8 +144,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           )}
         </button>
       </div>
-      {isPopupOpen && (
-        <NameInputPopup onSubmit={handleCreateParticipant} onClose={() => setIsPopupOpen(false)} />
+      {isNameInputPopupOpen && (
+        <NameInputPopup
+          onSubmit={handleCreateParticipant}
+          onClose={() => setIsNameInputPopupOpen(false)}
+        />
       )}
     </section>
   );
