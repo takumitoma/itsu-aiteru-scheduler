@@ -104,7 +104,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           ref={addOrSaveButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
             border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
-            flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+            flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
           onClick={isEditing ? saveAvailabilities : openParticipantPopup}
@@ -123,7 +123,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           ref={deleteOrCancelButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
             border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-            flex items-center space-x-2 w-[118px] sm:w-[134px] justify-center
+            flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
           onClick={isEditing ? handleCancelEditing : handleDeleteParticipant}
