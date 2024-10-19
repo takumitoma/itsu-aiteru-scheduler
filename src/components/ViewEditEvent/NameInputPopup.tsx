@@ -85,7 +85,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
             type="submit"
             className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
               hover:bg-primaryHover focus:bg-primaryHover disabled:opacity-50 
-              disabled:cursor-not-allowed w-[95px] sm:w-[125px]"
+              disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
             確認

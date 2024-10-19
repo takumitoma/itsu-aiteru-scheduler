@@ -37,24 +37,14 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
           </button>
         </div>
         <p className="text-xs sm:text-md">{participantName}</p>
-        <div className="flex w-full space-x-2 justify-end">
+        <div className="flex w-full justify-end">
           <button
             type="submit"
-            className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
-              hover:brightness-90 w-[95px] sm:w-[125px] disabled:opacity-50
-              disabled:cursor-not-allowed text-xs sm:text-lg"
-            disabled={isSubmitting}
-          >
-            削除
-          </button>
-          <button
-            type="button"
-            className="text-foreground bg-background px-4 py-2 rounded-md flex-shrink-0 
-              hover:brightness-90 border border-foreground w-[95px] sm:w-[125px] 
+            className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 hover:brightness-90 
               disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-lg"
             disabled={isSubmitting}
           >
-            キャンセル
+            削除
           </button>
         </div>
       </form>
