@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { createParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
+import ConfirmDeletePopup from './ConfirmDeletePopup';
 import { HiPlus } from 'react-icons/hi';
 import { FaTrash } from 'react-icons/fa';
 import { Participant } from '@/types/Participant';
@@ -31,10 +32,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onLoadSelectedTimeSlots,
 }) => {
   const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const addOrSaveButtonRef = useRef<HTMLButtonElement>(null);
-  const deleteOrCancelButtonRef = useRef<HTMLButtonElement>(null);
+  const cancelOrDeleteModeButtonRef = useRef<HTMLButtonElement>(null);
 
   function openParticipantPopup() {
     addOrSaveButtonRef.current?.blur();
@@ -84,10 +86,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
-  function handleCancelOrDeleteButtonClick() {
-    deleteOrCancelButtonRef.current?.blur();
+  function handleCancelOrDeleteModeButtonClick() {
+    cancelOrDeleteModeButtonRef.current?.blur();
     if (mode === 'edit') {
-      handleCancelEditing();
+      setEditingParticipantName('');
+      onCancelEditing();
     } else if (mode === 'view') {
       setMode('delete');
     } else if (mode === 'delete') {
@@ -95,15 +98,14 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
-  function handleCancelEditing() {
-    deleteOrCancelButtonRef.current?.blur();
-    onCancelEditing();
+  function handleDelete() {
+    setIsConfirmDeletePopupOpen(true);
   }
 
   return (
     <section className="w-full">
       <div className="flex items-center justify-end w-full space-x-4">
-        {mode !== 'delete' && (
+        {mode !== 'delete' ? (
           <button
             ref={addOrSaveButtonRef}
             className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
@@ -123,15 +125,25 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
               </>
             )}
           </button>
+        ) : (
+          <button
+            type="button"
+            className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
+            hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
+            disabled:cursor-not-allowed text-xs sm:text-lg"
+            onClick={handleDelete}
+          >
+            削除
+          </button>
         )}
         <button
-          ref={deleteOrCancelButtonRef}
+          ref={cancelOrDeleteModeButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
             border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
             flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
-          onClick={handleCancelOrDeleteButtonClick}
+          onClick={handleCancelOrDeleteModeButtonClick}
           disabled={isSubmitting}
         >
           {mode === 'edit' || mode === 'delete' ? (
@@ -148,6 +160,13 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
         <NameInputPopup
           onSubmit={handleCreateParticipant}
           onClose={() => setIsNameInputPopupOpen(false)}
+        />
+      )}
+      {isConfirmDeletePopupOpen && (
+        <ConfirmDeletePopup
+          participantName={'temporary'}
+          onSubmit={() => {}}
+          onClose={() => setIsConfirmDeletePopupOpen(false)}
         />
       )}
     </section>
