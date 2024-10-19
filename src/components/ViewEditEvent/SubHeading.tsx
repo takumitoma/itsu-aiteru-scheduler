@@ -1,5 +1,5 @@
 interface SubHeadingProps {
-  isEditing: boolean;
+  mode: 'view' | 'edit' | 'delete';
   selectedParticipant: string;
   getColorRangeText: (index: number) => string;
   selectedColorScaleIndex: number | null;
@@ -7,15 +7,18 @@ interface SubHeadingProps {
 }
 
 const SubHeading: React.FC<SubHeadingProps> = ({
-  isEditing,
+  mode,
   selectedParticipant,
   getColorRangeText,
   selectedColorScaleIndex,
   editingParticipant,
 }) => {
   function getHeadingText(): string | JSX.Element {
-    if (isEditing) {
+    if (mode === 'edit') {
       return `空き時間を編集中: ${editingParticipant}`;
+    }
+    if (mode === 'delete') {
+      return `参加者を削除中: ${editingParticipant}`;
     }
     if (selectedParticipant) {
       return (
@@ -40,7 +43,7 @@ const SubHeading: React.FC<SubHeadingProps> = ({
   return (
     <section className="flex flex-col space-y-2 w-full">
       <h2 className="text-sm sm:text-xl font-bold truncate">{getHeadingText()}</h2>
-      {!isEditing && (
+      {mode === 'view' && (
         <p className="text-xs sm:text-sm text-gray-600">
           スケジュール表をマウスオーバーもしくはタップで詳細を確認
         </p>

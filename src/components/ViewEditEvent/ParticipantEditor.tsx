@@ -6,10 +6,10 @@ import { FaTrash } from 'react-icons/fa';
 import { Participant } from '@/types/Participant';
 
 interface ParticipantEditorProps {
-  isEditing: boolean;
+  mode: 'view' | 'edit' | 'delete';
+  setMode: React.Dispatch<React.SetStateAction<'view' | 'edit' | 'delete'>>;
   setEditingParticipantName: (name: string) => void;
   getParticipantIdByName: (name: string) => string;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
@@ -19,10 +19,10 @@ interface ParticipantEditorProps {
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
-  isEditing,
+  mode,
+  setMode,
   setEditingParticipantName,
   getParticipantIdByName,
-  setIsEditing,
   setIsLoading,
   eventId,
   setParticipants,
@@ -75,7 +75,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
 
       setEditingParticipantName(name);
       setEditingParticipantId(createdParticipantId);
-      setIsEditing(true);
+      setMode('edit');
       onLoadSelectedTimeSlots(name);
     } catch (error) {
       console.error('Error creating participant:', error);
@@ -107,10 +107,10 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
-          onClick={isEditing ? saveAvailabilities : openParticipantPopup}
+          onClick={mode === 'edit' ? saveAvailabilities : openParticipantPopup}
           disabled={isSubmitting || isDeleting}
         >
-          {isEditing ? (
+          {mode === 'edit' ? (
             <p>保存</p>
           ) : (
             <>
@@ -126,10 +126,10 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
-          onClick={isEditing ? handleCancelEditing : handleDeleteParticipant}
+          onClick={mode === 'edit' ? handleCancelEditing : handleDeleteParticipant}
           disabled={isSubmitting || isDeleting}
         >
-          {isEditing ? (
+          {mode === 'edit' ? (
             <p>キャンセル</p>
           ) : (
             <>

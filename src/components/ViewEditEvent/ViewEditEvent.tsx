@@ -36,7 +36,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   const [editingParticipant, setEditingParticipant] = useState('');
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
   const [isLoading, setIsLoading] = useState(false);
 
   const dayLabels: string[] =
@@ -165,7 +165,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       setIsLoading(true);
       await updateAvailability(participantId, selectedTimeSlots);
       setAvailabilityById(participantId, selectedTimeSlots);
-      setIsEditing(false);
+      setMode('view');
       clearSelectedTimeslots();
     } catch (error) {
       console.error('Error updating availability:', error);
@@ -175,7 +175,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   }
 
   function handleCancelEditing() {
-    setIsEditing(false);
+    setMode('view');
     clearSelectedTimeslots();
   }
 
@@ -183,13 +183,13 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full space-y-6">
       <h1 className="text-3xl font-bold">{event.title}</h1>
       <SubHeading
-        isEditing={isEditing}
+        mode={mode}
         selectedParticipant={selectedParticipant}
         getColorRangeText={getColorRangeText}
         selectedColorScaleIndex={selectedColorScaleIndex}
         editingParticipant={editingParticipant}
       />
-      {!isEditing && (
+      {mode === 'view' && (
         <ColorScale
           displayColors={displayColors}
           numParticipants={numParticipants}
@@ -205,7 +205,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         timeRangeEnd={event.timeRangeEnd}
         dayLabels={dayLabels}
       >
-        {isEditing ? (
+        {mode === 'edit' ? (
           <AvailabilityEditor
             selectedTimeSlots={selectedTimeSlots}
             setSelectedTimeSlots={setSelectedTimeSlots}
@@ -231,10 +231,10 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         )}
       </AvailabilityChart>
       <ParticipantEditor
-        isEditing={isEditing}
+        mode={mode}
+        setMode={setMode}
         setEditingParticipantName={setEditingParticipant}
         getParticipantIdByName={getParticipantIdByName}
-        setIsEditing={setIsEditing}
         setIsLoading={setIsLoading}
         eventId={event.id}
         setParticipants={setParticipants}
@@ -242,7 +242,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         onCancelEditing={handleCancelEditing}
         onLoadSelectedTimeSlots={handleLoadSelectedTimeSlots}
       />
-      {!isEditing && (
+      {mode === 'view' && (
         <ParticipantsList
           participantNames={participantNames}
           selectedParticipant={selectedParticipant}
