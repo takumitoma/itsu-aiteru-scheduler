@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { createParticipant } from '@/lib/api-client/participant';
+import { deleteParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
 import { HiPlus } from 'react-icons/hi';
@@ -43,9 +44,13 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   const addOrSaveButtonRef = useRef<HTMLButtonElement>(null);
   const cancelOrDeleteModeButtonRef = useRef<HTMLButtonElement>(null);
 
-  function openParticipantPopup() {
+  function openNameInputPopup() {
     addOrSaveButtonRef.current?.blur();
     setIsNameInputPopupOpen(true);
+  }
+
+  function openConfirmDeletePopup() {
+    setIsConfirmDeletePopupOpen(true);
   }
 
   async function saveAvailabilities() {
@@ -106,8 +111,30 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     }
   }
 
-  function handleDelete() {
-    setIsConfirmDeletePopupOpen(true);
+  async function handleDeleteParticipant(participant: Participant | null): Promise<void> {
+    if (!participant) return;
+    try {
+      setIsLoading(true);
+      setIsSubmitting(true);
+      // remove participant server side
+      const result = await deleteParticipant(participant.id);
+
+      if (result.success) {
+        // if removal via server side successful, remove participant client side
+        setParticipants((prevParticipants) =>
+          prevParticipants.filter((p) => p.id !== participant.id)
+        );
+
+        setSelectedParticipant(null);
+        setMode('view');
+        setIsConfirmDeletePopupOpen(false);
+      }
+    } catch (error) {
+      console.error('Error deleting participant:', error);
+    } finally {
+      setIsLoading(false);
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -121,7 +148,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
               flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
               disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            onClick={mode === 'edit' ? saveAvailabilities : openParticipantPopup}
+            onClick={mode === 'edit' ? saveAvailabilities : openNameInputPopup}
             disabled={isSubmitting}
           >
             {mode === 'edit' ? (
@@ -140,7 +167,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
             hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
             disabled:cursor-not-allowed text-sm sm:text-lg"
-            onClick={handleDelete}
+            onClick={openConfirmDeletePopup}
           >
             削除
           </button>
@@ -173,8 +200,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       )}
       {isConfirmDeletePopupOpen && selectedParticipant && (
         <ConfirmDeletePopup
-          participantName={selectedParticipant.name}
-          onSubmit={() => {}}
+          participant={selectedParticipant}
+          onSubmit={handleDeleteParticipant}
           onClose={() => setIsConfirmDeletePopupOpen(false)}
         />
       )}

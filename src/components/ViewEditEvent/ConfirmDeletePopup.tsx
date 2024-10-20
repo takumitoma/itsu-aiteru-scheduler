@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { RxCross1 } from 'react-icons/rx';
+import { Participant } from '@/types/Participant';
 
 interface ConfirmDeletePopupProps {
-  participantName: string;
-  onSubmit: () => void;
+  participant: Participant | null;
+  onSubmit: (participant: Participant | null) => Promise<void>;
   onClose: () => void;
 }
 
 const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
-  participantName,
+  participant,
   onSubmit,
   onClose,
 }) => {
@@ -17,7 +18,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
-
+    await onSubmit(participant);
     setIsSubmitting(false);
   }
 
@@ -36,7 +37,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
             <RxCross1 size={24} />
           </button>
         </div>
-        <p className="text-xs sm:text-lg">{participantName}</p>
+        <p className="text-xs sm:text-lg">{participant?.name}</p>
         <div className="flex w-full justify-end">
           <button
             type="submit"
