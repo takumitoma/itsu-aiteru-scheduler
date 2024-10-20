@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { Participant } from '@/types/Participant';
 
 interface ColorScaleProps {
   displayColors: string[];
   numParticipants: number;
   selectedColorScaleIndex: number | null;
   setSelectedColorScaleIndex: React.Dispatch<React.SetStateAction<number | null>>;
-  setSelectedParticipant: (participant: string) => void;
+  setSelectedParticipant: (participant: Participant | null) => void;
   getColorRangeText: (index: number) => string;
 }
 
@@ -21,7 +22,7 @@ const ColorScale: React.FC<ColorScaleProps> = ({
 
   function handleClick(e: React.MouseEvent<HTMLElement>, index: number) {
     e.preventDefault();
-    setSelectedParticipant('');
+    setSelectedParticipant(null);
     setSelectedColorScaleIndex((prevIndex) =>
       prevIndex !== null && prevIndex === index ? null : index,
     );

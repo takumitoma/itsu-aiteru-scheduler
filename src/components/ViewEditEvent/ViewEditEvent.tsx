@@ -33,9 +33,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const [participantsState, setParticipants] = useState<Participant[]>(participants);
 
   const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
-  const [selectedParticipant, setSelectedParticipant] = useState('');
+  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
 
-  const [editingParticipant, setEditingParticipant] = useState('');
+  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
 
   const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
   const [isLoading, setIsLoading] = useState(false);
@@ -97,8 +97,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     return Math.min(Math.floor(index / groupSize), MAX_VISIBLE_COLORS - 1);
   };
 
-  const participantNames: string[] = participantsState.map((participant) => participant.name);
-
   // get the range of colorScale indices (in string format) by displayColors index
   function getColorRangeText(index: number): string {
     // determine size of each color group, take ceiling to ensure all colors are covered
@@ -109,29 +107,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     // take the min of naive solution and last color index to avoid going out of bounds
     const end = Math.min((index + 1) * groupSize - 1, colorScale.length - 1);
     return start === end ? `${start}` : `${start}-${end}`;
-  }
-
-  function getParticipantIdByName(name: string): string {
-    const participantObject = participantsState.find((participant) => participant.name === name);
-    return participantObject?.id || '';
-  }
-
-  // the heat map when participant is selected
-  function getAvailabilityByName(name: string): number[] {
-    // O(n) but ok for now bc number of participants is capped at 100
-    const participantObject = participantsState.find((participant) => participant.name === name);
-    return participantObject?.availability || [];
-  }
-
-  function setAvailabilityById(id: string, availability: number[]): void {
-    setParticipants((prevParticipants) => {
-      return prevParticipants.map((participant) => {
-        if (participant.id === id) {
-          return { ...participant, availability };
-        }
-        return participant;
-      });
-    });
   }
 
   // the heat map when color scale index is selected
@@ -149,11 +124,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>(new Array(numSlots).fill(0));
 
-  function handleLoadSelectedTimeSlots(participantName: string): void {
-    const availability = getAvailabilityByName(participantName);
-
-    if (availability.length !== 0) {
-      setSelectedTimeSlots(availability);
+  function handleLoadSelectedTimeSlots(participant: Participant): void {
+    if (participant.availability.length !== 0) {
+      setSelectedTimeSlots(participant.availability);
     }
   }
 
@@ -161,11 +134,15 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     setSelectedTimeSlots(new Array(numSlots).fill(0));
   }
 
-  async function handleSaveAvailability(participantId: string) {
+  async function handleSaveAvailability(participant: Participant) {
     try {
       setIsLoading(true);
-      await updateAvailability(participantId, selectedTimeSlots);
-      setAvailabilityById(participantId, selectedTimeSlots);
+      await updateAvailability(participant.id, selectedTimeSlots);
+      setParticipants((prevParticipants) =>
+        prevParticipants.map((p) =>
+          p.id === participant.id ? { ...p, availability: selectedTimeSlots } : p,
+        ),
+      );
       setMode('view');
       clearSelectedTimeslots();
     } catch (error) {
@@ -224,15 +201,16 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             dateTimeLabels={dateTimeLabels}
             availableParticipantsPerSlot={availableParticipantsPerSlot}
             unavailableParticipantsPerSlot={unavailableParticipantsPerSlot}
-            isParticipantSelected={selectedParticipant !== ''}
-            participantHeatMap={getAvailabilityByName(selectedParticipant)}
+            isParticipantSelected={selectedParticipant !== null}
+            participantHeatMap={selectedParticipant?.availability || []}
             isColorScaleIndexSelected={selectedColorScaleIndex !== null}
             colorScaleHeatMap={getColorScaleHeatMap()}
           />
         ) : (
-          mode === 'delete' && (
+          mode === 'delete' &&
+          selectedParticipant && (
             <AvailabilityDeleteViewer
-              selectedTimeSlots={getAvailabilityByName(selectedParticipant)}
+              selectedTimeSlots={selectedParticipant.availability}
               numDays={numDays}
               numHours={numHours}
             />
@@ -242,8 +220,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       <ParticipantEditor
         mode={mode}
         setMode={setMode}
-        setEditingParticipantName={setEditingParticipant}
-        getParticipantIdByName={getParticipantIdByName}
+        participants={participantsState}
+        editingParticipant={editingParticipant}
+        setEditingParticipant={setEditingParticipant}
         setIsLoading={setIsLoading}
         eventId={event.id}
         setParticipants={setParticipants}
@@ -256,7 +235,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       {(mode === 'view' || mode === 'delete') && (
         <ParticipantsList
           mode={mode}
-          participantNames={participantNames}
+          participants={participantsState}
           selectedParticipant={selectedParticipant}
           setSelectedParticipant={setSelectedParticipant}
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}

@@ -1,9 +1,11 @@
+import { Participant } from '@/types/Participant';
+
 interface SubHeadingProps {
   mode: 'view' | 'edit' | 'delete';
-  selectedParticipant: string;
+  selectedParticipant: Participant | null;
   getColorRangeText: (index: number) => string;
   selectedColorScaleIndex: number | null;
-  editingParticipant: string;
+  editingParticipant: Participant | null;
 }
 
 const SubHeading: React.FC<SubHeadingProps> = ({
@@ -15,15 +17,15 @@ const SubHeading: React.FC<SubHeadingProps> = ({
 }) => {
   function getHeadingText(): string | JSX.Element {
     if (mode === 'edit') {
-      return `空き時間を編集中: ${editingParticipant}`;
+      return `空き時間を編集中: ${editingParticipant?.name}`;
     }
     if (mode === 'delete') {
-      return `参加者を削除: ${selectedParticipant}`;
+      return `参加者を削除: ${selectedParticipant?.name}`;
     }
     if (selectedParticipant) {
       return (
         <div className="flex items-center whitespace-nowrap">
-          <span className="truncate">{selectedParticipant}</span>
+          <span className="truncate">{selectedParticipant.name}</span>
           <span className="font-normal flex-shrink-0">の空き時間</span>
         </div>
       );

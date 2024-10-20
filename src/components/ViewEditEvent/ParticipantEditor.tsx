@@ -9,23 +9,24 @@ import { Participant } from '@/types/Participant';
 interface ParticipantEditorProps {
   mode: 'view' | 'edit' | 'delete';
   setMode: React.Dispatch<React.SetStateAction<'view' | 'edit' | 'delete'>>;
-  setEditingParticipantName: (name: string) => void;
-  getParticipantIdByName: (name: string) => string;
+  participants: Participant[];
+  editingParticipant: Participant | null;
+  setEditingParticipant: (participant: Participant | null) => void;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
   setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
-  selectedParticipant: string;
-  setSelectedParticipant: (name: string) => void;
-  onSaveAvailability: (participantId: string) => Promise<void>;
+  selectedParticipant: Participant | null;
+  setSelectedParticipant: (participant: Participant | null) => void;
+  onSaveAvailability: (participant: Participant) => Promise<void>;
   onCancelEditing: () => void;
-  onLoadSelectedTimeSlots: (participantName: string) => void;
+  onLoadSelectedTimeSlots: (participant: Participant) => void;
 }
 
 const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   mode,
   setMode,
-  setEditingParticipantName,
-  getParticipantIdByName,
+  editingParticipant,
+  setEditingParticipant,
   setIsLoading,
   eventId,
   setParticipants,
@@ -34,10 +35,10 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onSaveAvailability,
   onCancelEditing,
   onLoadSelectedTimeSlots,
+  participants,
 }) => {
   const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
-  const [editingParticipantId, setEditingParticipantId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const addOrSaveButtonRef = useRef<HTMLButtonElement>(null);
   const cancelOrDeleteModeButtonRef = useRef<HTMLButtonElement>(null);
@@ -48,11 +49,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   }
 
   async function saveAvailabilities() {
-    if (!editingParticipantId) return;
+    if (!editingParticipant) return;
     addOrSaveButtonRef.current?.blur();
     setIsSubmitting(true);
     try {
-      await onSaveAvailability(editingParticipantId);
+      await onSaveAvailability(editingParticipant);
     } finally {
       setIsSubmitting(false);
     }
@@ -62,26 +63,27 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
     try {
       setIsLoading(true);
       setIsSubmitting(true);
-      let createdParticipantId = '';
 
-      // check if participant exists client side first
-      // if participant does not exist create participant using API
-      if (!(createdParticipantId = getParticipantIdByName(name))) {
+      // Check if participant exists client side first
+      const existingParticipant = participants.find((p) => p.name === name);
+      let createdParticipant: Participant;
+
+      if (existingParticipant) {
+        createdParticipant = existingParticipant;
+      } else {
+        // If participant does not exist, create participant using API
         const result = await createParticipant(eventId, name);
-        createdParticipantId = result.id;
-
-        const createdParticipant: Participant = {
-          id: createdParticipantId,
+        createdParticipant = {
+          id: result.id,
           name: name,
           availability: [],
         };
         setParticipants((prev) => [...prev, createdParticipant]);
       }
 
-      setEditingParticipantName(name);
-      setEditingParticipantId(createdParticipantId);
+      setEditingParticipant(createdParticipant);
       setMode('edit');
-      onLoadSelectedTimeSlots(name);
+      onLoadSelectedTimeSlots(createdParticipant);
     } catch (error) {
       console.error('Error creating participant:', error);
     } finally {
@@ -93,13 +95,13 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   function handleCancelOrDeleteModeButtonClick() {
     cancelOrDeleteModeButtonRef.current?.blur();
     if (mode === 'edit') {
-      setEditingParticipantName('');
+      setEditingParticipant(null);
       onCancelEditing();
     } else if (mode === 'view') {
-      setSelectedParticipant('');
+      setSelectedParticipant(null);
       setMode('delete');
     } else if (mode === 'delete') {
-      setSelectedParticipant('');
+      setSelectedParticipant(null);
       setMode('view');
     }
   }
@@ -169,9 +171,9 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           onClose={() => setIsNameInputPopupOpen(false)}
         />
       )}
-      {isConfirmDeletePopupOpen && (
+      {isConfirmDeletePopupOpen && selectedParticipant && (
         <ConfirmDeletePopup
-          participantName={selectedParticipant}
+          participantName={selectedParticipant.name}
           onSubmit={() => {}}
           onClose={() => setIsConfirmDeletePopupOpen(false)}
         />
