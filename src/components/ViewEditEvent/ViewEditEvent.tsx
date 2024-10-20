@@ -7,6 +7,7 @@ import ParticipantEditor from './ParticipantEditor';
 import EventLinkSharer from './EventLinkSharer';
 import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
+import AvailabilityDeleteViewer from './AvailabilityDeleteViewer';
 import ColorScale from './ColorScale';
 import ParticipantsList from './ParticipantsList';
 import { updateAvailability } from '@/lib/api-client/availability';
@@ -212,7 +213,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             numDays={numDays}
             numHours={numHours}
           />
-        ) : (
+        ) : mode === 'view' ? (
           <AvailabilityViewer
             heatMap={heatMap}
             numDays={numDays}
@@ -228,6 +229,14 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             isColorScaleIndexSelected={selectedColorScaleIndex !== null}
             colorScaleHeatMap={getColorScaleHeatMap()}
           />
+        ) : (
+          mode === 'delete' && (
+            <AvailabilityDeleteViewer
+              selectedTimeSlots={getAvailabilityByName(selectedParticipant)}
+              numDays={numDays}
+              numHours={numHours}
+            />
+          )
         )}
       </AvailabilityChart>
       <ParticipantEditor
