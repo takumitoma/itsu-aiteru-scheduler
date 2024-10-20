@@ -207,10 +207,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
             colorScaleHeatMap={getColorScaleHeatMap()}
           />
         ) : (
-          mode === 'delete' &&
-          selectedParticipant && (
+          mode === 'delete' && (
             <AvailabilityDeleteViewer
-              selectedTimeSlots={selectedParticipant.availability}
+              selectedTimeSlots={selectedParticipant?.availability || []}
               numDays={numDays}
               numHours={numHours}
             />

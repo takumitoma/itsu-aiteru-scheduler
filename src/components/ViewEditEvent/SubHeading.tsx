@@ -20,7 +20,7 @@ const SubHeading: React.FC<SubHeadingProps> = ({
       return `空き時間を編集中: ${editingParticipant?.name}`;
     }
     if (mode === 'delete') {
-      return `参加者を削除: ${selectedParticipant?.name}`;
+      return `参加者を削除: ${selectedParticipant ? selectedParticipant.name : ''}`;
     }
     if (selectedParticipant) {
       return (

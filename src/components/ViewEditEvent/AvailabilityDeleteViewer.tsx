@@ -1,7 +1,7 @@
 const QUARTERS_PER_HOUR = 4;
 
 interface AvailabilityDeleteViewerProps {
-  selectedTimeSlots: number[];
+  selectedTimeSlots: number[] | [];
   numDays: number;
   numHours: number;
 }
