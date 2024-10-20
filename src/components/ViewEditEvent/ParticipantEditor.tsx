@@ -15,6 +15,7 @@ interface ParticipantEditorProps {
   eventId: string;
   setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
   selectedParticipant: string;
+  setSelectedParticipant: (name: string) => void;
   onSaveAvailability: (participantId: string) => Promise<void>;
   onCancelEditing: () => void;
   onLoadSelectedTimeSlots: (participantName: string) => void;
@@ -29,6 +30,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   eventId,
   setParticipants,
   selectedParticipant,
+  setSelectedParticipant,
   onSaveAvailability,
   onCancelEditing,
   onLoadSelectedTimeSlots,
@@ -94,8 +96,10 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       setEditingParticipantName('');
       onCancelEditing();
     } else if (mode === 'view') {
+      setSelectedParticipant('');
       setMode('delete');
     } else if (mode === 'delete') {
+      setSelectedParticipant('');
       setMode('view');
     }
   }
@@ -107,7 +111,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   return (
     <section className="w-full">
       <div className="flex items-center justify-end w-full space-x-4">
-        {mode !== 'delete' ? (
+        {mode !== 'delete' && (
           <button
             ref={addOrSaveButtonRef}
             className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
@@ -127,7 +131,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
               </>
             )}
           </button>
-        ) : (
+        )}
+        {mode === 'delete' && selectedParticipant && (
           <button
             type="button"
             className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
