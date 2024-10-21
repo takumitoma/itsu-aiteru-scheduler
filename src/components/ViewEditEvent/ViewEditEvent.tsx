@@ -30,7 +30,7 @@ interface ViewEditEventProps {
 }
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
-  const [participantsState, setParticipants] = useState<Participant[]>(participants);
+  const [allParticipants, setAllParticipants] = useState<Participant[]>(participants);
 
   const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
@@ -59,8 +59,8 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   // participant 2: [0, 1, 1, 0, 0, 0]
   // heat map:      [0, 1, 2, 1, 0, 1]
   const heatMap: number[] = useMemo(
-    () => calculateHeatMap(participantsState, numSlots),
-    [participantsState, numSlots],
+    () => calculateHeatMap(allParticipants, numSlots),
+    [allParticipants, numSlots],
   );
 
   // date-time labels for each time slot to be used in each slot's tooltip
@@ -68,11 +68,11 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {
-    return generateParticipantLists(participantsState, numSlots);
-  }, [participantsState, numSlots]);
+    return generateParticipantLists(allParticipants, numSlots);
+  }, [allParticipants, numSlots]);
 
   //  used to define colorScale
-  const numParticipants: number = participantsState.length;
+  const numParticipants: number = allParticipants.length;
 
   // the color scale legend in that would be used if MAX_VISIBLE_COLORS did not exist
   // the literal color scale
@@ -138,7 +138,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     try {
       setIsLoading(true);
       await updateAvailability(participant.id, selectedTimeSlots);
-      setParticipants((prevParticipants) =>
+      setAllParticipants((prevParticipants) =>
         prevParticipants.map((p) =>
           p.id === participant.id ? { ...p, availability: selectedTimeSlots } : p,
         ),
@@ -219,12 +219,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       <ParticipantEditor
         mode={mode}
         setMode={setMode}
-        participants={participantsState}
+        allParticipants={allParticipants}
         editingParticipant={editingParticipant}
         setEditingParticipant={setEditingParticipant}
         setIsLoading={setIsLoading}
         eventId={event.id}
-        setParticipants={setParticipants}
+        setAllParticipants={setAllParticipants}
         selectedParticipant={selectedParticipant}
         setSelectedParticipant={setSelectedParticipant}
         onSaveAvailability={handleSaveAvailability}
@@ -234,7 +234,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       {(mode === 'view' || mode === 'delete') && (
         <ParticipantsList
           mode={mode}
-          participants={participantsState}
+          allParticipants={allParticipants}
           selectedParticipant={selectedParticipant}
           setSelectedParticipant={setSelectedParticipant}
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}

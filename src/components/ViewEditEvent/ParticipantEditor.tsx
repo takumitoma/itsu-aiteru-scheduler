@@ -10,12 +10,12 @@ import { Participant } from '@/types/Participant';
 interface ParticipantEditorProps {
   mode: 'view' | 'edit' | 'delete';
   setMode: React.Dispatch<React.SetStateAction<'view' | 'edit' | 'delete'>>;
-  participants: Participant[];
+  allParticipants: Participant[];
   editingParticipant: Participant | null;
   setEditingParticipant: (participant: Participant | null) => void;
   setIsLoading: (isLoading: boolean) => void;
   eventId: string;
-  setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
+  setAllParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
   selectedParticipant: Participant | null;
   setSelectedParticipant: (participant: Participant | null) => void;
   onSaveAvailability: (participant: Participant) => Promise<void>;
@@ -30,13 +30,13 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   setEditingParticipant,
   setIsLoading,
   eventId,
-  setParticipants,
+  setAllParticipants,
   selectedParticipant,
   setSelectedParticipant,
   onSaveAvailability,
   onCancelEditing,
   onLoadSelectedTimeSlots,
-  participants,
+  allParticipants,
 }) => {
   const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
@@ -70,7 +70,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       setIsSubmitting(true);
 
       // Check if participant exists client side first
-      const existingParticipant = participants.find((p) => p.name === name);
+      const existingParticipant = allParticipants.find((p) => p.name === name);
       let createdParticipant: Participant;
 
       if (existingParticipant) {
@@ -83,7 +83,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           name: name,
           availability: [],
         };
-        setParticipants((prev) => [...prev, createdParticipant]);
+        setAllParticipants((prev) => [...prev, createdParticipant]);
       }
 
       setEditingParticipant(createdParticipant);
@@ -121,8 +121,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
 
       if (result.success) {
         // if removal via server side successful, remove participant client side
-        setParticipants((prevParticipants) =>
-          prevParticipants.filter((p) => p.id !== participant.id)
+        setAllParticipants((prevParticipants) =>
+          prevParticipants.filter((p) => p.id !== participant.id),
         );
 
         setSelectedParticipant(null);
