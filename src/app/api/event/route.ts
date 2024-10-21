@@ -60,11 +60,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       daysOfWeek: event.days_of_week,
     };
 
-    await supabase
-      .from('events')
-      .update({ last_accessed: new Date().toISOString() })
-      .eq('id', validatedId);
-
     return NextResponse.json({ event: eventData }, { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
