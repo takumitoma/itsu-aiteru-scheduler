@@ -19,6 +19,7 @@ import {
   generateParticipantLists,
   generateColorScale,
 } from '@/utils/availabilityCalculations';
+import { getDateDuration, parseDate } from '@/utils/dateCalculations';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
@@ -52,6 +53,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numDays: number = dayLabels.length;
   const numHours: number = event.timeRangeEnd - event.timeRangeStart;
   const numSlots: number = numDays * numHours * QUARTERS_PER_HOUR;
+
+  const eventCreationTimeAgo = useMemo(() => {
+    const dateEventCreated = parseDate(event.createdAt);
+    const dateNow = new Date();
+    return getDateDuration(dateEventCreated, dateNow);
+  }, [event.createdAt]);
 
   // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot
   // adds every participants availability array together, example:
@@ -159,7 +166,10 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   return (
     <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full space-y-6">
-      <h1 className="text-3xl font-bold">{event.title}</h1>
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-3xl font-bold">{event.title}</h1>
+        <p className="text-xs sm:text-sm text-gray-600">{`${eventCreationTimeAgo}前に作成`}</p>
+      </div>
       <SubHeading
         mode={mode}
         selectedParticipant={selectedParticipant}

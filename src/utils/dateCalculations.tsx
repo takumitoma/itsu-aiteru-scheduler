@@ -26,3 +26,16 @@ export function getDateDuration(startDate: Date, endDate: Date): string {
     return '0 分';
   }
 }
+
+export function parseDate(date: string | Date): Date {
+  if (!date) {
+    throw new Error('Date input is required');
+  }
+
+  const parsedDate = typeof date === 'string' ? new Date(date) : date;
+  if (isNaN(parsedDate.getTime())) {
+    throw new Error('Invalid date');
+  }
+
+  return parsedDate;
+}
