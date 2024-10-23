@@ -37,7 +37,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const { data: event, error } = await supabase
       .from('events')
       .select(
-        'id, title, survey_type, timezone, time_range_start, time_range_end, dates, days_of_week',
+        'id, title, survey_type, timezone, time_range_start, time_range_end, created_at, dates, days_of_week',
       )
       .eq('id', validatedId)
       .single();
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       if (error.code === 'PGRST116') {
         return NextResponse.json({ error: 'Event not found' }, { status: 404 });
       }
-      return NextResponse.json({ error: 'Failed to fetch event' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     const eventData: Event = {
@@ -56,6 +56,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       timezone: event.timezone,
       timeRangeStart: event.time_range_start,
       timeRangeEnd: event.time_range_end,
+      createdAt: event.created_at,
       dates: event.dates,
       daysOfWeek: event.days_of_week,
     };
@@ -120,7 +121,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       })
       .select();
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     const createdEvent = data[0];
     return NextResponse.json(

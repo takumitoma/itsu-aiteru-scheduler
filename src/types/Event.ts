@@ -5,6 +5,7 @@ export interface Event {
   timezone: string;
   timeRangeStart: number;
   timeRangeEnd: number;
+  createdAt: Date;
   dates: string[] | null;
   daysOfWeek: number[] | null;
 }
