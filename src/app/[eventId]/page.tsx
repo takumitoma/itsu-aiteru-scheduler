@@ -12,13 +12,11 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
 
   // catch errors with error.tsx
   try {
-    const { event, isFromCache } = await getEvent(eventId);
+    const event = await getEvent(eventId);
 
     if (!event) {
       notFound();
     }
-
-    console.log(`GET event ${event.id} from cache: ${isFromCache}`);
 
     const participants = await getParticipants(eventId);
 

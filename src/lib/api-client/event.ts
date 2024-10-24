@@ -3,7 +3,7 @@ import { Event } from '@/types/Event';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 const ONE_DAY = 86400;
 
-export async function getEvent(id: string): Promise<{ event: Event; isFromCache: boolean }> {
+export async function getEvent(id: string): Promise<Event> {
   try {
     const requestTime = Date.now();
     const response = await fetch(`${API_BASE_URL}/api/event?id=${id}`, {
@@ -23,10 +23,33 @@ export async function getEvent(id: string): Promise<{ event: Event; isFromCache:
     const isFromCache = responseTime < requestTime;
 
     const data = await response.json();
-    return { event: data.event, isFromCache };
+
+    // update last_accessed timestamp if the response wasn't from cache
+    // don't throw error because this part is not a critical operation
+    if (!isFromCache) {
+      updateLastAccessed(id).catch((error) => {
+        console.error('Failed to update last_accessed timestamp:', error);
+      });
+    }
+
+    return data.event;
   } catch (error) {
     console.error('Error fetching event:', error);
     throw error;
+  }
+}
+
+async function updateLastAccessed(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/event`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id, operation: 'updateLastAccessed' }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update last accessed timestamp');
   }
 }
 
