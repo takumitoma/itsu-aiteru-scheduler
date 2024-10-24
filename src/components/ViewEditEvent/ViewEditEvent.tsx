@@ -9,6 +9,7 @@ import AvailabilityEditor from './AvailabilityEditor';
 import AvailabilityViewer from './AvailabilityViewer';
 import AvailabilityDeleteViewer from './AvailabilityDeleteViewer';
 import ColorScale from './ColorScale';
+import TimezoneDisplay from './TimezoneDisplay';
 import ParticipantsList from './ParticipantsList';
 import { updateAvailability } from '@/lib/api-client/availability';
 import { Event } from '@/types/Event';
@@ -226,21 +227,24 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           )
         )}
       </AvailabilityChart>
-      <ParticipantEditor
-        mode={mode}
-        setMode={setMode}
-        allParticipants={allParticipants}
-        editingParticipant={editingParticipant}
-        setEditingParticipant={setEditingParticipant}
-        setIsLoading={setIsLoading}
-        eventId={event.id}
-        setAllParticipants={setAllParticipants}
-        selectedParticipant={selectedParticipant}
-        setSelectedParticipant={setSelectedParticipant}
-        onSaveAvailability={handleSaveAvailability}
-        onCancelEditing={handleCancelEditing}
-        onLoadSelectedTimeSlots={handleLoadSelectedTimeSlots}
-      />
+      <div className="w-full flex flex-col sm:flex-row items-end sm:items-center sm:justify-between gap-4">
+        <TimezoneDisplay timezone={event.timezone} />
+        <ParticipantEditor
+          mode={mode}
+          setMode={setMode}
+          allParticipants={allParticipants}
+          editingParticipant={editingParticipant}
+          setEditingParticipant={setEditingParticipant}
+          setIsLoading={setIsLoading}
+          eventId={event.id}
+          setAllParticipants={setAllParticipants}
+          selectedParticipant={selectedParticipant}
+          setSelectedParticipant={setSelectedParticipant}
+          onSaveAvailability={handleSaveAvailability}
+          onCancelEditing={handleCancelEditing}
+          onLoadSelectedTimeSlots={handleLoadSelectedTimeSlots}
+        />
+      </div>
       {(mode === 'view' || mode === 'delete') && (
         <ParticipantsList
           mode={mode}
