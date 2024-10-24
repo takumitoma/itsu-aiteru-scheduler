@@ -23,6 +23,11 @@ const PostEventSchema = z.object({
   timezone: z.string(),
 });
 
+const PatchEventSchema = z.object({
+  operation: z.literal('updateLastAccessed'),
+  id: z.string().uuid(),
+});
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url);
@@ -131,6 +136,35 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       { status: 200 },
     );
   } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  try {
+    const body = await request.json();
+    const { id } = PatchEventSchema.parse(body);
+
+    const { error } = await supabase.from('events').update({ last_accessed: 'now()' }).eq('id', id);
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Event not found' }, { status: 404 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: 'Last accessed timestamp updated' }, { status: 200 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid event ID or invalid request format' },
+        { status: 400 },
+      );
+    }
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 },
