@@ -3,8 +3,9 @@ import { Event } from '@/types/Event';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 const ONE_DAY = 86400;
 
-export async function getEvent(id: string): Promise<Event> {
+export async function getEvent(id: string): Promise<{ event: Event; isFromCache: boolean }> {
   try {
+    const requestTime = Date.now();
     const response = await fetch(`${API_BASE_URL}/api/event?id=${id}`, {
       method: 'GET',
       next: { revalidate: ONE_DAY },
@@ -17,8 +18,12 @@ export async function getEvent(id: string): Promise<Event> {
       throw new Error('An error occurred while fetching the event');
     }
 
+    const dateHeader = response.headers.get('date');
+    const responseTime = dateHeader ? new Date(dateHeader).getTime() : Date.now();
+    const isFromCache = responseTime < requestTime;
+
     const data = await response.json();
-    return data.event;
+    return { event: data.event, isFromCache };
   } catch (error) {
     console.error('Error fetching event:', error);
     throw error;
