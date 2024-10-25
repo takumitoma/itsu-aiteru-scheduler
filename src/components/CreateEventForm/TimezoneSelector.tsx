@@ -18,10 +18,21 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // generate the '(GMTZZ:ZZ) Label' format to display in dropdown
-  const formattedTimezones = Object.entries(allTimezones).map(([zone, label]) => {
-    const offset = dayjs().tz(zone).format('Z');
-    return { value: zone, label: `(GMT${offset}) ${label}` };
-  });
+  // 1. get offSet minutes of all timezones
+  // 2. sort timezones by offset in ascending order
+  // 3. destructure the offset minutes
+  const formattedTimezones = Object.entries(allTimezones)
+    .map(([zone, label]) => {
+      const offset = dayjs().tz(zone).format('Z');
+      const offsetMinutes = dayjs().tz(zone).utcOffset();
+      return {
+        value: zone,
+        label: `(GMT${offset}) ${label}`,
+        offsetMinutes,
+      };
+    })
+    .sort((a, b) => a.offsetMinutes - b.offsetMinutes)
+    .map(({ value, label }) => ({ value, label }));
 
   // close dropdown if it is open and user clicks outside
   useEffect(() => {
