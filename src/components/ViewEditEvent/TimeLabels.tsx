@@ -1,11 +1,12 @@
 interface TimeLabelsProps {
   hourLabels: number[];
   timeRangeEnd: number;
+  spaceTop: number;
 }
 
-const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd }) => (
+const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd, spaceTop }) => (
   <div className="flex flex-col w-[40px] flex-shrink-0">
-    <div className="h-[30px]"></div>
+    <div style={{ height: `${spaceTop}px` }}></div>
     {hourLabels.map((timestamp) => (
       <div
         key={`time-${timestamp}`}

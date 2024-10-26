@@ -5,6 +5,7 @@ interface AvailabilityChartProps {
   isLoading: boolean;
   hourLabels: number[];
   timeRangeEnd: number;
+  dateType: 'specific' | 'week';
   dayLabels: string[];
   children: React.ReactNode;
 }
@@ -13,6 +14,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
   isLoading,
   hourLabels,
   timeRangeEnd,
+  dateType,
   dayLabels,
   children,
 }) => {
@@ -22,9 +24,13 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
         isLoading ? 'opacity-50' : 'opacity-100'
       }`}
     >
-      <TimeLabels hourLabels={hourLabels} timeRangeEnd={timeRangeEnd} />
+      <TimeLabels
+        hourLabels={hourLabels}
+        timeRangeEnd={timeRangeEnd}
+        spaceTop={dateType === 'specific' ? 56 : 32}
+      />
       <div id="scrollableContainer" className="flex flex-col overflow-x-auto">
-        <DayLabels dayLabels={dayLabels} />
+        <DayLabels dateType={dateType} dayLabels={dayLabels} />
         {children}
       </div>
     </section>

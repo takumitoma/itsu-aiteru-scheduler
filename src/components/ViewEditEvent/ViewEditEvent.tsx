@@ -192,6 +192,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         isLoading={isLoading}
         hourLabels={hourLabels}
         timeRangeEnd={event.timeRangeEnd}
+        dateType={event.surveyType}
         dayLabels={dayLabels}
       >
         {mode === 'edit' ? (
