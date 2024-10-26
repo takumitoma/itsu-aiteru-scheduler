@@ -53,7 +53,7 @@ async function updateLastAccessed(id: string): Promise<void> {
   }
 }
 
-export async function createEvent(eventData: Omit<Event, 'id'>): Promise<string> {
+export async function createEvent(eventData: Omit<Event, 'id' | 'createdAt'>): Promise<string> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/event`, {
       method: 'POST',

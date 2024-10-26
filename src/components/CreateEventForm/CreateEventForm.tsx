@@ -54,7 +54,7 @@ const CreateEventForm: React.FC = () => {
       setIsSubmitting(true);
       setApiError(null);
       try {
-        const event: Omit<Event, 'id'> = {
+        const event: Omit<Event, 'id' | 'createdAt'> = {
           title: eventTitle,
           surveyType,
           timeRangeStart: timeRange.start,
