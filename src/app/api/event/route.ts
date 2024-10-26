@@ -104,6 +104,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ) {
         return NextResponse.json({ error: 'Past dates cannot be selected' }, { status: 400 });
       }
+
+      // dates could be valid but not in order, don't error and just sort
+      validatedData.dates.sort();
     } else {
       if (!validatedData.daysOfWeek || validatedData.daysOfWeek.every((day) => day === 0)) {
         return NextResponse.json(
