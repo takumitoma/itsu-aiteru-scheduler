@@ -9,6 +9,7 @@ interface RGB {
 const NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
 const MAX_PARTICIPANT_COLOR: RGB = { r: 74, g: 144, b: 226 };
 
+// creates heat map, adds up the availabilities of all participants for each time slot.
 export function calculateHeatMap(participants: Participant[], numSlots: number): number[] {
   const result: number[] = new Array(numSlots).fill(0);
   for (const participant of participants) {
@@ -19,6 +20,7 @@ export function calculateHeatMap(participants: Participant[], numSlots: number):
   return result;
 }
 
+// generate date time labels that will be displayed on timeslot tooltips
 export function generateDateTimeLabels(
   dateType: 'specific' | 'week',
   dayLabels: string[],
@@ -48,6 +50,9 @@ export function generateDateTimeLabels(
   return dateTimeLabels;
 }
 
+// available: 2D array of size number of timeslots. Each index is an array of participant names
+// that are available in the respective timeslot index.
+// unavailable: the opposite
 export function generateParticipantLists(
   participants: Participant[],
   numSlots: number,
@@ -68,6 +73,8 @@ export function generateParticipantLists(
   return [available, unavailable];
 }
 
+// create a gradient between NO_PARTICIPANT_COLOR and MAX_PARTICIPANT_COLOR based on number of
+// participants
 export function generateColorScale(numParticipants: number): string[] {
   const numColors = numParticipants + 1;
   const colorScale: string[] = [];

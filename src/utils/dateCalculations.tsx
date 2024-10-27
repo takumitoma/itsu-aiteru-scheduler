@@ -3,6 +3,7 @@ const MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
 const MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
 const MILLISECONDS_IN_MONTH = MILLISECONDS_IN_DAY * 30;
 
+// returns how long ago startDate was from endDate
 export function getDateDuration(startDate: Date, endDate: Date): string {
   if (startDate >= endDate) {
     return '0 分';
@@ -27,6 +28,7 @@ export function getDateDuration(startDate: Date, endDate: Date): string {
   }
 }
 
+// date returned from supabase is Date type but actually a string. convert it into Date object.
 export function parseDate(date: string | Date): Date {
   if (!date) {
     throw new Error('Date input is required');

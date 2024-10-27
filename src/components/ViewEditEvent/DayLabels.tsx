@@ -17,7 +17,7 @@ const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
     });
 
     dayLabels = dayLabels.map((d) => {
-      let [_, month, day] = d.split('-');
+      let [, month, day] = d.split('-');
       //remove leading zeros
       month = String(Number(month));
       day = String(Number(day));

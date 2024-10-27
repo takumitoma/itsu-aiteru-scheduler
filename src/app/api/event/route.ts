@@ -42,7 +42,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const { data: event, error } = await supabase
       .from('events')
       .select(
-        'id, title, survey_type, timezone, time_range_start, time_range_end, created_at, dates, days_of_week',
+        `id, title, survey_type, timezone, time_range_start, 
+          time_range_end, created_at, dates, days_of_week`,
       )
       .eq('id', validatedId)
       .single();

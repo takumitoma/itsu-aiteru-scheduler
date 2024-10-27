@@ -228,7 +228,10 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           )
         )}
       </AvailabilityChart>
-      <div className="w-full flex flex-col sm:flex-row items-end sm:items-center sm:justify-between gap-4">
+      <div
+        className="w-full flex flex-col sm:flex-row items-end sm:items-center sm:justify-between 
+          gap-4"
+      >
         <TimezoneDisplay timezone={event.timezone} />
         <ParticipantEditor
           mode={mode}

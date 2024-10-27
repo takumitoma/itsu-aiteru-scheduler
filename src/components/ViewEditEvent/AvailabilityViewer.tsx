@@ -42,7 +42,7 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   } | null>(null);
   const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
 
-  // if the tooltip is open and the page is hovered, close the tooltip
+  // if the tooltip is open and the page is scrolled, close the tooltip
   useEffect(() => {
     function handleScroll() {
       setTooltipData(null);
