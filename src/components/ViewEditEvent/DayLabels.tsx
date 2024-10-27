@@ -15,6 +15,14 @@ const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
       const dayOfWeek = dayjs(date).day();
       return DAYS_OF_WEEK_LABELS[dayOfWeek];
     });
+
+    dayLabels = dayLabels.map((d) => {
+      let [_, month, day] = d.split('-');
+      //remove leading zeros
+      month = String(Number(month));
+      day = String(Number(day));
+      return `${month}月${day}日`;
+    });
   }
 
   return (
