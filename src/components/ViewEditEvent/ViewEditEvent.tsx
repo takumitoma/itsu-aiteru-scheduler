@@ -72,7 +72,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   );
 
   // date-time labels for each time slot to be used in each slot's tooltip
-  const dateTimeLabels: string[] = generateDateTimeLabels(dayLabels, hourLabels);
+  const dateTimeLabels: string[] = generateDateTimeLabels(event.surveyType, dayLabels, hourLabels);
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {

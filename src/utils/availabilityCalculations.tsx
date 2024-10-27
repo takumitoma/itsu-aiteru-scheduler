@@ -19,14 +19,30 @@ export function calculateHeatMap(participants: Participant[], numSlots: number):
   return result;
 }
 
-export function generateDateTimeLabels(dayLabels: string[], hourLabels: number[]): string[] {
+export function generateDateTimeLabels(
+  dateType: 'specific' | 'week',
+  dayLabels: string[],
+  hourLabels: number[],
+): string[] {
   const dateTimeLabels: string[] = [];
   for (let i = 0; i < dayLabels.length; ++i) {
     for (let j = 0; j < hourLabels.length; ++j) {
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:00`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:15`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:30`);
-      dateTimeLabels.push(`${dayLabels[i]}曜日 ${hourLabels[j]}:45`);
+      let dayLabel: string = dayLabels[i];
+
+      if (dateType === 'specific') {
+        // '2024-12-01' -> '2024年12月1日'
+        const [year, month, day] = dayLabel.split('-');
+        const formattedMonth = String(Number(month));
+        const formattedDay = String(Number(day));
+        dayLabel = `${year}年${formattedMonth}月${formattedDay}日`;
+      } else {
+        dayLabel = `${dayLabel}曜日`;
+      }
+
+      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:00`);
+      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:15`);
+      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:30`);
+      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:45`);
     }
   }
   return dateTimeLabels;
