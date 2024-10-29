@@ -8,6 +8,7 @@ interface AvailabilityChartProps {
   dateType: 'specific' | 'week';
   dayLabels: string[];
   children: React.ReactNode;
+  eventTimezone: string;
 }
 
 const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
@@ -17,6 +18,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
   dateType,
   dayLabels,
   children,
+  eventTimezone,
 }) => {
   return (
     <section
@@ -28,6 +30,7 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
         hourLabels={hourLabels}
         timeRangeEnd={timeRangeEnd}
         spaceTop={dateType === 'specific' ? 56 : 32}
+        eventTimezone={eventTimezone}
       />
       <div id="scrollableContainer" className="flex flex-col overflow-x-auto">
         <DayLabels dateType={dateType} dayLabels={dayLabels} />

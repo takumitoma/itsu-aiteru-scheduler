@@ -194,6 +194,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         timeRangeEnd={event.timeRangeEnd}
         dateType={event.surveyType}
         dayLabels={dayLabels}
+        eventTimezone={event.timezone}
       >
         {mode === 'edit' ? (
           <AvailabilityEditor
