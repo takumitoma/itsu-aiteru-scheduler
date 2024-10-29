@@ -24,8 +24,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const event = participant.events;
 
-    const numDaysOfWeek = (event.days_of_week as number[]).filter((value) => value === 1).length;
-    const expectedLength = event.survey_type === 'specific' ? event.dates?.length : numDaysOfWeek;
+    let expectedLength: number;
+    if (event.survey_type === 'specific') {
+      expectedLength = event.dates.length;
+    } else {
+      expectedLength = (event.days_of_week as number[]).filter((value) => value === 1).length;
+    }
+
     const slotsPerDay = (event.time_range_end - event.time_range_start) * 4;
     const expectedTotalSlots = expectedLength * slotsPerDay;
 
