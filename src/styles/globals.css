@@ -25,6 +25,17 @@ body {
   font-family: var(--font-noto-sans-jp), sans-serif;
 }
 
+
+@layer base {
+  h2 {
+    @apply text-lg sm:text-xl font-semibold;
+  }
+
+  h3 {
+    @apply text-base sm:text-lg font-semibold;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
