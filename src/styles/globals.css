@@ -31,20 +31,20 @@ body {
   }
 }
 
-button.three-d {
+.three-d {
   background: var(--primary);
   border: none;
   box-shadow: 0 4px #3b7bcf;
   transition: all 0.1s ease;
 }
 
-button.three-d:hover,
-button.three-d:focus { 
+.three-d:hover,
+.three-d:focus { 
   box-shadow: 0 3px #3b7bcf; 
   transform: translateY(1px); 
 }
 
-button.three-d:active {
+.three-d:active {
   box-shadow: 0 1px #3b7bcf; 
   transform: translateY(3px); 
 }
