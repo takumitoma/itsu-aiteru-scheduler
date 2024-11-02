@@ -4,19 +4,22 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 const HowToUsePage: React.FC = () => {
   return (
-    <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0 space-y-8">
+    <div
+      className="container mx-auto py-4 sm:py-8 flex flex-col items-center px-4 sm:px-0 space-y-4 
+        sm:space-y-8"
+    >
       <h1 className="text-3xl font-bold">使い方</h1>
-      <ol className="space-y-8">
-        <li className="flex items-center justify-between">
-          <div className="flex flex-col py-4 space-y-4 w-[45%]">
-            <strong className="text-2xl font-medium text-primary">
+      <ol className="space-t-4 sm:space-y-8 w-full">
+        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
+            <strong className="text-lg sm:text-2xl font-medium text-primary">
               {'1) 会いたい日時を教えてください。'}
             </strong>
-            <p className="text-xl">
+            <p className="text-md sm:text-xl">
               まず、グループと会いたい日程と時間を選択し、イベントを作成してください。
             </p>
           </div>
-          <div className="w-[45%] relative h-64">
+          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
             <Image
               src="/how-to-use/how-to-use-1.jpg"
               alt="how to use app step 1"
@@ -27,16 +30,16 @@ const HowToUsePage: React.FC = () => {
             />
           </div>
         </li>
-        <li className="flex items-center justify-between">
-          <div className="flex flex-col py-4 space-y-4 w-[45%]">
-            <strong className="text-2xl font-medium text-primary">
+        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
+            <strong className="text-lg sm:text-2xl font-medium text-primary">
               {'2)自分の空き時間を入力してください。'}
             </strong>
-            <p className="text-xl">
+            <p className="text-md sm:text-xl">
               選択した日時に対する自分の空いている時間を入力すると、他の参加者にも表示されます。
             </p>
           </div>
-          <div className="w-[45%] relative h-64">
+          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
             <Image
               src="/how-to-use/how-to-use-2.jpg"
               alt="how to use app step 2"
@@ -46,16 +49,16 @@ const HowToUsePage: React.FC = () => {
             />
           </div>
         </li>
-        <li className="flex items-center justify-between">
-          <div className="flex flex-col py-4 space-y-4 w-[45%]">
-            <strong className="text-2xl font-medium text-primary">
+        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
+            <strong className="text-lg sm:text-2xl font-medium text-primary">
               {'3)みんなにとって最適な時間を見つてください。'}
             </strong>
-            <p className="text-xl">
+            <p className="text-md sm:text-xl">
               イベントのリンクをグループと共有すると、他参加者も自分の空いている時間を入力できます。全員の空いている時間を重ねて表示し、最適な時間を簡単に見つけられるようにします。
             </p>
           </div>
-          <div className="w-[45%] relative h-64">
+          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
             <Image
               src="/how-to-use/how-to-use-3.jpg"
               alt="how to use app step 3"
@@ -66,12 +69,14 @@ const HowToUsePage: React.FC = () => {
           </div>
         </li>
       </ol>
-      <div className="flex flex-col space-y-8 justify-center items-center">
-        <p className="text-2xl font-bold">アカウント登録不要、ログイン不要、今すぐ使えます!</p>
+      <div className="flex flex-col py-8 space-y-6 sm:space-y-8 justify-center items-center">
+        <p className="text-xl sm:text-2xl font-bold text-center">
+          アカウント登録不要、ログイン不要、今すぐ使えます!
+        </p>
         <Link
           href="/"
-          className="bg-primary text-white text-xl text-center px-4 py-4 mt-4 rounded-md 
-            outline-customBlack outline-4 three-d w-fit flex items-center gap-4"
+          className="bg-primary text-white text-lg sm:text-xl text-center p-4 mt-2 sm:mt-4 
+            rounded-md outline-customBlack outline-4 three-d w-fit flex items-center gap-4"
         >
           イベント作成ページへ
           <FaRegArrowAltCircleRight size={24} />
