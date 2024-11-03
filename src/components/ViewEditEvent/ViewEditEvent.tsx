@@ -27,6 +27,8 @@ const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
 const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
 interface ViewEditEventProps {
   event: Event;
   participants: Participant[];
@@ -256,7 +258,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
           setSelectedColorScaleIndex={setSelectedColorScaleIndex}
         />
       )}
-      {mode === 'view' && <EventLinkSharer link={`http://localhost:3000/${event.id}`} />}
+      {mode === 'view' && <EventLinkSharer link={`${SITE_URL}/e/${event.id}`} />}
     </div>
   );
 };
