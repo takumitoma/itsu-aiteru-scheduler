@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { RxCross1 } from 'react-icons/rx';
-import { IoInformationCircleOutline } from 'react-icons/io5';
 
 interface NameInputPopupProps {
   onSubmit: (name: string) => Promise<void>;
@@ -50,9 +49,8 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
           </button>
         </div>
         <div className="flex">
-          <IoInformationCircleOutline className="translate-y-[1px]" />
-          <p className="text-xs sm:text-base">
-            再度アクセスする場合は、同じ名前を入力して空き時間を編集できます
+          <p className="text-xs sm:text-sm text-gray-600">
+            再度アクセスする場合は、同じ名前を入力して空き時間を編集
           </p>
         </div>
         <div>

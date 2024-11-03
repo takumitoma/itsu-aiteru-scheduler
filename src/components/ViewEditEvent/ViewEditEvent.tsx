@@ -55,7 +55,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const numHours: number = event.timeRangeEnd - event.timeRangeStart;
   const numSlots: number = numDays * numHours * QUARTERS_PER_HOUR;
 
-  const eventCreationTimeAgo = useMemo(() => {
+  const eventCreationTimeAgo: string = useMemo(() => {
     const dateEventCreated = parseDate(event.createdAt);
     const dateNow = new Date();
     return getDateDuration(dateEventCreated, dateNow);
@@ -167,10 +167,9 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   return (
     <div className="flex flex-col items-center w-full space-y-8">
-      <div className="flex flex-col justify-center items-center">
-        <h1>{event.title}</h1>
-        <p className="text-xs sm:text-sm text-gray-600">{`${eventCreationTimeAgo}前に作成`}</p>
-      </div>
+      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+        {event.title}
+      </h1>
       <SubHeading
         mode={mode}
         selectedParticipant={selectedParticipant}
@@ -259,6 +258,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         />
       )}
       {mode === 'view' && <EventLinkSharer link={`http://localhost:3000/${event.id}`} />}
+      <p className="text-xs sm:text-sm text-gray-600">{`${eventCreationTimeAgo}前に作成されたイベント`}</p>
     </div>
   );
 };

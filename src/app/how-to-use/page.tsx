@@ -5,7 +5,7 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 const HowToUsePage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1>使い方</h1>
+      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">使い方</h1>
       <ol className="space-y-8 w-full">
         <li
           className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
