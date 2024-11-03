@@ -15,34 +15,10 @@ interface UseCaseCard {
   Icon: IconType;
 }
 
-const useCaseCards: UseCaseCard[] = [
-  {
-    title: 'チームミーティング',
-    Icon: MdMeetingRoom,
-  },
-  {
-    title: '勉強会・サークル活動',
-    Icon: LuBookOpen,
-  },
-  {
-    title: '友人との予定',
-    Icon: LuUsers,
-  },
-  {
-    title: 'オンラインイベント',
-    Icon: LuVideo,
-  },
-];
-
-const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
-  <div
-    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
-      p-4 rounded-md"
-  >
-    <h3 className="text-lg font-medium">{card.title}</h3>
-    <card.Icon size={96} className="text-primary" />
-  </div>
-);
+interface RestrictionCard {
+  title: string;
+  limit: string;
+}
 
 const featureCards: FeatureCard[] = [
   {
@@ -67,25 +43,43 @@ const featureCards: FeatureCard[] = [
   },
 ];
 
-const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
-  <div
-    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
-      p-4 rounded-md"
-  >
-    <h3 className="text-lg font-medium">{card.title}</h3>
-    <card.Icon color="var(--primary)" />
-    <ul className="space-y-4 w-full list-none">
-      {card.features.map((feature, index) => (
-        <li key={index} className="flex items-start gap-4">
-          <div className="flex-shrink-0 mt-1">
-            <FaCheck className="w-5 h-5 text-primary" />
-          </div>
-          <span className="text-sm sm:text-base">{feature}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+const useCaseCards: UseCaseCard[] = [
+  {
+    title: 'チームミーティング',
+    Icon: MdMeetingRoom,
+  },
+  {
+    title: '勉強会・サークル活動',
+    Icon: LuBookOpen,
+  },
+  {
+    title: '友人との予定',
+    Icon: LuUsers,
+  },
+  {
+    title: 'オンラインイベント',
+    Icon: LuVideo,
+  },
+];
+
+const restrictionCards: RestrictionCard[] = [
+  {
+    title: 'イベントの日数',
+    limit: '31日まで',
+  },
+  {
+    title: 'イベント名',
+    limit: '100文字まで',
+  },
+  {
+    title: '参加者名',
+    limit: '20文字まで',
+  },
+  {
+    title: '時間設定',
+    limit: '15分単位',
+  },
+];
 
 const OverviewPage: React.FC = () => {
   return (
@@ -123,15 +117,54 @@ const OverviewPage: React.FC = () => {
 
       <section className="w-full max-w-5xl space-y-4">
         <h2 className="text-primary">制限事項</h2>
-        <ul className="list-disc list-inside space-y-1 text-base sm:text-lg">
-          <li>イベントの日数:31日まで</li>
-          <li>イベント名:100文字まで</li>
-          <li>参加者名:2〜20文字</li>
-          <li>時間設定:15分単位</li>
-        </ul>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {restrictionCards.map((card, index) => (
+            <RestrictionCard key={index} card={card} />
+          ))}
+        </div>
       </section>
     </div>
   );
 };
+
+const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
+  <div
+    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+      p-4 rounded-md"
+  >
+    <h3 className="text-lg font-medium">{card.title}</h3>
+    <card.Icon color="var(--primary)" />
+    <ul className="space-y-4 w-full list-none">
+      {card.features.map((feature, index) => (
+        <li key={index} className="flex items-start gap-4">
+          <div className="flex-shrink-0 mt-1">
+            <FaCheck className="w-5 h-5 text-primary" />
+          </div>
+          <span className="text-sm sm:text-base">{feature}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
+  <div
+    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+      p-4 rounded-md"
+  >
+    <h3 className="text-lg font-medium">{card.title}</h3>
+    <card.Icon size={96} className="text-primary" />
+  </div>
+);
+
+const RestrictionCard: React.FC<{ card: RestrictionCard }> = ({ card }) => (
+  <div
+    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+      p-6 rounded-md"
+  >
+    <h3 className="text-lg font-medium">{card.title}</h3>
+    <p className="text-2xl font-bold text-primary">{card.limit}</p>
+  </div>
+);
 
 export default OverviewPage;
