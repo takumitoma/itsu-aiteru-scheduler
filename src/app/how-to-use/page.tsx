@@ -6,15 +6,18 @@ const HowToUsePage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
       <h1>使い方</h1>
-      <ol className="space-t-4 sm:space-y-8 w-full">
-        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <ol className="space-y-8 w-full">
+        <li
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
+            space-y-4 sm:space-y-0"
+        >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'1) 会いたい日時を教えてください。'}</h2>
             <p className="text-base sm:text-lg">
               まず、グループと会いたい日程と時間を選択し、イベントを作成してください。
             </p>
           </div>
-          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
+          <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
               src="/how-to-use/how-to-use-1.jpg"
               alt="how to use app step 1"
@@ -25,14 +28,17 @@ const HowToUsePage: React.FC = () => {
             />
           </div>
         </li>
-        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+        <li
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
+          space-y-4 sm:space-y-0"
+        >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'2)自分の空き時間を入力してください。'}</h2>
             <p className="text-base sm:text-lg">
               選択した日時に対する自分の空いている時間を入力すると、他の参加者にも表示されます。
             </p>
           </div>
-          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
+          <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
               src="/how-to-use/how-to-use-2.jpg"
               alt="how to use app step 2"
@@ -42,14 +48,17 @@ const HowToUsePage: React.FC = () => {
             />
           </div>
         </li>
-        <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+        <li
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
+          space-y-4 sm:space-y-0"
+        >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'3)みんなにとって最適な時間を見つてください。'}</h2>
             <p className="text-base sm:text-lg">
               イベントのリンクをグループと共有すると、他参加者も自分の空いている時間を入力できます。全員の空いている時間を重ねて表示し、最適な時間を簡単に見つけられるようにします。
             </p>
           </div>
-          <div className="w-full sm:w-[45%] relative h-48 sm:h-64">
+          <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
               src="/how-to-use/how-to-use-3.jpg"
               alt="how to use app step 3"
