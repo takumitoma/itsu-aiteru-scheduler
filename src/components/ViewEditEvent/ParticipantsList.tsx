@@ -31,7 +31,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
 
   return (
     <section className="w-full space-y-2">
-      <h2 className="text-md sm:text-xl font-medium">{`参加者数: ${allParticipants.length}人`}</h2>
+      <h2 className="font-medium">{`参加者数: ${allParticipants.length}人`}</h2>
       <p className="text-xs sm:text-sm text-gray-600">
         {mode === 'view'
           ? '名前をクリックで、それぞれの空き時間を表示'

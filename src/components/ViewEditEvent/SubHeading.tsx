@@ -44,7 +44,7 @@ const SubHeading: React.FC<SubHeadingProps> = ({
 
   return (
     <section className="flex flex-col space-y-2 w-full">
-      <h2 className="text-sm sm:text-xl font-bold truncate">{getHeadingText()}</h2>
+      <h2 className="truncate">{getHeadingText()}</h2>
       {mode === 'view' && (
         <p className="text-xs sm:text-sm text-gray-600">
           スケジュール表をマウスオーバーもしくはタップで詳細を確認

@@ -27,6 +27,10 @@ body {
 
 
 @layer base {
+  h1 {
+    @apply text-2xl sm:text-3xl font-bold;
+  }
+
   h2 {
     @apply text-lg sm:text-xl font-semibold;
   }

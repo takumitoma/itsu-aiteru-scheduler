@@ -13,7 +13,7 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
 
   return (
     <div className="w-full">
-      <label htmlFor="eventTitle" className="text-xl font-medium">
+      <label htmlFor="eventTitle" className="text-lg sm:text-xl font-medium">
         イベント名
       </label>
       <input

@@ -84,7 +84,7 @@ const restrictionCards: RestrictionCard[] = [
 const OverviewPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1 className="text-3xl font-bold">サービス概要</h1>
+      <h1>サービス概要</h1>
 
       <section className="w-full space-y-4">
         <h2 className="text-primary">サービスの目的</h2>

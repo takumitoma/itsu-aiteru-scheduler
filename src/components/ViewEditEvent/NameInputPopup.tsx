@@ -51,7 +51,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
         </div>
         <div className="flex">
           <IoInformationCircleOutline className="translate-y-[1px]" />
-          <p className="text-xs sm:text-md">
+          <p className="text-xs sm:text-base">
             再度アクセスする場合は、同じ名前を入力して空き時間を編集できます
           </p>
         </div>
@@ -74,7 +74,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
             disabled={isSubmitting}
           />
           {showError && (
-            <p className="text-red-500 mt-1 text-xs sm:text-md">
+            <p className="text-red-500 mt-1 text-xs sm:text-base">
               名前は2文字から20文字で入力してください
             </p>
           )}

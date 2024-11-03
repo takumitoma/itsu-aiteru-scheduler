@@ -52,7 +52,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
 
   return (
     <div className="w-full">
-      <label className="text-xl font-medium">タイムゾーン</label>
+      <label className="text-lg sm:text-xl font-medium">タイムゾーン</label>
       <div className="relative mt-4" ref={dropdownRef}>
         <button
           type="button"

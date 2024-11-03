@@ -14,7 +14,11 @@ const TimezoneDisplay: React.FC<TimezoneDisplayProps> = ({ timezone }) => {
   const label = allTimezones[timezone as keyof typeof allTimezones];
   const offset = dayjs().tz(timezone).format('Z');
 
-  return <section className="whitespace-nowrap">{`(GMT${offset}) ${label}`}</section>;
+  return (
+    <section>
+      <p className="whitespace-nowrap text-base sm:text-lg">{`(GMT${offset}) ${label}`}</p>
+    </section>
+  );
 };
 
 export default TimezoneDisplay;
