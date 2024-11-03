@@ -21,7 +21,7 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
     const participants = await getParticipants(eventId);
 
     return (
-      <div className="container mx-auto py-8 flex flex-col items-center px-4 sm:px-0">
+      <div className="flex flex-col items-center">
         <ViewEditEvent event={event} participants={participants} />
       </div>
     );

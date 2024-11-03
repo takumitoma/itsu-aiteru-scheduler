@@ -4,10 +4,7 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 const HowToUsePage: React.FC = () => {
   return (
-    <div
-      className="container mx-auto py-4 sm:py-8 flex flex-col items-center px-4 sm:px-0 space-y-4 
-        sm:space-y-8"
-    >
+    <div className="flex flex-col items-center space-y-4 sm:space-y-8">
       <h1 className="text-3xl font-bold">使い方</h1>
       <ol className="space-t-4 sm:space-y-8 w-full">
         <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">

@@ -29,7 +29,9 @@ export default function RootLayout({
       </head>
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         <Header />
-        <main className="pt-20">{children}</main>
+        <main className="pt-20">
+          <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
+        </main>
       </body>
     </html>
   );

@@ -166,7 +166,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   }
 
   return (
-    <div className="container mx-auto flex flex-col items-center max-w-[762px] w-full space-y-6">
+    <div className="flex flex-col items-center w-full space-y-8">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold">{event.title}</h1>
         <p className="text-xs sm:text-sm text-gray-600">{`${eventCreationTimeAgo}前に作成`}</p>

@@ -84,7 +84,7 @@ const CreateEventForm: React.FC = () => {
 
   return (
     <form
-      className={`grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-[60rem] ${
+      className={`grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 max-w-5xl ${
         isSubmitting ? 'opacity-50' : 'opacity-100'
       }`}
       onSubmit={handleCreateEvent}

@@ -83,20 +83,17 @@ const restrictionCards: RestrictionCard[] = [
 
 const OverviewPage: React.FC = () => {
   return (
-    <div
-      className="container mx-auto py-4 sm:py-8 flex flex-col items-center px-4 sm:px-0 space-y-4 
-        sm:space-y-8"
-    >
+    <div className="flex flex-col items-center space-y-4 sm:space-y-8">
       <h1 className="text-3xl font-bold">サービス概要</h1>
 
-      <section className="w-full max-w-5xl space-y-4">
+      <section className="w-full space-y-4">
         <h2 className="text-primary">サービスの目的</h2>
         <p className="text-base sm:text-lg leading-relaxed">
           グループでの予定調整をシンプルに。「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。
         </p>
       </section>
 
-      <section className="w-full max-w-5xl space-y-4">
+      <section className="w-full space-y-4">
         <h2 className="text-primary">機能紹介</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {featureCards.map((card, index) => (
@@ -105,7 +102,7 @@ const OverviewPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="w-full max-w-5xl space-y-4">
+      <section className="w-full space-y-4">
         <h2 className="text-primary">想定利用シーン</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {useCaseCards.map((card, index) => (
@@ -115,7 +112,7 @@ const OverviewPage: React.FC = () => {
         <p className="-mt-1 text-base sm:text-lg">など</p>
       </section>
 
-      <section className="w-full max-w-5xl space-y-4">
+      <section className="w-full space-y-4">
         <h2 className="text-primary">制限事項</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {restrictionCards.map((card, index) => (

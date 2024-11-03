@@ -35,7 +35,7 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
   }, [copied]);
 
   return (
-    <section className="max-w-3xl w-full space-y-2">
+    <section className="w-full space-y-2">
       <label htmlFor="event-link" className="text-md sm:text-xl font-medium">
         このイベントのリンク
       </label>
