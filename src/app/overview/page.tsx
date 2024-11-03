@@ -90,7 +90,7 @@ const OverviewPage: React.FC = () => {
 
       <section className="w-full space-y-4">
         <h2 className="text-primary">サービスの目的</h2>
-        <p className="text-base sm:text-lg leading-relaxed">
+        <p className="leading-relaxed">
           グループでの予定調整をシンプルに。「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。
         </p>
       </section>
@@ -111,7 +111,7 @@ const OverviewPage: React.FC = () => {
             <UseCaseCard key={index} card={card} />
           ))}
         </div>
-        <p className="-mt-1 text-base sm:text-lg">など</p>
+        <p className="-mt-1">など</p>
       </section>
 
       <section className="w-full space-y-4">
@@ -139,7 +139,7 @@ const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
           <div className="flex-shrink-0 mt-1">
             <FaCheck className="w-5 h-5 text-primary" />
           </div>
-          <span className="text-sm sm:text-base">{feature}</span>
+          <span className="text-sm">{feature}</span>
         </li>
       ))}
     </ul>

@@ -13,9 +13,7 @@ const HowToUsePage: React.FC = () => {
         >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'1) 会いたい日時を教えてください。'}</h2>
-            <p className="text-base sm:text-lg">
-              まず、グループと会いたい日程と時間を選択し、イベントを作成してください。
-            </p>
+            <p>まず、グループと会いたい日程と時間を選択し、イベントを作成してください。</p>
           </div>
           <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
@@ -34,7 +32,7 @@ const HowToUsePage: React.FC = () => {
         >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'2)自分の空き時間を入力してください。'}</h2>
-            <p className="text-base sm:text-lg">
+            <p>
               選択した日時に対する自分の空いている時間を入力すると、他の参加者にも表示されます。
             </p>
           </div>
@@ -54,7 +52,7 @@ const HowToUsePage: React.FC = () => {
         >
           <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
             <h2 className="text-primary">{'3)みんなにとって最適な時間を見つてください。'}</h2>
-            <p className="text-base sm:text-lg">
+            <p>
               イベントのリンクをグループと共有すると、他参加者も自分の空いている時間を入力できます。全員の空いている時間を重ねて表示し、最適な時間を簡単に見つけられるようにします。
             </p>
           </div>
