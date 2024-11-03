@@ -2,8 +2,8 @@ import CreateEventForm from '@/components/CreateEventForm/CreateEventForm';
 
 const Home: React.FC = () => {
   return (
-    <div className="container mx-auto py-8 flex flex-col items-center px-4">
-      <h1 className="text-3xl font-bold mb-8">新規イベント作成</h1>
+    <div className="flex flex-col items-center space-y-8">
+      <h1 className="text-3xl font-bold">新規イベント作成</h1>
       <CreateEventForm />
     </div>
   );

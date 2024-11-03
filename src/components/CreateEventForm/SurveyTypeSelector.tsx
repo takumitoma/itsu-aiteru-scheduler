@@ -30,7 +30,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
   };
 
   return (
-    <div className="max-w-md w-full">
+    <div className="w-full">
       <label className="text-xl font-medium">アンケートの種類</label>
       <div className="relative mt-4" ref={dropdownRef}>
         <button

@@ -197,7 +197,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const isNextMonthDisabled = currentMonth.isSame(maxAllowedMonth, 'month');
 
   return (
-    <div className="max-w-md">
+    <div className="w-full">
       <div className={displayError ? 'border-2 border-red-500' : ''}>
         <div className="flex justify-between items-center mb-4">
           <button
