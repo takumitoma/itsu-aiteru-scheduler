@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Heading from './Heading';
 import SubHeading from './SubHeading';
 import AvailabilityChart from './AvailabilityChart';
 import ParticipantEditor from './ParticipantEditor';
@@ -167,9 +168,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   return (
     <div className="flex flex-col items-center w-full space-y-8">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
-        {event.title}
-      </h1>
+      <Heading title={event.title} eventCreationTimeAgo={eventCreationTimeAgo} />
       <SubHeading
         mode={mode}
         selectedParticipant={selectedParticipant}
@@ -258,7 +257,6 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
         />
       )}
       {mode === 'view' && <EventLinkSharer link={`http://localhost:3000/${event.id}`} />}
-      <p className="text-xs sm:text-sm text-gray-600">{`${eventCreationTimeAgo}前に作成されたイベント`}</p>
     </div>
   );
 };
