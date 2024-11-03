@@ -1,13 +1,50 @@
 import { FaCheck } from 'react-icons/fa6';
 import { CalendarSvg, ShareSvg, CursorHandSvg, CustomSvgProps } from '@/components/svg';
+import { IconType } from 'react-icons';
+import { MdMeetingRoom } from 'react-icons/md';
+import { LuBookOpen, LuUsers, LuVideo } from 'react-icons/lu';
 
-interface FeatureCardProps {
+interface FeatureCard {
   title: string;
   Icon: React.FC<CustomSvgProps>;
   features: string[];
 }
 
-const featureCards: FeatureCardProps[] = [
+interface UseCaseCard {
+  title: string;
+  Icon: IconType;
+}
+
+const useCaseCards: UseCaseCard[] = [
+  {
+    title: 'チームミーティング',
+    Icon: MdMeetingRoom,
+  },
+  {
+    title: '勉強会・サークル活動',
+    Icon: LuBookOpen,
+  },
+  {
+    title: '友人との予定',
+    Icon: LuUsers,
+  },
+  {
+    title: 'オンラインイベント',
+    Icon: LuVideo,
+  },
+];
+
+const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
+  <div
+    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+      p-4 rounded-md"
+  >
+    <h3 className="text-lg font-medium">{card.title}</h3>
+    <card.Icon size={96} className="text-primary" />
+  </div>
+);
+
+const featureCards: FeatureCard[] = [
   {
     title: '柔軟な日時設定',
     Icon: CalendarSvg,
@@ -30,7 +67,7 @@ const featureCards: FeatureCardProps[] = [
   },
 ];
 
-const FeatureCard: React.FC<{ card: FeatureCardProps }> = ({ card }) => (
+const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
   <div
     className="w-full space-y-6 flex flex-col items-center border border-gray-500 
       p-4 rounded-md"
@@ -76,13 +113,12 @@ const OverviewPage: React.FC = () => {
 
       <section className="w-full max-w-5xl space-y-4">
         <h2 className="text-primary">想定利用シーン</h2>
-        <ul className="list-disc list-inside space-y-1 text-base sm:text-lg">
-          <li>チームミーティング</li>
-          <li>勉強会・サークル活動</li>
-          <li>友人との予定</li>
-          <li>オンラインイベント</li>
-        </ul>
-        <p className="-mt-1 text-base sm:text-lg ml-6">など</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {useCaseCards.map((card, index) => (
+            <UseCaseCard key={index} card={card} />
+          ))}
+        </div>
+        <p className="-mt-1 text-base sm:text-lg">など</p>
       </section>
 
       <section className="w-full max-w-5xl space-y-4">
