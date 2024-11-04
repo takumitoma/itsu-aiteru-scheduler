@@ -3,8 +3,15 @@ import { Event } from '@/types/Event';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 const ONE_DAY = 86400;
 
+// https://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+const UUID_REGEX = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
 export async function getEvent(id: string): Promise<Event> {
   try {
+    if (!UUID_REGEX.test(id)) {
+      throw new Error('Event not found');
+    }
+
     const requestTime = Date.now();
     const response = await fetch(`${API_BASE_URL}/api/event?id=${id}`, {
       method: 'GET',
