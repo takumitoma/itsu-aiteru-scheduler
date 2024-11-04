@@ -17,7 +17,7 @@ const HowToUsePage: React.FC = () => {
           </div>
           <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
-              src="/how-to-use/how-to-use-1.jpg"
+              src="/how-to-use/how-to-use-1.JPG"
               alt="how to use app step 1"
               fill
               className="object-contain"
@@ -38,7 +38,7 @@ const HowToUsePage: React.FC = () => {
           </div>
           <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
-              src="/how-to-use/how-to-use-2.jpg"
+              src="/how-to-use/how-to-use-2.JPG"
               alt="how to use app step 2"
               fill
               className="object-contain"
@@ -58,7 +58,7 @@ const HowToUsePage: React.FC = () => {
           </div>
           <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
             <Image
-              src="/how-to-use/how-to-use-3.jpg"
+              src="/how-to-use/how-to-use-3.JPG"
               alt="how to use app step 3"
               fill
               className="object-contain"
