@@ -69,7 +69,7 @@ const CreateEventForm: React.FC = () => {
 
         const createdEventId = await createEvent(event);
 
-        router.push(`/${createdEventId}`);
+        router.push(`/e/${createdEventId}`);
       } catch (error) {
         console.error('Error creating event:', error);
         setApiError(error instanceof Error ? error.message : 'An unknown error occurred');
