@@ -7,24 +7,23 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // disable body scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
+    if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
 
-    // Cleanup function
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   function toggleMenu() {
-    setIsMenuOpen((prevState) => !prevState);
+    setIsMobileMenuOpen((prevState) => !prevState);
   }
 
   return (
@@ -35,7 +34,7 @@ const Header = () => {
           <span className="text-xl font-bold hidden sm:block">いつ空いてる？</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* desktop nav bar */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
             <li>
@@ -48,29 +47,35 @@ const Header = () => {
                 使い方
               </Link>
             </li>
+            <li>
+              <Link href="/contact" className="hover:text-primary text-xl transition-colors">
+                お問い合わせ
+              </Link>
+            </li>
           </ul>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* buttons to open or close mobile nav */}
         <button
-          className={`block md:hidden ${isMenuOpen ? 'text-background z-50' : 'text-foreground'}`}
+          className={`block md:hidden ${
+            isMobileMenuOpen ? 'text-background z-50' : 'text-foreground'
+          }`}
           onClick={toggleMenu}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
         >
-          {isMenuOpen ? <LuX size={30} /> : <RxHamburgerMenu size={30} />}
+          {isMobileMenuOpen ? <LuX size={30} /> : <RxHamburgerMenu size={30} />}
         </button>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
+        {/* mobile nav bar */}
+        {isMobileMenuOpen && (
           <>
-            {/* Overlay */}
+            {/* overlay */}
             <div
               className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            {/* Menu */}
             <div className="fixed top-20 inset-x-0 bottom-4 md:hidden z-50">
               <nav className="bg-background mx-4 h-full rounded-md">
                 <ul className="flex flex-col space-y-4 p-4">
@@ -78,7 +83,7 @@ const Header = () => {
                     <Link
                       href="/overview"
                       className="hover:text-primary text-xl transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       サービス概要
                     </Link>
@@ -87,9 +92,18 @@ const Header = () => {
                     <Link
                       href="/how-to-use"
                       className="hover:text-primary text-xl transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       使い方
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="hover:text-primary text-xl transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      お問い合わせ
                     </Link>
                   </li>
                 </ul>
