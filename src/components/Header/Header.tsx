@@ -6,6 +6,12 @@ import Link from 'next/link';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
 
+const NAV_ITEMS = [
+  { href: '/overview', label: 'サービス概要' },
+  { href: '/how-to-use', label: '使い方' },
+  { href: '/contact', label: 'お問い合わせ' },
+];
+
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -37,21 +43,13 @@ const Header = () => {
         {/* desktop nav bar */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
-            <li>
-              <Link href="/overview" className="hover:text-primary text-xl transition-colors">
-                サービス概要
-              </Link>
-            </li>
-            <li>
-              <Link href="/how-to-use" className="hover:text-primary text-xl transition-colors">
-                使い方
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-primary text-xl transition-colors">
-                お問い合わせ
-              </Link>
-            </li>
+            {NAV_ITEMS.map(({ href, label }) => (
+              <li key={href}>
+                <Link href={href} className="hover:text-primary text-xl transition-colors">
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
 
@@ -79,33 +77,17 @@ const Header = () => {
             <div className="fixed top-20 inset-x-0 bottom-4 md:hidden z-50">
               <nav className="bg-background mx-4 h-full rounded-md">
                 <ul className="flex flex-col space-y-4 p-4">
-                  <li>
-                    <Link
-                      href="/overview"
-                      className="hover:text-primary text-xl transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      サービス概要
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/how-to-use"
-                      className="hover:text-primary text-xl transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      使い方
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="hover:text-primary text-xl transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      お問い合わせ
-                    </Link>
-                  </li>
+                  {NAV_ITEMS.map(({ href, label }) => (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        className="hover:text-primary text-xl transition-colors"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </nav>
             </div>
