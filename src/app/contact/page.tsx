@@ -8,6 +8,12 @@ interface Form {
   message: string;
 }
 
+const FORM_LIMITS = {
+  name: 50,
+  email: 254,
+  message: 500,
+};
+
 const ContactPage: React.FC = () => {
   const [form, setForm] = useState<Form>({
     name: '',
@@ -36,8 +42,17 @@ const ContactPage: React.FC = () => {
     if (!formData.name) {
       throw Error('お名前を入力してください。');
     }
+    if (formData.name.length > FORM_LIMITS.name) {
+      throw Error(`お名前は${FORM_LIMITS.name}文字以内で入力してください。`);
+    }
+    if (formData.email && formData.email.length > FORM_LIMITS.email) {
+      throw Error(`メールアドレスは${FORM_LIMITS.email}文字以内で入力してください。`);
+    }
     if (!formData.message) {
       throw Error('お問い合わせ詳細を入力してください。');
+    }
+    if (formData.message.length > FORM_LIMITS.message) {
+      throw Error(`お問い合わせ詳細は${FORM_LIMITS.message}文字以内で入力してください。`);
     }
   }
 
@@ -77,7 +92,8 @@ const ContactPage: React.FC = () => {
       </h1>
       <div className="space-y-4">
         <p>
-          当サイトをご利用いただき、誠にありがとうございます。サービス向上のため、皆様からのご意見・ご感想をお待ちしております。いただいたフィードバックは一つ一つ丁寧に確認させていただき、できる限り対応させていただきます。
+          {`当サイトをご利用いただき、誠にありがとうございます。サービス向上のため、皆様からのご意見・ご感想をお待ちしております。
+            いただいたフィードバックは一つ一つ丁寧に確認させていただき、できる限り対応させていただきます。`}
         </p>
         <p>その他のお問い合わせにつきましても、フォームをご利用ください。</p>
       </div>
@@ -93,6 +109,7 @@ const ContactPage: React.FC = () => {
             name="name"
             value={form.name}
             onChange={handleChange}
+            maxLength={FORM_LIMITS.name}
             required
             className="mt-4 font-normal text-base"
           />
@@ -105,6 +122,7 @@ const ContactPage: React.FC = () => {
             name="email"
             value={form.email}
             onChange={handleChange}
+            maxLength={FORM_LIMITS.email}
             className="mt-4 font-normal text-base"
           />
         </label>
@@ -118,15 +136,23 @@ const ContactPage: React.FC = () => {
             name="message"
             value={form.message}
             onChange={handleChange}
+            maxLength={FORM_LIMITS.message}
             required
             rows={7}
             className="w-full px-3 py-2 border rounded-md shadow-sm mt-4 font-normal text-base 
-                bg-primaryVeryLight focus:outline-none focus:ring-2 focus:ring-primary 
-                border-primary"
+              bg-primaryVeryLight focus:outline-none focus:ring-2 focus:ring-primary 
+              border-primary"
           />
+          <div className="text-sm text-gray-500">
+            {form.message.length}/{FORM_LIMITS.message}文字
+          </div>
         </label>
-        {/* {showSuccess && <FormSuccess />}
-        {showFail && <FormFail />} */}
+        {errorMsg && <div className="text-red-500 text-center">{errorMsg}</div>}
+        {showSuccess && (
+          <div className="text-green-500 text-center">
+            お問い合わせを受け付けました。ありがとうございます。
+          </div>
+        )}
         <div className="flex justify-center">
           <button
             type="submit"
