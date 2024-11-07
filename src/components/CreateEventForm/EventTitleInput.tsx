@@ -13,9 +13,7 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
 
   return (
     <div className="w-full">
-      <label htmlFor="eventTitle" className="text-lg sm:text-xl font-medium">
-        イベント名
-      </label>
+      <label htmlFor="eventTitle">イベント名</label>
       <input
         type="text"
         id="eventTitle"
@@ -24,10 +22,7 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
           onChange(e.target.value);
           isInteracted.current = true;
         }}
-        className={`mt-4 px-4 py-2 w-full rounded-md shadow-sm bg-primaryVeryLight text-customBlack
-          focus:outline-none focus:ring-2 focus:ring-primary ${
-            displayError ? 'border-2 border-red-500' : 'border border-primary'
-          }`}
+        className={`mt-4 ${displayError ? 'border-2 border-red-500' : 'border border-primary'}`}
         placeholder="例) テニスサークル・ボウリング大会"
       />
       <p className={`mt-2 px-4 text-red-500 ${displayError ? '' : 'hidden'}`}>
