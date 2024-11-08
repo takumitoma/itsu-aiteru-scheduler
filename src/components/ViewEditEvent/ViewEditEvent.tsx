@@ -20,8 +20,8 @@ import {
   generateDateTimeLabels,
   generateParticipantLists,
   generateColorScale,
-} from '@/utils/availabilityCalculations';
-import { getDateDuration, parseDate } from '@/utils/dateCalculations';
+} from '@/utils/availability-calculations';
+import { getDateDuration, parseDate } from '@/utils/date-calculations';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
