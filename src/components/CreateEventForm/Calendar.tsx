@@ -204,8 +204,7 @@ const Calendar: React.FC<CalendarProps> = ({
             ref={prevMonthButtonRef}
             type="button"
             onClick={navigatePrevMonth}
-            className={`p-2 rounded-md outline-customBlack outline-4
-              three-d text-white ${isPrevMonthDisabled ? 'invisible' : ''}`}
+            className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to previous month"
           >
             <MdNavigateBefore size={20} />
@@ -215,8 +214,7 @@ const Calendar: React.FC<CalendarProps> = ({
             ref={nextMonthButtonRef}
             type="button"
             onClick={navigateNextMonth}
-            className={`p-2 rounded-md outline-customBlack outline-4
-              three-d text-white ${isNextMonthDisabled ? 'invisible' : ''}`}
+            className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to next month"
           >
             <MdNavigateNext size={20} />

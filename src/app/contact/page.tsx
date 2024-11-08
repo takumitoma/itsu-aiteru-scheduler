@@ -157,10 +157,9 @@ const ContactPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`bg-primary text-white text-lg sm:text-xl text-center px-4 py-4 mt-4 
-              rounded-md w-[140px] sm:w-[152px] outline-customBlack outline-4 three-d ${
-                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            className={`three-d w-[140px] sm:w-[152px] mt-4 ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {isSubmitting ? '送信中' : 'お問い合わせ'}
           </button>

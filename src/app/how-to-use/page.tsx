@@ -71,11 +71,7 @@ const HowToUsePage: React.FC = () => {
         <p className="text-xl sm:text-2xl font-bold text-center">
           アカウント登録不要、ログイン不要、今すぐ使えます!
         </p>
-        <Link
-          href="/"
-          className="bg-primary text-white text-lg sm:text-xl text-center p-4 mt-2 sm:mt-4 
-            rounded-md outline-customBlack outline-4 three-d w-fit flex items-center gap-4"
-        >
+        <Link href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
           イベント作成ページへ
           <FaRegArrowAltCircleRight size={24} />
         </Link>
