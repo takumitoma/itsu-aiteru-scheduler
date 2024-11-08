@@ -45,7 +45,10 @@ const Header = () => {
           <ul className="flex items-center space-x-8">
             {NAV_ITEMS.map(({ href, label }) => (
               <li key={href}>
-                <Link href={href} className="hover:text-primary text-xl transition-colors">
+                <Link
+                  href={href}
+                  className="hover:text-primary text-lg transition-colors font-semibold"
+                >
                   {label}
                 </Link>
               </li>
