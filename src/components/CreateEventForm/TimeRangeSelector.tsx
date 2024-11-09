@@ -1,5 +1,13 @@
 import { Slider } from '@mui/material';
 
+const TIME_MARKS = [
+  { value: 0, label: '0時' },
+  { value: 6, label: '6時' },
+  { value: 12, label: '12時' },
+  { value: 18, label: '18時' },
+  { value: 24, label: '24時' },
+];
+
 interface TimeRangeSelectorProps {
   value: { start: number; end: number };
   onChange: (value: { start: number; end: number }) => void;
@@ -29,14 +37,6 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
     }
   };
 
-  const marks = [
-    { value: 0, label: '0時' },
-    { value: 6, label: '6時' },
-    { value: 12, label: '12時' },
-    { value: 18, label: '18時' },
-    { value: 24, label: '24時' },
-  ];
-
   return (
     <div className="w-full">
       <label className="mb-4">時間帯を選択</label>
@@ -48,7 +48,7 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
           valueLabelFormat={(hour: number) => `${Math.round(hour)}時`}
           min={0}
           max={24}
-          marks={marks}
+          marks={TIME_MARKS}
           className="text-primary"
           sx={{
             '& .MuiSlider-thumb': {

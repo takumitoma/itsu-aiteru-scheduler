@@ -20,12 +20,12 @@ import {
   generateDateTimeLabels,
   generateParticipantLists,
   generateColorScale,
-} from '@/utils/availabilityCalculations';
-import { getDateDuration, parseDate } from '@/utils/dateCalculations';
+} from '@/utils/availability-calculations';
+import { getDateDuration, parseDate } from '@/utils/date-calculations';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
-const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+import { DAYS_OF_WEEK } from '@/constants/days';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -48,7 +48,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const dayLabels: string[] =
     event.surveyType === 'specific'
       ? event.dates || []
-      : DAYS_OF_WEEK_LABELS.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
+      : DAYS_OF_WEEK.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
   const hourLabels: number[] = Array.from(
     { length: event.timeRangeEnd - event.timeRangeStart },
     (_, index) => event.timeRangeStart + index,

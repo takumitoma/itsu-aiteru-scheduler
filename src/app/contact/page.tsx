@@ -2,20 +2,20 @@
 
 import { useState, useRef } from 'react';
 
-interface Form {
-  name: string;
-  email: string;
-  message: string;
-}
-
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
 };
 
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+}
+
 const ContactPage: React.FC = () => {
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
     message: '',
@@ -35,7 +35,7 @@ const ContactPage: React.FC = () => {
     }));
   }
 
-  function formIsValid(formData: Form): void {
+  function formIsValid(formData: ContactForm): void {
     if (honeypotRef.current?.checked) {
       throw Error('Invalid submission');
     }
@@ -157,10 +157,9 @@ const ContactPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`bg-primary text-white text-lg sm:text-xl text-center px-4 py-4 mt-4 
-              rounded-md w-[140px] sm:w-[152px] outline-customBlack outline-4 three-d ${
-                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            className={`three-d w-[140px] sm:w-[152px] mt-4 ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {isSubmitting ? '送信中' : 'お問い合わせ'}
           </button>

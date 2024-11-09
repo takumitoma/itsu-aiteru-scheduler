@@ -1,13 +1,14 @@
 import { Participant } from '@/types/Participant';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-const REVALIDATE_TIME = 30;
 
 export async function getParticipants(eventId: string): Promise<Participant[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/participant?eventId=${eventId}`, {
       method: 'GET',
-      next: { revalidate: REVALIDATE_TIME },
+      next: {
+        tags: [`participants-${eventId}`],
+      },
     });
 
     if (!response.ok) {

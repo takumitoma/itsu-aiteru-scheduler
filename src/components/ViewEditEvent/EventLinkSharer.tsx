@@ -36,15 +36,13 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
 
   return (
     <section className="w-full space-y-2">
-      <label htmlFor="event-link" className="text-lg sm:text-xl font-medium">
-        このイベントのリンク
-      </label>
+      <label htmlFor="event-link">このイベントのリンク</label>
       <p className="text-xs sm:text-sm text-gray-600">
         リンクを共有して、他の参加者がそれぞれ空き時間を記入できるようにしよう!
       </p>
       <div
         className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
-          text-customBlack flex justify-between items-center py-1 px-2 sm:py-2 sm:px-4"
+          text-customBlack flex justify-between items-center py-2 px-3"
       >
         <input
           type="text"

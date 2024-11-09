@@ -65,10 +65,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
               }
             }}
             placeholder={'例) やまだ'}
-            className={`px-4 py-2 w-full rounded-md shadow-sm bg-primaryVeryLight text-customBlack 
-              focus:outline-none focus:ring-2 focus:ring-primary border ${
-                showError ? 'border-red-500' : 'border-primary'
-              }`}
+            className={` ${showError ? 'border-red-500' : 'border-primary'}`}
             disabled={isSubmitting}
           />
           {showError && (

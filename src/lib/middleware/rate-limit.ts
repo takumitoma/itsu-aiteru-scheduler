@@ -5,18 +5,27 @@ import { kv } from '@vercel/kv';
 
 const LOCALHOST_IP = '127.0.0.1';
 
-const ratelimit = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '10s'),
-});
+// only rate limit in production for faster compile time in dev mode
+const ratelimit =
+  process.env.NODE_ENV === 'production'
+    ? new Ratelimit({
+        redis: kv,
+        limiter: Ratelimit.slidingWindow(10, '10s'),
+      })
+    : null;
 
 export async function withRateLimit(
   request: NextRequest,
   handler: (request: NextRequest) => Promise<NextResponse>,
 ): Promise<NextResponse> {
+  // only rate limit in production for faster compile time in dev mode
+  if (process.env.NODE_ENV !== 'production') {
+    return handler(request);
+  }
+
   try {
     const ip = request.ip ?? LOCALHOST_IP;
-    const { success, limit, reset, remaining } = await ratelimit.limit(ip);
+    const { success, limit, reset, remaining } = await ratelimit!.limit(ip);
 
     // if remaining === 0
     if (!success) {

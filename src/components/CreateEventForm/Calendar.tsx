@@ -11,6 +11,8 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+import { DAYS_OF_WEEK } from '@/constants/days';
+
 interface CalendarProps {
   // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
   selectedDates: string[];
@@ -204,8 +206,7 @@ const Calendar: React.FC<CalendarProps> = ({
             ref={prevMonthButtonRef}
             type="button"
             onClick={navigatePrevMonth}
-            className={`p-2 rounded-md outline-customBlack outline-4
-              three-d text-white ${isPrevMonthDisabled ? 'invisible' : ''}`}
+            className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to previous month"
           >
             <MdNavigateBefore size={20} />
@@ -215,8 +216,7 @@ const Calendar: React.FC<CalendarProps> = ({
             ref={nextMonthButtonRef}
             type="button"
             onClick={navigateNextMonth}
-            className={`p-2 rounded-md outline-customBlack outline-4
-              three-d text-white ${isNextMonthDisabled ? 'invisible' : ''}`}
+            className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
             aria-label="navigate to next month"
           >
             <MdNavigateNext size={20} />
@@ -224,7 +224,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
         <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
           {/* days of the week row */}
-          {['日', '月', '火', '水', '木', '金', '土'].map((day) => (
+          {DAYS_OF_WEEK.map((day) => (
             <div
               key={day}
               className="text-center border-b border-r border-gray-300 font-semibold py-2"

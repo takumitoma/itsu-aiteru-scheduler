@@ -32,7 +32,7 @@ body {
   }
 
   h2 {
-    @apply text-lg sm:text-xl font-medium;
+    @apply text-lg sm:text-xl font-semibold;
   }
 
   h3 {
@@ -40,10 +40,10 @@ body {
   }
 
   label {
-    @apply text-lg sm:text-xl font-medium;
+    @apply text-lg sm:text-xl font-semibold;
   }
 
-  input {
+  input:not(#event-link) {
     @apply px-3 py-2 w-full border rounded-md shadow-sm bg-primaryVeryLight focus:outline-none 
       focus:ring-2 focus:ring-primary border-primary;
   }
@@ -56,7 +56,7 @@ body {
 }
 
 .three-d {
-  background: var(--primary);
+  @apply bg-primary text-white text-lg sm:text-xl rounded-md px-4 py-4;
   border: none;
   box-shadow: 0 4px #3b7bcf;
   transition: all 0.1s ease;

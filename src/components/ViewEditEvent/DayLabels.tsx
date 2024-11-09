@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+import { DAYS_OF_WEEK } from '@/constants/days';
 
 interface DayLabelsProps {
   dateType: 'specific' | 'week';
@@ -13,7 +13,7 @@ const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
   if (dateType === 'specific') {
     daysOfWeekLabels = dayLabels.map((date) => {
       const dayOfWeek = dayjs(date).day();
-      return DAYS_OF_WEEK_LABELS[dayOfWeek];
+      return DAYS_OF_WEEK[dayOfWeek];
     });
 
     dayLabels = dayLabels.map((d) => {

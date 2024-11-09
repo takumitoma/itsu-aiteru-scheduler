@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
 import supabase from '@/lib/supabase/client';
 import { z } from 'zod';
+import { revalidateTag } from 'next/cache';
 
 const UpdateAvailabilitySchema = z.object({
   participantId: z.string().uuid(),
@@ -48,6 +49,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       if (updateError) {
         return NextResponse.json({ error: 'Failed to update availability' }, { status: 500 });
       }
+
+      revalidateTag(`participants-${participant.event_id}`);
 
       return NextResponse.json({ message: 'Availability updated successfully' }, { status: 200 });
     } catch (error) {
