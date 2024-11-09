@@ -11,6 +11,8 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+import { DAYS_OF_WEEK } from '@/constants/days';
+
 interface CalendarProps {
   // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
   selectedDates: string[];
@@ -222,7 +224,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
         <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
           {/* days of the week row */}
-          {['日', '月', '火', '水', '木', '金', '土'].map((day) => (
+          {DAYS_OF_WEEK.map((day) => (
             <div
               key={day}
               className="text-center border-b border-r border-gray-300 font-semibold py-2"

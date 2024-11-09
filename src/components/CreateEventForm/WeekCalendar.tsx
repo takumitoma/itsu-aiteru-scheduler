@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-const dates = ['日', '月', '火', '水', '木', '金', '土'] as const;
+import { DAYS_OF_WEEK } from '@/constants/days';
 
 interface WeekCalendarProps {
   selectedDays: number[];
@@ -34,7 +34,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
           displayError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
         }`}
       >
-        {dates.map((day, index) => (
+        {DAYS_OF_WEEK.map((day, index) => (
           <button
             key={day}
             type="button"
