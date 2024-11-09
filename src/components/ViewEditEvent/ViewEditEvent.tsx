@@ -25,7 +25,7 @@ import { getDateDuration, parseDate } from '@/utils/date-calculations';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
-const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'] as const;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 

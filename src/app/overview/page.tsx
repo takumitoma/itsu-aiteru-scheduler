@@ -41,7 +41,7 @@ const featureCards: FeatureCard[] = [
       '特定の参加者や参加人数でフィルター可能',
     ],
   },
-];
+] as const;
 
 const useCaseCards: UseCaseCard[] = [
   {
@@ -60,7 +60,7 @@ const useCaseCards: UseCaseCard[] = [
     title: 'オンラインイベント',
     Icon: LuVideo,
   },
-];
+] as const;
 
 const restrictionCards: RestrictionCard[] = [
   {
@@ -79,7 +79,7 @@ const restrictionCards: RestrictionCard[] = [
     title: '時間設定',
     limit: '15分単位',
   },
-];
+] as const;
 
 const OverviewPage: React.FC = () => {
   return (

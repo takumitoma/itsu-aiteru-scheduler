@@ -2,20 +2,20 @@
 
 import { useState, useRef } from 'react';
 
-interface Form {
-  name: string;
-  email: string;
-  message: string;
-}
-
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
 };
 
+type ContactForm = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 const ContactPage: React.FC = () => {
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
     message: '',
@@ -35,7 +35,7 @@ const ContactPage: React.FC = () => {
     }));
   }
 
-  function formIsValid(formData: Form): void {
+  function formIsValid(formData: ContactForm): void {
     if (honeypotRef.current?.checked) {
       throw Error('Invalid submission');
     }

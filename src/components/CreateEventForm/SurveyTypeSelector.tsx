@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
 
+const SURVEY_TYPE_DISPLAY_TEXT = {
+  specific: '特定の日付',
+  week: '曜日',
+} as const;
+
 interface SurveyTypeSelectorProps {
   value: 'specific' | 'week';
   onChange: (value: 'specific' | 'week') => void;
@@ -24,11 +29,6 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
     };
   }, []);
 
-  const optionValToDisplay = {
-    specific: '特定の日付',
-    week: '曜日',
-  };
-
   return (
     <div className="w-full">
       {/* have to use div and buttons instead of select and options due to custom stylings */}
@@ -42,7 +42,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
             flex justify-between items-center"
           aria-hidden="true"
         >
-          {optionValToDisplay[value]}
+          {SURVEY_TYPE_DISPLAY_TEXT[value]}
           <MdArrowDropDown
             size={24}
             className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+const DAYS_OF_WEEK_LABELS = ['日', '月', '火', '水', '木', '金', '土'] as const;
 
 interface DayLabelsProps {
   dateType: 'specific' | 'week';

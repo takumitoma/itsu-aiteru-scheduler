@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { href: '/overview', label: 'サービス概要' },
   { href: '/how-to-use', label: '使い方' },
   { href: '/contact', label: 'お問い合わせ' },
-];
+] as const;
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
