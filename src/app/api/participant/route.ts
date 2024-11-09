@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
 import supabase from '@/lib/supabase/client';
 import { Participant } from '@/types/Participant';
+import { revalidateTag } from 'next/cache';
 
 const GetParticipantsSchema = z.object({
   eventId: z.string().uuid(),
@@ -107,6 +108,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 
+      revalidateTag(`participants-${eventId}`);
+
       return NextResponse.json(
         { message: 'Participant created successfully', id: data.id, new: false },
         { status: 200 },
@@ -135,6 +138,13 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
       const { id: validatedId } = DeleteParticipantSchema.parse({ id });
 
+      // get the event_id before deleting, used for validation after deletion
+      const { data: participant } = await supabase
+        .from('participants')
+        .select('event_id')
+        .eq('id', validatedId)
+        .single();
+
       const { error } = await supabase.from('participants').delete().eq('id', validatedId);
 
       if (error) {
@@ -142,6 +152,10 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
           return NextResponse.json({ message: 'Participant not found' }, { status: 404 });
         }
         return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+
+      if (participant?.event_id) {
+        revalidateTag(`participants-${participant.event_id}`);
       }
 
       return NextResponse.json({ message: 'Participant deleted successfully' }, { status: 200 });
