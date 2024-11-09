@@ -8,11 +8,11 @@ const FORM_LIMITS = {
   message: 500,
 };
 
-type ContactForm = {
+interface ContactForm {
   name: string;
   email: string;
   message: string;
-};
+}
 
 const ContactPage: React.FC = () => {
   const [form, setForm] = useState<ContactForm>({
