@@ -22,6 +22,7 @@ import {
   generateColorScale,
 } from '@/utils/availability-calculations';
 import { getDateDuration, parseDate } from '@/utils/date-calculations';
+import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
@@ -35,6 +36,8 @@ interface ViewEditEventProps {
 }
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
+  const { timeFormat } = useTimeFormatContext();
+
   const [allParticipants, setAllParticipants] = useState<Participant[]>(participants);
 
   const [selectedColorScaleIndex, setSelectedColorScaleIndex] = useState<number | null>(null);
@@ -75,7 +78,12 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   );
 
   // date-time labels for each time slot to be used in each slot's tooltip
-  const dateTimeLabels: string[] = generateDateTimeLabels(event.surveyType, dayLabels, hourLabels);
+  const dateTimeLabels: string[] = generateDateTimeLabels(
+    event.surveyType,
+    dayLabels,
+    hourLabels,
+    timeFormat,
+  );
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {

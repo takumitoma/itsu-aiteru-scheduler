@@ -25,8 +25,27 @@ export function generateDateTimeLabels(
   dateType: 'specific' | 'week',
   dayLabels: string[],
   hourLabels: number[],
+  timeFormat: 12 | 24,
 ): string[] {
   const dateTimeLabels: string[] = [];
+
+  function formatTimeDisplay(hour: number, minutes: number): string {
+    if (timeFormat === 24) {
+      return `${hour}:${minutes.toString().padStart(2, '0')}`;
+    }
+
+    if (hour === 0 || hour === 24) {
+      return `午前0:${minutes.toString().padStart(2, '0')}`;
+    }
+    if (hour === 12 && minutes === 0) {
+      return '正午';
+    }
+
+    const period = hour < 12 ? '午前' : '午後';
+    const displayHour = hour > 12 ? hour - 12 : hour;
+    return `${period}${displayHour}:${minutes.toString().padStart(2, '0')}`;
+  }
+
   for (let i = 0; i < dayLabels.length; ++i) {
     for (let j = 0; j < hourLabels.length; ++j) {
       let dayLabel: string = dayLabels[i];
@@ -41,10 +60,11 @@ export function generateDateTimeLabels(
         dayLabel = `${dayLabel}曜日`;
       }
 
-      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:00`);
-      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:15`);
-      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:30`);
-      dateTimeLabels.push(`${dayLabel} ${hourLabels[j]}:45`);
+      const hour = hourLabels[j];
+      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 0)}`);
+      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 15)}`);
+      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 30)}`);
+      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 45)}`);
     }
   }
   return dateTimeLabels;
