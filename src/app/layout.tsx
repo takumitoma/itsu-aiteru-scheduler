@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
+import TimeFormatContextProvider from '@/providers/TimeFormatContext';
 import Header from '@/components/Header/Header';
 import '@/styles/globals.css';
 
@@ -28,10 +29,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
       </head>
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
-        <Header />
-        <main className="pt-20">
-          <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
-        </main>
+        <TimeFormatContextProvider>
+          <Header />
+          <main className="pt-20">
+            <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
+          </main>
+        </TimeFormatContextProvider>
       </body>
     </html>
   );
