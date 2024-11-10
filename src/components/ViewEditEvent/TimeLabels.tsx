@@ -27,17 +27,17 @@ const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd, space
   }
 
   return (
-    <div className="flex flex-col w-[40px] flex-shrink-0">
+    <div className="flex flex-col flex-shrink-0">
       <div style={{ height: `${spaceTop}px` }}></div>
       {hourLabels.map((timestamp) => (
         <div
           key={`time-${timestamp}`}
-          className="flex justify-end mr-[5px] translate-y-[-15px] h-[60px] text-[16px]"
+          className="flex justify-end mr-[5px] translate-y-[-12px] h-[60px]"
         >
           {formatTimeDisplay(timestamp)}
         </div>
       ))}
-      <div className="flex justify-end mr-[5px] translate-y-[-15px] h-[25px]">
+      <div className="flex justify-end mr-[5px] translate-y-[-12px] h-[25px]">
         {formatTimeDisplay(timeRangeEnd)}
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const TOOLTIP_WIDTH = 200; //px
+const TOOLTIP_WIDTH = 225; //px
 
 interface TimeSlotProps {
   backgroundColor: string;
