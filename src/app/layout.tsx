@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
-import TimeFormatContextProvider from '@/providers/TimeFormatContext';
+import Providers from '@/providers';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import '@/styles/globals.css';
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className="light" style={{ colorScheme: 'light' }} suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,13 +30,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
       </head>
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
-        <TimeFormatContextProvider>
+        <Providers>
           <Header />
           <main className="pt-20">
             <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
           </main>
           <Footer />
-        </TimeFormatContextProvider>
+        </Providers>
       </body>
     </html>
   );
