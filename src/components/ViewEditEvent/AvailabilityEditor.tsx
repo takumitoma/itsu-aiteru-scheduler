@@ -86,7 +86,7 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
   );
 
   return (
-    <div className="flex border-customBlack border-r border-b min-w-max">
+    <div className="flex border-foreground border-r border-b min-w-max">
       {/* day column */}
       {Array.from({ length: numDays }).map((_, dayIndex) => (
         <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
@@ -104,7 +104,7 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
                 return (
                   <div
                     key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
-                    className={`w-[100px] h-[15px] border-l border-customBlack touch-none 
+                    className={`w-[100px] h-[15px] border-l border-foreground touch-none 
                       ${quarter === 0 ? 'border-t' : ''}
                       ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
                       ${isSelected ? 'bg-primary' : 'bg-background'}

@@ -41,8 +41,9 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
         リンクを共有して、他の参加者がそれぞれ空き時間を記入できるようにしよう!
       </p>
       <div
+        id="event-link-container"
         className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
-          text-customBlack flex justify-between items-center py-2 px-3"
+          flex justify-between items-center py-2 px-3"
       >
         <input
           type="text"

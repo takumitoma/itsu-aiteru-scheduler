@@ -65,7 +65,7 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   return (
     <div className="relative">
       {/* the grid */}
-      <div className="flex border-customBlack border-r border-b min-w-max">
+      <div className="flex border-foreground border-r border-b min-w-max">
         {/* day column */}
         {Array.from({ length: numDays }).map((_, dayIndex) => (
           <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">

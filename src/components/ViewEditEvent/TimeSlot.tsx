@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const TOOLTIP_WIDTH = 225; //px
 
@@ -28,6 +28,12 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   onLeave,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  // to fix hydration mismatch with next-themes
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // show tooltip on the bottom and center* of the element that triggered the event
   // * as center as possible
@@ -88,15 +94,19 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
 
   return (
     <div
-      className={`w-[100px] h-[15px] border-l border-customBlack
+      className={`w-[100px] h-[15px] border-l border-foreground
         ${isBorderTop ? 'border-t' : ''}
         ${isDottedBorderTop && !isHovered ? 'border-t border-t-gray-500' : ''}
         ${isHovered ? 'hover:border-2 hover:border-solid' : ''}
       `}
-      style={{
-        backgroundColor,
-        borderTopStyle: isDottedBorderTop && !isHovered ? 'dotted' : 'solid',
-      }}
+      style={
+        isMounted
+          ? {
+              backgroundColor,
+              borderTopStyle: isDottedBorderTop && !isHovered ? 'dotted' : 'solid',
+            }
+          : undefined
+      }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     />

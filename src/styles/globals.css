@@ -82,13 +82,15 @@ body {
 .light input,
 .light textarea,
 .light button.input-like,
-.light .custom-dropdown {
+.light .custom-dropdown,
+.light #event-link-container {
   background: var(--primary-very-light)
 }
 
 .dark input,
 .dark textarea,
 .dark button.input-like,
-.dark .custom-dropdown {
+.dark .custom-dropdown,
+.dark #event-link-container {
   background: var(--background);
 }
