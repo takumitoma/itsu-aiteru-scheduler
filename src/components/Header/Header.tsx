@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { href: '/contact', label: 'お問い合わせ' },
 ] as const;
 
-const Header = () => {
+const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // disable body scroll when menu is open
@@ -34,7 +34,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full h-20 bg-white shadow-md z-50">
-      <div className="container mx-auto px-4 h-full flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-4">
           <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />
           <span className="text-xl font-bold hidden sm:block">いつ空いてる？</span>
