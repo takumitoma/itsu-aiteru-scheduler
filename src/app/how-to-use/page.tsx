@@ -1,13 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
+import { useTheme } from 'next-themes';
 
-const INSTRUCTIONS: Instruction[] = [
+const getInstructions = (theme: string | undefined): Instruction[] => [
   {
     number: 1,
     title: '会いたい日時を教えてください。',
     description: 'まず、グループと会いたい日程と時間を選択し、イベントを作成してください。',
-    imagePath: '/how-to-use/light-step-1.JPG',
+    imagePath: `/how-to-use/${theme || 'light'}-step-1.JPG`,
     imageAlt: 'how to use app step 1',
   },
   {
@@ -15,7 +18,7 @@ const INSTRUCTIONS: Instruction[] = [
     title: '自分の空き時間を入力してください。',
     description:
       '選択した日時に対する自分の空いている時間を入力すると、他の参加者にも表示されます。',
-    imagePath: '/how-to-use/light-step-2.JPG',
+    imagePath: `/how-to-use/${theme || 'light'}-step-2.JPG`,
     imageAlt: 'how to use app step 2',
   },
   {
@@ -23,7 +26,7 @@ const INSTRUCTIONS: Instruction[] = [
     title: 'みんなにとって最適な時間を見つてください。',
     description:
       'イベントのリンクをグループと共有すると、他参加者も自分の空いている時間を入力できます。全員の空いている時間を重ねて表示し、最適な時間を簡単に見つけられるようにします。',
-    imagePath: '/how-to-use/light-step-3.JPG',
+    imagePath: `/how-to-use/${theme || 'light'}-step-3.JPG`,
     imageAlt: 'how to use app step 3',
   },
 ];
@@ -65,11 +68,14 @@ const Instruction: React.FC<Instruction> = ({
 );
 
 const HowToUsePage: React.FC = () => {
+  const { theme } = useTheme();
+  const instructions = getInstructions(theme);
+
   return (
     <div className="flex flex-col items-center space-y-8">
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">使い方</h1>
       <ol className="space-y-8 w-full">
-        {INSTRUCTIONS.map((step) => (
+        {instructions.map((step) => (
           <Instruction key={step.number} {...step} />
         ))}
       </ol>
