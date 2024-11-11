@@ -37,9 +37,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 rounded-md border border-primary shadow-sm 
-            focus:outline-none focus:ring-2 focus:ring-primary bg-primaryVeryLight
-            flex justify-between items-center"
+          className="w-full input-like flex justify-between items-center"
           aria-hidden="true"
         >
           {SURVEY_TYPE_DISPLAY_TEXT[value]}
@@ -49,11 +47,7 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
           />
         </button>
         {isOpen && (
-          <div
-            className="absolute z-10 w-full mt-1 border border-gray-300 
-              rounded-md shadow-sm border-primary bg-primaryVeryLight"
-            aria-hidden="true"
-          >
+          <div className="absolute custom-dropdown" aria-hidden="true">
             <button
               type="button"
               className="w-full px-4 py-2 text-left 

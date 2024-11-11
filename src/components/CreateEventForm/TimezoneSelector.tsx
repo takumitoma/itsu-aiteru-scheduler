@@ -58,9 +58,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 rounded-md border border-primary shadow-sm 
-            bg-primaryVeryLight focus:outline-none focus:ring-2 focus:ring-primary 
-            flex justify-between items-center"
+          className="w-full input-like flex justify-between items-center"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
@@ -71,11 +69,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
           />
         </button>
         {isOpen && (
-          <ul
-            className="absolute z-10 w-full mt-1 bg-primaryVeryLight border border-primary
-              rounded-md shadow-sm max-h-60 overflow-auto"
-            role="listbox"
-          >
+          <ul className="absolute custom-dropdown max-h-60 overflow-auto" role="listbox">
             {formattedTimezones.map((tz) => (
               <li
                 key={tz.value}

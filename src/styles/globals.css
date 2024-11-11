@@ -44,11 +44,15 @@ body {
   }
 
   input:not(#event-link),
-  textarea {
+  textarea,
+  button.input-like {
     @apply px-3 py-2 w-full border rounded-md focus:outline-none 
       focus:ring-2 focus:ring-primary border-primary;
   }
 
+  .custom-dropdown {
+    @apply z-10 w-full mt-1 border rounded-md shadow-sm border-primary;
+  }
 }
 
 @layer utilities {
@@ -76,11 +80,15 @@ body {
 }
 
 .light input,
-.light textarea {
+.light textarea,
+.light button.input-like,
+.light .custom-dropdown {
   background: var(--primary-very-light)
 }
 
 .dark input,
-.dark textarea {
+.dark textarea,
+.dark button.input-like,
+.dark .custom-dropdown {
   background: var(--background);
 }

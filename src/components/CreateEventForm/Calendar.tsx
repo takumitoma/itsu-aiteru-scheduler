@@ -286,10 +286,11 @@ const Calendar: React.FC<CalendarProps> = ({
       )}
       <div className="mt-4">
         <button
+          id="calendar-clear"
           type="reset"
           onClick={clearSelection}
-          className="w-full py-2 bg-primaryVeryLight border border-primary text-black 
-            rounded focus:outline-none focus:ring-2 focus:ring-primary hover:brightness-90"
+          className="w-full py-2 border rounded focus:outline-none focus:ring-2 
+            focus:ring-primary hover:brightness-90 border-borderGray"
         >
           選択をクリア
         </button>
