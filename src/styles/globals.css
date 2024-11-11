@@ -10,14 +10,14 @@
   --primary-light: #4A90E2CC;
   --primary-very-light: #F0F8FF;
   --custom-black: #171717;
+  --border-gray: #e5e7eb;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --border-gray: #374151;
+}
 
 body {
   color: var(--foreground);
