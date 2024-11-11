@@ -23,6 +23,7 @@ import {
 } from '@/utils/availability-calculations';
 import { getDateDuration, parseDate } from '@/utils/date-calculations';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
+import { useTheme } from 'next-themes';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
@@ -37,6 +38,7 @@ interface ViewEditEventProps {
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
   const { timeFormat } = useTimeFormatContext();
+  const { theme } = useTheme();
 
   const [allParticipants, setAllParticipants] = useState<Participant[]>(participants);
 
@@ -95,7 +97,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
   // the color scale legend in that would be used if MAX_VISIBLE_COLORS did not exist
   // the literal color scale
-  const colorScale: string[] = generateColorScale(numParticipants);
+  const colorScale: string[] = generateColorScale(numParticipants, theme);
 
   // the color scale that factors in MAX_VISIBLE_COLORS
   // if color scale is length <= MAX_VISIBLE_COLORS, let each index represent X people

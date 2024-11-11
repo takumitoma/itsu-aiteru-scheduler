@@ -6,7 +6,8 @@ interface RGB {
   b: number;
 }
 
-const NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
+const LIGHT_NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
+const DARK_NO_PARTICIPANT_COLOR: RGB = { r: 10, g: 10, b: 10 };
 const MAX_PARTICIPANT_COLOR: RGB = { r: 74, g: 144, b: 226 };
 
 // creates heat map, adds up the availabilities of all participants for each time slot.
@@ -95,9 +96,11 @@ export function generateParticipantLists(
 
 // create a gradient between NO_PARTICIPANT_COLOR and MAX_PARTICIPANT_COLOR based on number of
 // participants
-export function generateColorScale(numParticipants: number): string[] {
+export function generateColorScale(numParticipants: number, theme: string | undefined): string[] {
   const numColors = numParticipants + 1;
   const colorScale: string[] = [];
+  const NO_PARTICIPANT_COLOR =
+    theme === 'light' ? LIGHT_NO_PARTICIPANT_COLOR : DARK_NO_PARTICIPANT_COLOR;
 
   if (numColors === 1) {
     colorScale.push(rgbToString(NO_PARTICIPANT_COLOR));

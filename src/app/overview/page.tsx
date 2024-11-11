@@ -128,7 +128,7 @@ const OverviewPage: React.FC = () => {
 
 const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
   <div
-    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+    className="w-full space-y-6 flex flex-col items-center border border-borderGray
       p-4 rounded-md"
   >
     <h3 className="text-lg font-medium">{card.title}</h3>
@@ -148,7 +148,7 @@ const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
 
 const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
   <div
-    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+    className="w-full space-y-6 flex flex-col items-center border border-borderGray
       p-4 rounded-md"
   >
     <h3 className="text-lg font-medium">{card.title}</h3>
@@ -158,7 +158,7 @@ const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
 
 const RestrictionCard: React.FC<{ card: RestrictionCard }> = ({ card }) => (
   <div
-    className="w-full space-y-6 flex flex-col items-center border border-gray-500 
+    className="w-full space-y-6 flex flex-col items-center border border-borderGray
       p-6 rounded-md"
   >
     <h3 className="text-lg font-medium">{card.title}</h3>

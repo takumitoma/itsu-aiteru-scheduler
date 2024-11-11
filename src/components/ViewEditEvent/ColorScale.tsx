@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Participant } from '@/types/Participant';
 
 interface ColorScaleProps {
@@ -19,6 +19,12 @@ const ColorScale: React.FC<ColorScaleProps> = ({
   getColorRangeText,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // to fix hydration mismatch with next-themes
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   function handleClick(e: React.MouseEvent<HTMLElement>, index: number) {
     e.preventDefault();
@@ -45,14 +51,14 @@ const ColorScale: React.FC<ColorScaleProps> = ({
               }
               ${selectedColorScaleIndex === index ? 'border-2 opacity-100 font-bold' : ''}
             `}
-            style={{ backgroundColor: color }}
+            style={isMounted ? { backgroundColor: color } : undefined}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             onFocus={() => setHoveredIndex(index)}
             onClick={(e) => handleClick(e, index)}
           >
             {(hoveredIndex === index || selectedColorScaleIndex === index) && (
-              <span className="text-customBlack text-sm leading-none">
+              <span className="text-foreground text-sm leading-none">
                 {getColorRangeText(index)}
               </span>
             )}
