@@ -139,9 +139,7 @@ const ContactPage: React.FC = () => {
             maxLength={FORM_LIMITS.message}
             required
             rows={7}
-            className="w-full px-3 py-2 border rounded-md shadow-sm mt-4 font-normal text-base 
-              bg-primaryVeryLight focus:outline-none focus:ring-2 focus:ring-primary 
-              border-primary"
+            className="w-full mt-4 font-normal text-base"
           />
           <div className="text-sm text-gray-500">
             {form.message.length}/{FORM_LIMITS.message}文字
