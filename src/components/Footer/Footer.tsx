@@ -29,14 +29,18 @@ const Footer: React.FC = () => {
             <div className="flex flex-col space-y-2">
               <button
                 type="button"
-                className={`text-left text-sm ${timeFormat === 12 ? 'text-primary' : 'text-foreground hover:underline'}`}
+                className={`text-left text-sm ${
+                  timeFormat === 12 ? 'text-primary' : 'text-foreground hover:underline'
+                }`}
                 onClick={() => setTimeFormat(12)}
               >
                 12時制
               </button>
               <button
                 type="button"
-                className={`text-left text-sm ${timeFormat === 24 ? 'text-primary' : 'text-foreground hover:underline'}`}
+                className={`text-left text-sm ${
+                  timeFormat === 24 ? 'text-primary' : 'text-foreground hover:underline'
+                }`}
                 onClick={() => setTimeFormat(24)}
               >
                 24時制
