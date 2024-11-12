@@ -17,12 +17,15 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="py-8 border-t border-borderGray">
-      <div className="max-w-7xl mx-auto px-4 flex justify-between">
-        {/* 320px (minimum vw designed for) minus padding from px-4 */}
-        <article className="flex flex-col w-[calc(320px-2rem)] space-y-4">
+      <div
+        className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:justify-between 
+          space-y-8 md:space-y-0"
+      >
+        {/* Logo and website summary */}
+        <article className="flex flex-col w-full md:w-[320px] space-y-4">
           <div className="flex items-center space-x-4">
             <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />
-            <span className="text-xl font-bold hidden sm:block">いつ空いてる？</span>
+            <span className="text-xl font-bold">いつ空いてる？</span>
           </div>
 
           <p className="text-sm">
