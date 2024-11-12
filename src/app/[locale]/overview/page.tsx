@@ -81,7 +81,56 @@ const restrictionCards: RestrictionCard[] = [
   },
 ] as const;
 
-const OverviewPage: React.FC = () => {
+interface FeatureCardProps {
+  card: FeatureCard;
+}
+
+const FeatureCard = ({ card }: FeatureCardProps) => {
+  return (
+    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-4 rounded-md">
+      <h3 className="text-lg font-medium">{card.title}</h3>
+      <card.Icon color="var(--primary)" />
+      <ul className="space-y-4 w-full list-none">
+        {card.features.map((feature, index) => (
+          <li key={index} className="flex items-start gap-4">
+            <div className="flex-shrink-0 mt-1">
+              <FaCheck className="w-5 h-5 text-primary" />
+            </div>
+            <span className="text-sm">{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+interface UseCaseCardProps {
+  card: UseCaseCard;
+}
+
+const UseCaseCard = ({ card }: UseCaseCardProps) => {
+  return (
+    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-4 rounded-md">
+      <h3 className="text-lg font-medium">{card.title}</h3>
+      <card.Icon size={96} className="text-primary" />
+    </div>
+  );
+};
+
+interface RestrictionCardProps {
+  card: RestrictionCard;
+}
+
+const RestrictionCard = ({ card }: RestrictionCardProps) => {
+  return (
+    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-6 rounded-md">
+      <h3 className="text-lg font-medium">{card.title}</h3>
+      <p className="text-2xl font-bold text-primary">{card.limit}</p>
+    </div>
+  );
+};
+
+const OverviewPage = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
@@ -125,45 +174,5 @@ const OverviewPage: React.FC = () => {
     </div>
   );
 };
-
-const FeatureCard: React.FC<{ card: FeatureCard }> = ({ card }) => (
-  <div
-    className="w-full space-y-6 flex flex-col items-center border border-borderGray
-      p-4 rounded-md"
-  >
-    <h3 className="text-lg font-medium">{card.title}</h3>
-    <card.Icon color="var(--primary)" />
-    <ul className="space-y-4 w-full list-none">
-      {card.features.map((feature, index) => (
-        <li key={index} className="flex items-start gap-4">
-          <div className="flex-shrink-0 mt-1">
-            <FaCheck className="w-5 h-5 text-primary" />
-          </div>
-          <span className="text-sm">{feature}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
-
-const UseCaseCard: React.FC<{ card: UseCaseCard }> = ({ card }) => (
-  <div
-    className="w-full space-y-6 flex flex-col items-center border border-borderGray
-      p-4 rounded-md"
-  >
-    <h3 className="text-lg font-medium">{card.title}</h3>
-    <card.Icon size={96} className="text-primary" />
-  </div>
-);
-
-const RestrictionCard: React.FC<{ card: RestrictionCard }> = ({ card }) => (
-  <div
-    className="w-full space-y-6 flex flex-col items-center border border-borderGray
-      p-6 rounded-md"
-  >
-    <h3 className="text-lg font-medium">{card.title}</h3>
-    <p className="text-2xl font-bold text-primary">{card.limit}</p>
-  </div>
-);
 
 export default OverviewPage;
