@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FaCheck } from 'react-icons/fa6';
 import { CalendarSvg, ShareSvg, CursorHandSvg, CustomSvgProps } from '@/components/svg';
 import { IconType } from 'react-icons';
@@ -5,98 +6,88 @@ import { MdMeetingRoom } from 'react-icons/md';
 import { LuBookOpen, LuUsers, LuVideo } from 'react-icons/lu';
 
 interface FeatureCard {
-  title: string;
+  titleKey: 'dateTime' | 'access' | 'interface';
   Icon: React.FC<CustomSvgProps>;
-  features: string[];
+  featureCount: number; // how many features to map, prevents error with .map()
 }
 
 interface UseCaseCard {
-  title: string;
+  titleKey: 'team' | 'study' | 'friends' | 'online';
   Icon: IconType;
 }
 
 interface RestrictionCard {
-  title: string;
-  limit: string;
+  titleKey: 'duration' | 'eventName' | 'participantName' | 'timeUnit';
 }
 
 const featureCards: FeatureCard[] = [
   {
-    title: '柔軟な日時設定',
+    titleKey: 'dateTime',
     Icon: CalendarSvg,
-    features: ['特定の日付または曜日での調整', '15分単位の時間設定'],
+    featureCount: 2,
   },
   {
-    title: 'シンプルなアクセス',
+    titleKey: 'access',
     Icon: ShareSvg,
-    features: ['URLの共有だけで参加者を招待', 'アカウント登録・ログイン不要', 'すぐに利用開始可能'],
+    featureCount: 3,
   },
   {
-    title: '直感的な操作画面',
+    titleKey: 'interface',
     Icon: CursorHandSvg,
-    features: [
-      'スマートフォン・タブレット対応',
-      '参加可能人数をヒートマップで表示',
-      '各時間枠の参加者を即座に確認',
-      '特定の参加者や参加人数でフィルター可能',
-    ],
+    featureCount: 4,
   },
 ] as const;
 
 const useCaseCards: UseCaseCard[] = [
   {
-    title: 'チームミーティング',
+    titleKey: 'team',
     Icon: MdMeetingRoom,
   },
   {
-    title: '勉強会・サークル活動',
+    titleKey: 'study',
     Icon: LuBookOpen,
   },
   {
-    title: '友人との予定',
+    titleKey: 'friends',
     Icon: LuUsers,
   },
   {
-    title: 'オンラインイベント',
+    titleKey: 'online',
     Icon: LuVideo,
   },
 ] as const;
 
 const restrictionCards: RestrictionCard[] = [
-  {
-    title: 'イベントの日数',
-    limit: '31日まで',
-  },
-  {
-    title: 'イベント名',
-    limit: '100文字まで',
-  },
-  {
-    title: '参加者名',
-    limit: '20文字まで',
-  },
-  {
-    title: '時間設定',
-    limit: '15分単位',
-  },
+  { titleKey: 'duration' },
+  { titleKey: 'eventName' },
+  { titleKey: 'participantName' },
+  { titleKey: 'timeUnit' },
 ] as const;
 
 interface FeatureCardProps {
   card: FeatureCard;
+  t: ReturnType<typeof useTranslations>;
 }
 
-const FeatureCard = ({ card }: FeatureCardProps) => {
+const FeatureCard = ({ card, t }: FeatureCardProps) => {
+  const featureIndices = Array.from({ length: card.featureCount }, (_, i) => i);
+
   return (
-    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-4 rounded-md">
-      <h3 className="text-lg font-medium">{card.title}</h3>
+    <div
+      className="w-full space-y-6 flex flex-col items-center border border-borderGray 
+        p-4 rounded-md"
+    >
+      <h3 className="text-lg font-medium">{t(`sections.features.cards.${card.titleKey}.title`)}</h3>
       <card.Icon color="var(--primary)" />
       <ul className="space-y-4 w-full list-none">
-        {card.features.map((feature, index) => (
+        {featureIndices.map((index) => (
           <li key={index} className="flex items-start gap-4">
             <div className="flex-shrink-0 mt-1">
               <FaCheck className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-sm">{feature}</span>
+            <span className="text-sm">
+              {t(`sections.features.cards.${card.titleKey}.list.${index}`)}
+            </span>
           </li>
         ))}
       </ul>
@@ -106,12 +97,16 @@ const FeatureCard = ({ card }: FeatureCardProps) => {
 
 interface UseCaseCardProps {
   card: UseCaseCard;
+  t: ReturnType<typeof useTranslations>;
 }
 
-const UseCaseCard = ({ card }: UseCaseCardProps) => {
+const UseCaseCard = ({ card, t }: UseCaseCardProps) => {
   return (
-    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-4 rounded-md">
-      <h3 className="text-lg font-medium">{card.title}</h3>
+    <div
+      className="w-full space-y-6 flex flex-col items-center border border-borderGray 
+        p-4 rounded-md"
+    >
+      <h3 className="text-lg font-medium">{t(`sections.useCases.cards.${card.titleKey}`)}</h3>
       <card.Icon size={96} className="text-primary" />
     </div>
   );
@@ -119,55 +114,63 @@ const UseCaseCard = ({ card }: UseCaseCardProps) => {
 
 interface RestrictionCardProps {
   card: RestrictionCard;
+  t: ReturnType<typeof useTranslations>;
 }
 
-const RestrictionCard = ({ card }: RestrictionCardProps) => {
+const RestrictionCard = ({ card, t }: RestrictionCardProps) => {
   return (
-    <div className="w-full space-y-6 flex flex-col items-center border border-borderGray p-6 rounded-md">
-      <h3 className="text-lg font-medium">{card.title}</h3>
-      <p className="text-2xl font-bold text-primary">{card.limit}</p>
+    <div
+      className="w-full space-y-6 flex flex-col items-center border border-borderGray 
+        p-6 rounded-md"
+    >
+      <h3 className="text-lg font-medium">
+        {t(`sections.restrictions.cards.${card.titleKey}.title`)}
+      </h3>
+      <p className="text-2xl font-bold text-primary text-center">
+        {t(`sections.restrictions.cards.${card.titleKey}.limit`)}
+      </p>
     </div>
   );
 };
 
 const OverviewPage = () => {
+  const t = useTranslations('Overview');
+
   return (
     <div className="flex flex-col items-center space-y-8">
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
-        サービス概要
+        {t('pageTitle')}
       </h1>
 
       <section className="w-full space-y-4">
-        <h2 className="text-primary">サービスの目的</h2>
-        <p className="leading-relaxed">
-          グループでの予定調整をシンプルに。「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。
-        </p>
+        <h2 className="text-primary">{t('sections.purpose.title')}</h2>
+        <p className="leading-relaxed">{t('sections.purpose.description')}</p>
       </section>
 
       <section className="w-full space-y-4">
-        <h2 className="text-primary">機能紹介</h2>
+        <h2 className="text-primary">{t('sections.features.title')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {featureCards.map((card, index) => (
-            <FeatureCard key={index} card={card} />
+            <FeatureCard key={index} card={card} t={t} />
           ))}
         </div>
       </section>
 
       <section className="w-full space-y-4">
-        <h2 className="text-primary">想定利用シーン</h2>
+        <h2 className="text-primary">{t('sections.useCases.title')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {useCaseCards.map((card, index) => (
-            <UseCaseCard key={index} card={card} />
+            <UseCaseCard key={index} card={card} t={t} />
           ))}
         </div>
-        <p className="-mt-1">など</p>
+        <p className="-mt-1">{t('sections.useCases.suffix')}</p>
       </section>
 
       <section className="w-full space-y-4">
-        <h2 className="text-primary">制限事項</h2>
+        <h2 className="text-primary">{t('sections.restrictions.title')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {restrictionCards.map((card, index) => (
-            <RestrictionCard key={index} card={card} />
+            <RestrictionCard key={index} card={card} t={t} />
           ))}
         </div>
       </section>

@@ -1,0 +1,71 @@
+{
+  "Overview": {
+    "pageTitle": "Service Overview",
+    "sections": {
+      "purpose": {
+        "title": "About the Service",
+        "description": "Simplify group scheduling. 「When are you free?」 is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+      },
+      "features": {
+        "title": "Key Features",
+        "cards": {
+          "dateTime": {
+            "title": "Flexible Scheduling",
+            "list": {
+              "0": "Schedule by specific dates or recurring days",
+              "1": "15-minute time slot intervals"
+            }
+          },
+          "access": {
+            "title": "Easy Access",
+            "list": {
+              "0": "Invite participants with just a URL",
+              "1": "No registration or login required",
+              "2": "Start using immediately"
+            }
+          },
+          "interface": {
+            "title": "User-Friendly Interface",
+            "list": {
+              "0": "Fully responsive on mobile devices",
+              "1": "Heatmap visualization of availability",
+              "2": "Instant participant overview for each time slot",
+              "3": "Filter by specific participants or group size"
+            }
+          }
+        }
+      },
+      "useCases": {
+        "title": "Perfect For",
+        "suffix": "and more",
+        "cards": {
+          "team": "Team Meetings",
+          "study": "Study Groups & Clubs",
+          "friends": "Social Gatherings",
+          "online": "Online Events"
+        }
+      },
+      "restrictions": {
+        "title": "Limitations",
+        "cards": {
+          "duration": {
+            "title": "Event Duration",
+            "limit": "Up to 31 days"
+          },
+          "eventName": {
+            "title": "Event Name",
+            "limit": "Up to 100 characters"
+          },
+          "participantName": {
+            "title": "Participant Name",
+            "limit": "Up to 20 characters"
+          },
+          "timeUnit": {
+            "title": "Time Intervals",
+            "limit": "15-minute slots"
+          }
+        }
+      }
+    }
+  }
+}
