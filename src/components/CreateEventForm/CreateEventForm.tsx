@@ -73,7 +73,6 @@ const CreateEventForm: React.FC = () => {
       } catch (error) {
         console.error('Error creating event:', error);
         setApiError(error instanceof Error ? error.message : 'An unknown error occurred');
-      } finally {
         setIsSubmitting(false);
       }
     } else {
