@@ -88,5 +88,34 @@
       "message": "No registration or login required - Start scheduling now!",
       "button": "Create New Event"
     }
+  },
+  "Contact": {
+    "pageTitle": "Contact Us",
+    "description": {
+      "gratitude": "Thank you for using our service. We value your feedback as it helps us improve.",
+      "promise": "We carefully review each piece of feedback and strive to address your suggestions whenever possible.",
+      "other": "Please use this form for any questions or inquiries you may have."
+    },
+    "form": {
+      "name": {
+        "label": "Name",
+        "required": "Required"
+      },
+      "email": {
+        "label": "Email Address"
+      },
+      "message": {
+        "label": "Message",
+        "required": "Required",
+        "characterCount": "characters"
+      },
+      "submit": {
+        "button": "Send Message",
+        "sending": "Sending..."
+      },
+      "response": {
+        "success": "Thank you for your message. We'll get back to you soon!"
+      }
+    }
   }
 }

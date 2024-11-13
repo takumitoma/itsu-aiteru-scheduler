@@ -1,12 +1,18 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
 };
+
+const BUTTON_WIDTHS = {
+  ja: 'w-[140px] sm:w-[152px]',
+  en: 'w-[152px] sm:w-[164px]',
+} as const;
 
 interface ContactForm {
   name: string;
@@ -15,6 +21,8 @@ interface ContactForm {
 }
 
 const ContactPage: React.FC = () => {
+  const t = useTranslations('Contact');
+  const locale = useLocale();
   const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
@@ -40,19 +48,19 @@ const ContactPage: React.FC = () => {
       throw Error('Invalid submission');
     }
     if (!formData.name) {
-      throw Error('お名前を入力してください。');
+      throw Error('Please enter your name.');
     }
     if (formData.name.length > FORM_LIMITS.name) {
-      throw Error(`お名前は${FORM_LIMITS.name}文字以内で入力してください。`);
+      throw Error(`Name must be ${FORM_LIMITS.name} characters or less.`);
     }
     if (formData.email && formData.email.length > FORM_LIMITS.email) {
-      throw Error(`メールアドレスは${FORM_LIMITS.email}文字以内で入力してください。`);
+      throw Error(`Email must be ${FORM_LIMITS.email} characters or less.`);
     }
     if (!formData.message) {
-      throw Error('お問い合わせ詳細を入力してください。');
+      throw Error('Please enter your message.');
     }
     if (formData.message.length > FORM_LIMITS.message) {
-      throw Error(`お問い合わせ詳細は${FORM_LIMITS.message}文字以内で入力してください。`);
+      throw Error(`Message must be ${FORM_LIMITS.message} characters or less.`);
     }
   }
 
@@ -88,20 +96,20 @@ const ContactPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
-        お問い合わせ
+        {t('pageTitle')}
       </h1>
-      <div className="space-y-4">
-        <p>
-          {`当サイトをご利用いただき、誠にありがとうございます。サービス向上のため、皆様からのご意見・ご感想をお待ちしております。
-            いただいたフィードバックは一つ一つ丁寧に確認させていただき、できる限り対応させていただきます。`}
-        </p>
-        <p>その他のお問い合わせにつきましても、フォームをご利用ください。</p>
+      <div className="space-y-4 w-full text-left">
+        <p>{t('description.gratitude')}</p>
+        <p>{t('description.promise')}</p>
+        <p>{t('description.other')}</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-8 w-full">
         <label htmlFor="name" className="block">
           <div className="flex items-center gap-2">
-            お名前
-            <span className="text-sm bg-red-500 px-1 text-white rounded-md">必須</span>
+            {t('form.name.label')}
+            <span className="text-sm bg-red-500 px-1 text-white rounded-md">
+              {t('form.name.required')}
+            </span>
           </div>
           <input
             id="name"
@@ -115,7 +123,7 @@ const ContactPage: React.FC = () => {
           />
         </label>
         <label htmlFor="email" className="block">
-          メールアドレス
+          {t('form.email.label')}
           <input
             id="email"
             type="email"
@@ -128,8 +136,10 @@ const ContactPage: React.FC = () => {
         </label>
         <label htmlFor="message" className="block">
           <div className="flex items-center gap-2">
-            お問い合わせ詳細
-            <span className="text-sm bg-red-500 px-1 text-white rounded-md">必須</span>
+            {t('form.message.label')}
+            <span className="text-sm bg-red-500 px-1 text-white rounded-md">
+              {t('form.message.required')}
+            </span>
           </div>
           <textarea
             id="message"
@@ -142,24 +152,22 @@ const ContactPage: React.FC = () => {
             className="w-full mt-4 font-normal text-base"
           />
           <div className="text-sm text-gray-500">
-            {form.message.length}/{FORM_LIMITS.message}文字
+            {`${form.message.length}/${FORM_LIMITS.message} ${t('form.message.characterCount')}`}
           </div>
         </label>
         {errorMsg && <div className="text-red-500 text-center">{errorMsg}</div>}
         {showSuccess && (
-          <div className="text-green-500 text-center">
-            お問い合わせを受け付けました。ありがとうございます。
-          </div>
+          <div className="text-green-500 text-center">{t('form.response.success')}</div>
         )}
         <div className="flex justify-center">
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`three-d w-[140px] sm:w-[152px] mt-4 ${
+            className={`three-d ${BUTTON_WIDTHS[locale as keyof typeof BUTTON_WIDTHS]} mt-4 ${
               isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {isSubmitting ? '送信中' : 'お問い合わせ'}
+            {isSubmitting ? t('form.submit.sending') : t('form.submit.button')}
           </button>
         </div>
 
