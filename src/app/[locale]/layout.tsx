@@ -48,11 +48,13 @@ export default async function RootLayout({
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <Header />
-            <main className="pt-20">
-              <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
-            </main>
-            <Footer />
+            <div className="relative min-h-screen w-full overflow-x-hidden">
+              <Header />
+              <main className="pt-20">
+                <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
+              </main>
+              <Footer />
+            </div>
           </Providers>
         </NextIntlClientProvider>
       </body>
