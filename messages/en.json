@@ -67,5 +67,26 @@
         }
       }
     }
+  },
+  "HowToUse": {
+    "pageTitle": "How It Works",
+    "steps": {
+      "1": {
+        "title": "Choose your preferred dates",
+        "description": "Start by selecting the dates and times you'd like to meet with your group and create an event."
+      },
+      "2": {
+        "title": "Mark your availability",
+        "description": "Fill out your available times for the selected dates. This will be visible to other participants."
+      },
+      "3": {
+        "title": "Find the perfect time",
+        "description": "Share the event link with your group. As others fill out their availability, you'll see everyone's schedules overlaid, making it easy to find the best time that works for everyone."
+      }
+    },
+    "callToAction": {
+      "message": "No registration or login required - Start scheduling now!",
+      "button": "Create New Event"
+    }
   }
 }

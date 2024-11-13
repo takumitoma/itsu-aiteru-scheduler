@@ -1,35 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { useTheme } from 'next-themes';
-
-const getInstructions = (theme: string | undefined): Instruction[] => [
-  {
-    number: 1,
-    title: '会いたい日時を教えてください。',
-    description: 'まず、グループと会いたい日程と時間を選択し、イベントを作成してください。',
-    imagePath: `/how-to-use/${theme || 'light'}-step-1.JPG`,
-    imageAlt: 'how to use app step 1',
-  },
-  {
-    number: 2,
-    title: '自分の空き時間を入力してください。',
-    description:
-      '選択した日時に対する自分の空いている時間を入力すると、他の参加者にも表示されます。',
-    imagePath: `/how-to-use/${theme || 'light'}-step-2.JPG`,
-    imageAlt: 'how to use app step 2',
-  },
-  {
-    number: 3,
-    title: 'みんなにとって最適な時間を見つてください。',
-    description:
-      'イベントのリンクをグループと共有すると、他参加者も自分の空いている時間を入力できます。全員の空いている時間を重ねて表示し、最適な時間を簡単に見つけられるようにします。',
-    imagePath: `/how-to-use/${theme || 'light'}-step-3.JPG`,
-    imageAlt: 'how to use app step 3',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 interface Instruction {
   number: number;
@@ -39,7 +14,7 @@ interface Instruction {
   imageAlt: string;
 }
 
-const Instruction: React.FC<Instruction> = ({
+const InstructionStep: React.FC<Instruction> = ({
   number,
   title,
   description,
@@ -69,22 +44,30 @@ const Instruction: React.FC<Instruction> = ({
 
 const HowToUsePage: React.FC = () => {
   const { theme } = useTheme();
-  const instructions = getInstructions(theme);
+  const t = useTranslations('HowToUse');
+
+  const instructions: Instruction[] = [1, 2, 3].map((step) => ({
+    number: step,
+    title: t(`steps.${step}.title`),
+    description: t(`steps.${step}.description`),
+    imagePath: `/how-to-use/${theme || 'light'}-step-${step}.JPG`,
+    imageAlt: `how to use app step ${step}`,
+  }));
 
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">使い方</h1>
+      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+        {t('pageTitle')}
+      </h1>
       <ol className="space-y-8 w-full">
         {instructions.map((step) => (
-          <Instruction key={step.number} {...step} />
+          <InstructionStep key={step.number} {...step} />
         ))}
       </ol>
       <div className="flex flex-col py-8 space-y-6 sm:space-y-8 justify-center items-center">
-        <p className="text-xl sm:text-2xl font-bold text-center">
-          アカウント登録不要、ログイン不要、今すぐ使えます!
-        </p>
+        <p className="text-xl sm:text-2xl font-bold text-center">{t('callToAction.message')}</p>
         <Link href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
-          イベント作成ページへ
+          {t('callToAction.button')}
           <FaRegArrowAltCircleRight size={24} />
         </Link>
       </div>
