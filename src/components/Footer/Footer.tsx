@@ -3,17 +3,29 @@
 import Image from 'next/image';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { useLocale } from 'next-intl';
+import { usePathname, useRouter } from '@/i18n/routing';
 
 const Footer: React.FC = () => {
   const { timeFormat, setTimeFormat } = useTimeFormatContext();
   const { theme, setTheme } = useTheme();
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const pathname = usePathname();
+  const localActive = useLocale();
 
   // to fix hydration mismatch with next-themes
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleLanguageChange = (locale: string) => {
+    startTransition(() => {
+      router.replace(pathname, { locale });
+    });
+  };
 
   return (
     <footer className="py-8 border-t border-borderGray">
@@ -38,6 +50,48 @@ const Footer: React.FC = () => {
           <h4 className="font-semibold">設定</h4>
           <div className="flex space-x-8">
             <fieldset className="flex flex-col space-y-4">
+              <legend className="font-semibold text-sm">言語</legend>
+              <div className="flex flex-col space-y-2">
+                <label>
+                  <input
+                    type="radio"
+                    name="language"
+                    value="ja"
+                    checked={localActive === 'ja'}
+                    onChange={() => handleLanguageChange('ja')}
+                    className="sr-only"
+                    disabled={isPending}
+                  />
+                  <span
+                    className={`text-sm ${
+                      localActive === 'ja' ? 'text-primary' : 'text-foreground hover:underline'
+                    }`}
+                  >
+                    日本語
+                  </span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="language"
+                    value="en"
+                    checked={localActive === 'en'}
+                    onChange={() => handleLanguageChange('en')}
+                    className="sr-only"
+                    disabled={isPending}
+                  />
+                  <span
+                    className={`text-left text-sm ${
+                      localActive === 'en' ? 'text-primary' : 'text-foreground hover:underline'
+                    }`}
+                  >
+                    English
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset className="flex flex-col space-y-4">
               <legend className="font-semibold text-sm">時刻表示</legend>
               <div className="flex flex-col space-y-2">
                 <label>
@@ -57,7 +111,7 @@ const Footer: React.FC = () => {
                     12時制
                   </span>
                 </label>
-                <label className="">
+                <label>
                   <input
                     type="radio"
                     name="timeFormat"
