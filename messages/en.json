@@ -1,10 +1,30 @@
 {
+  "Footer": {
+    "appName": "When Are You Free?",
+    "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone.",
+    "settings": {
+      "title": "Settings",
+      "language": {
+        "label": "Language"
+      },
+      "timeFormat": {
+        "label": "Time Format",
+        "12hour": "12-hour",
+        "24hour": "24-hour"
+      },
+      "theme": {
+        "label": "Theme",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    }
+  },
   "Overview": {
     "pageTitle": "Service Overview",
     "sections": {
       "purpose": {
         "title": "About the Service",
-        "description": "Simplify group scheduling. 「When are you free?」 is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+        "description": "Simplify group scheduling. When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
       },
       "features": {
         "title": "Key Features",
