@@ -1,4 +1,16 @@
 {
+  "Layout": {
+    "metadata": {
+      "title": "When Are You Free?",
+      "description": "A free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+    }
+  },
+  "Loading": {
+    "message": "Loading..."
+  },
+  "NotFound": {
+    "message": "お探しのページは見つかりませんでした。"
+  },
   "Header": {
     "appName": "When Are You Free?",
     "nav": {
