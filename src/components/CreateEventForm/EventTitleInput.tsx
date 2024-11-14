@@ -24,10 +24,10 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
           onChange(e.target.value);
           isInteracted.current = true;
         }}
-        className={`mt-4 ${displayError ? 'border-2 border-red-500' : 'border border-primary'}`}
+        className={`mt-4 ${displayError ? '!border-2 !border-red-500' : 'border border-primary'}`}
         placeholder={t('placeholder')}
       />
-      <p className={`mt-2 px-4 text-red-500 ${displayError ? '' : 'hidden'}`}>{t('error')}</p>
+      <p className={`mt-2 px-3 text-red-500 ${displayError ? '' : 'hidden'}`}>{t('error')}</p>
     </div>
   );
 };
