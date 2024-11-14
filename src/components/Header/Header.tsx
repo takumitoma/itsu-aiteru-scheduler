@@ -5,14 +5,16 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
+import { useTranslations } from 'next-intl';
 
 const NAV_ITEMS = [
-  { href: '/overview', label: 'サービス概要' },
-  { href: '/how-to-use', label: '使い方' },
-  { href: '/contact', label: 'お問い合わせ' },
+  { href: '/overview', translationKey: 'overview' },
+  { href: '/how-to-use', translationKey: 'howToUse' },
+  { href: '/contact', translationKey: 'contact' },
 ] as const;
 
 const Header: React.FC = () => {
+  const t = useTranslations('Header');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // disable body scroll when menu is open
@@ -40,19 +42,19 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-4">
           <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />
-          <span className="text-xl font-bold hidden sm:block">いつ空いてる？</span>
+          <span className="text-xl font-bold hidden sm:block">{t('appName')}</span>
         </Link>
 
         {/* desktop nav bar */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
-            {NAV_ITEMS.map(({ href, label }) => (
+            {NAV_ITEMS.map(({ href, translationKey }) => (
               <li key={href}>
                 <Link
                   href={href}
                   className="hover:text-primary text-lg transition-colors font-semibold"
                 >
-                  {label}
+                  {t(`nav.${translationKey}`)}
                 </Link>
               </li>
             ))}
@@ -65,7 +67,7 @@ const Header: React.FC = () => {
             isMobileMenuOpen ? 'text-background z-50' : 'text-foreground'
           }`}
           onClick={toggleMenu}
-          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isMobileMenuOpen ? t('aria.closeMenu') : t('aria.openMenu')}
         >
           {isMobileMenuOpen ? <LuX size={30} /> : <RxHamburgerMenu size={30} />}
         </button>
@@ -83,14 +85,14 @@ const Header: React.FC = () => {
             <div className="fixed top-20 inset-x-0 bottom-4 md:hidden z-50">
               <nav className="bg-background mx-4 h-full rounded-md">
                 <ul className="flex flex-col space-y-4 p-4">
-                  {NAV_ITEMS.map(({ href, label }) => (
+                  {NAV_ITEMS.map(({ href, translationKey }) => (
                     <li key={href}>
                       <Link
                         href={href}
                         className="hover:text-primary text-xl transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {label}
+                        {t(`nav.${translationKey}`)}
                       </Link>
                     </li>
                   ))}
