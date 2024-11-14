@@ -192,6 +192,22 @@
     "TimezoneSelector": {
       "label": "Timezone",
       "placeholder": "Select a timezone"
+    },
+    "Calendar": {
+      "monthFormat": "MMMM YYYY",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "errorMin": "Please select at least one day",
+      "errorMax": "Maximum selection reached (31 days)",
+      "selectedCount": "Selected: {count} / 31 days",
+      "clearSelection": "Clear Selection"
+    },
+    "WeekCalendar": {
+      "label": "Select Days",
+      "errorMin": "Please select at least one day"
+    },
+    "CreateEventForm": {
+      "unknownError": "An unknown error occurred"
     }
   },
   "constants": {

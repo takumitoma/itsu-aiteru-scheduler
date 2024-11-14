@@ -192,6 +192,22 @@
     "TimezoneSelector": {
       "label": "タイムゾーン",
       "placeholder": "タイムゾーンを選択"
+    },
+    "Calendar": {
+      "monthFormat": "YYYY年 M月",
+      "prevMonth": "前月へ",
+      "nextMonth": "次月へ",
+      "errorMin": "少なくとも1日を選択してください",
+      "errorMax": "最大選択数に達しました (31日)",
+      "selectedCount": "選択数: {count} / 31日",
+      "clearSelection": "選択をクリア"
+    },
+    "WeekCalendar": {
+      "label": "曜日を選択",
+      "errorMin": "少なくとも1日を選択してください"
+    },
+    "CreateEventForm": {
+      "unknownError": "予期せぬエラーが発生しました"
     }
   },
   "constants": {
