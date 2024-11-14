@@ -161,5 +161,25 @@
         "success": "Thank you for your message. We'll get back to you soon!"
       }
     }
+  },
+  "CreateEvent": {
+    "pageTitle": "Create New Event",
+    "CreateEventButton": {
+      "create": "Create",
+      "creating": "Creating..."
+    },
+    "ErrorMessage": {
+      "error": "An error occurred"
+    },
+    "EventTitleInput": {
+      "label": "Event Title",
+      "placeholder": "e.g., Midterm Study Session",
+      "error": "Please enter an event title"
+    },
+    "SurveyTypeSelector": {
+      "label": "Date Type",
+      "specific": "Specific Dates",
+      "week": "Days of the Week"
+    }
   }
 }

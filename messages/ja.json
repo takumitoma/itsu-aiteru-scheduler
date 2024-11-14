@@ -161,5 +161,25 @@
         "success": "お問い合わせを受け付けました。ありがとうございます。"
       }
     }
+  },
+  "CreateEvent": {
+    "pageTitle": "Create New Event",
+    "CreateEventButton": {
+      "create": "作成",
+      "creating": "作成中"
+    },
+    "ErrorMessage": {
+      "error": "エラーが発生しました"
+    },
+    "EventTitleInput": {
+      "label": "イベント名",
+      "placeholder": "例) テニスサークル・ボウリング大会",
+      "error": "イベント名を入力してください"
+    },
+    "SurveyTypeSelector": {
+      "label": "日付の種類",
+      "specific": "特定の日付",
+      "week": "曜日"
+    }
   }
 }
