@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
+import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import allTimezones from '@/constants/timezone';
+import timezoneKeys from '@/constants/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -14,6 +15,8 @@ interface TimezoneSelectorProps {
 }
 
 const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) => {
+  const t = useTranslations('CreateEvent.TimezoneSelector');
+  const tzT = useTranslations('constants.Timezones');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -21,13 +24,13 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
   // 1. get offSet minutes of all timezones
   // 2. sort timezones by offset in ascending order
   // 3. destructure the offset minutes
-  const formattedTimezones = Object.entries(allTimezones)
-    .map(([zone, label]) => {
+  const formattedTimezones = timezoneKeys
+    .map((zone) => {
       const offset = dayjs().tz(zone).format('Z');
       const offsetMinutes = dayjs().tz(zone).utcOffset();
       return {
         value: zone,
-        label: `(GMT${offset}) ${label}`,
+        label: `(GMT${offset}) ${tzT(zone)}`,
         offsetMinutes,
       };
     })
@@ -53,7 +56,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
   return (
     <div className="w-full">
       {/* have to use div and buttons instead of select and options due to custom stylings */}
-      <label>タイムゾーン</label>
+      <label>{t('label')}</label>
       <div className="relative mt-4" ref={dropdownRef}>
         <button
           type="button"
@@ -62,7 +65,7 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
-          {selectedTimezone ? selectedTimezone.label : 'タイムゾーンを選択'}
+          {selectedTimezone ? selectedTimezone.label : t('placeholder')}
           <MdArrowDropDown
             size={24}
             className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
