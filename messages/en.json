@@ -275,6 +275,26 @@
       "midnight": "12 AM",
       "noon": "12 PM",
       "timeFormat": "{hour} {period}"
+    },
+    "ViewEditEvent": {
+      "time": {
+        "noon": "noon",
+        "midnight": "midnight",
+        "am": "AM",
+        "pm": "PM",
+        "dateFormat": {
+          "specific": "{month}/{day}/{year}",
+          "week": "{day}"
+        },
+        "timeFormat": "{hour}:{minutes} {period}"
+      },
+      "duration": {
+        "month": "{count} months",
+        "day": "{count} days",
+        "hour": "{count} hours",
+        "minute": "{count} minutes",
+        "zero": "0 minutes"
+      }
     }
   },
   "constants": {

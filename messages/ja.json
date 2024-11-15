@@ -267,11 +267,34 @@
     "DayLabels": {
       "dateFormat": "{month}月{day}日"
     },
+    "TimeSlot": {
+      "availableCount": "{available}/{total} 人空いてる"
+    },
     "TimeLabels": {
       "hour": "時",
       "midnight": "午前0時",
       "noon": "正午",
       "timeFormat": "{period}{hour}時"
+    },
+    "ViewEditEvent": {
+      "time": {
+        "noon": "正午",
+        "midnight": "午前0",
+        "am": "午前",
+        "pm": "午後",
+        "dateFormat": {
+          "specific": "{year}年{month}月{day}日",
+          "week": "{day}曜日"
+        },
+        "timeFormat": "{period}{hour}:{minutes}"
+      },
+      "duration": {
+        "month": "{count}ヶ月",
+        "day": "{count}日",
+        "hour": "{count}時間",
+        "minute": "{count}分",
+        "zero": "0分"
+      }
     }
   },
   "constants": {

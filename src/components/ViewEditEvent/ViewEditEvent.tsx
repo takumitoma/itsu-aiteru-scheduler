@@ -24,6 +24,7 @@ import {
 import { getDateDuration, parseDate } from '@/utils/date-calculations';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 import { useTheme } from 'next-themes';
+import { useTranslations, useLocale } from 'next-intl';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
@@ -37,6 +38,8 @@ interface ViewEditEventProps {
 }
 
 const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
+  const t = useTranslations('ViewEditEvent.ViewEditEvent');
+  const locale = useLocale() as 'ja' | 'en';
   const { timeFormat } = useTimeFormatContext();
   const { theme } = useTheme();
 
@@ -50,10 +53,13 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
   const [isLoading, setIsLoading] = useState(false);
 
-  const dayLabels: string[] =
-    event.surveyType === 'specific'
-      ? event.dates || []
-      : DAYS_OF_WEEK.filter((_, index) => event.daysOfWeek?.[index] === 1) || [];
+  const dayLabels: string[] = useMemo(
+    () =>
+      event.surveyType === 'specific'
+        ? event.dates || []
+        : DAYS_OF_WEEK[locale].filter((_, index) => event.daysOfWeek?.[index] === 1) || [],
+    [event.surveyType, event.dates, event.daysOfWeek, locale],
+  );
   const hourLabels: number[] = Array.from(
     { length: event.timeRangeEnd - event.timeRangeStart },
     (_, index) => event.timeRangeStart + index,
@@ -66,8 +72,10 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   const eventCreationTimeAgo: string = useMemo(() => {
     const dateEventCreated = parseDate(event.createdAt);
     const dateNow = new Date();
-    return getDateDuration(dateEventCreated, dateNow);
-  }, [event.createdAt]);
+    const duration = getDateDuration(dateEventCreated, dateNow);
+
+    return t(`duration.${duration.unit}`, { count: duration.value });
+  }, [event.createdAt, t]);
 
   // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot
   // adds every participants availability array together, example:
@@ -80,12 +88,35 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
   );
 
   // date-time labels for each time slot to be used in each slot's tooltip
-  const dateTimeLabels: string[] = generateDateTimeLabels(
-    event.surveyType,
-    dayLabels,
-    hourLabels,
-    timeFormat,
-  );
+  const dateTimeLabels: string[] = useMemo(() => {
+    const labels = generateDateTimeLabels(event.surveyType, dayLabels, hourLabels);
+
+    return labels.map(({ date, time }) => {
+      const datePart =
+        date.type === 'specific'
+          ? t('time.dateFormat.specific', date.value as Record<string, string>)
+          : t('time.dateFormat.week', { day: date.value as string });
+
+      let timePart: string;
+      if (time.type === 'noon') {
+        timePart = t('time.noon');
+      } else if (time.type === 'midnight') {
+        timePart = t('time.midnight');
+      } else if (timeFormat === 24) {
+        timePart = `${time.hour}:${time.minutes.toString().padStart(2, '0')}`;
+      } else {
+        const period = time.hour < 12 ? t('time.am') : t('time.pm');
+        const displayHour = time.hour > 12 ? time.hour - 12 : time.hour;
+        timePart = t('time.timeFormat', {
+          hour: displayHour.toString(),
+          minutes: time.minutes.toString().padStart(2, '0'),
+          period,
+        });
+      }
+
+      return `${datePart} ${timePart}`;
+    });
+  }, [event.surveyType, dayLabels, hourLabels, timeFormat, t]);
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {
