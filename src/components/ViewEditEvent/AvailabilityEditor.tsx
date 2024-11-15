@@ -9,12 +9,12 @@ interface AvailabilityEditorProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
+export default function AvailabilityEditor({
   selectedTimeSlots,
   setSelectedTimeSlots,
   numDays,
   numHours,
-}) => {
+}: AvailabilityEditorProps) {
   const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
 
   // temporary selection state for visual feedback during drags
@@ -121,6 +121,4 @@ const AvailabilityEditor: React.FC<AvailabilityEditorProps> = ({
       ))}
     </div>
   );
-};
-
-export default AvailabilityEditor;
+}

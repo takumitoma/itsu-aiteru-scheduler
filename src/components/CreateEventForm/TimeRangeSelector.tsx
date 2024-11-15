@@ -11,7 +11,7 @@ interface TimeRangeSelectorProps {
   onChange: (value: { start: number; end: number }) => void;
 }
 
-const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }) => {
+export default function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('CreateEvent.TimeRangeSelector');
   const locale = useLocale();
@@ -115,6 +115,4 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
       </p>
     </div>
   );
-};
-
-export default TimeRangeSelector;
+}

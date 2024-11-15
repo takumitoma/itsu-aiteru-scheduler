@@ -37,7 +37,7 @@ interface ViewEditEventProps {
   participants: Participant[];
 }
 
-const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) => {
+export default function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   const t = useTranslations('ViewEditEvent.ViewEditEvent');
   const locale = useLocale() as 'ja' | 'en';
   const { timeFormat } = useTimeFormatContext();
@@ -332,6 +332,4 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
       {mode === 'view' && <EventLinkSharer link={`${SITE_URL}/e/${event.id}`} />}
     </div>
   );
-};
-
-export default ViewEditEvent;
+}

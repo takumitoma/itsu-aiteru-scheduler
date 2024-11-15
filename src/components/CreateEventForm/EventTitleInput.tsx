@@ -7,7 +7,7 @@ interface EventTitleInputProps {
   showError: boolean;
 }
 
-const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, showError }) => {
+export default function EventTitleInput({ value, onChange, showError }: EventTitleInputProps) {
   const t = useTranslations('CreateEvent.EventTitleInput');
   const isInteracted = useRef(false);
 
@@ -30,6 +30,4 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
       <p className={`mt-2 px-3 text-red-500 ${displayError ? '' : 'hidden'}`}>{t('error')}</p>
     </div>
   );
-};
-
-export default EventTitleInput;
+}

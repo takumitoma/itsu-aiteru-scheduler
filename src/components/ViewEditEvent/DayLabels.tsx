@@ -7,7 +7,7 @@ interface DayLabelsProps {
   dayLabels: string[];
 }
 
-const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
+export default function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
   const locale = useLocale() as 'ja' | 'en';
   const t = useTranslations('ViewEditEvent.DayLabels');
   let daysOfWeekLabels: string[] = [];
@@ -45,6 +45,4 @@ const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
       </div>
     </div>
   );
-};
-
-export default DayLabels;
+}

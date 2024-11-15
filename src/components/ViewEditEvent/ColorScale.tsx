@@ -10,14 +10,14 @@ interface ColorScaleProps {
   getColorRangeText: (index: number) => string;
 }
 
-const ColorScale: React.FC<ColorScaleProps> = ({
+export default function ColorScale({
   displayColors,
   numParticipants,
   selectedColorScaleIndex,
   setSelectedColorScaleIndex,
   setSelectedParticipant,
   getColorRangeText,
-}) => {
+}: ColorScaleProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // to fix hydration mismatch with next-themes
@@ -68,6 +68,4 @@ const ColorScale: React.FC<ColorScaleProps> = ({
       <span className="whitespace-nowrap">{`${numParticipants}/${numParticipants}`}</span>
     </section>
   );
-};
-
-export default ColorScale;
+}

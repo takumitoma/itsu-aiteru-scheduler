@@ -4,7 +4,7 @@ interface ThemeContextProviderProps {
   children: React.ReactNode;
 }
 
-const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
+export default function ThemeContextProvider({ children }: ThemeContextProviderProps) {
   return (
     <NextThemesProvider
       themes={['light', 'dark']}
@@ -16,6 +16,4 @@ const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
       {children}
     </NextThemesProvider>
   );
-};
-
-export default ThemeContextProvider;
+}

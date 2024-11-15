@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({
+export default async function Layout({
   children,
   params: { locale },
 }: Readonly<{

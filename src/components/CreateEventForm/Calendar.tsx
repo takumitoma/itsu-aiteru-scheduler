@@ -25,12 +25,12 @@ interface CalendarProps {
   showError: boolean;
 }
 
-const Calendar: React.FC<CalendarProps> = ({
+export default function Calendar({
   selectedDates,
   setSelectedDates,
   timezone,
   showError,
-}) => {
+}: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
   const locale = useLocale() as 'ja' | 'en';
   const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone).locale(locale));
@@ -302,6 +302,4 @@ const Calendar: React.FC<CalendarProps> = ({
       </div>
     </div>
   );
-};
-
-export default Calendar;
+}

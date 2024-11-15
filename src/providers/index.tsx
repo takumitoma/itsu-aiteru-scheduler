@@ -5,12 +5,10 @@ interface ProvidersProps {
   children: React.ReactNode;
 }
 
-const Providers = ({ children }: ProvidersProps) => {
+export default function Providers({ children }: ProvidersProps) {
   return (
     <ThemeContextProvider>
       <TimeFormatContextProvider>{children}</TimeFormatContextProvider>
     </ThemeContextProvider>
   );
-};
-
-export default Providers;
+}

@@ -6,7 +6,7 @@ interface HeadingProps {
   eventCreationTimeAgo: string;
 }
 
-const Heading: React.FC<HeadingProps> = ({ title, eventCreationTimeAgo }) => {
+export default function Heading({ title, eventCreationTimeAgo }: HeadingProps) {
   const t = useTranslations('ViewEditEvent.Heading');
   const [isHovered, setIsHovered] = useState(false);
 
@@ -32,6 +32,4 @@ const Heading: React.FC<HeadingProps> = ({ title, eventCreationTimeAgo }) => {
       )}
     </div>
   );
-};
-
-export default Heading;
+}

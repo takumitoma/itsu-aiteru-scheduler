@@ -6,11 +6,11 @@ interface AvailabilityDeleteViewerProps {
   numHours: number;
 }
 
-const AvailabilityDeleteViewer: React.FC<AvailabilityDeleteViewerProps> = ({
+export default function AvailabilityDeleteViewer({
   selectedTimeSlots,
   numDays,
   numHours,
-}) => {
+}: AvailabilityDeleteViewerProps) {
   const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
 
   return (
@@ -44,6 +44,4 @@ const AvailabilityDeleteViewer: React.FC<AvailabilityDeleteViewerProps> = ({
       ))}
     </div>
   );
-};
-
-export default AvailabilityDeleteViewer;
+}

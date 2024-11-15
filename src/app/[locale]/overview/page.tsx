@@ -69,7 +69,7 @@ interface FeatureCardProps {
   t: ReturnType<typeof useTranslations>;
 }
 
-const FeatureCard = ({ card, t }: FeatureCardProps) => {
+function FeatureCard({ card, t }: FeatureCardProps) {
   const featureIndices = Array.from({ length: card.featureCount }, (_, i) => i);
 
   return (
@@ -93,14 +93,14 @@ const FeatureCard = ({ card, t }: FeatureCardProps) => {
       </ul>
     </div>
   );
-};
+}
 
 interface UseCaseCardProps {
   card: UseCaseCard;
   t: ReturnType<typeof useTranslations>;
 }
 
-const UseCaseCard = ({ card, t }: UseCaseCardProps) => {
+function UseCaseCard({ card, t }: UseCaseCardProps) {
   return (
     <div
       className="w-full space-y-6 flex flex-col items-center border border-borderGray 
@@ -110,14 +110,14 @@ const UseCaseCard = ({ card, t }: UseCaseCardProps) => {
       <card.Icon size={96} className="text-primary" />
     </div>
   );
-};
+}
 
 interface RestrictionCardProps {
   card: RestrictionCard;
   t: ReturnType<typeof useTranslations>;
 }
 
-const RestrictionCard = ({ card, t }: RestrictionCardProps) => {
+function RestrictionCard({ card, t }: RestrictionCardProps) {
   return (
     <div
       className="w-full space-y-6 flex flex-col items-center border border-borderGray 
@@ -131,9 +131,9 @@ const RestrictionCard = ({ card, t }: RestrictionCardProps) => {
       </p>
     </div>
   );
-};
+}
 
-const OverviewPage = () => {
+function OverviewPage() {
   const t = useTranslations('Overview');
 
   return (
@@ -176,6 +176,6 @@ const OverviewPage = () => {
       </section>
     </div>
   );
-};
+}
 
 export default OverviewPage;

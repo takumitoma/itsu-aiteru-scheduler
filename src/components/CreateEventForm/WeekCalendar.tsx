@@ -10,11 +10,11 @@ interface WeekCalendarProps {
   showError: boolean;
 }
 
-const WeekCalendar: React.FC<WeekCalendarProps> = ({
+export default function WeekCalendar({
   selectedDays,
   setSelectedDays,
   showError,
-}) => {
+}: WeekCalendarProps) {
   const t = useTranslations('CreateEvent.WeekCalendar');
   const locale = useLocale() as 'ja' | 'en';
   const isInteracted = useRef(false);
@@ -57,6 +57,4 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
       </p>
     </div>
   );
-};
-
-export default WeekCalendar;
+}

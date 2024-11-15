@@ -9,13 +9,13 @@ interface SubHeadingProps {
   editingParticipant: Participant | null;
 }
 
-const SubHeading: React.FC<SubHeadingProps> = ({
+export default function SubHeading({
   mode,
   selectedParticipant,
   getColorRangeText,
   selectedColorScaleIndex,
   editingParticipant,
-}) => {
+}: SubHeadingProps) {
   const t = useTranslations('ViewEditEvent.SubHeading');
 
   function getHeadingText(): string | JSX.Element {
@@ -51,6 +51,4 @@ const SubHeading: React.FC<SubHeadingProps> = ({
       {mode === 'view' && <p className="text-xs sm:text-sm text-gray-600">{t('hoverHelp')}</p>}
     </section>
   );
-};
-
-export default SubHeading;
+}

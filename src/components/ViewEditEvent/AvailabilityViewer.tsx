@@ -20,7 +20,7 @@ interface AvailabilityViewerProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
+export default function AvailabilityViewer({
   heatMap,
   numDays,
   numHours,
@@ -34,7 +34,7 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
   participantHeatMap,
   isColorScaleIndexSelected,
   colorScaleHeatMap,
-}) => {
+}: AvailabilityViewerProps) {
   const [tooltipData, setTooltipData] = useState<{
     x: number;
     y: number;
@@ -111,6 +111,4 @@ const AvailabilityViewer: React.FC<AvailabilityViewerProps> = ({
       <TimeSlotTooltip tooltipData={tooltipData} />
     </div>
   );
-};
-
-export default AvailabilityViewer;
+}

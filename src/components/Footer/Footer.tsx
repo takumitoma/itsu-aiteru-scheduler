@@ -7,7 +7,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
 
-const Footer: React.FC = () => {
+export default function Footer() {
   const t = useTranslations('Footer');
   const { timeFormat, setTimeFormat } = useTimeFormatContext();
   const { theme, setTheme } = useTheme();
@@ -176,6 +176,4 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

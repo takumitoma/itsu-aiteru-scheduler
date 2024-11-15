@@ -20,7 +20,7 @@ interface ContactForm {
   message: string;
 }
 
-const ContactPage: React.FC = () => {
+export default function ContactPage() {
   const t = useTranslations('Contact');
   const locale = useLocale();
   const [form, setForm] = useState<ContactForm>({
@@ -183,6 +183,4 @@ const ContactPage: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default ContactPage;
+}
