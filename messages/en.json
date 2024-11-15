@@ -268,7 +268,7 @@
       "dateFormat": "{month}/{day}"
     },
     "TimeSlot": {
-      "availableCount": "{available}/{total} available"
+      "availableCount": "{available}/{total} participants available"
     },
     "TimeLabels": {
       "hour": ":00",
@@ -280,8 +280,6 @@
     },
     "ViewEditEvent": {
       "time": {
-        "noon": "noon",
-        "midnight": "midnight",
         "am": "AM",
         "pm": "PM",
         "dateFormat": {
@@ -289,13 +287,6 @@
           "week": "{day}"
         },
         "timeFormat": "{hour}:{minutes} {period}"
-      },
-      "duration": {
-        "month": "{count} months",
-        "day": "{count} days",
-        "hour": "{count} hours",
-        "minute": "{count} minutes",
-        "zero": "0 minutes"
       }
     }
   },

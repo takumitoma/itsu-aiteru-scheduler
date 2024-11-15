@@ -92,21 +92,51 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
     const labels = generateDateTimeLabels(event.surveyType, dayLabels, hourLabels);
 
     return labels.map(({ date, time }) => {
-      const datePart =
-        date.type === 'specific'
-          ? t('time.dateFormat.specific', date.value as Record<string, string>)
-          : t('time.dateFormat.week', { day: date.value as string });
+      let datePart: string;
+      if (date.type === 'specific') {
+        const specificDate = date.value as { year: string; month: string; day: string };
+        datePart = t('time.dateFormat.specific', specificDate);
+      } else {
+        const weekDay = date.value as string;
+        datePart = t('time.dateFormat.week', { day: weekDay });
+      }
 
       let timePart: string;
-      if (time.type === 'noon') {
-        timePart = t('time.noon');
-      } else if (time.type === 'midnight') {
-        timePart = t('time.midnight');
-      } else if (timeFormat === 24) {
-        timePart = `${time.hour}:${time.minutes.toString().padStart(2, '0')}`;
+      if (timeFormat === 24) {
+        if (time.type === 'midnight') {
+          timePart = `0:${time.minutes.toString().padStart(2, '0')}`;
+        } else {
+          timePart = `${time.hour}:${time.minutes.toString().padStart(2, '0')}`;
+        }
       } else {
-        const period = time.hour < 12 ? t('time.am') : t('time.pm');
-        const displayHour = time.hour > 12 ? time.hour - 12 : time.hour;
+        let displayHour: number;
+        let period: string;
+
+        if (locale === 'ja') {
+          if (time.type === 'midnight') {
+            displayHour = 0;
+            period = t('time.am');
+          } else if (time.type === 'noon') {
+            displayHour = 0;
+            period = t('time.pm');
+          } else {
+            displayHour = time.hour % 12;
+            period = time.hour < 12 ? t('time.am') : t('time.pm');
+          }
+        } else {
+          if (time.type === 'midnight') {
+            displayHour = 12;
+            period = t('time.am');
+          } else if (time.type === 'noon') {
+            displayHour = 12;
+            period = t('time.pm');
+          } else {
+            displayHour = time.hour > 12 ? time.hour - 12 : time.hour;
+            period = time.hour < 12 ? t('time.am') : t('time.pm');
+            if (displayHour === 0) displayHour = 12;
+          }
+        }
+
         timePart = t('time.timeFormat', {
           hour: displayHour.toString(),
           minutes: time.minutes.toString().padStart(2, '0'),
@@ -116,7 +146,7 @@ const ViewEditEvent: React.FC<ViewEditEventProps> = ({ event, participants }) =>
 
       return `${datePart} ${timePart}`;
     });
-  }, [event.surveyType, dayLabels, hourLabels, timeFormat, t]);
+  }, [event.surveyType, dayLabels, hourLabels, timeFormat, t, locale]);
 
   // list of available participants and unavailable participants to be used in each slot's tooltip
   const [availableParticipantsPerSlot, unavailableParticipantsPerSlot] = useMemo(() => {

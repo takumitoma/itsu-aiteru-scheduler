@@ -273,15 +273,13 @@
     "TimeLabels": {
       "hour": "時",
       "midnight": "午前0時",
-      "noon": "正午",
+      "noon": "午後0時",
       "timeFormat": "{period}{hour}時",
       "am": "午前",
       "pm": "午後"
     },
     "ViewEditEvent": {
       "time": {
-        "noon": "正午",
-        "midnight": "午前0",
         "am": "午前",
         "pm": "午後",
         "dateFormat": {
@@ -289,13 +287,6 @@
           "week": "{day}曜日"
         },
         "timeFormat": "{period}{hour}:{minutes}"
-      },
-      "duration": {
-        "month": "{count}ヶ月",
-        "day": "{count}日",
-        "hour": "{count}時間",
-        "minute": "{count}分",
-        "zero": "0分"
       }
     }
   },
