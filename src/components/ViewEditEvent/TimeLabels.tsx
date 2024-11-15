@@ -1,4 +1,5 @@
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
+import { useTranslations } from 'next-intl';
 
 interface TimeLabelsProps {
   hourLabels: number[];
@@ -8,22 +9,27 @@ interface TimeLabelsProps {
 
 const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd, spaceTop }) => {
   const { timeFormat } = useTimeFormatContext();
+  const t = useTranslations('ViewEditEvent.TimeLabels');
 
   function formatTimeDisplay(hour: number) {
     if (timeFormat === 24) {
-      return `${hour}時`;
+      return `${hour}${t('hour')}`;
     }
 
     if (hour === 0 || hour === 24) {
-      return '午前0時';
+      return t('midnight');
     }
     if (hour === 12) {
-      return '正午';
+      return t('noon');
     }
 
-    const period = hour < 12 ? '午前' : '午後';
     const displayHour = hour > 12 ? hour - 12 : hour;
-    return `${period}${displayHour}時`;
+    const period = hour < 12 ? t('am') : t('pm');
+
+    return t('timeFormat', {
+      hour: displayHour,
+      period: period,
+    });
   }
 
   return (

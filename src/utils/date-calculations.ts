@@ -4,9 +4,15 @@ const MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
 const MILLISECONDS_IN_MONTH = MILLISECONDS_IN_DAY * 30;
 
 // returns how long ago startDate was from endDate
-export function getDateDuration(startDate: Date, endDate: Date): string {
+export function getDateDuration(
+  startDate: Date,
+  endDate: Date,
+): {
+  value: number;
+  unit: 'month' | 'day' | 'hour' | 'minute' | 'zero';
+} {
   if (startDate >= endDate) {
-    return '0 分';
+    return { value: 0, unit: 'zero' };
   }
 
   const diffMs = endDate.getTime() - startDate.getTime();
@@ -16,16 +22,16 @@ export function getDateDuration(startDate: Date, endDate: Date): string {
   const diffMonths = Math.floor(diffMs / MILLISECONDS_IN_MONTH);
 
   if (diffMonths >= 1) {
-    return `${diffMonths} ヶ月`;
+    return { value: diffMonths, unit: 'month' };
   } else if (diffDays >= 1) {
-    return `${diffDays} 日`;
+    return { value: diffDays, unit: 'day' };
   } else if (diffHours >= 1) {
-    return `${diffHours} 時間`;
+    return { value: diffHours, unit: 'hour' };
   } else if (diffMinutes >= 1) {
-    return `${diffMinutes} 分`;
-  } else {
-    return '0 分';
+    return { value: diffMinutes, unit: 'minute' };
   }
+
+  return { value: 0, unit: 'zero' };
 }
 
 // date returned from supabase is Date type but actually a string. convert it into Date object.

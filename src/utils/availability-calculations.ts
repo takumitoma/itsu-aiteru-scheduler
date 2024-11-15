@@ -6,6 +6,17 @@ interface RGB {
   b: number;
 }
 
+interface TimeData {
+  hour: number;
+  minutes: number;
+  type: 'regular' | 'noon' | 'midnight';
+}
+
+interface DateData {
+  type: 'specific' | 'week';
+  value: string | { year: string; month: string; day: string };
+}
+
 const LIGHT_NO_PARTICIPANT_COLOR: RGB = { r: 255, g: 255, b: 255 };
 const DARK_NO_PARTICIPANT_COLOR: RGB = { r: 10, g: 10, b: 10 };
 const MAX_PARTICIPANT_COLOR: RGB = { r: 74, g: 144, b: 226 };
@@ -26,48 +37,51 @@ export function generateDateTimeLabels(
   dateType: 'specific' | 'week',
   dayLabels: string[],
   hourLabels: number[],
-  timeFormat: 12 | 24,
-): string[] {
-  const dateTimeLabels: string[] = [];
-
-  function formatTimeDisplay(hour: number, minutes: number): string {
-    if (timeFormat === 24) {
-      return `${hour}:${minutes.toString().padStart(2, '0')}`;
-    }
-
-    if (hour === 0 || hour === 24) {
-      return `午前0:${minutes.toString().padStart(2, '0')}`;
-    }
-    if (hour === 12 && minutes === 0) {
-      return '正午';
-    }
-
-    const period = hour < 12 ? '午前' : '午後';
-    const displayHour = hour > 12 ? hour - 12 : hour;
-    return `${period}${displayHour}:${minutes.toString().padStart(2, '0')}`;
-  }
+): Array<{ date: DateData; time: TimeData }> {
+  const dateTimeLabels: Array<{ date: DateData; time: TimeData }> = [];
 
   for (let i = 0; i < dayLabels.length; ++i) {
+    let dateData: DateData;
+
+    if (dateType === 'specific') {
+      const [year, month, day] = dayLabels[i].split('-');
+      dateData = {
+        type: 'specific',
+        value: {
+          year,
+          month: String(Number(month)),
+          day: String(Number(day)),
+        },
+      };
+    } else {
+      dateData = {
+        type: 'week',
+        value: dayLabels[i],
+      };
+    }
+
     for (let j = 0; j < hourLabels.length; ++j) {
-      let dayLabel: string = dayLabels[i];
-
-      if (dateType === 'specific') {
-        // '2024-12-01' -> '2024年12月1日'
-        const [year, month, day] = dayLabel.split('-');
-        const formattedMonth = String(Number(month));
-        const formattedDay = String(Number(day));
-        dayLabel = `${year}年${formattedMonth}月${formattedDay}日`;
-      } else {
-        dayLabel = `${dayLabel}曜日`;
-      }
-
       const hour = hourLabels[j];
-      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 0)}`);
-      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 15)}`);
-      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 30)}`);
-      dateTimeLabels.push(`${dayLabel} ${formatTimeDisplay(hour, 45)}`);
+
+      for (const minutes of [0, 15, 30, 45]) {
+        let timeData: TimeData;
+
+        if (hour === 12 && minutes === 0) {
+          timeData = { hour: 12, minutes: 0, type: 'noon' };
+        } else if ((hour === 0 || hour === 24) && minutes === 0) {
+          timeData = { hour: 0, minutes: 0, type: 'midnight' };
+        } else {
+          timeData = { hour, minutes, type: 'regular' };
+        }
+
+        dateTimeLabels.push({
+          date: dateData,
+          time: timeData,
+        });
+      }
     }
   }
+
   return dateTimeLabels;
 }
 

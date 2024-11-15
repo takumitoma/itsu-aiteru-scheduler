@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import Providers from '@/providers';
@@ -15,10 +15,14 @@ const notoSansJapanese = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
 });
 
-export const metadata: Metadata = {
-  title: 'いつ会える？',
-  description: '遊び、打ち合わせ、会議などを簡単にスケジュールする',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Layout.metadata');
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export default async function RootLayout({
   children,

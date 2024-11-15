@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { RxCross1 } from 'react-icons/rx';
+import { useTranslations } from 'next-intl';
 
 interface NameInputPopupProps {
   onSubmit: (name: string) => Promise<void>;
@@ -7,6 +8,7 @@ interface NameInputPopupProps {
 }
 
 const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) => {
+  const t = useTranslations('ViewEditEvent.NameInputPopup');
   const [name, setName] = useState('');
   const [showError, setShowError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,16 +44,14 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
       >
         <div className="flex justify-between">
           <label htmlFor="participantName" className="text-xl font-medium">
-            あなたのお名前
+            {t('title')}
           </label>
           <button onClick={onClose} type="button" disabled={isSubmitting}>
             <RxCross1 size={24} />
           </button>
         </div>
         <div className="flex">
-          <p className="text-xs sm:text-sm text-gray-600">
-            再度アクセスする場合は、同じ名前を入力して空き時間を編集
-          </p>
+          <p className="text-xs sm:text-sm text-gray-600">{t('description')}</p>
         </div>
         <div>
           <input
@@ -64,14 +64,12 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
                 setShowError(false);
               }
             }}
-            placeholder={'例) やまだ'}
-            className={` ${showError ? 'border-red-500' : 'border-primary'}`}
+            placeholder={t('placeholder')}
+            className={`${showError ? 'border-red-500' : 'border-primary'}`}
             disabled={isSubmitting}
           />
           {showError && (
-            <p className="text-red-500 mt-1 text-xs sm:text-base">
-              名前は2文字から20文字で入力してください
-            </p>
+            <p className="text-red-500 mt-1 text-xs sm:text-base">{t('errorMessage')}</p>
           )}
         </div>
         <div className="flex justify-end">
@@ -83,7 +81,7 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
               disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            確認
+            {t('submitButton')}
           </button>
         </div>
       </form>

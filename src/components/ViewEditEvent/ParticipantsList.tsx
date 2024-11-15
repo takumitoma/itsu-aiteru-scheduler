@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Participant } from '@/types/Participant';
+import { useTranslations } from 'next-intl';
 
 interface ParticipantsListProps {
   mode: 'view' | 'edit' | 'delete';
@@ -16,6 +17,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
   setSelectedParticipant,
   setSelectedColorScaleIndex,
 }) => {
+  const t = useTranslations('ViewEditEvent.ParticipantsList');
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   function handleClick(participant: Participant, index: number) {
@@ -31,11 +33,11 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
 
   return (
     <section className="w-full space-y-2">
-      <h2>{`参加者数: ${allParticipants.length}人`}</h2>
+      <h2>
+        {t('participantCount')} {allParticipants.length}
+      </h2>
       <p className="text-xs sm:text-sm text-gray-600">
-        {mode === 'view'
-          ? '名前をクリックで、それぞれの空き時間を表示'
-          : '名前をクリックで、削除したい参加者を選択'}
+        {mode === 'view' ? t('viewModeHelp') : t('deleteModeHelp')}
       </p>
       <ul className="flex flex-wrap gap-2 text-xs sm:text-lg">
         {allParticipants.map((participant, index) => (

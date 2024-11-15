@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import EventTitleInput from './EventTitleInput';
 import SurveyTypeSelector from './SurveyTypeSelector';
 import TimezoneSelector from './TimezoneSelector';
@@ -15,6 +16,8 @@ import { createEvent } from '@/lib/api-client/event';
 import { Event } from '@/types/Event';
 
 const CreateEventForm: React.FC = () => {
+  const t = useTranslations('CreateEvent.CreateEventForm');
+
   // form fields
   const [eventTitle, setEventTitle] = useState('');
   const [surveyType, setSurveyType] = useState<'specific' | 'week'>('specific');
@@ -72,11 +75,11 @@ const CreateEventForm: React.FC = () => {
         router.push(`/e/${createdEventId}`);
       } catch (error) {
         console.error('Error creating event:', error);
-        setApiError(error instanceof Error ? error.message : 'An unknown error occurred');
+        setApiError(error instanceof Error ? error.message : t('unknownError'));
         setIsSubmitting(false);
       }
     } else {
-      console.log('Error: Form validation failed');
+      console.error('Error: Form validation failed');
       setShowErrors(true);
     }
   }

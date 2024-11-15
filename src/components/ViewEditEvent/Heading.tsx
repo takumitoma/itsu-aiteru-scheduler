@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 interface HeadingProps {
@@ -6,6 +7,7 @@ interface HeadingProps {
 }
 
 const Heading: React.FC<HeadingProps> = ({ title, eventCreationTimeAgo }) => {
+  const t = useTranslations('ViewEditEvent.Heading');
   const [isHovered, setIsHovered] = useState(false);
 
   function handleMouseEnter() {
@@ -25,7 +27,7 @@ const Heading: React.FC<HeadingProps> = ({ title, eventCreationTimeAgo }) => {
             border border-foreground rounded-md text-xs sm:text-sm text-gray-600 
             whitespace-nowrap"
         >
-          {`${eventCreationTimeAgo}前に作成`}
+          {t('createdTimeAgo', { timeAgo: eventCreationTimeAgo })}
         </div>
       )}
     </div>

@@ -1,5 +1,7 @@
 import { Slider } from '@mui/material';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 const HOURS_24 = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 const HOURS_12 = ['12', '3', '6', '9', '12', '3', '6', '9', '12'];
@@ -11,6 +13,8 @@ interface TimeRangeSelectorProps {
 
 const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }) => {
   const { timeFormat } = useTimeFormatContext();
+  const t = useTranslations('CreateEvent.TimeRangeSelector');
+  const locale = useLocale();
 
   function generateTimeMarks() {
     if (timeFormat === 24) {
@@ -53,24 +57,30 @@ const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({ value, onChange }
 
   function formatTimeDisplay(hour: number) {
     if (timeFormat === 24) {
-      return `${hour}時`;
+      return `${hour}${t('hour')}`;
     }
 
     if (hour === 0 || hour === 24) {
-      return '午前0時';
+      return t('midnight');
     }
     if (hour === 12) {
-      return '正午';
+      return t('noon');
     }
 
-    const period = hour < 12 ? '午前' : '午後';
     const displayHour = hour > 12 ? hour - 12 : hour;
-    return `${period}${displayHour}時`;
+
+    if (locale === 'ja') {
+      const period = hour < 12 ? t('am') : t('pm');
+      return `${period}${displayHour}${t('hour')}`;
+    } else {
+      const period = hour < 12 ? t('am') : t('pm');
+      return `${displayHour} ${period}`;
+    }
   }
 
   return (
     <div className="w-full">
-      <label className="mb-4">時間帯を選択</label>
+      <label className="mb-4">{t('label')}</label>
       <div className="my-4">
         <Slider
           value={[value.start, value.end]}

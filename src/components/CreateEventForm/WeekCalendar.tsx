@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 import { DAYS_OF_WEEK } from '@/constants/days';
 
@@ -13,6 +15,8 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
   setSelectedDays,
   showError,
 }) => {
+  const t = useTranslations('CreateEvent.WeekCalendar');
+  const locale = useLocale() as 'ja' | 'en';
   const isInteracted = useRef(false);
 
   const displayError = (showError || isInteracted.current) && !selectedDays.includes(1);
@@ -28,13 +32,13 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
 
   return (
     <div className="w-full">
-      <label>曜日を選択</label>
+      <label>{t('label')}</label>
       <div
         className={`flex w-full mt-6 rounded ${
           displayError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
         }`}
       >
-        {DAYS_OF_WEEK.map((day, index) => (
+        {DAYS_OF_WEEK[locale].map((day, index) => (
           <button
             key={day}
             type="button"
@@ -49,7 +53,7 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({
         ))}
       </div>
       <p className={`mt-4 text-red-500 text-center ${displayError ? '' : 'invisible'}`}>
-        少なくとも1日を選択してください
+        {t('errorMin')}
       </p>
     </div>
   );

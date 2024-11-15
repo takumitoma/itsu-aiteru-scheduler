@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { Participant } from '@/types/Participant';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmDeletePopupProps {
   participant: Participant | null;
@@ -13,6 +14,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
   onSubmit,
   onClose,
 }) => {
+  const t = useTranslations('ViewEditEvent.ConfirmDeletePopup');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -32,7 +34,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
         className="p-6 bg-background rounded-md max-w-md w-full space-y-4"
       >
         <div className="flex justify-between">
-          <span className="text-lg sm:text-xl font-medium">この参加者を削除しますか?</span>
+          <span className="text-lg sm:text-xl font-medium">{t('title')}</span>
           <button onClick={onClose} type="button" disabled={isSubmitting}>
             <RxCross1 size={24} />
           </button>
@@ -45,7 +47,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
               disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-lg"
             disabled={isSubmitting}
           >
-            削除
+            {t('deleteButton')}
           </button>
         </div>
       </form>

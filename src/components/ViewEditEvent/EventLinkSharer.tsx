@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 interface EventLinkSharerProps {
   link: string;
 }
 
 const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
+  const t = useTranslations('ViewEditEvent.EventLinkSharer');
   const [copied, setCopied] = useState(false);
 
   // used to unfocus buttons on click
@@ -36,10 +38,8 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
 
   return (
     <section className="w-full space-y-2">
-      <label htmlFor="event-link">このイベントのリンク</label>
-      <p className="text-xs sm:text-sm text-gray-600">
-        リンクを共有して、他の参加者がそれぞれ空き時間を記入できるようにしよう!
-      </p>
+      <label htmlFor="event-link">{t('label')}</label>
+      <p className="text-xs sm:text-sm text-gray-600">{t('description')}</p>
       <div
         id="event-link-container"
         className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
@@ -61,7 +61,7 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
           onClick={copyToClipboard}
         >
           <div className="hidden sm:block">{copied ? <FaCheck /> : <IoCopyOutline />}</div>
-          <span>{copied ? 'コピー完了' : 'コピーする'}</span>
+          <span>{copied ? t('copiedButton') : t('copyButton')}</span>
         </button>
       </div>
     </section>

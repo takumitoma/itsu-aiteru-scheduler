@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import 'dayjs/locale/ja';
+import 'dayjs/locale/en';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -27,7 +31,9 @@ const Calendar: React.FC<CalendarProps> = ({
   timezone,
   showError,
 }) => {
-  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
+  const t = useTranslations('CreateEvent.Calendar');
+  const locale = useLocale() as 'ja' | 'en';
+  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone).locale(locale));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
@@ -44,8 +50,8 @@ const Calendar: React.FC<CalendarProps> = ({
   const showErrorMax = selectedDates.length === 31;
 
   useEffect(() => {
-    setCurrentMonth(dayjs().tz(timezone));
-  }, [timezone]);
+    setCurrentMonth(dayjs().tz(timezone).locale(locale));
+  }, [timezone, locale]);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -207,24 +213,23 @@ const Calendar: React.FC<CalendarProps> = ({
             type="button"
             onClick={navigatePrevMonth}
             className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
-            aria-label="navigate to previous month"
+            aria-label={t('prevMonth')}
           >
             <MdNavigateBefore size={20} />
           </button>
-          <h2 className="text-xl font-semibold">{currentMonth.format('YYYY年 M月')}</h2>
+          <h2 className="text-xl font-semibold">{currentMonth.format(t('monthFormat'))}</h2>
           <button
             ref={nextMonthButtonRef}
             type="button"
             onClick={navigateNextMonth}
             className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
-            aria-label="navigate to next month"
+            aria-label={t('nextMonth')}
           >
             <MdNavigateNext size={20} />
           </button>
         </div>
         <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
-          {/* days of the week row */}
-          {DAYS_OF_WEEK.map((day) => (
+          {DAYS_OF_WEEK[locale].map((day) => (
             <div
               key={day}
               className="text-center border-b border-r border-gray-300 font-semibold py-2"
@@ -278,11 +283,11 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
       </div>
       {displayError ? (
-        <p className="text-center mt-4 text-red-500">少なくとも1日を選択してください</p>
+        <p className="text-center mt-4 text-red-500">{t('errorMin')}</p>
       ) : showErrorMax ? (
-        <p className="text-center mt-4 text-red-500">最大選択数に達しました (31日)</p>
+        <p className="text-center mt-4 text-red-500">{t('errorMax')}</p>
       ) : (
-        <p className="text-center mt-4">選択数: {selectedDates.length} / 31日</p>
+        <p className="text-center mt-4">{t('selectedCount', { count: selectedDates.length })}</p>
       )}
       <div className="mt-4">
         <button
@@ -292,7 +297,7 @@ const Calendar: React.FC<CalendarProps> = ({
           className="w-full py-2 border rounded focus:outline-none focus:ring-2 
             focus:ring-primary hover:brightness-90 border-borderGray"
         >
-          選択をクリア
+          {t('clearSelection')}
         </button>
       </div>
     </div>

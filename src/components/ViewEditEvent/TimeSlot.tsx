@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 const TOOLTIP_WIDTH = 225; //px
 
@@ -27,6 +28,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   onHover,
   onLeave,
 }) => {
+  const t = useTranslations('ViewEditEvent.TimeSlot');
   const [isHovered, setIsHovered] = useState(false);
 
   // to fix hydration mismatch with next-themes
@@ -59,7 +61,10 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
           style={{ width: `${TOOLTIP_WIDTH}px` }}
         >
           <p className="font-medium font-xl">
-            {`${numParticipants}/${numTotalParticipants} 人空いてる`}
+            {t('availableCount', {
+              available: numParticipants,
+              total: numTotalParticipants,
+            })}
           </p>
           <p>{dateTimeLabel}</p>
           <div className="flex flex-wrap gap-1">

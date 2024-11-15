@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface EventTitleInputProps {
   value: string;
@@ -7,13 +8,14 @@ interface EventTitleInputProps {
 }
 
 const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, showError }) => {
+  const t = useTranslations('CreateEvent.EventTitleInput');
   const isInteracted = useRef(false);
 
   const displayError = (showError || isInteracted.current) && value.trim().length === 0;
 
   return (
     <div className="w-full">
-      <label htmlFor="eventTitle">イベント名</label>
+      <label htmlFor="eventTitle">{t('label')}</label>
       <input
         type="text"
         id="eventTitle"
@@ -22,12 +24,10 @@ const EventTitleInput: React.FC<EventTitleInputProps> = ({ value, onChange, show
           onChange(e.target.value);
           isInteracted.current = true;
         }}
-        className={`mt-4 ${displayError ? 'border-2 border-red-500' : 'border border-primary'}`}
-        placeholder="例) テニスサークル・ボウリング大会"
+        className={`mt-4 ${displayError ? '!border-2 !border-red-500' : 'border border-primary'}`}
+        placeholder={t('placeholder')}
       />
-      <p className={`mt-2 px-4 text-red-500 ${displayError ? '' : 'hidden'}`}>
-        イベント名を入力してください
-      </p>
+      <p className={`mt-2 px-3 text-red-500 ${displayError ? '' : 'hidden'}`}>{t('error')}</p>
     </div>
   );
 };

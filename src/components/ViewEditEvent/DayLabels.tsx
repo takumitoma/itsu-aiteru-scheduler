@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-
+import { useTranslations, useLocale } from 'next-intl';
 import { DAYS_OF_WEEK } from '@/constants/days';
 
 interface DayLabelsProps {
@@ -8,20 +8,22 @@ interface DayLabelsProps {
 }
 
 const DayLabels: React.FC<DayLabelsProps> = ({ dateType, dayLabels }) => {
+  const locale = useLocale() as 'ja' | 'en';
+  const t = useTranslations('ViewEditEvent.DayLabels');
   let daysOfWeekLabels: string[] = [];
 
   if (dateType === 'specific') {
     daysOfWeekLabels = dayLabels.map((date) => {
       const dayOfWeek = dayjs(date).day();
-      return DAYS_OF_WEEK[dayOfWeek];
+      return DAYS_OF_WEEK[locale][dayOfWeek];
     });
 
     dayLabels = dayLabels.map((d) => {
-      let [, month, day] = d.split('-');
-      //remove leading zeros
-      month = String(Number(month));
-      day = String(Number(day));
-      return `${month}月${day}日`;
+      const [, month, day] = d.split('-');
+      // remove leading zeros
+      const monthNum = Number(month);
+      const dayNum = Number(day);
+      return t('dateFormat', { month: monthNum, day: dayNum });
     });
   }
 

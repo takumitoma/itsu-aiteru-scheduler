@@ -1,10 +1,54 @@
 {
+  "Layout": {
+    "metadata": {
+      "title": "When Are You Free?",
+      "description": "A free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+    }
+  },
+  "Loading": {
+    "message": "Loading..."
+  },
+  "NotFound": {
+    "message": "お探しのページは見つかりませんでした。"
+  },
+  "Header": {
+    "appName": "When Are You Free?",
+    "nav": {
+      "overview": "Overview",
+      "howToUse": "How to Use",
+      "contact": "Contact Us"
+    },
+    "aria": {
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
+    }
+  },
+  "Footer": {
+    "appName": "When Are You Free?",
+    "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone.",
+    "settings": {
+      "title": "Settings",
+      "language": {
+        "label": "Language"
+      },
+      "timeFormat": {
+        "label": "Time Format",
+        "12hour": "12-hour",
+        "24hour": "24-hour"
+      },
+      "theme": {
+        "label": "Theme",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    }
+  },
   "Overview": {
     "pageTitle": "Service Overview",
     "sections": {
       "purpose": {
         "title": "About the Service",
-        "description": "Simplify group scheduling. 「When are you free?」 is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+        "description": "Simplify group scheduling. When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
       },
       "features": {
         "title": "Key Features",
@@ -116,6 +160,209 @@
       "response": {
         "success": "Thank you for your message. We'll get back to you soon!"
       }
+    }
+  },
+  "CreateEvent": {
+    "pageTitle": "Create New Event",
+    "CreateEventButton": {
+      "create": "Create",
+      "creating": "Creating..."
+    },
+    "ErrorMessage": {
+      "error": "An error occurred"
+    },
+    "EventTitleInput": {
+      "label": "Event Title",
+      "placeholder": "e.g., Midterm Study Session",
+      "error": "Please enter an event title"
+    },
+    "SurveyTypeSelector": {
+      "label": "Date Type",
+      "specific": "Specific Dates",
+      "week": "Days of the Week"
+    },
+    "TimeRangeSelector": {
+      "label": "Select Time Range",
+      "noon": "Noon",
+      "midnight": "Midnight",
+      "am": "AM",
+      "pm": "PM",
+      "hour": ":00"
+    },
+    "TimezoneSelector": {
+      "label": "Timezone",
+      "placeholder": "Select a timezone"
+    },
+    "Calendar": {
+      "monthFormat": "MMMM YYYY",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "errorMin": "Please select at least one day",
+      "errorMax": "Maximum selection reached (31 days)",
+      "selectedCount": "Selected: {count} / 31 days",
+      "clearSelection": "Clear Selection"
+    },
+    "WeekCalendar": {
+      "label": "Select Days",
+      "errorMin": "Please select at least one day"
+    },
+    "CreateEventForm": {
+      "unknownError": "An unknown error occurred"
+    }
+  },
+  "ViewEditEvent": {
+    "Error": {
+      "title": "An error occurred",
+      "tryAgain": "Please try again",
+      "reload": "Refresh"
+    },
+    "NotFound": {
+      "title": "Event not found",
+      "description": "Please check if the entered URL is correct."
+    },
+    "ConfirmDeletePopup": {
+      "title": "Delete this participant?",
+      "deleteButton": "Delete"
+    },
+    "ParticipantsList": {
+      "participantCount": "Number of Participants:",
+      "viewModeHelp": "Click names to view individual availability",
+      "deleteModeHelp": "Click names to select participants to delete"
+    },
+    "Heading": {
+      "createdTimeAgo": "created {timeAgo} ago"
+    },
+    "EventLinkSharer": {
+      "label": "Invite participants",
+      "description": "Share this link so others can input their availability!",
+      "copyButton": "Copy",
+      "copiedButton": "Copied"
+    },
+    "NameInputPopup": {
+      "title": "Your Name",
+      "description": "Use the same name to edit your availability when returning",
+      "placeholder": "e.g. John",
+      "errorMessage": "Name must be between 2 and 20 characters",
+      "submitButton": "Confirm"
+    },
+    "ParticipantEditor": {
+      "addAvailability": "Availability",
+      "saveButton": "Save",
+      "deleteButton": "Delete",
+      "cancelButton": "Cancel"
+    },
+    "SubHeading": {
+      "editingMode": "Editing availability: ",
+      "deleteMode": "Delete participant: ",
+      "individualAvailability": {
+        "name": "'s availability"
+      },
+      "groupAvailability": {
+        "count": " people",
+        "suffix": " available"
+      },
+      "defaultTitle": "Schedule Overview Table",
+      "hoverHelp": "Hover or tap the table for details"
+    },
+    "DayLabels": {
+      "dateFormat": "{month}/{day}"
+    },
+    "TimeSlot": {
+      "availableCount": "{available}/{total} participants available"
+    },
+    "TimeLabels": {
+      "hour": ":00",
+      "midnight": "12 AM",
+      "noon": "12 PM",
+      "timeFormat": "{hour} {period}",
+      "am": "AM",
+      "pm": "PM"
+    },
+    "ViewEditEvent": {
+      "time": {
+        "am": "AM",
+        "pm": "PM",
+        "dateFormat": {
+          "specific": "{month}/{day}/{year}",
+          "week": "{day}"
+        },
+        "timeFormat": "{hour}:{minutes} {period}"
+      },
+      "duration": {
+        "month": "{count} months",
+        "day": "{count} days",
+        "hour": "{count} hours",
+        "minute": "{count} minutes",
+        "zero": "0 minutes"
+      }
+    }
+  },
+  "constants": {
+    "Timezones": {
+      "Pacific/Samoa": "Samoa Time",
+      "Pacific/Honolulu": "Hawaii Time",
+      "Pacific/Tahiti": "Tahiti Time",
+      "America/Juneau": "Alaska Time",
+      "America/Los_Angeles": "Pacific Time",
+      "America/Phoenix": "Arizona Time",
+      "America/Chihuahua": "Mountain Time - Chihuahua",
+      "America/Chicago": "Central Time",
+      "America/Regina": "Central Time - Saskatchewan",
+      "America/Mexico_City": "Central Time - Mexico City",
+      "America/Belize": "Central America Time",
+      "America/New_York": "Eastern Time",
+      "America/Toronto": "Eastern Time - Toronto",
+      "America/Bogota": "Colombia Time",
+      "America/Caracas": "Venezuela Time",
+      "America/Santiago": "Chile Time",
+      "America/St_Johns": "Newfoundland Time",
+      "America/Sao_Paulo": "Brasilia Time",
+      "America/Argentina/Buenos_Aires": "Argentina Time",
+      "America/Godthab": "Western Greenland Time",
+      "Atlantic/South_Georgia": "South Georgia Time",
+      "Atlantic/Azores": "Azores Time",
+      "Atlantic/Cape_Verde": "Cape Verde Time",
+      "GMT": "Greenwich Mean Time",
+      "Europe/London": "British Time",
+      "Europe/Dublin": "Ireland Time",
+      "Europe/Lisbon": "Western European Time",
+      "Europe/Madrid": "Central European Time - Madrid",
+      "Africa/Casablanca": "Morocco Time",
+      "Europe/Paris": "Central European Time - Paris",
+      "Europe/Berlin": "Central European Time - Berlin",
+      "Europe/Rome": "Central European Time - Rome",
+      "Europe/Stockholm": "Central European Time - Stockholm",
+      "Africa/Cairo": "Eastern European Time - Cairo",
+      "Europe/Helsinki": "Eastern European Time",
+      "Asia/Jerusalem": "Israel Time",
+      "Africa/Johannesburg": "South Africa Time",
+      "Europe/Moscow": "Moscow Time",
+      "Asia/Kuwait": "Arabian Time - Kuwait",
+      "Africa/Nairobi": "East Africa Time",
+      "Asia/Baghdad": "Arabian Time - Baghdad",
+      "Asia/Tehran": "Iran Time",
+      "Asia/Dubai": "Gulf Time",
+      "Asia/Baku": "Azerbaijan Time",
+      "Asia/Kabul": "Afghanistan Time",
+      "Asia/Karachi": "Pakistan Time",
+      "Asia/Kolkata": "India Time",
+      "Asia/Kathmandu": "Nepal Time",
+      "Asia/Dhaka": "Bangladesh Time",
+      "Asia/Yangon": "Myanmar Time",
+      "Asia/Bangkok": "Indochina Time",
+      "Asia/Hong_Kong": "Hong Kong Time",
+      "Asia/Singapore": "Singapore Time",
+      "Asia/Shanghai": "China Time",
+      "Asia/Taipei": "Taipei Time",
+      "Australia/Perth": "Western Australia Time",
+      "Asia/Seoul": "Korea Time",
+      "Asia/Tokyo": "Japan Time",
+      "Australia/Adelaide": "Central Australia Time",
+      "Australia/Sydney": "Eastern Australia Time",
+      "Australia/Brisbane": "Eastern Australia Time - Brisbane",
+      "Pacific/Noumea": "New Caledonia Time",
+      "Pacific/Fiji": "Fiji Time",
+      "Pacific/Auckland": "New Zealand Time"
     }
   }
 }
