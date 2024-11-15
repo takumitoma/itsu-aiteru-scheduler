@@ -233,7 +233,7 @@
       "createdTimeAgo": "{timeAgo}前に作成"
     },
     "EventLinkSharer": {
-      "label": "このイベントのリンク",
+      "label": "参加者を招待",
       "description": "リンクを共有して、他の参加者がそれぞれ空き時間を記入できるようにしよう!",
       "copyButton": "コピーする",
       "copiedButton": "コピー完了"
@@ -274,7 +274,9 @@
       "hour": "時",
       "midnight": "午前0時",
       "noon": "正午",
-      "timeFormat": "{period}{hour}時"
+      "timeFormat": "{period}{hour}時",
+      "am": "午前",
+      "pm": "午後"
     },
     "ViewEditEvent": {
       "time": {

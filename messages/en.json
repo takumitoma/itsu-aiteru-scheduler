@@ -233,7 +233,7 @@
       "createdTimeAgo": "created {timeAgo} ago"
     },
     "EventLinkSharer": {
-      "label": "Event Link",
+      "label": "Invite participants",
       "description": "Share this link so others can input their availability!",
       "copyButton": "Copy",
       "copiedButton": "Copied"
@@ -274,7 +274,9 @@
       "hour": ":00",
       "midnight": "12 AM",
       "noon": "12 PM",
-      "timeFormat": "{hour} {period}"
+      "timeFormat": "{hour} {period}",
+      "am": "AM",
+      "pm": "PM"
     },
     "ViewEditEvent": {
       "time": {
