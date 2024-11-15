@@ -287,6 +287,13 @@
           "week": "{day}"
         },
         "timeFormat": "{hour}:{minutes} {period}"
+      },
+      "duration": {
+        "month": "{count} months",
+        "day": "{count} days",
+        "hour": "{count} hours",
+        "minute": "{count} minutes",
+        "zero": "0 minutes"
       }
     }
   },

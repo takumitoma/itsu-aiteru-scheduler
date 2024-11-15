@@ -287,6 +287,13 @@
           "week": "{day}曜日"
         },
         "timeFormat": "{period}{hour}:{minutes}"
+      },
+      "duration": {
+        "month": "{count}ヶ月",
+        "day": "{count}日",
+        "hour": "{count}時間",
+        "minute": "{count}分",
+        "zero": "0分"
       }
     }
   },
