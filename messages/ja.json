@@ -211,6 +211,15 @@
     }
   },
   "ViewEditEvent": {
+    "Error": {
+      "title": "エラーが発生しました",
+      "tryAgain": "再度お試しください",
+      "reload": "再読み込み"
+    },
+    "NotFound": {
+      "title": "イベントが見つかりません",
+      "description": "入力されたリンクが正しいかご確認ください。"
+    },
     "ConfirmDeletePopup": {
       "title": "この参加者を削除しますか?",
       "deleteButton": "削除"

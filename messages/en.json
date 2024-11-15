@@ -211,6 +211,15 @@
     }
   },
   "ViewEditEvent": {
+    "Error": {
+      "title": "An error occurred",
+      "tryAgain": "Please try again",
+      "reload": "Refresh"
+    },
+    "NotFound": {
+      "title": "Event not found",
+      "description": "Please check if the entered URL is correct."
+    },
     "ConfirmDeletePopup": {
       "title": "Delete this participant?",
       "deleteButton": "Delete"
