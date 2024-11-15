@@ -148,7 +148,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             ref={addOrSaveButtonRef}
             className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
               border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
-              flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
+              flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
               disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             onClick={mode === 'edit' ? saveAvailabilities : openNameInputPopup}
@@ -168,7 +168,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           <button
             type="button"
             className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
-              hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
+              hover:brightness-90 w-[134px] sm:w-[155px] disabled:opacity-50
               disabled:cursor-not-allowed text-sm sm:text-lg"
             onClick={openConfirmDeletePopup}
           >
@@ -179,7 +179,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           ref={cancelOrDeleteModeButtonRef}
           className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
             border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-            flex items-center space-x-2 w-[119px] sm:w-[135px] justify-center
+            flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
             disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
           onClick={handleCancelOrDeleteModeButtonClick}
