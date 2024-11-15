@@ -2,7 +2,7 @@ interface TimeSlotTooltipProps {
   tooltipData: { x: number; y: number; content: React.ReactNode } | null;
 }
 
-const TimeSlotTooltip: React.FC<TimeSlotTooltipProps> = ({ tooltipData }) => {
+export default function TimeSlotTooltip({ tooltipData }: TimeSlotTooltipProps) {
   if (!tooltipData) return null;
 
   return (
@@ -17,6 +17,4 @@ const TimeSlotTooltip: React.FC<TimeSlotTooltipProps> = ({ tooltipData }) => {
       {tooltipData.content}
     </div>
   );
-};
-
-export default TimeSlotTooltip;
+}

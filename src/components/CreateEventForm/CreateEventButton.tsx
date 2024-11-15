@@ -4,7 +4,7 @@ interface CreateEventButtonProps {
   isSubmitting: boolean;
 }
 
-const CreateEventButton: React.FC<CreateEventButtonProps> = ({ isSubmitting }) => {
+export default function CreateEventButton({ isSubmitting }: CreateEventButtonProps) {
   const t = useTranslations('CreateEvent.CreateEventButton');
 
   return (
@@ -16,6 +16,4 @@ const CreateEventButton: React.FC<CreateEventButtonProps> = ({ isSubmitting }) =
       {isSubmitting ? t('creating') : t('create')}
     </button>
   );
-};
-
-export default CreateEventButton;
+}

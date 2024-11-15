@@ -14,35 +14,31 @@ interface Instruction {
   imageAlt: string;
 }
 
-const InstructionStep: React.FC<Instruction> = ({
-  number,
-  title,
-  description,
-  imagePath,
-  imageAlt,
-}) => (
-  <li
-    className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
-      space-y-4 sm:space-y-0"
-  >
-    <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
-      <h2 className="text-primary">{`${number}) ${title}`}</h2>
-      <p>{description}</p>
-    </div>
-    <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
-      <Image
-        src={imagePath}
-        alt={imageAlt}
-        fill
-        className="object-contain"
-        sizes="(max-width: 768px) 100vw, 45vw"
-        priority={number === 1}
-      />
-    </div>
-  </li>
-);
+function InstructionStep({ number, title, description, imagePath, imageAlt }: Instruction) {
+  return (
+    <li
+      className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
+        space-y-4 sm:space-y-0"
+    >
+      <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
+        <h2 className="text-primary">{`${number}) ${title}`}</h2>
+        <p>{description}</p>
+      </div>
+      <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
+        <Image
+          src={imagePath}
+          alt={imageAlt}
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 100vw, 45vw"
+          priority={number === 1}
+        />
+      </div>
+    </li>
+  );
+}
 
-const HowToUsePage: React.FC = () => {
+export default function HowToUsePage() {
   const { theme } = useTheme();
   const t = useTranslations('HowToUse');
 
@@ -73,6 +69,4 @@ const HowToUsePage: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default HowToUsePage;
+}

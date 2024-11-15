@@ -10,13 +10,13 @@ interface ParticipantsListProps {
   setSelectedColorScaleIndex: (index: number | null) => void;
 }
 
-const ParticipantsList: React.FC<ParticipantsListProps> = ({
+export default function ParticipantsList({
   mode,
   allParticipants,
   selectedParticipant,
   setSelectedParticipant,
   setSelectedColorScaleIndex,
-}) => {
+}: ParticipantsListProps) {
   const t = useTranslations('ViewEditEvent.ParticipantsList');
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -61,6 +61,4 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
       </ul>
     </section>
   );
-};
-
-export default ParticipantsList;
+}

@@ -7,7 +7,7 @@ interface TimeLabelsProps {
   spaceTop: number;
 }
 
-const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd, spaceTop }) => {
+export default function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeLabelsProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('ViewEditEvent.TimeLabels');
 
@@ -48,6 +48,4 @@ const TimeLabels: React.FC<TimeLabelsProps> = ({ hourLabels, timeRangeEnd, space
       </div>
     </div>
   );
-};
-
-export default TimeLabels;
+}

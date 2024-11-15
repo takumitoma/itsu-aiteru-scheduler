@@ -10,7 +10,7 @@ interface TimezoneDisplayProps {
   timezone: string;
 }
 
-const TimezoneDisplay: React.FC<TimezoneDisplayProps> = ({ timezone }) => {
+export default function TimezoneDisplay({ timezone }: TimezoneDisplayProps) {
   const t = useTranslations('constants.Timezones');
   const offset = dayjs().tz(timezone).format('Z');
 
@@ -19,6 +19,4 @@ const TimezoneDisplay: React.FC<TimezoneDisplayProps> = ({ timezone }) => {
       <p className="whitespace-nowrap text-base sm:text-lg">{`(GMT${offset}) ${t(timezone)}`}</p>
     </section>
   );
-};
-
-export default TimezoneDisplay;
+}

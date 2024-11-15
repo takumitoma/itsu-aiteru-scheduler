@@ -10,14 +10,14 @@ interface AvailabilityChartProps {
   children: React.ReactNode;
 }
 
-const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
+export default function AvailabilityChart({
   isLoading,
   hourLabels,
   timeRangeEnd,
   dateType,
   dayLabels,
   children,
-}) => {
+}: AvailabilityChartProps) {
   return (
     <section
       className={`flex justify-center select-none w-full ${
@@ -35,6 +35,4 @@ const AvailabilityChart: React.FC<AvailabilityChartProps> = ({
       </div>
     </section>
   );
-};
-
-export default AvailabilityChart;
+}

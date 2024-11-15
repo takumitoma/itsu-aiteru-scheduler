@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import CreateEventForm from '@/components/CreateEventForm/CreateEventForm';
 
-export default async function CreateEvent() {
+export default async function CreateEventPage() {
   const t = await getTranslations('CreateEvent');
 
   return (

@@ -16,7 +16,7 @@ interface TimeSlotProps {
   onLeave: () => void;
 }
 
-const TimeSlot: React.FC<TimeSlotProps> = ({
+export default function TimeSlot({
   backgroundColor,
   isBorderTop,
   isDottedBorderTop,
@@ -27,7 +27,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   unavailableParticipants,
   onHover,
   onLeave,
-}) => {
+}: TimeSlotProps) {
   const t = useTranslations('ViewEditEvent.TimeSlot');
   const [isHovered, setIsHovered] = useState(false);
 
@@ -116,6 +116,4 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
       onMouseLeave={handleMouseLeave}
     />
   );
-};
-
-export default TimeSlot;
+}

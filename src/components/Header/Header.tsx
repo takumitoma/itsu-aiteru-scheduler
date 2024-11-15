@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { href: '/contact', translationKey: 'contact' },
 ] as const;
 
-const Header: React.FC = () => {
+export default function Header() {
   const t = useTranslations('Header');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -104,6 +104,4 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

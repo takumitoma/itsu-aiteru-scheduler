@@ -7,7 +7,7 @@ interface NameInputPopupProps {
   onClose: () => void;
 }
 
-const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) => {
+export default function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
   const t = useTranslations('ViewEditEvent.NameInputPopup');
   const [name, setName] = useState('');
   const [showError, setShowError] = useState(false);
@@ -87,6 +87,4 @@ const NameInputPopup: React.FC<NameInputPopupProps> = ({ onSubmit, onClose }) =>
       </form>
     </div>
   );
-};
-
-export default NameInputPopup;
+}

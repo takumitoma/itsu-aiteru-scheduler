@@ -7,7 +7,7 @@ interface EventLinkSharerProps {
   link: string;
 }
 
-const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
+export default function EventLinkSharer({ link }: EventLinkSharerProps) {
   const t = useTranslations('ViewEditEvent.EventLinkSharer');
   const [copied, setCopied] = useState(false);
 
@@ -66,6 +66,4 @@ const EventLinkSharer: React.FC<EventLinkSharerProps> = ({ link }) => {
       </div>
     </section>
   );
-};
-
-export default EventLinkSharer;
+}

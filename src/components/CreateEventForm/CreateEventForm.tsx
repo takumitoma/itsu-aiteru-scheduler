@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import { createEvent } from '@/lib/api-client/event';
 import { Event } from '@/types/Event';
 
-const CreateEventForm: React.FC = () => {
+export default function CreateEventForm() {
   const t = useTranslations('CreateEvent.CreateEventForm');
 
   // form fields
@@ -145,6 +145,4 @@ const CreateEventForm: React.FC = () => {
       />
     </form>
   );
-};
-
-export default CreateEventForm;
+}

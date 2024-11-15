@@ -7,7 +7,7 @@ interface EventPageProps {
   params: { eventId: string };
 }
 
-const EventPage: React.FC<EventPageProps> = async ({ params }) => {
+export default async function EventPage({ params }: EventPageProps) {
   const eventId = params.eventId;
 
   // catch errors with error.tsx
@@ -31,6 +31,4 @@ const EventPage: React.FC<EventPageProps> = async ({ params }) => {
     }
     throw error;
   }
-};
-
-export default EventPage;
+}

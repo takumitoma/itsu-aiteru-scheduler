@@ -7,7 +7,7 @@ interface SurveyTypeSelectorProps {
   onChange: (value: 'specific' | 'week') => void;
 }
 
-const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange }) => {
+export default function SurveyTypeSelector({ value, onChange }: SurveyTypeSelectorProps) {
   const t = useTranslations('CreateEvent.SurveyTypeSelector');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -79,6 +79,4 @@ const SurveyTypeSelector: React.FC<SurveyTypeSelectorProps> = ({ value, onChange
       </div>
     </div>
   );
-};
-
-export default SurveyTypeSelector;
+}

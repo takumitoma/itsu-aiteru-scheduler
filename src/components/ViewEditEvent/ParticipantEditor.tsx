@@ -24,7 +24,7 @@ interface ParticipantEditorProps {
   onLoadSelectedTimeSlots: (participant: Participant) => void;
 }
 
-const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
+export default function ParticipantEditor({
   mode,
   setMode,
   editingParticipant,
@@ -38,7 +38,7 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onCancelEditing,
   onLoadSelectedTimeSlots,
   allParticipants,
-}) => {
+}: ParticipantEditorProps) {
   const t = useTranslations('ViewEditEvent.ParticipantEditor');
 
   const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
@@ -210,6 +210,4 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
       )}
     </section>
   );
-};
-
-export default ParticipantEditor;
+}

@@ -15,7 +15,7 @@ interface TimeFormatContext {
 
 const TimeFormatContext = createContext<TimeFormatContext | null>(null);
 
-const TimeFormatContextProvider = ({ children }: TimeFormatContextProviderProps) => {
+export default function TimeFormatContextProvider({ children }: TimeFormatContextProviderProps) {
   const [timeFormat, setTimeFormat] = useState<TimeFormat>(24);
 
   return (
@@ -28,9 +28,7 @@ const TimeFormatContextProvider = ({ children }: TimeFormatContextProviderProps)
       {children}
     </TimeFormatContext.Provider>
   );
-};
-
-export default TimeFormatContextProvider;
+}
 
 export function useTimeFormatContext() {
   const context = useContext(TimeFormatContext);

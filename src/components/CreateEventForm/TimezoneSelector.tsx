@@ -14,7 +14,7 @@ interface TimezoneSelectorProps {
   onChange: (value: string) => void;
 }
 
-const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) => {
+export default function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
   const t = useTranslations('CreateEvent.TimezoneSelector');
   const tzT = useTranslations('constants.Timezones');
   const [isOpen, setIsOpen] = useState(false);
@@ -99,6 +99,4 @@ const TimezoneSelector: React.FC<TimezoneSelectorProps> = ({ value, onChange }) 
       </div>
     </div>
   );
-};
-
-export default TimezoneSelector;
+}
