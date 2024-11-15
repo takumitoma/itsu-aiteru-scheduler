@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { createParticipant } from '@/lib/api-client/participant';
 import { deleteParticipant } from '@/lib/api-client/participant';
 import NameInputPopup from './NameInputPopup';
@@ -38,6 +39,8 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
   onLoadSelectedTimeSlots,
   allParticipants,
 }) => {
+  const t = useTranslations('ViewEditEvent.ParticipantEditor');
+
   const [isNameInputPopupOpen, setIsNameInputPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -152,11 +155,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
             disabled={isSubmitting}
           >
             {mode === 'edit' ? (
-              <p>保存</p>
+              <p>{t('saveButton')}</p>
             ) : (
               <>
                 <HiPlus size={20} />
-                <p>空き時間</p>
+                <p>{t('addAvailability')}</p>
               </>
             )}
           </button>
@@ -165,11 +168,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           <button
             type="button"
             className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
-            hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
-            disabled:cursor-not-allowed text-sm sm:text-lg"
+              hover:brightness-90 w-[119px] sm:w-[135px] disabled:opacity-50
+              disabled:cursor-not-allowed text-sm sm:text-lg"
             onClick={openConfirmDeletePopup}
           >
-            削除
+            {t('deleteButton')}
           </button>
         )}
         <button
@@ -183,11 +186,11 @@ const ParticipantEditor: React.FC<ParticipantEditorProps> = ({
           disabled={isSubmitting}
         >
           {mode === 'edit' || mode === 'delete' ? (
-            <p>キャンセル</p>
+            <p>{t('cancelButton')}</p>
           ) : (
             <>
               <FaTrash size={20} />
-              <p>空き時間</p>
+              <p>{t('addAvailability')}</p>
             </>
           )}
         </button>

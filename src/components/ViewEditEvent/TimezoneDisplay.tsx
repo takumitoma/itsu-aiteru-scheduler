@@ -1,4 +1,4 @@
-import allTimezones from '@/constants/timezone';
+import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -11,12 +11,12 @@ interface TimezoneDisplayProps {
 }
 
 const TimezoneDisplay: React.FC<TimezoneDisplayProps> = ({ timezone }) => {
-  const label = allTimezones[timezone as keyof typeof allTimezones];
+  const t = useTranslations('constants.Timezones');
   const offset = dayjs().tz(timezone).format('Z');
 
   return (
     <section>
-      <p className="whitespace-nowrap text-base sm:text-lg">{`(GMT${offset}) ${label}`}</p>
+      <p className="whitespace-nowrap text-base sm:text-lg">{`(GMT${offset}) ${t(timezone)}`}</p>
     </section>
   );
 };

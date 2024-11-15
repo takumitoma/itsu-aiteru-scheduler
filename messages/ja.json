@@ -210,6 +210,61 @@
       "unknownError": "予期せぬエラーが発生しました"
     }
   },
+  "ViewEditEvent": {
+    "ConfirmDeletePopup": {
+      "title": "この参加者を削除しますか?",
+      "deleteButton": "削除"
+    },
+    "ParticipantsList": {
+      "participantCount": "参加者数:",
+      "viewModeHelp": "名前をクリックで、それぞれの空き時間を表示",
+      "deleteModeHelp": "名前をクリックで、削除したい参加者を選択"
+    },
+    "Heading": {
+      "createdTimeAgo": "{timeAgo}前に作成"
+    },
+    "EventLinkSharer": {
+      "label": "このイベントのリンク",
+      "description": "リンクを共有して、他の参加者がそれぞれ空き時間を記入できるようにしよう!",
+      "copyButton": "コピーする",
+      "copiedButton": "コピー完了"
+    },
+    "NameInputPopup": {
+      "title": "あなたのお名前",
+      "description": "再度アクセスする場合は、同じ名前を入力して空き時間を編集",
+      "placeholder": "例) やまだ",
+      "errorMessage": "名前は2文字から20文字で入力してください",
+      "submitButton": "確認"
+    },
+    "ParticipantEditor": {
+      "addAvailability": "空き時間",
+      "saveButton": "保存",
+      "deleteButton": "削除",
+      "cancelButton": "キャンセル"
+    },
+    "SubHeading": {
+      "editingMode": "空き時間を編集中: ",
+      "deleteMode": "参加者を削除: ",
+      "individualAvailability": {
+        "name": "の空き時間"
+      },
+      "groupAvailability": {
+        "count": "人",
+        "suffix": "の空き時間"
+      },
+      "defaultTitle": "スケジュール調整表",
+      "hoverHelp": "スケジュール表をマウスオーバーもしくはタップで詳細を確認"
+    },
+    "DayLabels": {
+      "dateFormat": "{month}月{day}日"
+    },
+    "TimeLabels": {
+      "hour": "時",
+      "midnight": "午前0時",
+      "noon": "正午",
+      "timeFormat": "{period}{hour}時"
+    }
+  },
   "constants": {
     "Timezones": {
       "Pacific/Samoa": "サモア標準時",

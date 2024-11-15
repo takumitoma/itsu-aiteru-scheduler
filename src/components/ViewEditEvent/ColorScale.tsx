@@ -36,7 +36,7 @@ const ColorScale: React.FC<ColorScaleProps> = ({
 
   return (
     <section className="flex w-full space-x-1 sm:px-8 items-center">
-      <span className="whitespace-nowrap">{`0 人`}</span>
+      <span className="whitespace-nowrap">{`0/${numParticipants}`}</span>
       <div className="flex w-full border border-foreground">
         {displayColors.map((color, index) => (
           <button
@@ -65,7 +65,7 @@ const ColorScale: React.FC<ColorScaleProps> = ({
           </button>
         ))}
       </div>
-      <span className="whitespace-nowrap">{`${numParticipants} 人`}</span>
+      <span className="whitespace-nowrap">{`${numParticipants}/${numParticipants}`}</span>
     </section>
   );
 };

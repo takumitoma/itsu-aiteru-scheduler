@@ -187,7 +187,7 @@
       "midnight": "Midnight",
       "am": "AM",
       "pm": "PM",
-      "hour": ""
+      "hour": ":00"
     },
     "TimezoneSelector": {
       "label": "Timezone",
@@ -208,6 +208,64 @@
     },
     "CreateEventForm": {
       "unknownError": "An unknown error occurred"
+    }
+  },
+  "ViewEditEvent": {
+    "ConfirmDeletePopup": {
+      "title": "Delete this participant?",
+      "deleteButton": "Delete"
+    },
+    "ParticipantsList": {
+      "participantCount": "Number of Participants:",
+      "viewModeHelp": "Click names to view individual availability",
+      "deleteModeHelp": "Click names to select participants to delete"
+    },
+    "Heading": {
+      "createdTimeAgo": "created {timeAgo} ago"
+    },
+    "EventLinkSharer": {
+      "label": "Event Link",
+      "description": "Share this link so others can input their availability!",
+      "copyButton": "Copy",
+      "copiedButton": "Copied"
+    },
+    "NameInputPopup": {
+      "title": "Your Name",
+      "description": "Use the same name to edit your availability when returning",
+      "placeholder": "e.g. John",
+      "errorMessage": "Name must be between 2 and 20 characters",
+      "submitButton": "Confirm"
+    },
+    "ParticipantEditor": {
+      "addAvailability": "Availability",
+      "saveButton": "Save",
+      "deleteButton": "Delete",
+      "cancelButton": "Cancel"
+    },
+    "SubHeading": {
+      "editingMode": "Editing availability: ",
+      "deleteMode": "Delete participant: ",
+      "individualAvailability": {
+        "name": "'s availability"
+      },
+      "groupAvailability": {
+        "count": " people",
+        "suffix": " available"
+      },
+      "defaultTitle": "Schedule Overview Table",
+      "hoverHelp": "Hover or tap the table for details"
+    },
+    "DayLabels": {
+      "dateFormat": "{month}/{day}"
+    },
+    "TimeSlot": {
+      "availableCount": "{available}/{total} available"
+    },
+    "TimeLabels": {
+      "hour": ":00",
+      "midnight": "12 AM",
+      "noon": "12 PM",
+      "timeFormat": "{hour} {period}"
     }
   },
   "constants": {
