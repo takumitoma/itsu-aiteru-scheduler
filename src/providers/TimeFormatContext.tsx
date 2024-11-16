@@ -19,11 +19,25 @@ export default function TimeFormatContextProvider({ children }: TimeFormatContex
   const [timeFormat, updateTimeFormatState] = useState<TimeFormat>(24);
 
   useEffect(() => {
+    // Listen for changes from other tabs/windows
+    function handleStorageChange(event: StorageEvent) {
+      if (event.key === 'timeFormat' && event.newValue) {
+        updateTimeFormatState(parseInt(event.newValue) as TimeFormat);
+      }
+    }
+
     if (typeof window !== 'undefined') {
+      // Initial load from localStorage
       const savedFormat = localStorage.getItem('timeFormat');
       if (savedFormat) {
         updateTimeFormatState(parseInt(savedFormat) as TimeFormat);
       }
+
+      window.addEventListener('storage', handleStorageChange);
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+      };
     }
   }, []);
 
