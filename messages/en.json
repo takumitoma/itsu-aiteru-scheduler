@@ -15,7 +15,7 @@
     "appName": "When Are You Free?",
     "nav": {
       "overview": "Overview",
-      "howToUse": "How to Use",
+      "guide": "Quick Guide",
       "contact": "Contact Us"
     },
     "aria": {
@@ -112,8 +112,8 @@
       }
     }
   },
-  "HowToUse": {
-    "pageTitle": "How It Works",
+  "Guide": {
+    "pageTitle": "Quick Guide",
     "steps": {
       "1": {
         "title": "Choose your preferred dates",
@@ -130,7 +130,7 @@
     },
     "callToAction": {
       "message": "No registration or login required - Start scheduling now!",
-      "button": "Create New Event"
+      "button": "Create an event"
     }
   },
   "Contact": {

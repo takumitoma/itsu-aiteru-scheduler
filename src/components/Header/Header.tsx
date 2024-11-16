@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 
 const NAV_ITEMS = [
   { href: '/overview', translationKey: 'overview' },
-  { href: '/how-to-use', translationKey: 'howToUse' },
+  { href: '/guide', translationKey: 'guide' },
   { href: '/contact', translationKey: 'contact' },
 ] as const;
 

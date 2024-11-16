@@ -38,16 +38,16 @@ function InstructionStep({ number, title, description, imagePath, imageAlt }: In
   );
 }
 
-export default function HowToUsePage() {
+export default function GuidePage() {
   const { theme } = useTheme();
-  const t = useTranslations('HowToUse');
+  const t = useTranslations('Guide');
 
   const instructions: Instruction[] = [1, 2, 3].map((step) => ({
     number: step,
     title: t(`steps.${step}.title`),
     description: t(`steps.${step}.description`),
-    imagePath: `/how-to-use/${theme || 'light'}-step-${step}.JPG`,
-    imageAlt: `how to use app step ${step}`,
+    imagePath: `/guide/${theme || 'light'}-step-${step}.JPG`,
+    imageAlt: `quick guide step ${step}`,
   }));
 
   return (
