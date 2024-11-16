@@ -52,9 +52,9 @@ export default async function Layout({
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <div className="relative min-h-screen w-full overflow-x-hidden">
+            <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
               <Header />
-              <main className="pt-20">
+              <main className="flex-1 pt-20">
                 <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
               </main>
               <Footer />
