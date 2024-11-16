@@ -15,7 +15,7 @@
     "appName": "いつ空いてる？",
     "nav": {
       "overview": "サービス概要",
-      "howToUse": "使い方",
+      "guide": "使い方",
       "contact": "お問い合わせ"
     },
     "aria": {
@@ -112,7 +112,7 @@
       }
     }
   },
-  "HowToUse": {
+  "Guide": {
     "pageTitle": "使い方",
     "steps": {
       "1": {
