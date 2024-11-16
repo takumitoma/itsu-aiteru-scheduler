@@ -28,7 +28,7 @@ body {
 
 @layer base {
   h1 {
-    @apply text-2xl sm:text-3xl font-bold;
+    @apply text-xl sm:text-2xl font-bold;
   }
 
   h2 {
