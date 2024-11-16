@@ -1,7 +1,6 @@
 import { Slider } from '@mui/material';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
 
 const HOURS_24 = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 const HOURS_12 = ['12', '3', '6', '9', '12', '3', '6', '9', '12'];
@@ -14,7 +13,6 @@ interface TimeRangeSelectorProps {
 export default function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('CreateEvent.TimeRangeSelector');
-  const locale = useLocale();
 
   function generateTimeMarks() {
     if (timeFormat === 24) {
@@ -57,7 +55,7 @@ export default function TimeRangeSelector({ value, onChange }: TimeRangeSelector
 
   function formatTimeDisplay(hour: number) {
     if (timeFormat === 24) {
-      return `${hour}${t('hour')}`;
+      return t('time24h', { hour });
     }
 
     if (hour === 0 || hour === 24) {
@@ -68,14 +66,12 @@ export default function TimeRangeSelector({ value, onChange }: TimeRangeSelector
     }
 
     const displayHour = hour > 12 ? hour - 12 : hour;
+    const period = hour < 12 ? t('am') : t('pm');
 
-    if (locale === 'ja') {
-      const period = hour < 12 ? t('am') : t('pm');
-      return `${period}${displayHour}${t('hour')}`;
-    } else {
-      const period = hour < 12 ? t('am') : t('pm');
-      return `${displayHour} ${period}`;
-    }
+    return t('time12h', {
+      hour: displayHour,
+      period,
+    });
   }
 
   return (

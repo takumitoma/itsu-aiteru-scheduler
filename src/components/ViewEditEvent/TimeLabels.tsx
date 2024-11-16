@@ -13,7 +13,7 @@ export default function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeL
 
   function formatTimeDisplay(hour: number) {
     if (timeFormat === 24) {
-      return `${hour}${t('hour')}`;
+      return t('time24h', { hour });
     }
 
     if (hour === 0 || hour === 24) {
@@ -26,9 +26,9 @@ export default function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeL
     const displayHour = hour > 12 ? hour - 12 : hour;
     const period = hour < 12 ? t('am') : t('pm');
 
-    return t('timeFormat', {
+    return t('time12h', {
       hour: displayHour,
-      period: period,
+      period,
     });
   }
 
