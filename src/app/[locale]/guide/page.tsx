@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { useTheme } from 'next-themes';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Instruction {
   number: number;
@@ -41,12 +41,13 @@ function InstructionStep({ number, title, description, imagePath, imageAlt }: In
 export default function GuidePage() {
   const { theme } = useTheme();
   const t = useTranslations('Guide');
+  const locale = useLocale();
 
   const instructions: Instruction[] = [1, 2, 3].map((step) => ({
     number: step,
     title: t(`steps.${step}.title`),
     description: t(`steps.${step}.description`),
-    imagePath: `/guide/${theme || 'light'}-step-${step}.JPG`,
+    imagePath: `/guide/${locale}-${theme || 'light'}-step-${step}.JPG`,
     imageAlt: `quick guide step ${step}`,
   }));
 
