@@ -183,11 +183,12 @@
     },
     "TimeRangeSelector": {
       "label": "Select Time Range",
-      "noon": "Noon",
-      "midnight": "Midnight",
+      "midnight": "12:00 AM",
+      "noon": "12:00 PM",
       "am": "AM",
       "pm": "PM",
-      "hour": ":00"
+      "time24h": "{hour}:00",
+      "time12h": "{hour}:00 {period}"
     },
     "TimezoneSelector": {
       "label": "Timezone",
