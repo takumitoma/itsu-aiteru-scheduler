@@ -19,8 +19,15 @@ export default function Heading({ title, eventCreationTimeAgo }: HeadingProps) {
   }
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">{title}</h1>
+    <div
+      className="relative flex justify-center"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="relative inline-block">
+        <h1 className="text-center">{title}</h1>
+        <div className="absolute bottom-[-8px] left-0 w-full h-1 bg-primary" />
+      </div>
       {isHovered && (
         <div
           className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 bg-background 
