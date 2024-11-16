@@ -183,8 +183,8 @@
     },
     "TimeRangeSelector": {
       "label": "時間帯を選択",
-      "midnight": "午前0:00",
-      "noon": "午後0:00",
+      "midnight": "午前 0:00",
+      "noon": "午後 0:00",
       "am": "午前",
       "pm": "午後",
       "time24h": "{hour}:00",
@@ -283,12 +283,12 @@
       "availableCount": "{available}/{total} 人空いてる"
     },
     "TimeLabels": {
-      "hour": "時",
-      "midnight": "午前0時",
-      "noon": "午後0時",
-      "timeFormat": "{period}{hour}時",
+      "midnight": "午前 0:00",
+      "noon": "午後 0:00",
       "am": "午前",
-      "pm": "午後"
+      "pm": "午後",
+      "time24h": "{hour}:00",
+      "time12h": "{period} {hour}:00"
     },
     "ViewEditEvent": {
       "time": {
