@@ -74,7 +74,11 @@ export default function ViewEditEvent({ event, participants }: ViewEditEventProp
     const dateNow = new Date();
     const duration = getDateDuration(dateEventCreated, dateNow);
 
-    return t(`duration.${duration.unit}`, { count: duration.value });
+    // in some languages singular and plural are different
+    // example: "1 minute ago" instead of "1 minutes ago"
+    return t(`duration.${duration.unit}_${duration.value === 1 ? 'singular' : 'plural'}`, {
+      count: duration.value,
+    });
   }, [event.createdAt, t]);
 
   // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot

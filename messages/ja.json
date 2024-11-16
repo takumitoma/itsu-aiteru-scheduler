@@ -289,10 +289,14 @@
         "timeFormat": "{period}{hour}:{minutes}"
       },
       "duration": {
-        "month": "{count}ヶ月",
-        "day": "{count}日",
-        "hour": "{count}時間",
-        "minute": "{count}分",
+        "month_singular": "{count}ヶ月",
+        "month_plural": "{count}ヶ月",
+        "day_singular": "{count}日",
+        "day_plural": "{count}日",
+        "hour_singular": "{count}時間",
+        "hour_plural": "{count}時間",
+        "minute_singular": "{count}分",
+        "minute_plural": "{count}分",
         "zero": "0分"
       }
     }

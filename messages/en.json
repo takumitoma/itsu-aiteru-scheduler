@@ -289,10 +289,14 @@
         "timeFormat": "{hour}:{minutes} {period}"
       },
       "duration": {
-        "month": "{count} months",
-        "day": "{count} days",
-        "hour": "{count} hours",
-        "minute": "{count} minutes",
+        "month_singular": "{count} month",
+        "month_plural": "{count} months",
+        "day_singular": "{count} day",
+        "day_plural": "{count} days",
+        "hour_singular": "{count} hour",
+        "hour_plural": "{count} hours",
+        "minute_singular": "{count} minute",
+        "minute_plural": "{count} minutes",
         "zero": "0 minutes"
       }
     }
