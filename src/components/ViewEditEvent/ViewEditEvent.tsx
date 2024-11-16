@@ -21,7 +21,6 @@ import {
   generateParticipantLists,
   generateColorScale,
 } from '@/utils/availability-calculations';
-import { getDateDuration, parseDate } from '@/utils/date-calculations';
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 import { useTheme } from 'next-themes';
 import { useTranslations, useLocale } from 'next-intl';
@@ -68,18 +67,6 @@ export default function ViewEditEvent({ event, participants }: ViewEditEventProp
   const numDays: number = dayLabels.length;
   const numHours: number = event.timeRangeEnd - event.timeRangeStart;
   const numSlots: number = numDays * numHours * QUARTERS_PER_HOUR;
-
-  const eventCreationTimeAgo: string = useMemo(() => {
-    const dateEventCreated = parseDate(event.createdAt);
-    const dateNow = new Date();
-    const duration = getDateDuration(dateEventCreated, dateNow);
-
-    // in some languages singular and plural are different
-    // example: "1 minute ago" instead of "1 minutes ago"
-    return t(`duration.${duration.unit}_${duration.value === 1 ? 'singular' : 'plural'}`, {
-      count: duration.value,
-    });
-  }, [event.createdAt, t]);
 
   // the heat map for AvailabilityViewer, each index is the saturation for respective timeslot
   // adds every participants availability array together, example:
@@ -245,7 +232,7 @@ export default function ViewEditEvent({ event, participants }: ViewEditEventProp
 
   return (
     <div className="flex flex-col items-center w-full space-y-8">
-      <Heading title={event.title} eventCreationTimeAgo={eventCreationTimeAgo} />
+      <Heading title={event.title} createdAt={event.createdAt} />
       <SubHeading
         mode={mode}
         selectedParticipant={selectedParticipant}

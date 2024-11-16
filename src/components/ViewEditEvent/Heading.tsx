@@ -1,14 +1,32 @@
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { parseDate, getDateDuration } from '@/utils/date-calculations';
 
 interface HeadingProps {
   title: string;
-  eventCreationTimeAgo: string;
+  createdAt: string | Date;
 }
 
-export default function Heading({ title, eventCreationTimeAgo }: HeadingProps) {
+export default function Heading({ title, createdAt }: HeadingProps) {
   const t = useTranslations('ViewEditEvent.Heading');
   const [isHovered, setIsHovered] = useState(false);
+
+  const createdTimeAgoText = useMemo(() => {
+    const dateEventCreated = parseDate(createdAt);
+    const dateNow = new Date();
+    const duration = getDateDuration(dateEventCreated, dateNow);
+
+    // in some languages singular and plural are different
+    // example: "1 minute ago" instead of "1 minutes ago"
+    const durationText = t(
+      `duration.${duration.unit}_${duration.value === 1 ? 'singular' : 'plural'}`,
+      {
+        count: duration.value,
+      },
+    );
+
+    return t('createdTimeAgo', { timeAgo: durationText });
+  }, [createdAt, t]);
 
   function handleMouseEnter() {
     setIsHovered(true);
@@ -34,7 +52,7 @@ export default function Heading({ title, eventCreationTimeAgo }: HeadingProps) {
             border border-foreground rounded-md text-xs sm:text-sm text-gray-600 
             whitespace-nowrap"
         >
-          {t('createdTimeAgo', { timeAgo: eventCreationTimeAgo })}
+          {createdTimeAgoText}
         </div>
       )}
     </div>

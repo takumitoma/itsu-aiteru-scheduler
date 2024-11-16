@@ -230,7 +230,18 @@
       "deleteModeHelp": "名前をクリックで、削除したい参加者を選択"
     },
     "Heading": {
-      "createdTimeAgo": "{timeAgo}前に作成"
+      "createdTimeAgo": "{timeAgo}前に作成",
+      "duration": {
+        "month_singular": "{count}ヶ月",
+        "month_plural": "{count}ヶ月",
+        "day_singular": "{count}日",
+        "day_plural": "{count}日",
+        "hour_singular": "{count}時間",
+        "hour_plural": "{count}時間",
+        "minute_singular": "{count}分",
+        "minute_plural": "{count}分",
+        "zero": "0分"
+      }
     },
     "EventLinkSharer": {
       "label": "参加者を招待",
@@ -287,17 +298,6 @@
           "week": "{day}曜日"
         },
         "timeFormat": "{period}{hour}:{minutes}"
-      },
-      "duration": {
-        "month_singular": "{count}ヶ月",
-        "month_plural": "{count}ヶ月",
-        "day_singular": "{count}日",
-        "day_plural": "{count}日",
-        "hour_singular": "{count}時間",
-        "hour_plural": "{count}時間",
-        "minute_singular": "{count}分",
-        "minute_plural": "{count}分",
-        "zero": "0分"
       }
     }
   },
