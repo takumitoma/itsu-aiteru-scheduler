@@ -67,3 +67,5 @@ const timezoneKeys = [
 ] as const;
 
 export default timezoneKeys;
+
+export type TimezoneKey = (typeof timezoneKeys)[number];
