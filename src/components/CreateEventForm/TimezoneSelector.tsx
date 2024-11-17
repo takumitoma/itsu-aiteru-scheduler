@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import timezoneKeys, { TimezoneKey } from '@/constants/timezone';
+import { TimezoneKey, timezoneKeys } from '@/constants/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
