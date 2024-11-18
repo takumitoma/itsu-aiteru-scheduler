@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -33,8 +32,7 @@ export default function Calendar({
 }: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
   const dowT = useTranslations('constants.DaysOfWeek');
-  const locale = useLocale() as 'ja' | 'en';
-  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone).locale(locale));
+  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
@@ -50,11 +48,11 @@ export default function Calendar({
   const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
 
-  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   useEffect(() => {
-    setCurrentMonth(dayjs().tz(timezone).locale(locale));
-  }, [timezone, locale]);
+    setCurrentMonth(dayjs().tz(timezone));
+  }, [timezone]);
 
   // set the calendar dates based on the current month
   useEffect(() => {
