@@ -11,7 +11,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const GetEventSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().length(12),
 });
 
 const PostEventSchema = z.object({
@@ -26,7 +26,7 @@ const PostEventSchema = z.object({
 
 const PatchEventSchema = z.object({
   operation: z.literal('updateLastAccessed'),
-  id: z.string().uuid(),
+  id: z.string().length(12),
 });
 
 export async function GET(request: NextRequest): Promise<NextResponse> {

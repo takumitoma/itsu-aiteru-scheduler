@@ -6,11 +6,11 @@ import { Participant } from '@/types/Participant';
 import { revalidateTag } from 'next/cache';
 
 const GetParticipantsSchema = z.object({
-  eventId: z.string().uuid(),
+  eventId: z.string().length(12),
 });
 
 const PostParticipantSchema = z.object({
-  eventId: z.string().uuid(),
+  eventId: z.string().length(12),
   name: z.string().min(2).max(20),
 });
 
