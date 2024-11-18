@@ -42,7 +42,12 @@ export default async function Layout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="light" style={{ colorScheme: 'light' }} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className="light overflow-x-hidden"
+      style={{ colorScheme: 'light' }}
+      suppressHydrationWarning
+    >
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,7 +57,7 @@ export default async function Layout({
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+            <div className="flex flex-col min-h-screen w-full">
               <Header />
               <main className="flex-1 pt-20">
                 <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
