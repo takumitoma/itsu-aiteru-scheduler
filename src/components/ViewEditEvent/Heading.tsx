@@ -16,22 +16,11 @@ export default function Heading({ title, createdAt }: HeadingProps) {
     const dateNow = new Date();
     const duration = getDateDuration(dateEventCreated, dateNow);
 
-    let durationText = '';
-
-    if (duration.unit === 'just now') {
-      durationText = t('duration.just_now');
-    } else {
-      // in some languages singular and plural are different
-      // example: "1 minute ago" instead of "1 minutes ago"
-      durationText = t(
-        `duration.${duration.unit}_${duration.value === 1 ? 'singular' : 'plural'}`,
-        {
-          count: duration.value,
-        },
-      );
-    }
-
-    return t('createdTimeAgo', { timeAgo: durationText });
+    // in some languages singular and plural are different
+    // example: "1 day ago" instead of "1 days ago"
+    return t(`createdTimeAgo.${duration.unit}${duration.value === 1 ? '1' : 'X'}`, {
+      count: duration.value,
+    });
   }, [createdAt, t]);
 
   function handleMouseEnter() {

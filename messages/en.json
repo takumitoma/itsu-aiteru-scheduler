@@ -231,17 +231,11 @@
       "deleteModeHelp": "Click names to select participants to delete"
     },
     "Heading": {
-      "createdTimeAgo": "created {timeAgo} ago",
-      "duration": {
-        "month_singular": "{count} month",
-        "month_plural": "{count} months",
-        "day_singular": "{count} day",
-        "day_plural": "{count} days",
-        "hour_singular": "{count} hour",
-        "hour_plural": "{count} hours",
-        "minute_singular": "{count} minute",
-        "minute_plural": "{count} minutes",
-        "just_now": "0 minutes"
+      "createdTimeAgo": {
+        "month1": "created {count} month ago",
+        "monthX": "created {count} months ago",
+        "day1": "created {count} day ago",
+        "dayX": "created {count} days ago"
       }
     },
     "EventLinkSharer": {
