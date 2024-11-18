@@ -9,10 +9,10 @@ export function getDateDuration(
   endDate: Date,
 ): {
   value: number;
-  unit: 'month' | 'day' | 'hour' | 'minute' | 'zero';
+  unit: 'month' | 'day' | 'hour' | 'minute' | 'just now';
 } {
   if (startDate >= endDate) {
-    return { value: 0, unit: 'zero' };
+    return { value: 0, unit: 'just now' };
   }
 
   const diffMs = endDate.getTime() - startDate.getTime();
@@ -31,7 +31,7 @@ export function getDateDuration(
     return { value: diffMinutes, unit: 'minute' };
   }
 
-  return { value: 0, unit: 'zero' };
+  return { value: 0, unit: 'just now' };
 }
 
 // date returned from supabase is Date type but actually a string. convert it into Date object.

@@ -241,7 +241,7 @@
         "hour_plural": "{count} hours",
         "minute_singular": "{count} minute",
         "minute_plural": "{count} minutes",
-        "zero": "0 minutes"
+        "just_now": "0 minutes"
       }
     },
     "EventLinkSharer": {
