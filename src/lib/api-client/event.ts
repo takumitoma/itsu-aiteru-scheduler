@@ -3,7 +3,6 @@ import { Event } from '@/types/Event';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 const ONE_DAY = 86400;
 
-
 export async function getEvent(id: string): Promise<Event> {
   try {
     if (id.length !== 12) {
