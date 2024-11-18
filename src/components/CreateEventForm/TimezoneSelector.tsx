@@ -4,7 +4,8 @@ import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { TimezoneKey, timezoneKeys } from '@/constants/timezone';
+// import { TimezoneKey, timezoneKeys } from '@/constants/timezone';
+import { timezoneKeys } from '@/constants/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -21,22 +22,22 @@ export default function TimezoneSelector({ value, onChange }: TimezoneSelectorPr
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // detect user's timezone
-  useEffect(() => {
-    try {
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (timeZone && timezoneKeys.includes(timeZone as TimezoneKey)) {
-        onChange(timeZone);
-        return;
-      }
+  // useEffect(() => {
+  //   try {
+  //     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //     if (timeZone && timezoneKeys.includes(timeZone as TimezoneKey)) {
+  //       onChange(timeZone);
+  //       return;
+  //     }
 
-      const dayjsTimezone = dayjs.tz.guess();
-      if (dayjsTimezone && timezoneKeys.includes(dayjsTimezone as TimezoneKey)) {
-        onChange(dayjsTimezone);
-      }
-    } catch {
-      // keep default
-    }
-  }, [onChange]);
+  //     const dayjsTimezone = dayjs.tz.guess();
+  //     if (dayjsTimezone && timezoneKeys.includes(dayjsTimezone as TimezoneKey)) {
+  //       onChange(dayjsTimezone);
+  //     }
+  //   } catch {
+  //     // keep default
+  //   }
+  // }, [onChange]);
 
   // generate the '(GMTZZ:ZZ) Label' format to display in dropdown
   // 1. get offSet minutes of all timezones
