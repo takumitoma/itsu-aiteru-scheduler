@@ -1,5 +1,5 @@
 // inspiration: https://github.com/ndom91/react-timezone-select/blob/main/src/timezone-list.ts
-const timezoneKeys = [
+export const timezoneKeys = [
   'Pacific/Samoa',
   'Pacific/Honolulu',
   'Pacific/Tahiti',
@@ -66,4 +66,4 @@ const timezoneKeys = [
   'Pacific/Auckland',
 ] as const;
 
-export default timezoneKeys;
+export type TimezoneKey = (typeof timezoneKeys)[number];
