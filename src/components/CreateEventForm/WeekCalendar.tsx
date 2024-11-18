@@ -1,8 +1,7 @@
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
 
-import { DAYS_OF_WEEK } from '@/constants/days';
+import { daysOfWeekKeys } from '@/constants/days';
 
 interface WeekCalendarProps {
   selectedDays: number[];
@@ -16,10 +15,12 @@ export default function WeekCalendar({
   showError,
 }: WeekCalendarProps) {
   const t = useTranslations('CreateEvent.WeekCalendar');
-  const locale = useLocale() as 'ja' | 'en';
+  const dowT = useTranslations('constants.DaysOfWeek');
   const isInteracted = useRef(false);
 
   const displayError = (showError || isInteracted.current) && !selectedDays.includes(1);
+
+  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
 
   function toggleWeekday(index: number) {
     isInteracted.current = true;
@@ -38,7 +39,7 @@ export default function WeekCalendar({
           displayError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
         }`}
       >
-        {DAYS_OF_WEEK[locale].map((day, index) => (
+        {daysOfWeek.map((day, index) => (
           <button
             key={day}
             type="button"

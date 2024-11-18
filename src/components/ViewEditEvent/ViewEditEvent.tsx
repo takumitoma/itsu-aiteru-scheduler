@@ -27,7 +27,7 @@ import { useTranslations, useLocale } from 'next-intl';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
-import { DAYS_OF_WEEK } from '@/constants/days';
+import { daysOfWeekKeys } from '@/constants/days';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -38,6 +38,7 @@ interface ViewEditEventProps {
 
 export default function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   const t = useTranslations('ViewEditEvent.ViewEditEvent');
+  const dowT = useTranslations('constants.DaysOfWeek');
   const locale = useLocale() as 'ja' | 'en';
   const { timeFormat } = useTimeFormatContext();
   const { theme } = useTheme();
@@ -52,12 +53,14 @@ export default function ViewEditEvent({ event, participants }: ViewEditEventProp
   const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
   const [isLoading, setIsLoading] = useState(false);
 
+  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
+
   const dayLabels: string[] = useMemo(
     () =>
       event.surveyType === 'specific'
         ? event.dates || []
-        : DAYS_OF_WEEK[locale].filter((_, index) => event.daysOfWeek?.[index] === 1) || [],
-    [event.surveyType, event.dates, event.daysOfWeek, locale],
+        : daysOfWeek.filter((_, index) => event.daysOfWeek?.[index] === 1) || [],
+    [event.surveyType, event.dates, event.daysOfWeek, daysOfWeek],
   );
   const hourLabels: number[] = Array.from(
     { length: event.timeRangeEnd - event.timeRangeStart },
