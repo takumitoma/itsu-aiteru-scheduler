@@ -11,7 +11,7 @@ export default function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
   const t = useTranslations('ViewEditEvent.DayLabels');
   const dowT = useTranslations('constants.DaysOfWeek');
 
-  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   let daysOfWeekLabels: string[] = [];
 

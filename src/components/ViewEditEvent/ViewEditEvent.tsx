@@ -53,7 +53,7 @@ export default function ViewEditEvent({ event, participants }: ViewEditEventProp
   const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
   const [isLoading, setIsLoading] = useState(false);
 
-  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   const dayLabels: string[] = useMemo(
     () =>

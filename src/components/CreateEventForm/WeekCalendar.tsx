@@ -20,7 +20,7 @@ export default function WeekCalendar({
 
   const displayError = (showError || isInteracted.current) && !selectedDays.includes(1);
 
-  const daysOfWeek = daysOfWeekKeys.map(day => dowT(day));
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   function toggleWeekday(index: number) {
     isInteracted.current = true;
