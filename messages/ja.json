@@ -163,7 +163,7 @@
     }
   },
   "CreateEvent": {
-    "pageTitle": "Create New Event",
+    "pageTitle": "新規イベント作成",
     "CreateEventButton": {
       "create": "作成",
       "creating": "作成中"
