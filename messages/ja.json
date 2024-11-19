@@ -163,7 +163,7 @@
     }
   },
   "CreateEvent": {
-    "pageTitle": "Create New Event",
+    "pageTitle": "新規イベント作成",
     "CreateEventButton": {
       "create": "作成",
       "creating": "作成中"
@@ -362,6 +362,15 @@
       "Pacific/Noumea": "ニューカレドニア標準時",
       "Pacific/Fiji": "フィジー標準時",
       "Pacific/Auckland": "ニュージーランド標準時"
+    },
+    "DaysOfWeek": {
+      "Sun": "日",
+      "Mon": "月",
+      "Tue": "火",
+      "Wed": "水",
+      "Thu": "木",
+      "Fri": "金",
+      "Sat": "土"
     }
   }
 }

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { useTranslations, useLocale } from 'next-intl';
-import { DAYS_OF_WEEK } from '@/constants/days';
+import { useTranslations } from 'next-intl';
+import { daysOfWeekKeys } from '@/constants/days';
 
 interface DayLabelsProps {
   dateType: 'specific' | 'week';
@@ -8,14 +8,17 @@ interface DayLabelsProps {
 }
 
 export default function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
-  const locale = useLocale() as 'ja' | 'en';
   const t = useTranslations('ViewEditEvent.DayLabels');
+  const dowT = useTranslations('constants.DaysOfWeek');
+
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
+
   let daysOfWeekLabels: string[] = [];
 
   if (dateType === 'specific') {
     daysOfWeekLabels = dayLabels.map((date) => {
       const dayOfWeek = dayjs(date).day();
-      return DAYS_OF_WEEK[locale][dayOfWeek];
+      return daysOfWeek[dayOfWeek];
     });
 
     dayLabels = dayLabels.map((d) => {

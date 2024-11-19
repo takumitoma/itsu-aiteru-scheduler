@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -15,7 +14,7 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { DAYS_OF_WEEK } from '@/constants/days';
+import { daysOfWeekKeys } from '@/constants/days';
 
 interface CalendarProps {
   // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
@@ -32,8 +31,8 @@ export default function Calendar({
   showError,
 }: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
-  const locale = useLocale() as 'ja' | 'en';
-  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone).locale(locale));
+  const dowT = useTranslations('constants.DaysOfWeek');
+  const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<dayjs.Dayjs | null>(null);
@@ -49,9 +48,11 @@ export default function Calendar({
   const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
 
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
+
   useEffect(() => {
-    setCurrentMonth(dayjs().tz(timezone).locale(locale));
-  }, [timezone, locale]);
+    setCurrentMonth(dayjs().tz(timezone));
+  }, [timezone]);
 
   // set the calendar dates based on the current month
   useEffect(() => {
@@ -229,7 +230,7 @@ export default function Calendar({
           </button>
         </div>
         <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
-          {DAYS_OF_WEEK[locale].map((day) => (
+          {daysOfWeek.map((day) => (
             <div
               key={day}
               className="text-center border-b border-r border-gray-300 font-semibold py-2"

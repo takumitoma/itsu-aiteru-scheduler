@@ -362,6 +362,15 @@
       "Pacific/Noumea": "New Caledonia Time",
       "Pacific/Fiji": "Fiji Time",
       "Pacific/Auckland": "New Zealand Time"
+    },
+    "DaysOfWeek": {
+      "Sun": "Sun",
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat"
     }
   }
 }
