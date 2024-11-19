@@ -1,18 +1,13 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
 };
-
-const BUTTON_WIDTHS = {
-  ja: 'w-[140px] sm:w-[152px]',
-  en: 'w-[152px] sm:w-[164px]',
-} as const;
 
 interface ContactForm {
   name: string;
@@ -22,7 +17,6 @@ interface ContactForm {
 
 export default function ContactPage() {
   const t = useTranslations('Contact');
-  const locale = useLocale();
   const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
@@ -163,7 +157,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`three-d ${BUTTON_WIDTHS[locale as keyof typeof BUTTON_WIDTHS]} mt-4 ${
+            className={`three-d w-[152px] sm:w-[164px] mt-4 ${
               isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
