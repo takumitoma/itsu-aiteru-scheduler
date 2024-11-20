@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import supabase from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase/client';
 import { z } from 'zod';
 import { revalidateTag } from 'next/cache';
 

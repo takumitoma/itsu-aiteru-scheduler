@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import Heading from './Heading';
-import SubHeading from './SubHeading';
-import AvailabilityChart from './AvailabilityChart';
-import ParticipantEditor from './ParticipantEditor';
-import EventLinkSharer from './EventLinkSharer';
-import AvailabilityEditor from './AvailabilityEditor';
-import AvailabilityViewer from './AvailabilityViewer';
-import AvailabilityDeleteViewer from './AvailabilityDeleteViewer';
-import ColorScale from './ColorScale';
-import TimezoneDisplay from './TimezoneDisplay';
-import ParticipantsList from './ParticipantsList';
+import { Heading } from './Heading';
+import { SubHeading } from './SubHeading';
+import { AvailabilityChart } from './AvailabilityChart';
+import { ParticipantEditor } from './ParticipantEditor';
+import { EventLinkSharer } from './EventLinkSharer';
+import { AvailabilityEditor } from './AvailabilityEditor';
+import { AvailabilityViewer } from './AvailabilityViewer';
+import { AvailabilityDeleteViewer } from './AvailabilityDeleteViewer';
+import { ColorScale } from './ColorScale';
+import { TimezoneDisplay } from './TimezoneDisplay';
+import { ParticipantsList } from './ParticipantsList';
 import { updateAvailability } from '@/lib/api-client/availability';
 import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
@@ -36,7 +36,7 @@ interface ViewEditEventProps {
   participants: Participant[];
 }
 
-export default function ViewEditEvent({ event, participants }: ViewEditEventProps) {
+export function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   const t = useTranslations('ViewEditEvent.ViewEditEvent');
   const dowT = useTranslations('constants.DaysOfWeek');
   const locale = useLocale() as 'ja' | 'en';

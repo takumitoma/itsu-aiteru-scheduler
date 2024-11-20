@@ -10,7 +10,7 @@ interface TimeRangeSelectorProps {
   onChange: (value: { start: number; end: number }) => void;
 }
 
-export default function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
+export function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('CreateEvent.TimeRangeSelector');
 

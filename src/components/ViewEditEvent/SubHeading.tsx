@@ -9,7 +9,7 @@ interface SubHeadingProps {
   editingParticipant: Participant | null;
 }
 
-export default function SubHeading({
+export function SubHeading({
   mode,
   selectedParticipant,
   getColorRangeText,

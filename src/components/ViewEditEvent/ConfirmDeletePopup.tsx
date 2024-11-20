@@ -9,11 +9,7 @@ interface ConfirmDeletePopupProps {
   onClose: () => void;
 }
 
-export default function ConfirmDeletePopup({
-  participant,
-  onSubmit,
-  onClose,
-}: ConfirmDeletePopupProps) {
+export function ConfirmDeletePopup({ participant, onSubmit, onClose }: ConfirmDeletePopupProps) {
   const t = useTranslations('ViewEditEvent.ConfirmDeletePopup');
   const [isSubmitting, setIsSubmitting] = useState(false);
 

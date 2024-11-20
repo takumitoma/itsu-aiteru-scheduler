@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-export default async function ErrorMessage() {
+export async function ErrorMessage() {
   const t = await getTranslations('CreateEvent.ErrorMessage');
 
   return (

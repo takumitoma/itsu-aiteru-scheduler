@@ -10,7 +10,7 @@ interface ParticipantsListProps {
   setSelectedColorScaleIndex: (index: number | null) => void;
 }
 
-export default function ParticipantsList({
+export function ParticipantsList({
   mode,
   allParticipants,
   selectedParticipant,

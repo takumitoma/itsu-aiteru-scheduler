@@ -6,7 +6,7 @@ interface AvailabilityDeleteViewerProps {
   numHours: number;
 }
 
-export default function AvailabilityDeleteViewer({
+export function AvailabilityDeleteViewer({
   selectedTimeSlots,
   numDays,
   numHours,

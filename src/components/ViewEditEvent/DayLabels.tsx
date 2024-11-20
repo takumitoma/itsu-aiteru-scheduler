@@ -7,7 +7,7 @@ interface DayLabelsProps {
   dayLabels: string[];
 }
 
-export default function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
+export function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
   const t = useTranslations('ViewEditEvent.DayLabels');
   const dowT = useTranslations('constants.DaysOfWeek');
 

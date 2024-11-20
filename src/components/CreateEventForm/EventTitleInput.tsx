@@ -7,7 +7,7 @@ interface EventTitleInputProps {
   showError: boolean;
 }
 
-export default function EventTitleInput({ value, onChange, showError }: EventTitleInputProps) {
+export function EventTitleInput({ value, onChange, showError }: EventTitleInputProps) {
   const t = useTranslations('CreateEvent.EventTitleInput');
   const isInteracted = useRef(false);
 

@@ -9,11 +9,7 @@ interface WeekCalendarProps {
   showError: boolean;
 }
 
-export default function WeekCalendar({
-  selectedDays,
-  setSelectedDays,
-  showError,
-}: WeekCalendarProps) {
+export function WeekCalendar({ selectedDays, setSelectedDays, showError }: WeekCalendarProps) {
   const t = useTranslations('CreateEvent.WeekCalendar');
   const dowT = useTranslations('constants.DaysOfWeek');
   const isInteracted = useRef(false);

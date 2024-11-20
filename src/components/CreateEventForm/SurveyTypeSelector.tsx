@@ -7,7 +7,7 @@ interface SurveyTypeSelectorProps {
   onChange: (value: 'specific' | 'week') => void;
 }
 
-export default function SurveyTypeSelector({ value, onChange }: SurveyTypeSelectorProps) {
+export function SurveyTypeSelector({ value, onChange }: SurveyTypeSelectorProps) {
   const t = useTranslations('CreateEvent.SurveyTypeSelector');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

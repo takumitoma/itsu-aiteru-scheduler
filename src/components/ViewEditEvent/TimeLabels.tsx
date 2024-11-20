@@ -7,7 +7,7 @@ interface TimeLabelsProps {
   spaceTop: number;
 }
 
-export default function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeLabelsProps) {
+export function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeLabelsProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('ViewEditEvent.TimeLabels');
 

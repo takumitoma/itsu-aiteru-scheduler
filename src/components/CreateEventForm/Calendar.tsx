@@ -24,12 +24,7 @@ interface CalendarProps {
   showError: boolean;
 }
 
-export default function Calendar({
-  selectedDates,
-  setSelectedDates,
-  timezone,
-  showError,
-}: CalendarProps) {
+export function Calendar({ selectedDates, setSelectedDates, timezone, showError }: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
   const dowT = useTranslations('constants.DaysOfWeek');
   const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));

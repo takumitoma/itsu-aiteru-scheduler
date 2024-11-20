@@ -4,7 +4,7 @@ interface CreateEventButtonProps {
   isSubmitting: boolean;
 }
 
-export default function CreateEventButton({ isSubmitting }: CreateEventButtonProps) {
+export function CreateEventButton({ isSubmitting }: CreateEventButtonProps) {
   const t = useTranslations('CreateEvent.CreateEventButton');
 
   return (

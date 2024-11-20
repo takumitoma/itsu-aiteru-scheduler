@@ -9,7 +9,7 @@ interface AvailabilityEditorProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-export default function AvailabilityEditor({
+export function AvailabilityEditor({
   selectedTimeSlots,
   setSelectedTimeSlots,
   numDays,

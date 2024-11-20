@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { href: '/contact', translationKey: 'contact' },
 ] as const;
 
-export default function Header() {
+export function Header() {
   const t = useTranslations('Header');
   const pathName = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

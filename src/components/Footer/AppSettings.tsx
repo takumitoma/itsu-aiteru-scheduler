@@ -6,7 +6,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
 
-export default function AppSettings() {
+export function AppSettings() {
   const t = useTranslations('Footer.AppSettings');
   const { timeFormat, setTimeFormat } = useTimeFormatContext();
   const { theme, setTheme } = useTheme();

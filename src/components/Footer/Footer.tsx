@@ -3,10 +3,10 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { usePathname } from '@/i18n/routing';
-import AppSettings from './AppSettings';
-import FooterContact from './FooterContact';
+import { AppSettings } from './AppSettings';
+import { FooterContact } from './FooterContact';
 
-export default function Footer() {
+export function Footer() {
   const t = useTranslations('Footer');
   const pathname = usePathname();
 
