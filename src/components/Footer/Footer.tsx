@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import AppSettings from './AppSettings';
+import FooterContact from './FooterContact';
 
 export default function Footer() {
   const t = useTranslations('Footer');
@@ -22,6 +23,10 @@ export default function Footer() {
 
           <p className="text-sm">{t('description')}</p>
         </article>
+
+        <section className="w-full md:w-[320px]">
+          <FooterContact />
+        </section>
 
         <AppSettings />
       </div>

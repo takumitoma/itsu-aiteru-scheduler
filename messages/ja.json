@@ -41,6 +41,30 @@
         "light": "ライト",
         "dark": "ダーク"
       }
+    },
+    "FooterContact": {
+      "title": "お問い合わせ",
+      "description": {
+        "linkPrefix": "返信をご希望の方は",
+        "linkText": "こちら",
+        "linkSuffix": "をご利用ください"
+      },
+      "form": {
+        "message": {
+          "characterCount": "{current}/{limit} 文字"
+        },
+        "submit": {
+          "button": "送信する",
+          "sending": "送信中..."
+        },
+        "response": {
+          "success": "お問い合わせを受け付けました。ありがとうございます。"
+        },
+        "errors": {
+          "required": "お問い合わせ内容が入力されていません",
+          "maxLength": "お問い合わせ内容は{limit}文字以下でご入力ください"
+        }
+      }
     }
   },
   "Overview": {

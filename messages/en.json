@@ -41,6 +41,30 @@
         "light": "Light",
         "dark": "Dark"
       }
+    },
+    "FooterContact": {
+      "title": "Contact Us",
+      "description": {
+        "responseNote": "If you would like a response, use",
+        "linkPrefix": "this",
+        "linkSuffix": "instead"
+      },
+      "form": {
+        "message": {
+          "characterCount": "{current}/{limit} characters"
+        },
+        "submit": {
+          "button": "Send",
+          "sending": "Sending..."
+        },
+        "response": {
+          "success": "Thank you for your message. "
+        },
+        "errors": {
+          "required": "Please enter your message",
+          "maxLength": "Message cannot be longer than {limit} characters"
+        }
+      }
     }
   },
   "Overview": {
