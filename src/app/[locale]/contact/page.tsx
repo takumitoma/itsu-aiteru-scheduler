@@ -146,7 +146,10 @@ export default function ContactPage() {
             {...register('message')}
           />
           <div className="text-sm text-gray-500">
-            {`${messageLength}/${FORM_LIMITS.message} ${t('form.message.characterCount')}`}
+            {t('form.message.characterCount', {
+              current: messageLength,
+              limit: FORM_LIMITS.message,
+            })}
           </div>
           <FormErrorMessage error={errors.message} field="message" />
         </label>

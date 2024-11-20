@@ -179,10 +179,10 @@
       "message": {
         "label": "お問い合わせ詳細",
         "required": "必須",
-        "characterCount": "文字"
+        "characterCount": "{current}/{limit} 文字"
       },
       "submit": {
-        "button": "お問い合わせ",
+        "button": "送信する",
         "sending": "送信中"
       },
       "response": {

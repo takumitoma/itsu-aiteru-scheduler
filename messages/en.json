@@ -179,7 +179,7 @@
       "message": {
         "label": "Message",
         "required": "Required",
-        "characterCount": "characters"
+        "characterCount": "{current}/{limit} characters"
       },
       "submit": {
         "button": "Send Message",
