@@ -4,9 +4,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import Providers from '@/providers';
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
+import { Providers } from '@/providers';
+import { Header } from '@/components/Header/Header';
+import { Footer } from '@/components/Footer/Footer';
 import '@/styles/globals.css';
 
 const notoSansJapanese = Noto_Sans_JP({

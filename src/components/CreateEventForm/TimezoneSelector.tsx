@@ -15,7 +15,7 @@ interface TimezoneSelectorProps {
   onChange: (value: string) => void;
 }
 
-export default function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
+export function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
   const t = useTranslations('CreateEvent.TimezoneSelector');
   const tzT = useTranslations('constants.Timezones');
   const [isOpen, setIsOpen] = useState(false);

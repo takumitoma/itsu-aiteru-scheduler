@@ -14,7 +14,7 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function FooterContact() {
+export function FooterContact() {
   const t = useTranslations('Footer.FooterContact');
   const honeypotRef = useRef<HTMLInputElement>(null);
 

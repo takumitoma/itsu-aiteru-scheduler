@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import TimeSlot from './TimeSlot';
-import TimeSlotTooltip from './TimeSlotTooltip';
+import { TimeSlot } from './TimeSlot';
+import { TimeSlotTooltip } from './TimeSlotTooltip';
 
 interface AvailabilityViewerProps {
   heatMap: number[];
@@ -20,7 +20,7 @@ interface AvailabilityViewerProps {
 
 const QUARTERS_PER_HOUR = 4;
 
-export default function AvailabilityViewer({
+export function AvailabilityViewer({
   heatMap,
   numDays,
   numHours,

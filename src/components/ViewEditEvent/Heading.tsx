@@ -7,7 +7,7 @@ interface HeadingProps {
   createdAt: string | Date;
 }
 
-export default function Heading({ title, createdAt }: HeadingProps) {
+export function Heading({ title, createdAt }: HeadingProps) {
   const t = useTranslations('ViewEditEvent.Heading');
   const [isHovered, setIsHovered] = useState(false);
 

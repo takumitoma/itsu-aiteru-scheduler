@@ -1,5 +1,5 @@
-import TimeLabels from './TimeLabels';
-import DayLabels from './DayLabels';
+import { TimeLabels } from './TimeLabels';
+import { DayLabels } from './DayLabels';
 
 interface AvailabilityChartProps {
   isLoading: boolean;
@@ -10,7 +10,7 @@ interface AvailabilityChartProps {
   children: React.ReactNode;
 }
 
-export default function AvailabilityChart({
+export function AvailabilityChart({
   isLoading,
   hourLabels,
   timeRangeEnd,

@@ -7,7 +7,7 @@ interface NameInputPopupProps {
   onClose: () => void;
 }
 
-export default function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
+export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
   const t = useTranslations('ViewEditEvent.NameInputPopup');
   const [name, setName] = useState('');
   const [showError, setShowError] = useState(false);

@@ -10,7 +10,7 @@ interface ColorScaleProps {
   getColorRangeText: (index: number) => string;
 }
 
-export default function ColorScale({
+export function ColorScale({
   displayColors,
   numParticipants,
   selectedColorScaleIndex,

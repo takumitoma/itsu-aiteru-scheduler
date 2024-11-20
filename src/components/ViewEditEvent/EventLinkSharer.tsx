@@ -7,7 +7,7 @@ interface EventLinkSharerProps {
   link: string;
 }
 
-export default function EventLinkSharer({ link }: EventLinkSharerProps) {
+export function EventLinkSharer({ link }: EventLinkSharerProps) {
   const t = useTranslations('ViewEditEvent.EventLinkSharer');
   const [copied, setCopied] = useState(false);
 

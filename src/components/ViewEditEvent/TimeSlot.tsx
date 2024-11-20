@@ -16,7 +16,7 @@ interface TimeSlotProps {
   onLeave: () => void;
 }
 
-export default function TimeSlot({
+export function TimeSlot({
   backgroundColor,
   isBorderTop,
   isDottedBorderTop,

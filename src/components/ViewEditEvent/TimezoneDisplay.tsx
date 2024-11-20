@@ -10,7 +10,7 @@ interface TimezoneDisplayProps {
   timezone: string;
 }
 
-export default function TimezoneDisplay({ timezone }: TimezoneDisplayProps) {
+export function TimezoneDisplay({ timezone }: TimezoneDisplayProps) {
   const t = useTranslations('constants.Timezones');
   const offset = dayjs().tz(timezone).format('Z');
 

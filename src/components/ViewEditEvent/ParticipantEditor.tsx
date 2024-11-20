@@ -2,8 +2,8 @@ import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { createParticipant } from '@/lib/api-client/participant';
 import { deleteParticipant } from '@/lib/api-client/participant';
-import NameInputPopup from './NameInputPopup';
-import ConfirmDeletePopup from './ConfirmDeletePopup';
+import { NameInputPopup } from './NameInputPopup';
+import { ConfirmDeletePopup } from './ConfirmDeletePopup';
 import { HiPlus } from 'react-icons/hi';
 import { FaTrash } from 'react-icons/fa';
 import { Participant } from '@/types/Participant';
@@ -24,7 +24,7 @@ interface ParticipantEditorProps {
   onLoadSelectedTimeSlots: (participant: Participant) => void;
 }
 
-export default function ParticipantEditor({
+export function ParticipantEditor({
   mode,
   setMode,
   editingParticipant,
