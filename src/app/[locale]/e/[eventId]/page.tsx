@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { ViewEditEvent } from '@/components/ViewEditEvent/ViewEditEvent';
+import { ViewEditEvent } from '@/components/ViewEditEvent';
 import { getEvent } from '@/lib/api-client/event';
 import { getParticipants } from '@/lib/api-client/participant';
 

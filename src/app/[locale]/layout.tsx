@@ -5,8 +5,8 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Providers } from '@/providers';
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import '@/styles/globals.css';
 
 const notoSansJapanese = Noto_Sans_JP({
