@@ -2,11 +2,13 @@
 
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { usePathname } from '@/i18n/routing';
 import AppSettings from './AppSettings';
 import FooterContact from './FooterContact';
 
 export default function Footer() {
   const t = useTranslations('Footer');
+  const pathname = usePathname();
 
   return (
     <footer className="py-8 border-t border-borderGray">
@@ -24,9 +26,11 @@ export default function Footer() {
           <p className="text-sm">{t('description')}</p>
         </article>
 
-        <section className="w-full md:w-[320px]">
-          <FooterContact />
-        </section>
+        {pathname !== '/contact' && (
+          <section className="w-full md:w-[320px]">
+            <FooterContact />
+          </section>
+        )}
 
         <AppSettings />
       </div>
