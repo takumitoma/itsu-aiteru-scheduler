@@ -25,7 +25,10 @@
   },
   "Footer": {
     "appName": "When Are You Free?",
-    "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone.",
+    "About": {
+      "title": "About",
+      "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+    },
     "AppSettings": {
       "title": "Settings",
       "language": {
@@ -45,8 +48,8 @@
     "FooterContact": {
       "title": "Contact Us",
       "description": {
-        "responseNote": "If you would like a response, use",
-        "linkPrefix": "this",
+        "linkPrefix": "If you would like a response, use",
+        "linkText": "this",
         "linkSuffix": "instead"
       },
       "form": {
