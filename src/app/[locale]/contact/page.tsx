@@ -7,42 +7,51 @@ import { SubmitHandler, useForm, FieldError } from 'react-hook-form';
 import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
 
-function FormErrorMessage({ error }: { error?: FieldError }) {
-  if (!error) return null;
-
-  return (
-    <div className="flex text-red-500 pt-2 space-x-2">
-      <BsExclamationCircle />
-      <p className="text-sm">{error.message}</p>
-    </div>
-  );
-}
-
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
-};
+} as const;
 
 const schema = z.object({
-  name: z
-    .string()
-    .max(FORM_LIMITS.name, `Name can't be longer than ${FORM_LIMITS.name} characters`)
-    .optional()
-    .or(z.literal('')),
-  email: z
-    .string()
-    .email('Enter a valid email address')
-    .max(FORM_LIMITS.email, `Email can't be longer than ${FORM_LIMITS.email} characters`)
-    .optional()
-    .or(z.literal('')),
-  message: z
-    .string()
-    .min(1, 'Message is required')
-    .max(FORM_LIMITS.message, `Message can't be longer than ${FORM_LIMITS.message} characters`),
+  name: z.string().max(FORM_LIMITS.name).optional().or(z.literal('')),
+  email: z.string().email().max(FORM_LIMITS.email).optional().or(z.literal('')),
+  message: z.string().min(1).max(FORM_LIMITS.message),
 });
 
 type FormFields = z.infer<typeof schema>;
+
+function FormErrorMessage({
+  error,
+  field,
+}: {
+  error?: FieldError;
+  field: 'name' | 'email' | 'message';
+}) {
+  const t = useTranslations('Contact.form.errors');
+
+  if (!error) return null;
+
+  const getMessage = () => {
+    switch (error.type) {
+      case 'too_small':
+        return t(`${field}.required`);
+      case 'too_big':
+        return t(`${field}.maxLength`, { limit: FORM_LIMITS[field] });
+      case 'invalid_string':
+        return t(`${field}.invalid`);
+      default:
+        return error.message;
+    }
+  };
+
+  return (
+    <div className="flex text-red-500 pt-2 space-x-2">
+      <BsExclamationCircle />
+      <p className="text-sm">{getMessage()}</p>
+    </div>
+  );
+}
 
 export default function ContactPage() {
   const t = useTranslations('Contact');
@@ -98,6 +107,7 @@ export default function ContactPage() {
         <p>{t('description.gratitude')}</p>
         <p>{t('description.promise')}</p>
         <p>{t('description.other')}</p>
+        <p>{t('description.optional')}</p>
       </div>
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
         <label htmlFor="name" className="block">
@@ -108,7 +118,7 @@ export default function ContactPage() {
             className="mt-4 font-normal text-base"
             {...register('name')}
           />
-          <FormErrorMessage error={errors.name} />
+          <FormErrorMessage error={errors.name} field="name" />
         </label>
 
         <label htmlFor="email" className="block">
@@ -119,7 +129,7 @@ export default function ContactPage() {
             className="mt-4 font-normal text-base"
             {...register('email')}
           />
-          <FormErrorMessage error={errors.email} />
+          <FormErrorMessage error={errors.email} field="email" />
         </label>
 
         <label htmlFor="message" className="block">
@@ -138,7 +148,7 @@ export default function ContactPage() {
           <div className="text-sm text-gray-500">
             {`${messageLength}/${FORM_LIMITS.message} ${t('form.message.characterCount')}`}
           </div>
-          <FormErrorMessage error={errors.message} />
+          <FormErrorMessage error={errors.message} field="message" />
         </label>
 
         {isSubmitSuccessful && (

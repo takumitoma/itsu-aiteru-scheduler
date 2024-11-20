@@ -138,7 +138,8 @@
     "description": {
       "gratitude": "Thank you for using our service. We value your feedback as it helps us improve.",
       "promise": "We carefully review each piece of feedback and strive to address your suggestions whenever possible.",
-      "other": "Please use this form for any questions or inquiries you may have."
+      "other": "Please use this form to share your feedback, ask questions, or submit inquiries.",
+      "optional": "If you would like a response, please include your name and email address."
     },
     "form": {
       "name": {
@@ -159,6 +160,19 @@
       },
       "response": {
         "success": "Thank you for your message. We'll get back to you soon!"
+      },
+      "errors": {
+        "name": {
+          "maxLength": "Name cannot be longer than {limit} characters"
+        },
+        "email": {
+          "invalid": "Please enter a valid email address",
+          "maxLength": "Email cannot be longer than {limit} characters"
+        },
+        "message": {
+          "required": "Please enter your message",
+          "maxLength": "Message cannot be longer than {limit} characters"
+        }
       }
     }
   },
