@@ -25,8 +25,11 @@
   },
   "Footer": {
     "appName": "いつ空いてる？",
-    "description": "「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。",
-    "settings": {
+    "About": {
+      "title": "概要",
+      "description": "「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。"
+    },
+    "AppSettings": {
       "title": "設定",
       "language": {
         "label": "言語"
@@ -40,6 +43,30 @@
         "label": "テーマ",
         "light": "ライト",
         "dark": "ダーク"
+      }
+    },
+    "FooterContact": {
+      "title": "お問い合わせ",
+      "description": {
+        "linkPrefix": "返信をご希望の方は",
+        "linkText": "こちら",
+        "linkSuffix": "をご利用ください"
+      },
+      "form": {
+        "message": {
+          "characterCount": "{current}/{limit} 文字"
+        },
+        "submit": {
+          "button": "送信する",
+          "sending": "送信中..."
+        },
+        "response": {
+          "success": "お問い合わせを受け付けました。ありがとうございます。"
+        },
+        "errors": {
+          "required": "お問い合わせ内容が入力されていません",
+          "maxLength": "お問い合わせ内容は{limit}文字以下でご入力ください"
+        }
       }
     }
   },
@@ -138,7 +165,8 @@
     "description": {
       "gratitude": "当サイトをご利用いただき、誠にありがとうございます。サービス向上のため、皆様からのご意見・ご感想をお待ちしております。",
       "promise": "いただいたフィードバックは一つ一つ丁寧に確認させていただき、できる限り対応させていただきます。",
-      "other": "その他のお問い合わせにつきましても、フォームをご利用ください。"
+      "other": "その他のお問い合わせにつきましては、下記フォームをご利用ください。",
+      "optional": "ご返信をご希望の方は、お名前とメールアドレスを必ずご記入ください。"
     },
     "form": {
       "name": {
@@ -151,14 +179,27 @@
       "message": {
         "label": "お問い合わせ詳細",
         "required": "必須",
-        "characterCount": "文字"
+        "characterCount": "{current}/{limit} 文字"
       },
       "submit": {
-        "button": "お問い合わせ",
+        "button": "送信する",
         "sending": "送信中"
       },
       "response": {
         "success": "お問い合わせを受け付けました。ありがとうございます。"
+      },
+      "errors": {
+        "name": {
+          "maxLength": "お名前は{limit}文字以下でご入力ください"
+        },
+        "email": {
+          "invalid": "正しいメールアドレスをご入力ください",
+          "maxLength": "メールアドレスは{limit}文字以下でご入力ください"
+        },
+        "message": {
+          "required": "お問い合わせ内容が入力されていません",
+          "maxLength": "お問い合わせ内容は{limit}文字以下でご入力ください"
+        }
       }
     }
   },

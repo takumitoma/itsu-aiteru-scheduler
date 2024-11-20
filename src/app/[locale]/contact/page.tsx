@@ -1,74 +1,85 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm, FieldError } from 'react-hook-form';
+import { z } from 'zod';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 const FORM_LIMITS = {
   name: 50,
   email: 254,
   message: 500,
-};
-
-const BUTTON_WIDTHS = {
-  ja: 'w-[140px] sm:w-[152px]',
-  en: 'w-[152px] sm:w-[164px]',
 } as const;
 
-interface ContactForm {
-  name: string;
-  email: string;
-  message: string;
+const schema = z.object({
+  name: z.string().max(FORM_LIMITS.name).optional().or(z.literal('')),
+  email: z.string().email().max(FORM_LIMITS.email).optional().or(z.literal('')),
+  message: z.string().min(1).max(FORM_LIMITS.message),
+});
+
+type FormFields = z.infer<typeof schema>;
+
+function FormErrorMessage({
+  error,
+  field,
+}: {
+  error?: FieldError;
+  field: 'name' | 'email' | 'message';
+}) {
+  const t = useTranslations('Contact.form.errors');
+
+  if (!error) return null;
+
+  const getMessage = () => {
+    switch (error.type) {
+      case 'too_small':
+        return t(`${field}.required`);
+      case 'too_big':
+        return t(`${field}.maxLength`, { limit: FORM_LIMITS[field] });
+      case 'invalid_string':
+        return t(`${field}.invalid`);
+      default:
+        return error.message;
+    }
+  };
+
+  return (
+    <div className="flex text-red-500 pt-2 space-x-2">
+      <BsExclamationCircle />
+      <p className="text-sm">{getMessage()}</p>
+    </div>
+  );
 }
 
 export default function ContactPage() {
   const t = useTranslations('Contact');
-  const locale = useLocale();
-  const [form, setForm] = useState<ContactForm>({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const honeypotRef = useRef<HTMLInputElement>(null);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setShowSuccess(false);
-    setErrorMsg('');
-    const { name, value } = e.target;
-    setForm((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<FormFields>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: '',
+      email: '',
+      message: '',
+    },
+  });
 
-  function formIsValid(formData: ContactForm): void {
+  const messageLength = watch('message')?.length || 0;
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
     if (honeypotRef.current?.checked) {
-      throw Error('Invalid submission');
+      return;
     }
-    if (!formData.name) {
-      throw Error('Please enter your name.');
-    }
-    if (formData.name.length > FORM_LIMITS.name) {
-      throw Error(`Name must be ${FORM_LIMITS.name} characters or less.`);
-    }
-    if (formData.email && formData.email.length > FORM_LIMITS.email) {
-      throw Error(`Email must be ${FORM_LIMITS.email} characters or less.`);
-    }
-    if (!formData.message) {
-      throw Error('Please enter your message.');
-    }
-    if (formData.message.length > FORM_LIMITS.message) {
-      throw Error(`Message must be ${FORM_LIMITS.message} characters or less.`);
-    }
-  }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
     try {
-      formIsValid(form);
-      setIsSubmitting(true);
       await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
@@ -77,21 +88,15 @@ export default function ContactPage() {
         },
         body: JSON.stringify({
           access_key: 'a43d0e1a-51d3-422b-ac51-ce928b96f9fa',
-          ...form,
+          ...data,
         }),
       });
-      setForm({ name: '', email: '', message: '' });
-      setShowSuccess(true);
+
+      reset();
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMsg(error.message);
-      } else {
-        setErrorMsg('An unknown error occurred');
-      }
-    } finally {
-      setIsSubmitting(false);
+      console.error('Form submission error:', error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center space-y-8">
@@ -102,38 +107,31 @@ export default function ContactPage() {
         <p>{t('description.gratitude')}</p>
         <p>{t('description.promise')}</p>
         <p>{t('description.other')}</p>
+        <p>{t('description.optional')}</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-8 w-full">
+      <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
         <label htmlFor="name" className="block">
-          <div className="flex items-center gap-2">
-            {t('form.name.label')}
-            <span className="text-sm bg-red-500 px-1 text-white rounded-md">
-              {t('form.name.required')}
-            </span>
-          </div>
+          {t('form.name.label')}
           <input
             id="name"
             type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            maxLength={FORM_LIMITS.name}
-            required
             className="mt-4 font-normal text-base"
+            {...register('name')}
           />
+          <FormErrorMessage error={errors.name} field="name" />
         </label>
+
         <label htmlFor="email" className="block">
           {t('form.email.label')}
           <input
             id="email"
             type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            maxLength={FORM_LIMITS.email}
             className="mt-4 font-normal text-base"
+            {...register('email')}
           />
+          <FormErrorMessage error={errors.email} field="email" />
         </label>
+
         <label htmlFor="message" className="block">
           <div className="flex items-center gap-2">
             {t('form.message.label')}
@@ -143,27 +141,28 @@ export default function ContactPage() {
           </div>
           <textarea
             id="message"
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            maxLength={FORM_LIMITS.message}
-            required
             rows={7}
             className="w-full mt-4 font-normal text-base"
+            {...register('message')}
           />
           <div className="text-sm text-gray-500">
-            {`${form.message.length}/${FORM_LIMITS.message} ${t('form.message.characterCount')}`}
+            {t('form.message.characterCount', {
+              current: messageLength,
+              limit: FORM_LIMITS.message,
+            })}
           </div>
+          <FormErrorMessage error={errors.message} field="message" />
         </label>
-        {errorMsg && <div className="text-red-500 text-center">{errorMsg}</div>}
-        {showSuccess && (
+
+        {isSubmitSuccessful && (
           <div className="text-green-500 text-center">{t('form.response.success')}</div>
         )}
+
         <div className="flex justify-center">
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`three-d ${BUTTON_WIDTHS[locale as keyof typeof BUTTON_WIDTHS]} mt-4 ${
+            className={`three-d w-[152px] sm:w-[164px] mt-4 ${
               isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >

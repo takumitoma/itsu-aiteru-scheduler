@@ -25,8 +25,11 @@
   },
   "Footer": {
     "appName": "When Are You Free?",
-    "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone.",
-    "settings": {
+    "About": {
+      "title": "About",
+      "description": "When Are You Free? is a free scheduling tool that lets you visually check everyone's availability, making it easy to find the best time for everyone."
+    },
+    "AppSettings": {
       "title": "Settings",
       "language": {
         "label": "Language"
@@ -40,6 +43,30 @@
         "label": "Theme",
         "light": "Light",
         "dark": "Dark"
+      }
+    },
+    "FooterContact": {
+      "title": "Contact Us",
+      "description": {
+        "linkPrefix": "If you would like a response, use",
+        "linkText": "this",
+        "linkSuffix": "instead"
+      },
+      "form": {
+        "message": {
+          "characterCount": "{current}/{limit} characters"
+        },
+        "submit": {
+          "button": "Send",
+          "sending": "Sending..."
+        },
+        "response": {
+          "success": "Thank you for your message. "
+        },
+        "errors": {
+          "required": "Please enter your message",
+          "maxLength": "Message cannot be longer than {limit} characters"
+        }
       }
     }
   },
@@ -138,7 +165,8 @@
     "description": {
       "gratitude": "Thank you for using our service. We value your feedback as it helps us improve.",
       "promise": "We carefully review each piece of feedback and strive to address your suggestions whenever possible.",
-      "other": "Please use this form for any questions or inquiries you may have."
+      "other": "Please use this form to share your feedback, ask questions, or submit inquiries.",
+      "optional": "If you would like a response, please include your name and email address."
     },
     "form": {
       "name": {
@@ -151,7 +179,7 @@
       "message": {
         "label": "Message",
         "required": "Required",
-        "characterCount": "characters"
+        "characterCount": "{current}/{limit} characters"
       },
       "submit": {
         "button": "Send Message",
@@ -159,6 +187,19 @@
       },
       "response": {
         "success": "Thank you for your message. We'll get back to you soon!"
+      },
+      "errors": {
+        "name": {
+          "maxLength": "Name cannot be longer than {limit} characters"
+        },
+        "email": {
+          "invalid": "Please enter a valid email address",
+          "maxLength": "Email cannot be longer than {limit} characters"
+        },
+        "message": {
+          "required": "Please enter your message",
+          "maxLength": "Message cannot be longer than {limit} characters"
+        }
       }
     }
   },
