@@ -26,7 +26,7 @@
   "Footer": {
     "appName": "いつ空いてる？",
     "description": "「いつ空いてる？」は、メンバー全員の予定をビジュアルで確認でき、最適な時間を簡単に見つけることができる無料のスケジュール調整ツールです。",
-    "settings": {
+    "AppSettings": {
       "title": "設定",
       "language": {
         "label": "言語"
