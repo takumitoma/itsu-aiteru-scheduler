@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Link } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
@@ -15,6 +15,7 @@ const NAV_ITEMS = [
 
 export default function Header() {
   const t = useTranslations('Header');
+  const pathName = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // disable body scroll when menu is open
@@ -52,7 +53,9 @@ export default function Header() {
               <li key={href}>
                 <Link
                   href={href}
-                  className="hover:text-primary text-lg transition-colors font-semibold"
+                  className={`hover:text-primary text-lg transition-colors font-semibold ${
+                    pathName === href ? 'text-primary' : 'text-foreground'
+                  }`}
                 >
                   {t(`nav.${translationKey}`)}
                 </Link>
@@ -89,7 +92,9 @@ export default function Header() {
                     <li key={href}>
                       <Link
                         href={href}
-                        className="hover:text-primary text-xl transition-colors"
+                        className={`hover:text-primary text-xl transition-colors ${
+                          pathName === href ? 'text-primary' : 'text-foreground'
+                        }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {t(`nav.${translationKey}`)}

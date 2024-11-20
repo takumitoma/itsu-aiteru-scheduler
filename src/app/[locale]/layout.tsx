@@ -55,17 +55,20 @@ export default async function Layout({
         <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
       </head>
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <div className="flex flex-col min-h-screen w-full">
-              <Header />
-              <main className="flex-1 pt-20">
-                <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
-              </main>
-              <Footer />
-            </div>
-          </Providers>
-        </NextIntlClientProvider>
+        {/* DONT REMOVE DIV, NECESSARY BC NEXT-INTL ADDS MYSTERIOUS HORIZONTAL SCROLL */}
+        <div className="relative overflow-hidden w-full">
+          <NextIntlClientProvider messages={messages}>
+            <Providers>
+              <div className="flex flex-col min-h-screen w-full">
+                <Header />
+                <main className="flex-1 pt-20">
+                  <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
+                </main>
+                <Footer />
+              </div>
+            </Providers>
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );
