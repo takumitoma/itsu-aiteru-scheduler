@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { useWatch, useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -17,16 +18,15 @@ dayjs.extend(timezone);
 import { daysOfWeekKeys } from '@/constants/days';
 
 interface CalendarProps {
-  // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
-  selectedDates: string[];
-  setSelectedDates: (dates: string[]) => void;
-  timezone: string;
-  showError: boolean;
+  error?: string;
 }
 
-export function Calendar({ selectedDates, setSelectedDates, timezone, showError }: CalendarProps) {
+export function Calendar({ error }: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
   const dowT = useTranslations('constants.DaysOfWeek');
+  const { setValue, watch } = useFormContext();
+
+  const timezone = watch('selectedTimezone');
   const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -34,15 +34,16 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
   const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
   const isTouchScreen = useRef(false);
   const isUnselectingRef = useRef(false);
-  const isInteracted = useRef(false);
+
+  const selectedDates = useWatch({
+    name: 'selectedDates',
+  });
 
   // used to unfocus buttons on click
   const prevMonthButtonRef = useRef<HTMLButtonElement>(null);
   const nextMonthButtonRef = useRef<HTMLButtonElement>(null);
 
-  const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
   const showErrorMax = selectedDates.length === 31;
-
   const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   useEffect(() => {
@@ -84,13 +85,12 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
 
     const dateString = date.format('YYYY-MM-DD');
     const updatedDates = selectedDates.includes(dateString)
-      ? selectedDates.filter((d) => d !== dateString)
+      ? selectedDates.filter((d: string) => d !== dateString)
       : [...selectedDates, dateString];
 
     if (updatedDates.length <= 31) {
-      setSelectedDates(updatedDates);
+      setValue('selectedDates', updatedDates, { shouldValidate: true });
     }
-    isInteracted.current = true;
   }
 
   function handleDragStart(date: dayjs.Dayjs) {
@@ -142,16 +142,15 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
     // select the dates if selecting and unselect otherwise
     let updatedDates: string[];
     if (isUnselectingRef.current) {
-      updatedDates = selectedDates.filter((date) => !affectedDates.includes(date));
+      updatedDates = selectedDates.filter((date: string) => !affectedDates.includes(date));
     } else {
       updatedDates = Array.from(new Set([...selectedDates, ...affectedDates]));
     }
 
     if (updatedDates.length <= 31) {
-      setSelectedDates(updatedDates);
+      setValue('selectedDates', updatedDates, { shouldValidate: true });
     }
 
-    isInteracted.current = true;
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
@@ -181,10 +180,6 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
     setCurrentMonth((prevMonth) => prevMonth.add(1, 'month'));
   }
 
-  const clearSelection = () => {
-    setSelectedDates([]);
-  };
-
   // restrict calendar to
   // from current month
   // up to current month - 1 month in the next year
@@ -202,7 +197,7 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
 
   return (
     <div className="w-full">
-      <div className={displayError ? 'border-2 border-red-500' : ''}>
+      <div className={error ? 'border-2 border-red-500' : ''}>
         <div className="flex justify-between items-center mb-4">
           <button
             ref={prevMonthButtonRef}
@@ -266,7 +261,7 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
                     isTouchScreen.current = true;
                     handleDragStart(day);
                   }}
-                  onTouchMove={(e) => handleTouchMove(e)}
+                  onTouchMove={handleTouchMove}
                   onTouchEnd={handleDragEnd}
                   onKeyDown={(e) => handleKeyDown(e, day)}
                   {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
@@ -278,24 +273,13 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
           ))}
         </div>
       </div>
-      {displayError ? (
+      {error ? (
         <p className="text-center mt-4 text-red-500">{t('errorMin')}</p>
       ) : showErrorMax ? (
         <p className="text-center mt-4 text-red-500">{t('errorMax')}</p>
       ) : (
         <p className="text-center mt-4">{t('selectedCount', { count: selectedDates.length })}</p>
       )}
-      <div className="mt-4">
-        <button
-          id="calendar-clear"
-          type="reset"
-          onClick={clearSelection}
-          className="w-full py-2 border rounded focus:outline-none focus:ring-2 
-            focus:ring-primary hover:brightness-90 border-borderGray"
-        >
-          {t('clearSelection')}
-        </button>
-      </div>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { useTranslations } from 'next-intl';
+import { useFormContext } from 'react-hook-form';
 
-interface CreateEventButtonProps {
-  isSubmitting: boolean;
-}
-
-export function CreateEventButton({ isSubmitting }: CreateEventButtonProps) {
+export function CreateEventButton() {
   const t = useTranslations('CreateEvent.CreateEventButton');
+  const {
+    formState: { isSubmitting },
+  } = useFormContext();
 
   return (
     <button
