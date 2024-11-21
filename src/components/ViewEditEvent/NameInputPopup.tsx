@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 interface NameInputPopupProps {
   onSubmit: (name: string) => Promise<void>;
@@ -10,11 +11,7 @@ interface NameInputPopupProps {
 }
 
 const schema = z.object({
-  participantName: z
-    .string()
-    .trim()
-    .min(2, 'Name must be at least 2 characters')
-    .max(20, 'Name must be at most 20 characters'),
+  participantName: z.string().trim().min(2).max(20),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -72,9 +69,10 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
             {...register('participantName')}
           />
           {errors.participantName && (
-            <p className="text-red-500 mt-1 text-xs sm:text-base">
-              {errors.participantName.message}
-            </p>
+            <div className="flex space-x-2 pt-2 text-red-500 items-center">
+              <BsExclamationCircle />
+              <p className="text-xs sm:text-sm">{t('errorMessage')}</p>
+            </div>
           )}
         </div>
         <div className="flex justify-end">
