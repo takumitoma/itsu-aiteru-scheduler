@@ -1,37 +1,43 @@
-import { useState, useRef } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 interface NameInputPopupProps {
   onSubmit: (name: string) => Promise<void>;
   onClose: () => void;
 }
 
+const schema = z.object({
+  participantName: z.string().trim().min(2).max(20),
+});
+
+type FormFields = z.infer<typeof schema>;
+
 export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
   const t = useTranslations('ViewEditEvent.NameInputPopup');
-  const [name, setName] = useState('');
-  const [showError, setShowError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // used to unfocus buttons on click
-  const popupButtonRef = useRef<HTMLButtonElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      participantName: '',
+    },
+  });
 
-  function isParticipantNameValid() {
-    return name.trim() && name.length >= 2 && name.length <= 20;
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    popupButtonRef.current?.blur();
-    setIsSubmitting(true);
-    if (isParticipantNameValid()) {
-      await onSubmit(name.trim());
+  const onSubmitHandler: SubmitHandler<FormFields> = async (data) => {
+    try {
+      await onSubmit(data.participantName);
       onClose();
-    } else {
-      setShowError(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
-    setIsSubmitting(false);
-  }
+  };
 
   return (
     <div
@@ -39,7 +45,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
         z-50 px-2"
     >
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmitHandler)}
         className="bg-background p-6 rounded-md max-w-md w-full space-y-4"
       >
         <div className="flex justify-between">
@@ -57,24 +63,20 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
           <input
             type="text"
             id="participantName"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              if (showError && e.target.value.trim()) {
-                setShowError(false);
-              }
-            }}
             placeholder={t('placeholder')}
-            className={`${showError ? 'border-red-500' : 'border-primary'}`}
+            className="border-primary"
             disabled={isSubmitting}
+            {...register('participantName')}
           />
-          {showError && (
-            <p className="text-red-500 mt-1 text-xs sm:text-base">{t('errorMessage')}</p>
+          {errors.participantName && (
+            <div className="flex space-x-2 pt-2 text-red-500 items-center">
+              <BsExclamationCircle />
+              <p className="text-xs sm:text-sm">{t('errorMessage')}</p>
+            </div>
           )}
         </div>
         <div className="flex justify-end">
           <button
-            ref={popupButtonRef}
             type="submit"
             className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
               hover:bg-primaryHover focus:bg-primaryHover disabled:opacity-50 
