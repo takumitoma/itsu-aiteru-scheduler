@@ -86,7 +86,7 @@ export function FooterContact() {
         {errors.message && (
           <div className="flex items-center space-x-1 text-red-500">
             <BsExclamationCircle />
-            <p className="text-xs">
+            <p className="text-xs font-semibold">
               {errors.message.type === 'too_small'
                 ? t('form.errors.required')
                 : t('form.errors.maxLength', { limit: FORM_LIMIT })}

@@ -8,9 +8,10 @@ const HOURS_12 = ['12', '3', '6', '9', '12', '3', '6', '9', '12'];
 interface TimeRangeSelectorProps {
   value: { start: number; end: number };
   onChange: (value: { start: number; end: number }) => void;
+  error?: string;
 }
 
-export function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
+export function TimeRangeSelector({ value, onChange, error }: TimeRangeSelectorProps) {
   const { timeFormat } = useTimeFormatContext();
   const t = useTranslations('CreateEvent.TimeRangeSelector');
 
@@ -82,7 +83,7 @@ export function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
           value={[value.start, value.end]}
           onChange={handleChange}
           valueLabelDisplay="auto"
-          valueLabelFormat={(hour: number) => formatTimeDisplay(hour)}
+          valueLabelFormat={formatTimeDisplay}
           min={0}
           max={24}
           marks={generateTimeMarks()}
@@ -109,6 +110,7 @@ export function TimeRangeSelector({ value, onChange }: TimeRangeSelectorProps) {
       <p className="text-lg text-center my-4">
         {formatTimeDisplay(value.start)} &#x2014; {formatTimeDisplay(value.end)}
       </p>
+      {error && <p className="text-red-500 text-center">{error}</p>}
     </div>
   );
 }

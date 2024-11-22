@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
+import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -11,15 +12,17 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface TimezoneSelectorProps {
-  value: string;
-  onChange: (value: string) => void;
+  register: UseFormRegisterReturn;
 }
 
-export function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
+export function TimezoneSelector({ register }: TimezoneSelectorProps) {
   const t = useTranslations('CreateEvent.TimezoneSelector');
   const tzT = useTranslations('constants.Timezones');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { watch, setValue } = useFormContext();
+
+  const currentValue = watch('selectedTimezone');
 
   // detect user's timezone
   // useEffect(() => {
@@ -70,7 +73,7 @@ export function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
     };
   }, []);
 
-  const selectedTimezone = formattedTimezones.find((tz) => tz.value === value);
+  const selectedTimezone = formattedTimezones.find((tz) => tz.value === currentValue);
 
   return (
     <div className="w-full">
@@ -97,18 +100,18 @@ export function TimezoneSelector({ value, onChange }: TimezoneSelectorProps) {
                 key={tz.value}
                 className="px-4 py-2 hover:bg-primaryHover focus:bg-primaryHover cursor-pointer"
                 onClick={() => {
-                  onChange(tz.value);
+                  setValue('selectedTimezone', tz.value, { shouldValidate: true });
                   setIsOpen(false);
                 }}
                 role="option"
-                aria-selected={tz.value === value}
+                aria-selected={tz.value === currentValue}
               >
                 {tz.label}
               </li>
             ))}
           </ul>
         )}
-        <select value={value} onChange={(e) => onChange(e.target.value)} className="sr-only">
+        <select {...register} className="sr-only">
           {formattedTimezones.map((tz) => (
             <option key={tz.value} value={tz.value}>
               {tz.label}

@@ -1,40 +1,30 @@
-import { useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-
 import { daysOfWeekKeys } from '@/constants/days';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 interface WeekCalendarProps {
-  selectedDays: number[];
-  setSelectedDays: React.Dispatch<React.SetStateAction<number[]>>;
-  showError: boolean;
+  error?: string;
 }
 
-export function WeekCalendar({ selectedDays, setSelectedDays, showError }: WeekCalendarProps) {
+export function WeekCalendar({ error }: WeekCalendarProps) {
   const t = useTranslations('CreateEvent.WeekCalendar');
   const dowT = useTranslations('constants.DaysOfWeek');
-  const isInteracted = useRef(false);
+  const { setValue, watch } = useFormContext();
 
-  const displayError = (showError || isInteracted.current) && !selectedDays.includes(1);
-
+  const selectedDays = watch('selectedDaysOfWeek');
   const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   function toggleWeekday(index: number) {
-    isInteracted.current = true;
-    setSelectedDays((prevState) => {
-      const newSelectedDays = [...prevState];
-      newSelectedDays[index] = newSelectedDays[index] === 0 ? 1 : 0;
-      return newSelectedDays;
-    });
+    const newSelectedDays = [...selectedDays];
+    newSelectedDays[index] = newSelectedDays[index] === 0 ? 1 : 0;
+    setValue('selectedDaysOfWeek', newSelectedDays, { shouldValidate: true });
   }
 
   return (
     <div className="w-full">
       <label>{t('label')}</label>
-      <div
-        className={`flex w-full mt-6 rounded ${
-          displayError ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
-        }`}
-      >
+      <div className="flex w-full mt-6 rounded 'border-gray-300 border-t border-b border-l">
         {daysOfWeek.map((day, index) => (
           <button
             key={day}
@@ -49,9 +39,12 @@ export function WeekCalendar({ selectedDays, setSelectedDays, showError }: WeekC
           </button>
         ))}
       </div>
-      <p className={`mt-4 text-red-500 text-center ${displayError ? '' : 'invisible'}`}>
-        {t('errorMin')}
-      </p>
+      {error && (
+        <div className="flex text-red-500 pt-4 justify-center items-center space-x-2">
+          <BsExclamationCircle size={20} />
+          <p className="text-sm font-semibold">{t('errorMin')}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -239,8 +239,8 @@
       "monthFormat": "YYYY年 M月",
       "prevMonth": "前月へ",
       "nextMonth": "次月へ",
-      "errorMin": "少なくとも1日を選択してください",
-      "errorMax": "最大選択数に達しました (31日)",
+      "error": "少なくとも1日を選択してください",
+      "warning": "最大選択数に達しました (31日)",
       "selectedCount": "選択数: {count} / 31日",
       "clearSelection": "選択をクリア"
     },
@@ -289,7 +289,7 @@
       "title": "あなたのお名前",
       "description": "再度アクセスする場合は、同じ名前を入力して空き時間を編集",
       "placeholder": "例) やまだ",
-      "errorMessage": "名前は2文字から20文字で入力してください",
+      "errorMessage": "2文字から20文字で入力してください",
       "submitButton": "確認"
     },
     "ParticipantEditor": {

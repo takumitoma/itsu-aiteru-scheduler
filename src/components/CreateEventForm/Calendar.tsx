@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { useWatch, useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { BsExclamationCircle } from 'react-icons/bs';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/en';
 
@@ -17,16 +19,15 @@ dayjs.extend(timezone);
 import { daysOfWeekKeys } from '@/constants/days';
 
 interface CalendarProps {
-  // use string[] instead of dayjs.Dayjs[] because dates should remain same on timezone changes
-  selectedDates: string[];
-  setSelectedDates: (dates: string[]) => void;
-  timezone: string;
-  showError: boolean;
+  error?: string;
 }
 
-export function Calendar({ selectedDates, setSelectedDates, timezone, showError }: CalendarProps) {
+export function Calendar({ error }: CalendarProps) {
   const t = useTranslations('CreateEvent.Calendar');
   const dowT = useTranslations('constants.DaysOfWeek');
+  const { setValue, watch } = useFormContext();
+
+  const timezone = watch('selectedTimezone');
   const [currentMonth, setCurrentMonth] = useState(dayjs().tz(timezone));
   const [calendarDays, setCalendarDays] = useState<(dayjs.Dayjs | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -34,15 +35,16 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
   const [dragEnd, setDragEnd] = useState<dayjs.Dayjs | null>(null);
   const isTouchScreen = useRef(false);
   const isUnselectingRef = useRef(false);
-  const isInteracted = useRef(false);
+
+  const selectedDates = useWatch({
+    name: 'selectedDates',
+  });
 
   // used to unfocus buttons on click
   const prevMonthButtonRef = useRef<HTMLButtonElement>(null);
   const nextMonthButtonRef = useRef<HTMLButtonElement>(null);
 
-  const displayError = (showError || isInteracted.current) && selectedDates.length === 0;
-  const showErrorMax = selectedDates.length === 31;
-
+  const showWarningMax = selectedDates.length === 31;
   const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   useEffect(() => {
@@ -84,13 +86,12 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
 
     const dateString = date.format('YYYY-MM-DD');
     const updatedDates = selectedDates.includes(dateString)
-      ? selectedDates.filter((d) => d !== dateString)
+      ? selectedDates.filter((d: string) => d !== dateString)
       : [...selectedDates, dateString];
 
     if (updatedDates.length <= 31) {
-      setSelectedDates(updatedDates);
+      setValue('selectedDates', updatedDates, { shouldValidate: true });
     }
-    isInteracted.current = true;
   }
 
   function handleDragStart(date: dayjs.Dayjs) {
@@ -142,16 +143,15 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
     // select the dates if selecting and unselect otherwise
     let updatedDates: string[];
     if (isUnselectingRef.current) {
-      updatedDates = selectedDates.filter((date) => !affectedDates.includes(date));
+      updatedDates = selectedDates.filter((date: string) => !affectedDates.includes(date));
     } else {
       updatedDates = Array.from(new Set([...selectedDates, ...affectedDates]));
     }
 
     if (updatedDates.length <= 31) {
-      setSelectedDates(updatedDates);
+      setValue('selectedDates', updatedDates, { shouldValidate: true });
     }
 
-    isInteracted.current = true;
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
@@ -181,10 +181,6 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
     setCurrentMonth((prevMonth) => prevMonth.add(1, 'month'));
   }
 
-  const clearSelection = () => {
-    setSelectedDates([]);
-  };
-
   // restrict calendar to
   // from current month
   // up to current month - 1 month in the next year
@@ -202,48 +198,47 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
 
   return (
     <div className="w-full">
-      <div className={displayError ? 'border-2 border-red-500' : ''}>
-        <div className="flex justify-between items-center mb-4">
-          <button
-            ref={prevMonthButtonRef}
-            type="button"
-            onClick={navigatePrevMonth}
-            className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
-            aria-label={t('prevMonth')}
+      <div className="flex justify-between items-center mb-4">
+        <button
+          ref={prevMonthButtonRef}
+          type="button"
+          onClick={navigatePrevMonth}
+          className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
+          aria-label={t('prevMonth')}
+        >
+          <MdNavigateBefore size={20} />
+        </button>
+        <h2 className="text-xl font-semibold">{currentMonth.format(t('monthFormat'))}</h2>
+        <button
+          ref={nextMonthButtonRef}
+          type="button"
+          onClick={navigateNextMonth}
+          className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
+          aria-label={t('nextMonth')}
+        >
+          <MdNavigateNext size={20} />
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
+        {daysOfWeek.map((day) => (
+          <div
+            key={day}
+            className="text-center border-b border-r border-gray-300 font-semibold py-2"
           >
-            <MdNavigateBefore size={20} />
-          </button>
-          <h2 className="text-xl font-semibold">{currentMonth.format(t('monthFormat'))}</h2>
-          <button
-            ref={nextMonthButtonRef}
-            type="button"
-            onClick={navigateNextMonth}
-            className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
-            aria-label={t('nextMonth')}
+            {day}
+          </div>
+        ))}
+        {/* calendar dates */}
+        {calendarDays.map((day, index) => (
+          <div
+            key={index}
+            className={`text-center border-b border-r border-gray-300 select-none ${
+              day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
+            }`}
           >
-            <MdNavigateNext size={20} />
-          </button>
-        </div>
-        <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
-          {daysOfWeek.map((day) => (
-            <div
-              key={day}
-              className="text-center border-b border-r border-gray-300 font-semibold py-2"
-            >
-              {day}
-            </div>
-          ))}
-          {/* calendar dates */}
-          {calendarDays.map((day, index) => (
-            <div
-              key={index}
-              className={`text-center border-b border-r border-gray-300 select-none ${
-                day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
-              }`}
-            >
-              {day && (
-                <div
-                  className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 
+            {day && (
+              <div
+                className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 
                     focus:ring-primary 
                     ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
                       selectedDates.includes(day.format('YYYY-MM-DD'))
@@ -256,46 +251,37 @@ export function Calendar({ selectedDates, setSelectedDates, timezone, showError 
                             ? 'bg-primaryLight'
                             : 'bg-background'
                     }`}
-                  onMouseDown={() => {
-                    if (isTouchScreen.current) return;
-                    handleDragStart(day);
-                  }}
-                  onMouseEnter={() => handleDragEnter(day)}
-                  onMouseUp={handleDragEnd}
-                  onTouchStart={() => {
-                    isTouchScreen.current = true;
-                    handleDragStart(day);
-                  }}
-                  onTouchMove={(e) => handleTouchMove(e)}
-                  onTouchEnd={handleDragEnd}
-                  onKeyDown={(e) => handleKeyDown(e, day)}
-                  {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
-                >
-                  {day.date()}
-                </div>
-              )}
-            </div>
-          ))}
+                onMouseDown={() => {
+                  if (isTouchScreen.current) return;
+                  handleDragStart(day);
+                }}
+                onMouseEnter={() => handleDragEnter(day)}
+                onMouseUp={handleDragEnd}
+                onTouchStart={() => {
+                  isTouchScreen.current = true;
+                  handleDragStart(day);
+                }}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleDragEnd}
+                onKeyDown={(e) => handleKeyDown(e, day)}
+                {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
+              >
+                {day.date()}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {error ? (
+        <div className="flex text-red-500 pt-4 items-center space-x-2">
+          <BsExclamationCircle size={20} />
+          <p className="text-sm font-semibold">{t('error')}</p>
         </div>
-      </div>
-      {displayError ? (
-        <p className="text-center mt-4 text-red-500">{t('errorMin')}</p>
-      ) : showErrorMax ? (
-        <p className="text-center mt-4 text-red-500">{t('errorMax')}</p>
+      ) : showWarningMax ? (
+        <p className="text-center pt-4 text-red-500">{t('warning')}</p>
       ) : (
-        <p className="text-center mt-4">{t('selectedCount', { count: selectedDates.length })}</p>
+        <p className="text-center pt-4">{t('selectedCount', { count: selectedDates.length })}</p>
       )}
-      <div className="mt-4">
-        <button
-          id="calendar-clear"
-          type="reset"
-          onClick={clearSelection}
-          className="w-full py-2 border rounded focus:outline-none focus:ring-2 
-            focus:ring-primary hover:brightness-90 border-borderGray"
-        >
-          {t('clearSelection')}
-        </button>
-      </div>
     </div>
   );
 }

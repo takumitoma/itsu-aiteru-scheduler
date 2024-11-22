@@ -239,8 +239,8 @@
       "monthFormat": "MMMM YYYY",
       "prevMonth": "Previous month",
       "nextMonth": "Next month",
-      "errorMin": "Please select at least one day",
-      "errorMax": "Maximum selection reached (31 days)",
+      "error": "Please select at least one day",
+      "warning": "Maximum selection reached (31 days)",
       "selectedCount": "Selected: {count} / 31 days",
       "clearSelection": "Clear Selection"
     },
