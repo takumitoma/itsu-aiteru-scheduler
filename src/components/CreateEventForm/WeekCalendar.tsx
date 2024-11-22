@@ -40,9 +40,9 @@ export function WeekCalendar({ error }: WeekCalendarProps) {
         ))}
       </div>
       {error && (
-        <div className="flex text-red-500 pt-4 justify-center items-center space-x-2 font-semibold">
+        <div className="flex text-red-500 pt-4 justify-center items-center space-x-2">
           <BsExclamationCircle size={20} />
-          <p className="text-sm">{t('errorMin')}</p>
+          <p className="text-sm font-semibold">{t('errorMin')}</p>
         </div>
       )}
     </div>

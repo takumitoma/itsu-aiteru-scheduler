@@ -273,9 +273,9 @@ export function Calendar({ error }: CalendarProps) {
         ))}
       </div>
       {error ? (
-        <div className="flex text-red-500 pt-4 items-center space-x-2 font-semibold">
+        <div className="flex text-red-500 pt-4 items-center space-x-2">
           <BsExclamationCircle size={20} />
-          <p className="text-sm">{t('error')}</p>
+          <p className="text-sm font-semibold">{t('error')}</p>
         </div>
       ) : showWarningMax ? (
         <p className="text-center pt-4 text-red-500">{t('warning')}</p>

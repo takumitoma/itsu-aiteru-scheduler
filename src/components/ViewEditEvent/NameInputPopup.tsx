@@ -57,7 +57,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
           </button>
         </div>
         <div className="flex">
-          <p className="text-xs sm:text-sm text-gray-600">{t('description')}</p>
+          <p className="text-sm text-gray-600">{t('description')}</p>
         </div>
         <div>
           <input
@@ -70,8 +70,8 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
           />
           {errors.participantName && (
             <div className="flex space-x-2 pt-2 text-red-500 items-center">
-              <BsExclamationCircle />
-              <p className="text-xs sm:text-sm">{t('errorMessage')}</p>
+              <BsExclamationCircle size={20} />
+              <p className="text-sm font-semibold">{t('errorMessage')}</p>
             </div>
           )}
         </div>
