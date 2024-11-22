@@ -1,6 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { daysOfWeekKeys } from '@/constants/days';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 interface WeekCalendarProps {
   error?: string;
@@ -23,11 +24,7 @@ export function WeekCalendar({ error }: WeekCalendarProps) {
   return (
     <div className="w-full">
       <label>{t('label')}</label>
-      <div
-        className={`flex w-full mt-6 rounded ${
-          error ? 'border-2 border-red-500' : 'border-gray-300 border-t border-b border-l'
-        }`}
-      >
+      <div className="flex w-full mt-6 rounded 'border-gray-300 border-t border-b border-l">
         {daysOfWeek.map((day, index) => (
           <button
             key={day}
@@ -42,7 +39,12 @@ export function WeekCalendar({ error }: WeekCalendarProps) {
           </button>
         ))}
       </div>
-      {error && <p className="mt-4 text-red-500 text-center">{t('errorMin')}</p>}
+      {error && (
+        <div className="flex text-red-500 pt-4 justify-center items-center space-x-2 font-semibold">
+          <BsExclamationCircle size={20} />
+          <p className="text-sm">{t('errorMin')}</p>
+        </div>
+      )}
     </div>
   );
 }

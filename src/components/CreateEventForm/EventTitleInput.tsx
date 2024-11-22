@@ -1,5 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 interface EventTitleInputProps {
   register: UseFormRegisterReturn;
@@ -15,11 +16,16 @@ export function EventTitleInput({ register, error }: EventTitleInputProps) {
       <input
         type="text"
         id="eventTitle"
-        className={`mt-4 ${error ? '!border-2 !border-red-500' : 'border border-primary'}`}
+        className="mt-4 border border-primary"
         placeholder={t('placeholder')}
         {...register}
       />
-      <p className={`mt-2 px-3 text-red-500 ${error ? '' : 'hidden'}`}>{t('error')}</p>
+      {error && (
+        <div className="flex text-red-500 pt-4 items-center space-x-2 font-semibold">
+          <BsExclamationCircle size={20} />
+          <p className="text-sm">{t('error')}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { BsExclamationCircle } from 'react-icons/bs';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/en';
 
@@ -43,7 +44,7 @@ export function Calendar({ error }: CalendarProps) {
   const prevMonthButtonRef = useRef<HTMLButtonElement>(null);
   const nextMonthButtonRef = useRef<HTMLButtonElement>(null);
 
-  const showErrorMax = selectedDates.length === 31;
+  const showWarningMax = selectedDates.length === 31;
   const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
   useEffect(() => {
@@ -197,48 +198,47 @@ export function Calendar({ error }: CalendarProps) {
 
   return (
     <div className="w-full">
-      <div className={error ? 'border-2 border-red-500' : ''}>
-        <div className="flex justify-between items-center mb-4">
-          <button
-            ref={prevMonthButtonRef}
-            type="button"
-            onClick={navigatePrevMonth}
-            className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
-            aria-label={t('prevMonth')}
+      <div className="flex justify-between items-center mb-4">
+        <button
+          ref={prevMonthButtonRef}
+          type="button"
+          onClick={navigatePrevMonth}
+          className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
+          aria-label={t('prevMonth')}
+        >
+          <MdNavigateBefore size={20} />
+        </button>
+        <h2 className="text-xl font-semibold">{currentMonth.format(t('monthFormat'))}</h2>
+        <button
+          ref={nextMonthButtonRef}
+          type="button"
+          onClick={navigateNextMonth}
+          className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
+          aria-label={t('nextMonth')}
+        >
+          <MdNavigateNext size={20} />
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
+        {daysOfWeek.map((day) => (
+          <div
+            key={day}
+            className="text-center border-b border-r border-gray-300 font-semibold py-2"
           >
-            <MdNavigateBefore size={20} />
-          </button>
-          <h2 className="text-xl font-semibold">{currentMonth.format(t('monthFormat'))}</h2>
-          <button
-            ref={nextMonthButtonRef}
-            type="button"
-            onClick={navigateNextMonth}
-            className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
-            aria-label={t('nextMonth')}
+            {day}
+          </div>
+        ))}
+        {/* calendar dates */}
+        {calendarDays.map((day, index) => (
+          <div
+            key={index}
+            className={`text-center border-b border-r border-gray-300 select-none ${
+              day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
+            }`}
           >
-            <MdNavigateNext size={20} />
-          </button>
-        </div>
-        <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
-          {daysOfWeek.map((day) => (
-            <div
-              key={day}
-              className="text-center border-b border-r border-gray-300 font-semibold py-2"
-            >
-              {day}
-            </div>
-          ))}
-          {/* calendar dates */}
-          {calendarDays.map((day, index) => (
-            <div
-              key={index}
-              className={`text-center border-b border-r border-gray-300 select-none ${
-                day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
-              }`}
-            >
-              {day && (
-                <div
-                  className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 
+            {day && (
+              <div
+                className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 
                     focus:ring-primary 
                     ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
                       selectedDates.includes(day.format('YYYY-MM-DD'))
@@ -251,34 +251,36 @@ export function Calendar({ error }: CalendarProps) {
                             ? 'bg-primaryLight'
                             : 'bg-background'
                     }`}
-                  onMouseDown={() => {
-                    if (isTouchScreen.current) return;
-                    handleDragStart(day);
-                  }}
-                  onMouseEnter={() => handleDragEnter(day)}
-                  onMouseUp={handleDragEnd}
-                  onTouchStart={() => {
-                    isTouchScreen.current = true;
-                    handleDragStart(day);
-                  }}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleDragEnd}
-                  onKeyDown={(e) => handleKeyDown(e, day)}
-                  {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
-                >
-                  {day.date()}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                onMouseDown={() => {
+                  if (isTouchScreen.current) return;
+                  handleDragStart(day);
+                }}
+                onMouseEnter={() => handleDragEnter(day)}
+                onMouseUp={handleDragEnd}
+                onTouchStart={() => {
+                  isTouchScreen.current = true;
+                  handleDragStart(day);
+                }}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleDragEnd}
+                onKeyDown={(e) => handleKeyDown(e, day)}
+                {...(day && !day.isBefore(dayjs().tz(timezone), 'day') ? { tabIndex: 0 } : {})}
+              >
+                {day.date()}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
       {error ? (
-        <p className="text-center mt-4 text-red-500">{t('errorMin')}</p>
-      ) : showErrorMax ? (
-        <p className="text-center mt-4 text-red-500">{t('errorMax')}</p>
+        <div className="flex text-red-500 pt-4 items-center space-x-2 font-semibold">
+          <BsExclamationCircle size={20} />
+          <p className="text-sm">{t('error')}</p>
+        </div>
+      ) : showWarningMax ? (
+        <p className="text-center pt-4 text-red-500">{t('warning')}</p>
       ) : (
-        <p className="text-center mt-4">{t('selectedCount', { count: selectedDates.length })}</p>
+        <p className="text-center pt-4">{t('selectedCount', { count: selectedDates.length })}</p>
       )}
     </div>
   );
