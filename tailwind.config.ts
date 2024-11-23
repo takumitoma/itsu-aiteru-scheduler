@@ -21,6 +21,9 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-noto-sans-jp)'],
       },
+      screens: {
+        'xs': '360px',
+      },
     },
   },
   plugins: [],

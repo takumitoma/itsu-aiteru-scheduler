@@ -43,7 +43,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-4">
           <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />
-          <span className="text-xl font-bold hidden sm:block">{t('appName')}</span>
+          <span className="text-xl font-bold hidden xs:block">{t('appName')}</span>
         </Link>
 
         {/* desktop nav bar */}
