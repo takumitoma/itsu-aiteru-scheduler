@@ -42,7 +42,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             { status: 200 },
           );
         }
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        throw error;
       }
 
       if (data.length === 0) {
@@ -104,9 +104,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         .select('id')
         .single();
 
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      }
+      if (error) throw error;
 
       revalidateTag(`participants-${eventId}`);
 

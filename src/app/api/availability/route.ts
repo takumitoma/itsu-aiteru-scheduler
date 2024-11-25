@@ -46,9 +46,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         .update({ availability })
         .eq('id', participantId);
 
-      if (updateError) {
-        return NextResponse.json({ error: 'Failed to update availability' }, { status: 500 });
-      }
+      if (updateError) throw updateError;
 
       revalidateTag(`participants-${participant.event_id}`);
 
