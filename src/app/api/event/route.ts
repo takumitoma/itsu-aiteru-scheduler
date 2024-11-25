@@ -54,7 +54,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         if (error.code === 'PGRST116') {
           return NextResponse.json({ error: 'Event not found' }, { status: 404 });
         }
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        throw error;
       }
 
       const eventData: Event = {
@@ -137,9 +137,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         })
         .select();
 
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      }
+      if (error) throw error;
 
       const createdEvent = data[0];
       return NextResponse.json(
@@ -170,7 +168,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
         if (error.code === 'PGRST116') {
           return NextResponse.json({ error: 'Event not found' }, { status: 404 });
         }
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        throw error;
       }
 
       return NextResponse.json({ message: 'Last accessed timestamp updated' }, { status: 200 });
