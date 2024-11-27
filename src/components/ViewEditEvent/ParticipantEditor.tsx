@@ -89,6 +89,7 @@ export function ParticipantEditor({
         setAllParticipants((prev) => [...prev, createdParticipant]);
       }
 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setEditingParticipant(createdParticipant);
       setMode('edit');
       onLoadSelectedTimeSlots(createdParticipant);
