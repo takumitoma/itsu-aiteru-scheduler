@@ -232,8 +232,7 @@
       "time12h": "{period} {hour}:00"
     },
     "TimezoneSelector": {
-      "label": "タイムゾーン",
-      "placeholder": "タイムゾーンを選択"
+      "label": "タイムゾーン"
     },
     "Calendar": {
       "monthFormat": "YYYY年 M月",

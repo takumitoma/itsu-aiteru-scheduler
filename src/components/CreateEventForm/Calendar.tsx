@@ -47,10 +47,6 @@ export function Calendar({ error }: CalendarProps) {
   const showWarningMax = selectedDates.length === 31;
   const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
 
-  useEffect(() => {
-    setCurrentMonth(dayjs().tz(timezone));
-  }, [timezone]);
-
   // set the calendar dates based on the current month
   useEffect(() => {
     const startOfMonth = currentMonth.startOf('month');
