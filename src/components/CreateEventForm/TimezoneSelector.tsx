@@ -5,8 +5,7 @@ import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-// import { TimezoneKey, timezoneKeys } from '@/constants/timezone';
-import { timezoneKeys } from '@/constants/timezone';
+import { TimezoneKey, timezoneKeys } from '@/constants/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -21,26 +20,30 @@ export function TimezoneSelector({ register }: TimezoneSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { watch, setValue } = useFormContext();
+  const isMounted = useRef(false);
 
   const currentValue = watch('selectedTimezone');
 
   // detect user's timezone
-  // useEffect(() => {
-  //   try {
-  //     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  //     if (timeZone && timezoneKeys.includes(timeZone as TimezoneKey)) {
-  //       onChange(timeZone);
-  //       return;
-  //     }
+  useEffect(() => {
+    if (isMounted.current) return;
+    isMounted.current = true;
 
-  //     const dayjsTimezone = dayjs.tz.guess();
-  //     if (dayjsTimezone && timezoneKeys.includes(dayjsTimezone as TimezoneKey)) {
-  //       onChange(dayjsTimezone);
-  //     }
-  //   } catch {
-  //     // keep default
-  //   }
-  // }, [onChange]);
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz && timezoneKeys.includes(tz as TimezoneKey)) {
+        setValue('selectedTimezone', tz, { shouldValidate: true });
+        return;
+      }
+
+      const dayjsTz = dayjs.tz.guess();
+      if (dayjsTz && timezoneKeys.includes(dayjsTz as TimezoneKey)) {
+        setValue('selectedTimezone', dayjsTz, { shouldValidate: true });
+      }
+    } catch {
+      // keep default
+    }
+  }, [setValue]);
 
   // generate the '(GMTZZ:ZZ) Label' format to display in dropdown
   // 1. get offSet minutes of all timezones
