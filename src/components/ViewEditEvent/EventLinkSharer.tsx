@@ -43,7 +43,7 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
       <div
         id="event-link-container"
         className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
-          flex justify-between items-center py-2 px-3"
+          flex justify-between items-center py-2 px-3 text-sm sm:text-lg"
       >
         <input
           type="text"
@@ -54,13 +54,13 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
         />
         <button
           ref={buttonRef}
-          className="text-white bg-primary px-2 py-1 sm:px-4 sm:py-2 rounded-md flex-shrink-0 
-            flex items-center sm:space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
+          className="text-white bg-primary px-2 sm:px-4 py-2 rounded-md flex-shrink-0 
+            flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
             justify-center"
           type="button"
           onClick={copyToClipboard}
         >
-          <div className="hidden sm:block">{copied ? <FaCheck /> : <IoCopyOutline />}</div>
+          {copied ? <FaCheck /> : <IoCopyOutline />}
           <span>{copied ? t('copiedButton') : t('copyButton')}</span>
         </button>
       </div>
