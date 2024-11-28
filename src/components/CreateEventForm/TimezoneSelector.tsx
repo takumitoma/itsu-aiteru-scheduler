@@ -59,8 +59,7 @@ export function TimezoneSelector({ register }: TimezoneSelectorProps) {
         offsetMinutes,
       };
     })
-    .sort((a, b) => a.offsetMinutes - b.offsetMinutes)
-    .map(({ value, label }) => ({ value, label }));
+    .sort((a, b) => a.offsetMinutes - b.offsetMinutes);
 
   // close dropdown if it is open and user clicks outside
   useEffect(() => {
@@ -90,7 +89,7 @@ export function TimezoneSelector({ register }: TimezoneSelectorProps) {
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
-          {selectedTimezone ? selectedTimezone.label : t('placeholder')}
+          {selectedTimezone?.label}
           <MdArrowDropDown
             size={24}
             className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}

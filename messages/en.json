@@ -232,8 +232,7 @@
       "time12h": "{hour}:00 {period}"
     },
     "TimezoneSelector": {
-      "label": "Timezone",
-      "placeholder": "Select a timezone"
+      "label": "Timezone"
     },
     "Calendar": {
       "monthFormat": "MMMM YYYY",
