@@ -39,7 +39,7 @@ export function ParticipantsList({
       <p className="text-xs sm:text-sm text-gray-600">
         {mode === 'view' ? t('viewModeHelp') : t('deleteModeHelp')}
       </p>
-      <ul className="flex flex-wrap gap-2 text-xs sm:text-lg">
+      <ul className="flex flex-wrap gap-2 text-sm sm:text-lg">
         {allParticipants.map((participant, index) => (
           <li key={`participant-${participant.id}`}>
             <button

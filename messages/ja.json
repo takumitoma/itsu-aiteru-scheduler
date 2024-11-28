@@ -293,7 +293,7 @@
       "submitButton": "確認"
     },
     "ParticipantEditor": {
-      "addAvailability": "空き時間",
+      "availability": "空き時間",
       "saveButton": "保存",
       "deleteButton": "削除",
       "cancelButton": "キャンセル"

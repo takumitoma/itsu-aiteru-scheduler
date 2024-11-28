@@ -16,7 +16,7 @@ export function TimezoneDisplay({ timezone }: TimezoneDisplayProps) {
 
   return (
     <section>
-      <p className="whitespace-nowrap text-base sm:text-lg">{`(GMT${offset}) ${t(timezone)}`}</p>
+      <p className="whitespace-nowrap text-sm sm:text-lg">{`(GMT${offset}) ${t(timezone)}`}</p>
     </section>
   );
 }

@@ -89,6 +89,7 @@ export function ParticipantEditor({
         setAllParticipants((prev) => [...prev, createdParticipant]);
       }
 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setEditingParticipant(createdParticipant);
       setMode('edit');
       onLoadSelectedTimeSlots(createdParticipant);
@@ -146,7 +147,7 @@ export function ParticipantEditor({
         {mode !== 'delete' && (
           <button
             ref={addOrSaveButtonRef}
-            className="py-2 px-4 text-sm sm:text-lg text-white bg-primary rounded-md border 
+            className="py-2 text-sm sm:text-lg text-white bg-primary rounded-md border 
               border-primary hover:bg-primaryHover focus:bg-primaryHover shadow-sm flex-shrink-0 
               flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
               disabled:opacity-50 disabled:cursor-not-allowed"
@@ -159,7 +160,7 @@ export function ParticipantEditor({
             ) : (
               <>
                 <HiPlus size={20} />
-                <p>{t('addAvailability')}</p>
+                <p>{t('availability')}</p>
               </>
             )}
           </button>
@@ -167,7 +168,7 @@ export function ParticipantEditor({
         {mode === 'delete' && selectedParticipant && (
           <button
             type="button"
-            className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 
+            className="text-white bg-red-500 py-2 rounded-md flex-shrink-0 
               hover:brightness-90 w-[134px] sm:w-[155px] disabled:opacity-50
               disabled:cursor-not-allowed text-sm sm:text-lg"
             onClick={openConfirmDeletePopup}
@@ -175,25 +176,27 @@ export function ParticipantEditor({
             {t('deleteButton')}
           </button>
         )}
-        <button
-          ref={cancelOrDeleteModeButtonRef}
-          className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
-            border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-            flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
-            disabled:opacity-50 disabled:cursor-not-allowed"
-          type="button"
-          onClick={handleCancelOrDeleteModeButtonClick}
-          disabled={isSubmitting}
-        >
-          {mode === 'edit' || mode === 'delete' ? (
-            <p>{t('cancelButton')}</p>
-          ) : (
-            <>
-              <FaTrash size={20} />
-              <p>{t('addAvailability')}</p>
-            </>
-          )}
-        </button>
+        {(mode !== 'view' || allParticipants.length > 0) && (
+          <button
+            ref={cancelOrDeleteModeButtonRef}
+            className="py-2 text-sm sm:text-lg text-red-500 bg-background border 
+              border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
+              flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
+              disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
+            onClick={handleCancelOrDeleteModeButtonClick}
+            disabled={isSubmitting}
+          >
+            {mode === 'edit' || mode === 'delete' ? (
+              <p>{t('cancelButton')}</p>
+            ) : allParticipants.length > 0 ? (
+              <>
+                <FaTrash size={20} />
+                <p>{t('availability')}</p>
+              </>
+            ) : null}
+          </button>
+        )}
       </div>
       {isNameInputPopupOpen && (
         <NameInputPopup
