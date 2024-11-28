@@ -293,7 +293,7 @@
       "submitButton": "Confirm"
     },
     "ParticipantEditor": {
-      "addAvailability": "Availability",
+      "availability": "Availability",
       "saveButton": "Save",
       "deleteButton": "Delete",
       "cancelButton": "Cancel"

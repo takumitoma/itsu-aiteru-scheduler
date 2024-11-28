@@ -160,7 +160,7 @@ export function ParticipantEditor({
             ) : (
               <>
                 <HiPlus size={20} />
-                <p>{t('addAvailability')}</p>
+                <p>{t('availability')}</p>
               </>
             )}
           </button>
@@ -176,25 +176,27 @@ export function ParticipantEditor({
             {t('deleteButton')}
           </button>
         )}
-        <button
-          ref={cancelOrDeleteModeButtonRef}
-          className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
-            border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
-            flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
-            disabled:opacity-50 disabled:cursor-not-allowed"
-          type="button"
-          onClick={handleCancelOrDeleteModeButtonClick}
-          disabled={isSubmitting}
-        >
-          {mode === 'edit' || mode === 'delete' ? (
-            <p>{t('cancelButton')}</p>
-          ) : (
-            <>
-              <FaTrash size={20} />
-              <p>{t('addAvailability')}</p>
-            </>
-          )}
-        </button>
+        {(mode !== 'view' || allParticipants.length > 0) && (
+          <button
+            ref={cancelOrDeleteModeButtonRef}
+            className="py-2 px-4 text-sm sm:text-lg text-red-500 bg-background border 
+              border-red-500 rounded-md hover:bg-red-100 focus:bg-red-300 flex-shrink-0
+              flex items-center space-x-2 w-[134px] sm:w-[155px] justify-center
+              disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
+            onClick={handleCancelOrDeleteModeButtonClick}
+            disabled={isSubmitting}
+          >
+            {mode === 'edit' || mode === 'delete' ? (
+              <p>{t('cancelButton')}</p>
+            ) : allParticipants.length > 0 ? (
+              <>
+                <FaTrash size={20} />
+                <p>{t('availability')}</p>
+              </>
+            ) : null}
+          </button>
+        )}
       </div>
       {isNameInputPopupOpen && (
         <NameInputPopup
