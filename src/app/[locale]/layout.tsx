@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { Providers } from '@/providers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Scroll } from '@/components/Scroll';
 import '@/styles/globals.css';
 
 const notoSansJapanese = Noto_Sans_JP({
@@ -54,6 +55,7 @@ export default async function Layout({
         <link rel="icon" href="/logo/main-logo.svg" sizes="any" />
         <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
       </head>
+      <Scroll />
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         {/* DONT REMOVE DIV, NECESSARY BC NEXT-INTL ADDS MYSTERIOUS HORIZONTAL SCROLL */}
         <div className="relative overflow-hidden w-full">

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Link } from '@/i18n/routing';
+import { TransitionLink } from '@/components/TransitionLink';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { useTheme } from 'next-themes';
 import { useTranslations, useLocale } from 'next-intl';
@@ -63,10 +63,10 @@ export default function GuidePage() {
       </ol>
       <div className="flex flex-col py-8 space-y-6 sm:space-y-8 justify-center items-center">
         <p className="text-xl sm:text-2xl font-bold text-center">{t('callToAction.message')}</p>
-        <Link href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
+        <TransitionLink href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
           {t('callToAction.button')}
           <FaRegArrowAltCircleRight size={24} />
-        </Link>
+        </TransitionLink>
       </div>
     </div>
   );
