@@ -1,7 +1,7 @@
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 
-export async function ErrorMessage() {
-  const t = await getTranslations('CreateEvent.ErrorMessage');
+export function ErrorMessage() {
+  const t = useTranslations('CreateEvent.ErrorMessage');
 
   return (
     <div className="mt-4 flex flex-col items-center">
