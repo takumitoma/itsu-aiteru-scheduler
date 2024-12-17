@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
 import { z } from 'zod';
 import { revalidateTag } from 'next/cache';
 
@@ -15,13 +15,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const body = await req.json();
       const { participantId, availability } = UpdateAvailabilitySchema.parse(body);
 
-      const { data: participant, error: participantError } = await supabase
+      const { data: participant, error: participantGetError } = await supabaseAdmin
         .from('participants')
         .select('*, events(*)')
         .eq('id', participantId)
         .single();
 
-      if (participantError || !participant) {
+      if (participantGetError) throw participantGetError;
+
+      if (!participant) {
         return NextResponse.json({ error: 'Participant not found' }, { status: 404 });
       }
 
@@ -41,12 +43,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         return NextResponse.json({ error: 'Invalid availability array length' }, { status: 400 });
       }
 
-      const { error: updateError } = await supabase
+      const { error } = await supabaseAdmin
         .from('participants')
         .update({ availability })
         .eq('id', participantId);
 
-      if (updateError) throw updateError;
+      if (error) throw error;
 
       revalidateTag(`participants-${participant.event_id}`);
 

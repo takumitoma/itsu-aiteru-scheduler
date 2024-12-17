@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
 
 // 2 months -> 60 days -> round up one day because its a daily cron job
 const DAYS_UNTIL_DELETE = 61;
@@ -21,7 +21,7 @@ export async function DELETE(request: NextRequest) {
     const pastDate = new Date(today);
     pastDate.setDate(today.getDate() - DAYS_UNTIL_DELETE);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('events')
       .delete()
       .lt('last_accessed', pastDate.toISOString())

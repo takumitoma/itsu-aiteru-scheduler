@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
 import { Participant } from '@/types/Participant';
 import { revalidateTag } from 'next/cache';
 
@@ -18,13 +18,6 @@ const DeleteParticipantSchema = z.object({
   id: z.string().uuid(),
 });
 
-interface ParticipantFromRPC {
-  id: string;
-  name: string;
-  availability: number[];
-  event_id: string;
-}
-
 export async function GET(request: NextRequest): Promise<NextResponse> {
   return withRateLimit(request, async (req) => {
     try {
@@ -37,19 +30,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       const { eventId: validatedEventId } = GetParticipantsSchema.parse({ eventId });
 
-      const { data, error } = await supabase.rpc('get_participants', {
-        event_id: validatedEventId,
-      });
+      const { data, error } = await supabaseAdmin
+        .from('participants')
+        .select('id, name, availability')
+        .eq('event_id', validatedEventId);
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json(
-            { message: 'No participants found for this event', participants: [] },
-            { status: 200 },
-          );
-        }
-        throw error;
-      }
+      if (error) throw error;
 
       if (data.length === 0) {
         return NextResponse.json(
@@ -58,15 +44,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         );
       }
 
-      const participants = data.map((participant: unknown) => {
-        const rpcParticipant = participant as ParticipantFromRPC;
-        const participantData: Participant = {
-          id: rpcParticipant.id,
-          name: rpcParticipant.name,
-          availability: rpcParticipant.availability,
-        };
-        return participantData;
-      });
+      const participants: Participant[] = data.map((participant) => ({
+        id: participant.id,
+        name: participant.name,
+        availability: participant.availability,
+      }));
 
       return NextResponse.json({ participants }, { status: 200 });
     } catch (error) {
@@ -90,16 +72,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const body = await req.json();
       const { eventId, name } = PostParticipantSchema.parse(body);
 
-      const { data: existingParticipant, error: checkError } = await supabase
+      const { data: existingParticipant, error: checkExistenceError } = await supabaseAdmin
         .from('participants')
         .select('id')
         .eq('event_id', eventId)
         .eq('name', name)
         .single();
 
-      if (checkError && checkError.code !== 'PGRST116') {
-        return NextResponse.json({ error: checkError.message }, { status: 500 });
-      }
+      if (checkExistenceError) throw checkExistenceError;
 
       if (existingParticipant) {
         return NextResponse.json(
@@ -108,7 +88,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         );
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('participants')
         .insert({ event_id: eventId, name })
         .select('id')
@@ -147,20 +127,15 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
       const { id: validatedId } = DeleteParticipantSchema.parse({ id });
 
       // get the event_id before deleting, used for validation after deletion
-      const { data: participant } = await supabase
+      const { data: participant } = await supabaseAdmin
         .from('participants')
         .select('event_id')
         .eq('id', validatedId)
         .single();
 
-      const { error } = await supabase.from('participants').delete().eq('id', validatedId);
+      const { error } = await supabaseAdmin.from('participants').delete().eq('id', validatedId);
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json({ message: 'Participant not found' }, { status: 404 });
-        }
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      }
+      if (error) throw error;
 
       if (participant?.event_id) {
         revalidateTag(`participants-${participant.event_id}`);
