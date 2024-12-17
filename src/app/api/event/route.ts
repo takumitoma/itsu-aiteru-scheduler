@@ -29,18 +29,6 @@ const PatchEventSchema = z.object({
   id: z.string().length(12),
 });
 
-interface EventFromRPC {
-  id: string;
-  title: string;
-  survey_type: 'specific' | 'week';
-  timezone: string;
-  time_range_start: number;
-  time_range_end: number;
-  created_at: string;
-  dates: string[] | null;
-  days_of_week: number[] | null;
-}
-
 export async function GET(request: NextRequest): Promise<NextResponse> {
   return withRateLimit(request, async (req) => {
     try {
@@ -54,7 +42,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       const { id: validatedId } = GetEventSchema.parse({ id });
 
       const { data: event, error } = await supabase
-        .rpc('get_event', { event_id: validatedId })
+        .from('events')
+        .select(
+          `id, title, survey_type, timezone, time_range_start, 
+          time_range_end, created_at, dates, days_of_week`,
+        )
+        .eq('id', validatedId)
         .single();
 
       if (error) {
@@ -64,17 +57,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         throw error;
       }
 
-      const rpcEvent = event as EventFromRPC;
       const eventData: Event = {
-        id: rpcEvent.id,
-        title: rpcEvent.title,
-        surveyType: rpcEvent.survey_type,
-        timezone: rpcEvent.timezone,
-        timeRangeStart: rpcEvent.time_range_start,
-        timeRangeEnd: rpcEvent.time_range_end,
-        createdAt: new Date(rpcEvent.created_at),
-        dates: rpcEvent.dates,
-        daysOfWeek: rpcEvent.days_of_week,
+        id: event.id,
+        title: event.title,
+        surveyType: event.survey_type,
+        timezone: event.timezone,
+        timeRangeStart: event.time_range_start,
+        timeRangeEnd: event.time_range_end,
+        createdAt: event.created_at,
+        dates: event.dates,
+        daysOfWeek: event.days_of_week,
       };
 
       return NextResponse.json({ event: eventData }, { status: 200 });

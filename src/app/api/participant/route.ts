@@ -18,13 +18,6 @@ const DeleteParticipantSchema = z.object({
   id: z.string().uuid(),
 });
 
-interface ParticipantFromRPC {
-  id: string;
-  name: string;
-  availability: number[];
-  event_id: string;
-}
-
 export async function GET(request: NextRequest): Promise<NextResponse> {
   return withRateLimit(request, async (req) => {
     try {
@@ -37,9 +30,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       const { eventId: validatedEventId } = GetParticipantsSchema.parse({ eventId });
 
-      const { data, error } = await supabase.rpc('get_participants', {
-        event_id: validatedEventId,
-      });
+      const { data, error } = await supabase
+        .from('participants')
+        .select('id, name, availability')
+        .eq('event_id', validatedEventId);
 
       if (error) {
         if (error.code === 'PGRST116') {
@@ -58,15 +52,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         );
       }
 
-      const participants = data.map((participant: unknown) => {
-        const rpcParticipant = participant as ParticipantFromRPC;
-        const participantData: Participant = {
-          id: rpcParticipant.id,
-          name: rpcParticipant.name,
-          availability: rpcParticipant.availability,
-        };
-        return participantData;
-      });
+      const participants: Participant[] = data.map((participant) => ({
+        id: participant.id,
+        name: participant.name,
+        availability: participant.availability,
+      }));
 
       return NextResponse.json({ participants }, { status: 200 });
     } catch (error) {
