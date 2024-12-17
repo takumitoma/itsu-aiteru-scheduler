@@ -50,12 +50,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .eq('id', validatedId)
         .single();
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json({ error: 'Event not found' }, { status: 404 });
-        }
-        throw error;
-      }
+      if (error) throw error;
 
       const eventData: Event = {
         id: event.id,
@@ -164,12 +159,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
         .update({ last_accessed: 'now()' })
         .eq('id', id);
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json({ error: 'Event not found' }, { status: 404 });
-        }
-        throw error;
-      }
+      if (error) throw error;
 
       return NextResponse.json({ message: 'Last accessed timestamp updated' }, { status: 200 });
     } catch (error) {

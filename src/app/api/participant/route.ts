@@ -35,15 +35,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .select('id, name, availability')
         .eq('event_id', validatedEventId);
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json(
-            { message: 'No participants found for this event', participants: [] },
-            { status: 200 },
-          );
-        }
-        throw error;
-      }
+      if (error) throw error;
 
       if (data.length === 0) {
         return NextResponse.json(
@@ -80,16 +72,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const body = await req.json();
       const { eventId, name } = PostParticipantSchema.parse(body);
 
-      const { data: existingParticipant, error: checkError } = await supabaseAdmin
+      const { data: existingParticipant, error: checkExistenceError } = await supabaseAdmin
         .from('participants')
         .select('id')
         .eq('event_id', eventId)
         .eq('name', name)
         .single();
 
-      if (checkError && checkError.code !== 'PGRST116') {
-        return NextResponse.json({ error: checkError.message }, { status: 500 });
-      }
+      if (checkExistenceError) throw checkExistenceError;
 
       if (existingParticipant) {
         return NextResponse.json(
@@ -145,12 +135,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
       const { error } = await supabaseAdmin.from('participants').delete().eq('id', validatedId);
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          return NextResponse.json({ message: 'Participant not found' }, { status: 404 });
-        }
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      }
+      if (error) throw error;
 
       if (participant?.event_id) {
         revalidateTag(`participants-${participant.event_id}`);
