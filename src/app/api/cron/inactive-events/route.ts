@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
 
 // 2 months -> 60 days -> round up one day because its a daily cron job
 const DAYS_UNTIL_DELETE = 61;

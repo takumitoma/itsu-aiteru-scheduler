@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabaseAdmin } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
 import { Event } from '@/types/Event';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
