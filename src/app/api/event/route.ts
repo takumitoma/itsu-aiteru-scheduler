@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/client';
 import { Event } from '@/types/Event';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       const { id: validatedId } = GetEventSchema.parse({ id });
 
-      const { data: event, error } = await supabase
+      const { data: event, error } = await supabaseAdmin
         .from('events')
         .select(
           `id, title, survey_type, timezone, time_range_start, 
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('events')
         .insert({
           title: validatedData.title,
@@ -159,7 +159,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       const body = await req.json();
       const { id } = PatchEventSchema.parse(body);
 
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('events')
         .update({ last_accessed: 'now()' })
         .eq('id', id);

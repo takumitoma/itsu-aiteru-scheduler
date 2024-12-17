@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/client';
 import { Participant } from '@/types/Participant';
 import { revalidateTag } from 'next/cache';
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       const { eventId: validatedEventId } = GetParticipantsSchema.parse({ eventId });
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('participants')
         .select('id, name, availability')
         .eq('event_id', validatedEventId);
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const body = await req.json();
       const { eventId, name } = PostParticipantSchema.parse(body);
 
-      const { data: existingParticipant, error: checkError } = await supabase
+      const { data: existingParticipant, error: checkError } = await supabaseAdmin
         .from('participants')
         .select('id')
         .eq('event_id', eventId)
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         );
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('participants')
         .insert({ event_id: eventId, name })
         .select('id')
@@ -137,13 +137,13 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
       const { id: validatedId } = DeleteParticipantSchema.parse({ id });
 
       // get the event_id before deleting, used for validation after deletion
-      const { data: participant } = await supabase
+      const { data: participant } = await supabaseAdmin
         .from('participants')
         .select('event_id')
         .eq('id', validatedId)
         .single();
 
-      const { error } = await supabase.from('participants').delete().eq('id', validatedId);
+      const { error } = await supabaseAdmin.from('participants').delete().eq('id', validatedId);
 
       if (error) {
         if (error.code === 'PGRST116') {
