@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 const schema = z.object({
   email: z.string().email('Please enter a valid email'),
@@ -32,7 +33,10 @@ export default function SignUpPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center space-y-8 max-w-xl w-full mx-auto">
+    <section
+      className="flex flex-col items-center justify-center space-y-8 max-w-xl 
+        w-full mx-auto"
+    >
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
         Create a free account now
       </h1>
@@ -43,11 +47,18 @@ export default function SignUpPage() {
             <input
               id="email"
               type="text"
-              className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
+              className={`mt-4 font-normal text-base w-full ${
+                errors.email ? 'border-red-500' : ''
+              }`}
               {...register('email')}
             />
           </label>
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          {errors.email && (
+            <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
+              <BsExclamationCircle />
+              <p className="text-sm">{errors.email.message}</p>
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -56,12 +67,17 @@ export default function SignUpPage() {
             <input
               id="password"
               type="password"
-              className={`mt-4 font-normal text-base w-full ${errors.password ? 'border-red-500' : ''}`}
+              className={`mt-4 font-normal text-base w-full ${
+                errors.password ? 'border-red-500' : ''
+              }`}
               {...register('password')}
             />
           </label>
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
+              <BsExclamationCircle />
+              <p className="text-sm">{errors.password.message}</p>
+            </div>
           )}
         </div>
 
