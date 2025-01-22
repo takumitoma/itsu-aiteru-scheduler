@@ -203,6 +203,14 @@
       }
     }
   },
+  "Login": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "login": "ログイン",
+    "loggingIn": "ログイン中... ",
+    "emailError": "メールアドレスを正しく入力してください",
+    "passwordError": "パスワードを入力してください"
+  },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",
     "CreateEventButton": {

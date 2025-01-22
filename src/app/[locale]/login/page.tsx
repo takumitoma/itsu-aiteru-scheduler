@@ -1,19 +1,21 @@
 'use client';
 
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
 
 const schema = z.object({
-  email: z.string().email('Please enter a valid email'),
+  email: z.string().email(),
   password: z.string().min(1, 'Please enter your password'),
 });
 
 type FormFields = z.infer<typeof schema>;
 
 export default function LoginPage() {
+  const t = useTranslations('Login');
   const honeypotRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -37,11 +39,13 @@ export default function LoginPage() {
       className="flex flex-col items-center justify-center space-y-8 max-w-xl 
       w-full mx-auto"
     >
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">Log in</h1>
+      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+        {t('login')}
+      </h1>
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
         <div className="space-y-2">
           <label htmlFor="email" className="block">
-            Email
+            {t('email')}
             <input
               id="email"
               type="text"
@@ -54,14 +58,14 @@ export default function LoginPage() {
           {errors.email && (
             <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
               <BsExclamationCircle />
-              <p className="text-sm">{errors.email.message}</p>
+              <p className="text-sm">{t('emailError')}</p>
             </div>
           )}
         </div>
 
         <div className="space-y-2">
           <label htmlFor="password" className="block">
-            Password
+            {t('password')}
             <input
               id="password"
               type="password"
@@ -74,7 +78,7 @@ export default function LoginPage() {
           {errors.password && (
             <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
               <BsExclamationCircle />
-              <p className="text-sm">{errors.password.message}</p>
+              <p className="text-sm">{t('passwordError')}</p>
             </div>
           )}
         </div>
@@ -84,7 +88,7 @@ export default function LoginPage() {
           disabled={isSubmitting}
           className={`three-d w-full ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          {isSubmitting ? 'Logging in...' : 'Log in'}
+          {isSubmitting ? t('loggingIn') : t('login')}
         </button>
 
         {/* Honeypot */}

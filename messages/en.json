@@ -203,6 +203,14 @@
       }
     }
   },
+  "Login": {
+    "email": "Email",
+    "password": "Password",
+    "login": "Log in",
+    "loggingIn": "Logging in...",
+    "emailError": "Please enter a valid email",
+    "passwordError": "Please enter your password"
+  },
   "CreateEvent": {
     "pageTitle": "Create New Event",
     "CreateEventButton": {
