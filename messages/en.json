@@ -211,6 +211,20 @@
     "emailError": "Please enter a valid email",
     "passwordError": "Please enter your password"
   },
+  "SignUp": {
+    "createAccount": "Create a free account",
+    "accountOptional": "Most features work without an account. Sign up for extras:",
+    "featureNotification": "Get notified when event reaches X participants",
+    "featurePassword": "Add password to your events",
+    "featureHistory": "See your event history",
+    "comingSoon": "More features coming soon",
+    "email": "Email",
+    "password": "Password",
+    "signUp": "Sign up",
+    "signingUp": "Signing up...",
+    "emailError": "Please enter a valid email",
+    "passwordError": "Please enter your password"
+  },
   "CreateEvent": {
     "pageTitle": "Create New Event",
     "CreateEventButton": {
