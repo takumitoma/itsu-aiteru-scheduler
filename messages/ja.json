@@ -203,6 +203,29 @@
       }
     }
   },
+  "Login": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "login": "ログイン",
+    "loggingIn": "ログイン中... ",
+    "emailError": "メールアドレスを正しく入力してください",
+    "passwordError": "パスワードを入力してください",
+    "loginFail": "メールアドレスまたはパスワードが正しくありません"
+  },
+  "SignUp": {
+    "createAccount": "無料アカウントを作成",
+    "accountOptional": "アカウントがなくても主な機能は使えます。登録すると追加機能が使えます：",
+    "featureNotification": "イベント参加者数が X 人に達したら通知を受け取る",
+    "featurePassword": "イベントにパスワードを設定",
+    "featureHistory": "イベント履歴を確認",
+    "comingSoon": "今後さらに機能を追加予定",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "signUp": "アカウント作成",
+    "signingUp": "アカウント作成中...",
+    "emailError": "メールアドレスを正しく入力してください",
+    "passwordError": "パスワードを入力してください"
+  },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",
     "CreateEventButton": {
