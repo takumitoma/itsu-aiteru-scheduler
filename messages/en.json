@@ -209,7 +209,8 @@
     "login": "Log in",
     "loggingIn": "Logging in...",
     "emailError": "Please enter a valid email",
-    "passwordError": "Please enter your password"
+    "passwordError": "Please enter your password",
+    "loginFail": "Invalid email or password"
   },
   "SignUp": {
     "createAccount": "Create a free account",

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -17,10 +17,12 @@ type FormFields = z.infer<typeof schema>;
 export default function LoginPage() {
   const t = useTranslations('Login');
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const [showLoginFail, setShowLoginFail] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -31,7 +33,18 @@ export default function LoginPage() {
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    setShowLoginFail(false);
     console.log(data);
+    // mock auth
+    const success = false;
+
+    if (!success) {
+      setShowLoginFail(true);
+      reset({ password: '' });
+      return;
+    }
+
+    // successful login below
   };
 
   return (
@@ -44,6 +57,12 @@ export default function LoginPage() {
       </h1>
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
         <div className="space-y-2">
+          {showLoginFail && (
+            <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl pb-4">
+              <BsExclamationCircle />
+              <p className="text-sm">{t('loginFail')}</p>
+            </div>
+          )}
           <label htmlFor="email" className="block">
             {t('email')}
             <input

@@ -209,7 +209,8 @@
     "login": "ログイン",
     "loggingIn": "ログイン中... ",
     "emailError": "メールアドレスを正しく入力してください",
-    "passwordError": "パスワードを入力してください"
+    "passwordError": "パスワードを入力してください",
+    "loginFail": "メールアドレスまたはパスワードが正しくありません"
   },
   "SignUp": {
     "createAccount": "無料アカウントを作成",
