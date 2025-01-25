@@ -79,7 +79,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         .eq('name', name)
         .single();
 
-      if (checkExistenceError) throw checkExistenceError;
+      if (checkExistenceError && checkExistenceError.code !== 'PGRST116') {
+        throw checkExistenceError;
+      }
 
       if (existingParticipant) {
         return NextResponse.json(
