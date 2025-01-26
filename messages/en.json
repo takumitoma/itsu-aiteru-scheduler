@@ -290,8 +290,8 @@
     },
     "ParticipantsList": {
       "participantCount": "Number of Participants:",
-      "viewModeHelp": "Click names to view individual availability",
-      "deleteModeHelp": "Click names to select participants to delete"
+      "viewModeHelp": "Click a name to view individual availability",
+      "deleteModeHelp": "Click a name to select participant to delete"
     },
     "Heading": {
       "createdTimeAgo": {
