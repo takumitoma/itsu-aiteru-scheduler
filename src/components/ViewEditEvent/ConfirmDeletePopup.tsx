@@ -24,10 +24,12 @@ export function ConfirmDeletePopup({ participant, onSubmit, onClose }: ConfirmDe
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
         z-50 px-2"
+      onClick={onClose}
     >
       <form
         onSubmit={handleSubmit}
         className="p-6 bg-background rounded-md max-w-md w-full space-y-4"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between">
           <span className="text-lg sm:text-xl font-medium">{t('title')}</span>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,12 +24,17 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setFocus,
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
       participantName: '',
     },
   });
+
+  useEffect(() => {
+    setFocus('participantName');
+  }, [setFocus]);
 
   const onSubmitHandler: SubmitHandler<FormFields> = async (data) => {
     try {
@@ -43,10 +49,12 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
         z-50 px-2"
+      onClick={onClose}
     >
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         className="bg-background p-6 rounded-md max-w-md w-full space-y-4"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between">
           <label htmlFor="participantName" className="text-xl font-medium">
