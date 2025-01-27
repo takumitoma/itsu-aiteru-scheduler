@@ -98,7 +98,7 @@ export function CreateEventForm() {
         timezone: data.selectedTimezone,
         dates:
           data.surveyType === 'specific'
-            ? data.selectedDates.map((date) => dayjs(date).startOf('day').toISOString())
+            ? data.selectedDates.map((date) => dayjs.utc(date).startOf('day').toISOString())
             : null,
         daysOfWeek: data.surveyType === 'week' ? data.selectedDaysOfWeek : null,
       };
