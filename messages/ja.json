@@ -157,7 +157,9 @@
     },
     "callToAction": {
       "message": "アカウント登録不要、ログイン不要、今すぐ使えます!",
-      "button": "イベント作成ページへ"
+      "createEventButton": "イベント作成ページへ",
+      "demoEventButton": "デモイベンへ",
+      "demoEventLink": "88945b5ff1c8"
     }
   },
   "Contact": {

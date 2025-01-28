@@ -157,7 +157,9 @@
     },
     "callToAction": {
       "message": "No registration or login required - Start scheduling now!",
-      "button": "Create an event"
+      "createEventButton": "Create an event",
+      "demoEventButton": "Demo event",
+      "demoEventLink": "102c19619c9e"
     }
   },
   "Contact": {
