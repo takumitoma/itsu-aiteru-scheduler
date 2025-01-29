@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin-client';
 // 2 months -> 60 days -> round up one day because its a daily cron job
 const DAYS_UNTIL_DELETE = 61;
 const CRON_SECRET = process.env.CRON_SECRET;
+const DEMO_EVENTS = ['102c19619c9e', '88945b5ff1c8'];
 
 export async function DELETE(request: NextRequest) {
   if (!CRON_SECRET) {
@@ -25,6 +26,7 @@ export async function DELETE(request: NextRequest) {
       .from('events')
       .delete()
       .lt('last_accessed', pastDate.toISOString())
+      .not('id', 'in', `(${DEMO_EVENTS.join(',')})`)
       .select('id');
 
     if (error) throw error;

@@ -63,10 +63,19 @@ export default function GuidePage() {
       </ol>
       <div className="flex flex-col py-8 space-y-6 sm:space-y-8 justify-center items-center">
         <p className="text-xl sm:text-2xl font-bold text-center">{t('callToAction.message')}</p>
-        <TransitionLink href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
-          {t('callToAction.button')}
-          <FaRegArrowAltCircleRight size={24} />
-        </TransitionLink>
+        <div>
+          <TransitionLink href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
+            {t('callToAction.createEventButton')}
+            <FaRegArrowAltCircleRight size={24} />
+          </TransitionLink>
+          <TransitionLink
+            href={`/e/${t('callToAction.demoEventLink')}`}
+            className="three-d mt-2 sm:mt-4 w-full flex items-center gap-4 justify-between"
+          >
+            {t('callToAction.demoEventButton')}
+            <FaRegArrowAltCircleRight size={24} />
+          </TransitionLink>
+        </div>
       </div>
     </div>
   );
