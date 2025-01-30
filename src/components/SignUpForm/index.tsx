@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,11 +23,13 @@ type FormFields = z.infer<typeof schema>;
 export function SignUpForm() {
   const t = useTranslations('SignUp');
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const [signUpError, setSignUpError] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    reset,
+    formState: { isSubmitting, errors, isSubmitSuccessful },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -39,7 +41,20 @@ export function SignUpForm() {
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
-    // logic for form submission
+    setSignUpError(false);
+
+    try {
+      // logic for sign up via supabase, return { error }
+      const error = false;
+
+      if (error) {
+        setSignUpError(true);
+      } else {
+        reset();
+      }
+    } catch (err) {
+      setSignUpError(true);
+    }
   };
 
   return (
@@ -50,6 +65,7 @@ export function SignUpForm() {
           <input
             id="email"
             type="text"
+            disabled={isSubmitSuccessful}
             className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
             {...register('email')}
           />
@@ -68,6 +84,7 @@ export function SignUpForm() {
           <input
             id="password"
             type="password"
+            disabled={isSubmitSuccessful}
             className={`mt-4 font-normal text-base w-full ${
               errors.password ? 'border-red-500' : ''
             }`}
@@ -88,6 +105,7 @@ export function SignUpForm() {
           <input
             id="confirmPassword"
             type="password"
+            disabled={isSubmitSuccessful}
             className={`mt-4 font-normal text-base w-full ${
               errors.confirmPassword ? 'border-red-500' : ''
             }`}
@@ -106,10 +124,28 @@ export function SignUpForm() {
         )}
       </div>
 
+      {signUpError && (
+        <div className="flex">
+          <p className="text-sm w-full text-center text-red-500 font-semibold">
+            {t('signUpError')}
+          </p>
+        </div>
+      )}
+
+      {isSubmitSuccessful && (
+        <div className="flex">
+          <p className="text-sm w-full text-center text-green-500 font-semibold">
+            {t('signUpSuccess')}
+          </p>
+        </div>
+      )}
+
       <button
         type="submit"
-        disabled={isSubmitting}
-        className={`three-d w-full ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={isSubmitting || isSubmitSuccessful}
+        className={`three-d w-full ${
+          isSubmitting || isSubmitSuccessful ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       >
         {isSubmitting ? t('signingUp') : t('signUp')}
       </button>

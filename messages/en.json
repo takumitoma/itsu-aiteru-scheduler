@@ -228,7 +228,9 @@
     "signingUp": "Signing up...",
     "emailError": "Please enter a valid email",
     "passwordError": "Password must contain at least 6 characters",
-    "passwordMismatchError": "Passwords do not match"
+    "passwordMismatchError": "Passwords do not match",
+    "signUpError": "An unexpected error occurred. Please try again.",
+    "signUpSuccess": "Sign-up successful. Check your email for confirmation."
   },
   "CreateEvent": {
     "pageTitle": "Create New Event",
