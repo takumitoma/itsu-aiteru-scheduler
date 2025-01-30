@@ -1,5 +1,6 @@
 import { SignUpForm } from '@/components/SignUpForm';
 import { getTranslations } from 'next-intl/server';
+import { TransitionLink } from '@/components/TransitionLink';
 
 export default async function SignUpPage() {
   const t = await getTranslations('SignUp');
@@ -22,6 +23,10 @@ export default async function SignUpPage() {
         <p className="mt-4 text-sm text-gray-600">{t('comingSoon')}</p>
       </section>
       <SignUpForm />
+      <div className="flex justify-between text-primary w-full">
+        <p className="text-gray-500">Forgot password?</p>
+        <TransitionLink href="/login">Log in</TransitionLink>
+      </div>
     </section>
   );
 }
