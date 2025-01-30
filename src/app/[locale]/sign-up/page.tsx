@@ -6,7 +6,7 @@ export default async function SignUpPage() {
 
   return (
     <section
-      className="flex flex-col items-center justify-center space-y-8 max-w-xl 
+      className="flex flex-col items-center justify-center space-y-8 max-w-md 
         w-full mx-auto"
     >
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">

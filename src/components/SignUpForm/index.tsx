@@ -7,10 +7,16 @@ import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+const schema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(6),
+    confirmPassword: z.string().min(6),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 type FormFields = z.infer<typeof schema>;
 
@@ -27,11 +33,13 @@ export function SignUpForm() {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
+    // logic for form submission
   };
 
   return (
@@ -70,6 +78,30 @@ export function SignUpForm() {
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
             <p className="text-sm">{t('passwordError')}</p>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="confirmPassword" className="block">
+          {t('confirmPassword')}
+          <input
+            id="confirmPassword"
+            type="password"
+            className={`mt-4 font-normal text-base w-full ${
+              errors.confirmPassword ? 'border-red-500' : ''
+            }`}
+            {...register('confirmPassword')}
+          />
+        </label>
+        {errors.confirmPassword && (
+          <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
+            <BsExclamationCircle />
+            {errors.confirmPassword.message === 'Passwords do not match' ? (
+              <p className="text-sm">{t('passwordMismatchError')}</p>
+            ) : (
+              <p className="text-sm">{t('passwordError')}</p>
+            )}
           </div>
         )}
       </div>

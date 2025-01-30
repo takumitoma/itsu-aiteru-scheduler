@@ -223,10 +223,12 @@
     "comingSoon": "今後さらに機能を追加予定",
     "email": "メールアドレス",
     "password": "パスワード",
+    "confirmPassword": "パスワード確認",
     "signUp": "アカウント作成",
     "signingUp": "アカウント作成中...",
     "emailError": "メールアドレスを正しく入力してください",
-    "passwordError": "パスワードを入力してください"
+    "passwordError": "パスワードは6文字以上で入力してください",
+    "passwordMismatchError": "パスワードが一致しません。"
   },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",

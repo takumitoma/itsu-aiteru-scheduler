@@ -83,7 +83,8 @@ body {
 .light textarea,
 .light button.input-like,
 .light .custom-dropdown,
-.light #event-link-container {
+.light #event-link-container,
+.light button.send-code {
   background: var(--primary-very-light)
 }
 
@@ -91,6 +92,7 @@ body {
 .dark textarea,
 .dark button.input-like,
 .dark .custom-dropdown,
-.dark #event-link-container {
+.dark #event-link-container,
+.dark button.send-code {
   background: var(--background);
 }
