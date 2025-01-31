@@ -14,9 +14,12 @@ export default async function LoginPage() {
         {t('login')}
       </h1>
       <LoginForm />
-      <div className="flex justify-between text-primary w-full">
-        <p className="text-gray-500">Forgot password?</p>
-        <TransitionLink href="/sign-up">Sign up</TransitionLink>
+      <div
+        className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between 
+          text-primary w-full"
+      >
+        <p className="text-gray-500">{t('forgotPassword')}</p>
+        <TransitionLink href="/sign-up">{t('signUp')}</TransitionLink>
       </div>
     </section>
   );

@@ -212,7 +212,9 @@
     "loggingIn": "Logging in...",
     "emailError": "Please enter a valid email",
     "passwordError": "Please enter your password",
-    "loginError": "Invalid email or password"
+    "loginError": "Invalid email or password",
+    "forgotPassword": "Forgot password?",
+    "signUp": "Sign up"
   },
   "SignUp": {
     "createAccount": "Create a free account",
@@ -230,7 +232,9 @@
     "passwordError": "Password must contain at least 6 characters",
     "passwordMismatchError": "Passwords do not match",
     "signUpError": "An unexpected error occurred. Please try again.",
-    "signUpSuccess": "Sign-up successful. Check your email for confirmation."
+    "signUpSuccess": "Sign-up successful. Check your email for confirmation.",
+    "forgotPassword": "Forgot password?",
+    "login": "Log in"
   },
   "CreateEvent": {
     "pageTitle": "Create New Event",
