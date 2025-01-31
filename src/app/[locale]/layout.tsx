@@ -53,7 +53,8 @@ export default async function Layout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/logo/main-logo.svg" sizes="any" />
-        <link rel="icon" href="/favicon/fallback.ico" sizes="32x32" />
+        <link rel="icon" href="/logo/main-logo.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/logo/main-logo.png" sizes="any" />
       </head>
       <Scroll />
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
