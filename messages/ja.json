@@ -212,10 +212,12 @@
     "loggingIn": "ログイン中... ",
     "emailError": "メールアドレスを正しく入力してください",
     "passwordError": "パスワードを入力してください",
-    "loginFail": "メールアドレスまたはパスワードが正しくありません"
+    "loginError": "メールアドレスまたはパスワードが正しくありません",
+    "forgotPassword": "パスワードをお忘れの方",
+    "signUp": "アカウントを作成"
   },
   "SignUp": {
-    "createAccount": "無料アカウントを登録登録",
+    "createAccount": "無料アカウントを作成",
     "accountOptional": "アカウントがなくても主な機能は使えます。登録すると追加機能が使えます：",
     "featureNotification": "イベント参加者数が X 人に達したら通知を受け取る",
     "featurePassword": "イベントにパスワードを設定",
@@ -230,7 +232,9 @@
     "passwordError": "パスワードは6文字以上で入力してください",
     "passwordMismatchError": "パスワードが一致しません",
     "signUpError": "予期せぬエラーが発生しました。もう一度お試しください。",
-    "signUpSuccess": "アカウントが作成されました。確認メールを送信しましたので、ご確認ください。"
+    "signUpSuccess": "アカウントが作成されました。確認メールを送信しましたので、ご確認ください。",
+    "forgotPassword": "パスワードをお忘れの方",
+    "login": "ログイン"
   },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",
