@@ -212,7 +212,7 @@
     "loggingIn": "ログイン中... ",
     "emailError": "メールアドレスを正しく入力してください",
     "passwordError": "パスワードを入力してください",
-    "loginFail": "メールアドレスまたはパスワードが正しくありません"
+    "loginError": "メールアドレスまたはパスワードが正しくありません"
   },
   "SignUp": {
     "createAccount": "無料アカウントを登録登録",

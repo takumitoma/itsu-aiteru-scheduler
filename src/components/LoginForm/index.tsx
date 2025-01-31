@@ -17,7 +17,7 @@ type FormFields = z.infer<typeof schema>;
 export function LoginForm() {
   const t = useTranslations('Login');
   const honeypotRef = useRef<HTMLInputElement>(null);
-  const [showLoginFail, setShowLoginFail] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const {
     register,
@@ -33,13 +33,13 @@ export function LoginForm() {
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    setShowLoginFail(false);
+    setLoginError(false);
     console.log(data);
     // mock auth
     const success = false;
 
     if (!success) {
-      setShowLoginFail(true);
+      setLoginError(true);
       reset({ password: '' });
       return;
     }
@@ -50,21 +50,15 @@ export function LoginForm() {
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
       <div className="space-y-2">
-        {showLoginFail && (
-          <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl pb-4">
-            <BsExclamationCircle />
-            <p className="text-sm">{t('loginFail')}</p>
-          </div>
-        )}
         <label htmlFor="email" className="block">
           {t('email')}
-          <input
-            id="email"
-            type="text"
-            className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
-            {...register('email')}
-          />
         </label>
+        <input
+          id="email"
+          type="text"
+          className="font-normal text-base w-full"
+          {...register('email')}
+        />
         {errors.email && (
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
@@ -76,15 +70,13 @@ export function LoginForm() {
       <div className="space-y-2">
         <label htmlFor="password" className="block">
           {t('password')}
-          <input
-            id="password"
-            type="password"
-            className={`mt-4 font-normal text-base w-full ${
-              errors.password ? 'border-red-500' : ''
-            }`}
-            {...register('password')}
-          />
         </label>
+        <input
+          id="password"
+          type="password"
+          className="font-normal text-base w-full"
+          {...register('password')}
+        />
         {errors.password && (
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
@@ -92,6 +84,12 @@ export function LoginForm() {
           </div>
         )}
       </div>
+
+      {loginError && (
+        <div className="flex">
+          <p className="text-sm w-full text-center text-red-500 font-semibold">{t('loginError')}</p>
+        </div>
+      )}
 
       <button
         type="submit"

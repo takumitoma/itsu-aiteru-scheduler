@@ -212,7 +212,7 @@
     "loggingIn": "Logging in...",
     "emailError": "Please enter a valid email",
     "passwordError": "Please enter your password",
-    "loginFail": "Invalid email or password"
+    "loginError": "Invalid email or password"
   },
   "SignUp": {
     "createAccount": "Create a free account",
