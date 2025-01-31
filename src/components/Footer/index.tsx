@@ -11,7 +11,7 @@ export function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className="py-8 border-t border-borderGray">
+    <footer className="py-8 border-t border-gray">
       <div className="flex flex-col max-w-7xl mx-auto px-4 space-y-6">
         {/* Logo */}
         <div className="flex items-center space-x-4">
