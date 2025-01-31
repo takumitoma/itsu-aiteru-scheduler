@@ -70,7 +70,7 @@ export function SignUpForm() {
           id="email"
           type="text"
           disabled={isSubmitSuccessful}
-          className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
+          className="font-normal text-base w-full"
           {...register('email')}
         />
         {errors.email && (
@@ -89,7 +89,7 @@ export function SignUpForm() {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="hover:bg-gray-200 rounded-full p-1 focus:ring-2"
+            className="hover:bg-borderGray rounded-full p-1 focus:ring-2"
           >
             {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
           </button>
@@ -98,7 +98,7 @@ export function SignUpForm() {
           id="password"
           type={showPassword ? 'text' : 'password'}
           disabled={isSubmitSuccessful}
-          className={`mt-4 font-normal text-base w-full ${errors.password ? 'border-red-500' : ''}`}
+          className="font-normal text-base w-full"
           {...register('password')}
         />
         {errors.password && (
@@ -115,7 +115,7 @@ export function SignUpForm() {
           <button
             type="button"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
-            className="hover:bg-gray-200 rounded-full p-1 focus:ring-2"
+            className="hover:bg-borderGray rounded-full p-1 focus:ring-2"
           >
             {showConfirmPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
           </button>
@@ -124,9 +124,7 @@ export function SignUpForm() {
           id="confirmPassword"
           type={showConfirmPassword ? 'text' : 'password'}
           disabled={isSubmitSuccessful}
-          className={`mt-4 font-normal text-base w-full ${
-            errors.confirmPassword ? 'border-red-500' : ''
-          }`}
+          className="font-normal text-base w-full"
           {...register('confirmPassword')}
         />
         {errors.confirmPassword && (
