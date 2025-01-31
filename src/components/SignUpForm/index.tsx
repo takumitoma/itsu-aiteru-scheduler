@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
+import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 import { useTranslations } from 'next-intl';
 
 const schema = z
@@ -24,6 +25,8 @@ export function SignUpForm() {
   const t = useTranslations('SignUp');
   const honeypotRef = useRef<HTMLInputElement>(null);
   const [signUpError, setSignUpError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -62,14 +65,14 @@ export function SignUpForm() {
       <div className="space-y-2">
         <label htmlFor="email" className="block">
           {t('email')}
-          <input
-            id="email"
-            type="text"
-            disabled={isSubmitSuccessful}
-            className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
-            {...register('email')}
-          />
         </label>
+        <input
+          id="email"
+          type="text"
+          disabled={isSubmitSuccessful}
+          className={`mt-4 font-normal text-base w-full ${errors.email ? 'border-red-500' : ''}`}
+          {...register('email')}
+        />
         {errors.email && (
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
@@ -79,18 +82,25 @@ export function SignUpForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="password" className="block">
-          {t('password')}
-          <input
-            id="password"
-            type="password"
-            disabled={isSubmitSuccessful}
-            className={`mt-4 font-normal text-base w-full ${
-              errors.password ? 'border-red-500' : ''
-            }`}
-            {...register('password')}
-          />
-        </label>
+        <div className="flex justify-between items-center">
+          <label htmlFor="password" className="block">
+            {t('password')}
+          </label>
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="hover:bg-gray-200 rounded-full p-1 focus:ring-2"
+          >
+            {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
+          </button>
+        </div>
+        <input
+          id="password"
+          type={showPassword ? 'text' : 'password'}
+          disabled={isSubmitSuccessful}
+          className={`mt-4 font-normal text-base w-full ${errors.password ? 'border-red-500' : ''}`}
+          {...register('password')}
+        />
         {errors.password && (
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
@@ -100,18 +110,25 @@ export function SignUpForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="confirmPassword" className="block">
-          {t('confirmPassword')}
-          <input
-            id="confirmPassword"
-            type="password"
-            disabled={isSubmitSuccessful}
-            className={`mt-4 font-normal text-base w-full ${
-              errors.confirmPassword ? 'border-red-500' : ''
-            }`}
-            {...register('confirmPassword')}
-          />
-        </label>
+        <div className="flex justify-between items-center">
+          <label htmlFor="confirmPassword">{t('confirmPassword')}</label>
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword((prev) => !prev)}
+            className="hover:bg-gray-200 rounded-full p-1 focus:ring-2"
+          >
+            {showConfirmPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
+          </button>
+        </div>
+        <input
+          id="confirmPassword"
+          type={showConfirmPassword ? 'text' : 'password'}
+          disabled={isSubmitSuccessful}
+          className={`mt-4 font-normal text-base w-full ${
+            errors.confirmPassword ? 'border-red-500' : ''
+          }`}
+          {...register('confirmPassword')}
+        />
         {errors.confirmPassword && (
           <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
             <BsExclamationCircle />
