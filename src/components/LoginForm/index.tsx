@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
+import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 
 const schema = z.object({
   email: z.string().email(),
@@ -18,6 +19,7 @@ export function LoginForm() {
   const t = useTranslations('Login');
   const honeypotRef = useRef<HTMLInputElement>(null);
   const [loginError, setLoginError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -68,12 +70,21 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="password" className="block">
-          {t('password')}
-        </label>
+        <div className="flex justify-between items-center">
+          <label htmlFor="password" className="block">
+            {t('password')}
+          </label>
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="hover:bg-borderGray rounded-full p-1 focus:ring-2"
+          >
+            {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
+          </button>
+        </div>
         <input
           id="password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           className="font-normal text-base w-full"
           {...register('password')}
         />
