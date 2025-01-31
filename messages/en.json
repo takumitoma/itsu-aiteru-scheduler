@@ -223,10 +223,14 @@
     "comingSoon": "More features coming soon",
     "email": "Email",
     "password": "Password",
+    "confirmPassword": "Confirm password",
     "signUp": "Sign up",
     "signingUp": "Signing up...",
     "emailError": "Please enter a valid email",
-    "passwordError": "Please enter your password"
+    "passwordError": "Password must contain at least 6 characters",
+    "passwordMismatchError": "Passwords do not match",
+    "signUpError": "An unexpected error occurred. Please try again.",
+    "signUpSuccess": "Sign-up successful. Check your email for confirmation."
   },
   "CreateEvent": {
     "pageTitle": "Create New Event",
