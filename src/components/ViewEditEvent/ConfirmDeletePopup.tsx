@@ -22,17 +22,16 @@ export function ConfirmDeletePopup({ participant, onSubmit, onClose }: ConfirmDe
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
-        z-50 px-2"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2"
       onClick={onClose}
     >
       <form
         onSubmit={handleSubmit}
-        className="p-6 bg-background rounded-md max-w-md w-full space-y-4"
+        className="w-full max-w-md space-y-4 rounded-md bg-background p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between">
-          <span className="text-lg sm:text-xl font-medium">{t('title')}</span>
+          <span className="text-lg font-medium sm:text-xl">{t('title')}</span>
           <button onClick={onClose} type="button" disabled={isSubmitting}>
             <RxCross1 size={24} />
           </button>
@@ -41,8 +40,10 @@ export function ConfirmDeletePopup({ participant, onSubmit, onClose }: ConfirmDe
         <div className="flex w-full justify-end">
           <button
             type="submit"
-            className="text-white bg-red-500 px-4 py-2 rounded-md flex-shrink-0 hover:brightness-90 
-              disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-lg"
+            className={
+              'flex-shrink-0 rounded-md bg-red-500 px-4 py-2 text-xs text-white hover:brightness-90' +
+              'disabled:cursor-not-allowed disabled:opacity-50 sm:text-lg'
+            }
             disabled={isSubmitting}
           >
             {t('deleteButton')}

@@ -24,23 +24,22 @@ export function WeekCalendar({ error }: WeekCalendarProps) {
   return (
     <div className="w-full">
       <label>{t('label')}</label>
-      <div className="flex w-full mt-6 rounded 'border-gray-300 border-t border-b border-l">
+      <div className="'border-gray-300 mt-6 flex w-full rounded border-b border-l border-t">
         {daysOfWeek.map((day, index) => (
           <button
             key={day}
             type="button"
             onClick={() => toggleWeekday(index)}
-            className={`py-2 w-full 
-              border-gray-300 border-r hover:bg-gray-200 ${
-                selectedDays[index] === 1 ? 'bg-primary text-white hover:bg-primary' : ''
-              }`}
+            className={`w-full border-r border-gray-300 py-2 hover:bg-gray-200 ${
+              selectedDays[index] === 1 ? 'bg-primary text-white hover:bg-primary' : ''
+            }`}
           >
             {day}
           </button>
         ))}
       </div>
       {error && (
-        <div className="flex text-red-500 pt-4 justify-center items-center space-x-2">
+        <div className="flex items-center justify-center space-x-2 pt-4 text-red-500">
           <BsExclamationCircle size={20} />
           <p className="text-sm font-semibold">{t('errorMin')}</p>
         </div>

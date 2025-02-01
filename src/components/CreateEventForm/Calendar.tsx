@@ -194,7 +194,7 @@ export function Calendar({ error }: CalendarProps) {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <button
           ref={prevMonthButtonRef}
           type="button"
@@ -215,11 +215,11 @@ export function Calendar({ error }: CalendarProps) {
           <MdNavigateNext size={20} />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-0 border-t border-l border-gray-300">
+      <div className="grid grid-cols-7 gap-0 border-l border-t border-gray-300">
         {daysOfWeek.map((day) => (
           <div
             key={day}
-            className="text-center border-b border-r border-gray-300 font-semibold py-2"
+            className="border-b border-r border-gray-300 py-2 text-center font-semibold"
           >
             {day}
           </div>
@@ -228,24 +228,25 @@ export function Calendar({ error }: CalendarProps) {
         {calendarDays.map((day, index) => (
           <div
             key={index}
-            className={`text-center border-b border-r border-gray-300 select-none ${
+            className={`select-none border-b border-r border-gray-300 text-center ${
               day && !day.isBefore(dayjs().tz(timezone), 'day') ? 'cursor-pointer' : ''
             }`}
           >
             {day && (
               <div
-                className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 focus:ring-primary 
-                    ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
-                      selectedDates.includes(day.format('YYYY-MM-DD'))
-                        ? isUnselectingRef.current && isDateInDragRange(day)
-                          ? 'bg-gray-300'
-                          : 'bg-primary text-white'
-                        : day.isBefore(dayjs().tz(timezone), 'day')
-                          ? 'text-gray-400 cursor-not-allowed'
-                          : isDateInDragRange(day) && !isUnselectingRef.current
-                            ? 'bg-primaryLight'
-                            : 'bg-background'
-                    }`}
+                className={`py-2 hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-primary ${
+                  day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''
+                } ${
+                  selectedDates.includes(day.format('YYYY-MM-DD'))
+                    ? isUnselectingRef.current && isDateInDragRange(day)
+                      ? 'bg-gray-300'
+                      : 'bg-primary text-white'
+                    : day.isBefore(dayjs().tz(timezone), 'day')
+                      ? 'cursor-not-allowed text-gray-400'
+                      : isDateInDragRange(day) && !isUnselectingRef.current
+                        ? 'bg-primaryLight'
+                        : 'bg-background'
+                }`}
                 onMouseDown={() => {
                   if (isTouchScreen.current) return;
                   handleDragStart(day);
@@ -268,14 +269,14 @@ export function Calendar({ error }: CalendarProps) {
         ))}
       </div>
       {error ? (
-        <div className="flex text-red-500 pt-4 items-center space-x-2">
+        <div className="flex items-center space-x-2 pt-4 text-red-500">
           <BsExclamationCircle size={20} />
           <p className="text-sm font-semibold">{t('error')}</p>
         </div>
       ) : showWarningMax ? (
-        <p className="text-center pt-4 text-red-500">{t('warning')}</p>
+        <p className="pt-4 text-center text-red-500">{t('warning')}</p>
       ) : (
-        <p className="text-center pt-4">{t('selectedCount', { count: selectedDates.length })}</p>
+        <p className="pt-4 text-center">{t('selectedCount', { count: selectedDates.length })}</p>
       )}
     </div>
   );

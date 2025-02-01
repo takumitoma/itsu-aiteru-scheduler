@@ -6,15 +6,12 @@ export default async function LoginPage() {
   const t = await getTranslations('Login');
 
   return (
-    <section className="flex flex-col items-center justify-center space-y-8 max-w-md w-full mx-auto">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+    <section className="mx-auto flex w-full max-w-md flex-col items-center justify-center space-y-8">
+      <h1 className="underline decoration-primary decoration-4 underline-offset-[16px]">
         {t('login')}
       </h1>
       <LoginForm />
-      <div
-        className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between 
-          text-primary w-full"
-      >
+      <div className="flex w-full flex-col space-y-4 text-primary sm:flex-row sm:justify-between sm:space-y-0">
         <p className="text-gray-500">{t('forgotPassword')}</p>
         <TransitionLink href="/sign-up">{t('signUp')}</TransitionLink>
       </div>

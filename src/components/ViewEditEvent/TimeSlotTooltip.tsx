@@ -7,7 +7,7 @@ export function TimeSlotTooltip({ tooltipData }: TimeSlotTooltipProps) {
 
   return (
     <div
-      className="z-20 fixed"
+      className="fixed z-20"
       style={{
         left: tooltipData.x,
         top: tooltipData.y,

@@ -50,7 +50,7 @@ export function LoginForm() {
   };
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
+    <form noValidate onSubmit={handleSubmit(onSubmit)} className="w-full space-y-8">
       <div className="space-y-2">
         <label htmlFor="email" className="block">
           {t('email')}
@@ -58,11 +58,11 @@ export function LoginForm() {
         <input
           id="email"
           type="text"
-          className="font-normal text-base w-full"
+          className="w-full text-base font-normal"
           {...register('email')}
         />
         {errors.email && (
-          <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
+          <div className="flex space-x-2 text-lg font-semibold text-red-500 sm:text-xl">
             <BsExclamationCircle />
             <p className="text-sm">{t('emailError')}</p>
           </div>
@@ -70,14 +70,14 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-2">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <label htmlFor="password" className="block">
             {t('password')}
           </label>
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="hover:bg-grayCustom rounded-full p-1 focus:ring-2"
+            className="rounded-full p-1 hover:bg-grayCustom focus:ring-2"
           >
             {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
           </button>
@@ -85,11 +85,11 @@ export function LoginForm() {
         <input
           id="password"
           type={showPassword ? 'text' : 'password'}
-          className="font-normal text-base w-full"
+          className="w-full text-base font-normal"
           {...register('password')}
         />
         {errors.password && (
-          <div className="flex text-red-500 space-x-2 font-semibold text-lg sm:text-xl">
+          <div className="flex space-x-2 text-lg font-semibold text-red-500 sm:text-xl">
             <BsExclamationCircle />
             <p className="text-sm">{t('passwordError')}</p>
           </div>
@@ -98,14 +98,14 @@ export function LoginForm() {
 
       {loginError && (
         <div className="flex">
-          <p className="text-sm w-full text-center text-red-500 font-semibold">{t('loginError')}</p>
+          <p className="w-full text-center text-sm font-semibold text-red-500">{t('loginError')}</p>
         </div>
       )}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`three-d w-full ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`three-d w-full ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
       >
         {isSubmitting ? t('loggingIn') : t('login')}
       </button>
@@ -116,7 +116,7 @@ export function LoginForm() {
         name="contact_me_by_fax_only"
         ref={honeypotRef}
         tabIndex={-1}
-        className="absolute top-0 left-0 w-0 h-0 opacity-0 pointer-events-none"
+        className="pointer-events-none absolute left-0 top-0 h-0 w-0 opacity-0"
         aria-hidden="true"
       />
     </form>

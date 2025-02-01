@@ -234,7 +234,7 @@ export function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full space-y-8">
+    <div className="flex w-full flex-col items-center space-y-8">
       <Heading title={event.title} createdAt={event.createdAt} />
       <SubHeading
         mode={mode}
@@ -293,10 +293,7 @@ export function ViewEditEvent({ event, participants }: ViewEditEventProps) {
           )
         )}
       </AvailabilityChart>
-      <div
-        className="w-full flex flex-col sm:flex-row items-end sm:items-center sm:justify-between 
-          gap-4"
-      >
+      <div className="flex w-full flex-col items-end gap-4 sm:flex-row sm:items-center sm:justify-between">
         <TimezoneDisplay timezone={event.timezone} />
         <ParticipantEditor
           mode={mode}

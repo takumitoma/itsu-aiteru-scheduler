@@ -20,13 +20,13 @@ export default function Error({ error }: ErrorProps) {
   }
 
   return (
-    <div className="container mx-auto py-8 flex flex-col items-center px-4 space-y-8">
+    <div className="container mx-auto flex flex-col items-center space-y-8 px-4 py-8">
       <h1 className="text-3xl font-bold">{t('title')}</h1>
       <p>{error.message}</p>
       <p>{t('tryAgain')}</p>
       <button
         onClick={reloadPage}
-        className="px-4 py-2 bg-primary text-white rounded hover:brightness-90"
+        className="rounded bg-primary px-4 py-2 text-white hover:brightness-90"
       >
         {t('reload')}
       </button>

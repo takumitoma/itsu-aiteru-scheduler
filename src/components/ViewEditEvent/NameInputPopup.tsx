@@ -47,12 +47,12 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-2"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2"
       onClick={onClose}
     >
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
-        className="bg-background p-6 rounded-md max-w-md w-full space-y-4"
+        className="w-full max-w-md space-y-4 rounded-md bg-background p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between">
@@ -76,7 +76,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
             {...register('participantName')}
           />
           {errors.participantName && (
-            <div className="flex space-x-2 pt-2 text-red-500 items-center">
+            <div className="flex items-center space-x-2 pt-2 text-red-500">
               <BsExclamationCircle size={20} />
               <p className="text-sm font-semibold">{t('errorMessage')}</p>
             </div>
@@ -85,9 +85,10 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="text-white bg-primary px-4 py-2 rounded-md flex-shrink-0 
-              hover:bg-primaryHover focus:bg-primaryHover disabled:opacity-50 
-              disabled:cursor-not-allowed"
+            className={
+              'flex-shrink-0 rounded-md bg-primary px-4 py-2 text-white hover:bg-primaryHover' +
+              'focus:bg-primaryHover disabled:cursor-not-allowed disabled:opacity-50'
+            }
             disabled={isSubmitting}
           >
             {t('submitButton')}

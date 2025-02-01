@@ -107,10 +107,10 @@ export function TimeRangeSelector({ value, onChange, error }: TimeRangeSelectorP
           }}
         />
       </div>
-      <p className="text-lg text-center my-4">
+      <p className="my-4 text-center text-lg">
         {formatTimeDisplay(value.start)} &#x2014; {formatTimeDisplay(value.end)}
       </p>
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
     </div>
   );
 }

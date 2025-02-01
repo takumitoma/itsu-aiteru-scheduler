@@ -72,10 +72,10 @@ export function FooterContact() {
         <div className="relative">
           <textarea
             rows={3}
-            className="w-full resize-none text-sm p-2 border rounded"
+            className="w-full resize-none rounded border p-2 text-sm"
             {...register('message')}
           />
-          <p className="text-xs text-gray-500 absolute right-2 bottom-2">
+          <p className="absolute bottom-2 right-2 text-xs text-gray-500">
             {t('form.message.characterCount', {
               current: messageLength,
               limit: FORM_LIMIT,
@@ -95,14 +95,14 @@ export function FooterContact() {
         )}
 
         {isSubmitSuccessful && (
-          <div className="text-green-500 text-xs">{t('form.response.success')}</div>
+          <div className="text-xs text-green-500">{t('form.response.success')}</div>
         )}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`px-4 py-2 bg-primary text-white rounded w-[100px] text-sm ${
-            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+          className={`w-[100px] rounded bg-primary px-4 py-2 text-sm text-white ${
+            isSubmitting ? 'cursor-not-allowed opacity-50' : ''
           }`}
         >
           {isSubmitting ? t('form.submit.sending') : t('form.submit.button')}
@@ -114,7 +114,7 @@ export function FooterContact() {
           name="contact_me_by_fax_only"
           ref={honeypotRef}
           tabIndex={-1}
-          className="absolute top-0 left-0 w-0 h-0 opacity-0 pointer-events-none"
+          className="pointer-events-none absolute left-0 top-0 h-0 w-0 opacity-0"
           aria-hidden="true"
         />
       </form>

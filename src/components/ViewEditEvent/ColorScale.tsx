@@ -35,21 +35,18 @@ export function ColorScale({
   }
 
   return (
-    <section className="flex w-full space-x-1 sm:px-8 items-center">
+    <section className="flex w-full items-center space-x-1 sm:px-8">
       <span className="whitespace-nowrap">{`0/${numParticipants}`}</span>
       <div className="flex w-full border border-foreground">
         {displayColors.map((color, index) => (
           <button
             key={index}
             type="button"
-            className={`w-full h-[30px] flex items-center justify-center cursor-pointer border-foreground 
-              ${
-                hoveredIndex === index && selectedColorScaleIndex !== index
-                  ? 'border-2 opacity-60'
-                  : ''
-              }
-              ${selectedColorScaleIndex === index ? 'border-2 opacity-100 font-bold' : ''}
-            `}
+            className={`flex h-[30px] w-full cursor-pointer items-center justify-center border-foreground ${
+              hoveredIndex === index && selectedColorScaleIndex !== index
+                ? 'border-2 opacity-60'
+                : ''
+            } ${selectedColorScaleIndex === index ? 'border-2 font-bold opacity-100' : ''} `}
             style={isMounted ? { backgroundColor: color } : undefined}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -57,7 +54,7 @@ export function ColorScale({
             onClick={(e) => handleClick(e, index)}
           >
             {(hoveredIndex === index || selectedColorScaleIndex === index) && (
-              <span className="text-foreground text-sm leading-none">
+              <span className="text-sm leading-none text-foreground">
                 {getColorRangeText(index)}
               </span>
             )}

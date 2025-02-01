@@ -36,7 +36,7 @@ export function ParticipantsList({
       <h2>
         {t('participantCount')} {allParticipants.length}
       </h2>
-      <p className="text-xs sm:text-sm text-gray-600">
+      <p className="text-xs text-gray-600 sm:text-sm">
         {mode === 'view' ? t('viewModeHelp') : t('deleteModeHelp')}
       </p>
       <ul className="flex flex-wrap gap-2 text-sm sm:text-lg">
@@ -46,12 +46,14 @@ export function ParticipantsList({
               ref={(element) => {
                 buttonRefs.current[index] = element;
               }}
-              className={`hover:opacity-100 hover:border-primary border px-2 py-1 rounded-md 
-                focus:outline-none focus:ring-2 focus:ring-primary ${
+              className={
+                `rounded-md border px-2 py-1 hover:border-primary hover:opacity-100` +
+                `focus:outline-none focus:ring-2 focus:ring-primary ${
                   selectedParticipant?.id === participant.id
                     ? 'border-2 border-primary font-bold opacity-100'
                     : 'border-foreground opacity-60'
-                }`}
+                }`
+              }
               onClick={() => handleClick(participant, index)}
             >
               {participant.name}

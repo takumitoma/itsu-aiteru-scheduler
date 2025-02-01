@@ -31,17 +31,17 @@ export function DayLabels({ dateType, dayLabels }: DayLabelsProps) {
   }
 
   return (
-    <div className="flex py-1 min-w-max flex-col">
+    <div className="flex min-w-max flex-col py-1">
       <div className="flex">
         {dayLabels.map((day, index) => (
-          <div key={`day-${index}`} className="w-[100px] flex justify-center">
+          <div key={`day-${index}`} className="flex w-[100px] justify-center">
             {day}
           </div>
         ))}
       </div>
       <div className="flex font-bold">
         {daysOfWeekLabels.map((dayOfWeek, index) => (
-          <div key={`dayOfWeek-${index}`} className="w-[100px] flex justify-center">
+          <div key={`dayOfWeek-${index}`} className="flex w-[100px] justify-center">
             {dayOfWeek}
           </div>
         ))}

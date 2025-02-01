@@ -35,7 +35,7 @@ export function SurveyTypeSelector({ register }: SurveyTypeSelectorProps) {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full input-like flex justify-between items-center"
+          className="input-like flex w-full items-center justify-between"
           aria-hidden="true"
         >
           {t(currentValue)}
@@ -45,11 +45,13 @@ export function SurveyTypeSelector({ register }: SurveyTypeSelectorProps) {
           />
         </button>
         {isOpen && (
-          <div className="absolute custom-dropdown" aria-hidden="true">
+          <div className="custom-dropdown absolute" aria-hidden="true">
             <button
               type="button"
-              className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none 
-                focus:ring-2 focus:ring-primary"
+              className={
+                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none' +
+                'focus:ring-2 focus:ring-primary'
+              }
               onClick={() => {
                 setValue('surveyType', 'specific', { shouldValidate: true });
                 setIsOpen(false);
@@ -59,8 +61,10 @@ export function SurveyTypeSelector({ register }: SurveyTypeSelectorProps) {
             </button>
             <button
               type="button"
-              className="w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none 
-                focus:ring-2 focus:ring-primary"
+              className={
+                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none' +
+                'focus:ring-2 focus:ring-primary'
+              }
               onClick={() => {
                 setValue('surveyType', 'week', { shouldValidate: true });
                 setIsOpen(false);

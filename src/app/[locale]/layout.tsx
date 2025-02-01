@@ -59,13 +59,13 @@ export default async function Layout({
       <Scroll />
       <body className={`${notoSansJapanese.variable} font-sans antialiased`}>
         {/* DONT REMOVE DIV, NECESSARY BC NEXT-INTL ADDS MYSTERIOUS HORIZONTAL SCROLL */}
-        <div className="relative overflow-hidden w-full">
+        <div className="relative w-full overflow-hidden">
           <NextIntlClientProvider messages={messages}>
             <Providers>
-              <div className="flex flex-col min-h-screen w-full">
+              <div className="flex min-h-screen w-full flex-col">
                 <Header />
                 <main className="flex-1 pt-20">
-                  <div className="container mx-auto py-8 px-4 max-w-5xl">{children}</div>
+                  <div className="container mx-auto max-w-5xl px-4 py-8">{children}</div>
                 </main>
                 <Footer />
               </div>
