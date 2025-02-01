@@ -44,7 +44,7 @@ export function Heading({ title, createdAt }: HeadingProps) {
       {isHovered && (
         <div
           className={
-            'absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md ' +
+            'absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded ' +
             'border border-foreground bg-background px-2 py-1 text-xs text-gray-600 sm:text-sm'
           }
         >

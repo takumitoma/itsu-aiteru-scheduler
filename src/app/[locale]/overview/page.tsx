@@ -73,7 +73,7 @@ function FeatureCard({ card, t }: FeatureCardProps) {
   const featureIndices = Array.from({ length: card.featureCount }, (_, i) => i);
 
   return (
-    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-4">
+    <div className="flex w-full flex-col items-center space-y-6 rounded border border-grayCustom p-4">
       <h3 className="text-lg font-medium">{t(`sections.features.cards.${card.titleKey}.title`)}</h3>
       <card.Icon color="var(--primary)" />
       <ul className="w-full list-none space-y-4">
@@ -99,7 +99,7 @@ interface UseCaseCardProps {
 
 function UseCaseCard({ card, t }: UseCaseCardProps) {
   return (
-    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-4">
+    <div className="flex w-full flex-col items-center space-y-6 rounded border border-grayCustom p-4">
       <h3 className="text-lg font-medium">{t(`sections.useCases.cards.${card.titleKey}`)}</h3>
       <card.Icon size={96} className="text-primary" />
     </div>
@@ -113,7 +113,7 @@ interface RestrictionCardProps {
 
 function RestrictionCard({ card, t }: RestrictionCardProps) {
   return (
-    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-6">
+    <div className="flex w-full flex-col items-center space-y-6 rounded border border-grayCustom p-6">
       <h3 className="text-lg font-medium">
         {t(`sections.restrictions.cards.${card.titleKey}.title`)}
       </h3>

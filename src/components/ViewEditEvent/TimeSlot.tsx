@@ -57,7 +57,7 @@ export function TimeSlot({
       content: (
         <div
           className={
-            'space-y-1 rounded-md border border-foreground bg-background px-2 py-1 ' +
+            'space-y-1 rounded border border-foreground bg-background px-2 py-1 ' +
             'text-sm text-foreground'
           }
           style={{ width: `${TOOLTIP_WIDTH}px` }}
@@ -75,7 +75,7 @@ export function TimeSlot({
                 key={participant}
                 className={
                   'min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap ' +
-                  'rounded-md border border-primary px-1'
+                  'rounded border border-primary px-1'
                 }
               >
                 {participant}
@@ -86,7 +86,7 @@ export function TimeSlot({
                 key={participant}
                 className={
                   'min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap ' +
-                  'rounded-md border border-foreground px-1 opacity-60'
+                  'rounded border border-foreground px-1 opacity-60'
                 }
               >
                 {participant}

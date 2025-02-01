@@ -135,7 +135,7 @@ export default function ContactPage() {
         <label htmlFor="message" className="block">
           <div className="flex items-center gap-2">
             {t('form.message.label')}
-            <span className="rounded-md bg-red-500 px-1 text-sm text-white">
+            <span className="rounded bg-red-500 px-1 text-sm text-white">
               {t('form.message.required')}
             </span>
           </div>

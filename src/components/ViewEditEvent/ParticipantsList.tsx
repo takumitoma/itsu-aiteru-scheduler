@@ -47,7 +47,7 @@ export function ParticipantsList({
                 buttonRefs.current[index] = element;
               }}
               className={
-                `rounded-md border px-2 py-1 hover:border-primary hover:opacity-100 ` +
+                `rounded border px-2 py-1 hover:border-primary hover:opacity-100 ` +
                 `focus:outline-none focus:ring-2 focus:ring-primary ${
                   selectedParticipant?.id === participant.id
                     ? 'border-2 border-primary font-bold opacity-100'

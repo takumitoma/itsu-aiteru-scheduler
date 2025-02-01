@@ -43,7 +43,7 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
       <div
         id="event-link-container"
         className={
-          'flex w-full items-center justify-between rounded-md border border-primary ' +
+          'flex w-full items-center justify-between rounded border border-primary ' +
           'bg-primaryVeryLight px-3 py-2 text-sm sm:text-lg'
         }
       >
@@ -57,7 +57,7 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
         <button
           ref={buttonRef}
           className={
-            'flex flex-shrink-0 items-center justify-center space-x-2 rounded-md bg-primary px-2 py-2 ' +
+            'flex flex-shrink-0 items-center justify-center space-x-2 rounded bg-primary px-2 py-2 ' +
             'text-white hover:bg-primaryHover focus:bg-primaryHover sm:px-4'
           }
           type="button"

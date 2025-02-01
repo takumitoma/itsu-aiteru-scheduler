@@ -45,12 +45,12 @@ body {
   input:not(#event-link),
   textarea,
   button.input-like {
-    @apply px-3 py-2 w-full border rounded-md focus:outline-none 
+    @apply px-3 py-2 w-full border rounded focus:outline-none 
       focus:ring-2 focus:ring-primary border-primary;
   }
 
   .custom-dropdown {
-    @apply z-10 w-full mt-1 border rounded-md border-primary;
+    @apply z-10 w-full mt-1 border rounded border-primary;
   }
 }
 
@@ -61,7 +61,7 @@ body {
 }
 
 .three-d {
-  @apply bg-primary text-white text-lg sm:text-xl rounded-md px-4 py-4;
+  @apply bg-primary text-white text-lg sm:text-xl rounded px-4 py-4;
   border: none;
   box-shadow: 0 4px #3b7bcf;
   transition: all 0.1s ease;

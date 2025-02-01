@@ -84,7 +84,7 @@ export function Header() {
             />
 
             <div className="fixed inset-x-0 bottom-4 top-20 z-50 md:hidden">
-              <nav className="mx-4 h-full rounded-md bg-background">
+              <nav className="mx-4 h-full rounded bg-background">
                 <ul className="flex flex-col space-y-4 p-4">
                   {NAV_ITEMS.map(({ href, translationKey }) => (
                     <li key={href}>
