@@ -58,7 +58,7 @@ export function TimeSlot({
         <div
           className={
             'space-y-1 rounded-md border border-foreground bg-background px-2 py-1 ' +
-            'text-sm text-foreground shadow-sm'
+            'text-sm text-foreground'
           }
           style={{ width: `${TOOLTIP_WIDTH}px` }}
         >

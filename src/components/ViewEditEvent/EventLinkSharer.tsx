@@ -44,7 +44,7 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
         id="event-link-container"
         className={
           'flex w-full items-center justify-between rounded-md border border-primary ' +
-          'bg-primaryVeryLight px-3 py-2 text-sm shadow-sm sm:text-lg'
+          'bg-primaryVeryLight px-3 py-2 text-sm sm:text-lg'
         }
       >
         <input
