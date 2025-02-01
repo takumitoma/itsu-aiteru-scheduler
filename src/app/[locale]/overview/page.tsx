@@ -73,10 +73,7 @@ function FeatureCard({ card, t }: FeatureCardProps) {
   const featureIndices = Array.from({ length: card.featureCount }, (_, i) => i);
 
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-4 rounded-md"
-    >
+    <div className="w-full space-y-6 flex flex-col items-center border border-grayCustom p-4 rounded-md">
       <h3 className="text-lg font-medium">{t(`sections.features.cards.${card.titleKey}.title`)}</h3>
       <card.Icon color="var(--primary)" />
       <ul className="space-y-4 w-full list-none">
@@ -102,10 +99,7 @@ interface UseCaseCardProps {
 
 function UseCaseCard({ card, t }: UseCaseCardProps) {
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-4 rounded-md"
-    >
+    <div className="w-full space-y-6 flex flex-col items-center border border-grayCustom p-4 rounded-md">
       <h3 className="text-lg font-medium">{t(`sections.useCases.cards.${card.titleKey}`)}</h3>
       <card.Icon size={96} className="text-primary" />
     </div>
@@ -119,10 +113,7 @@ interface RestrictionCardProps {
 
 function RestrictionCard({ card, t }: RestrictionCardProps) {
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-6 rounded-md"
-    >
+    <div className="w-full space-y-6 flex flex-col items-center border border-grayCustom p-6 rounded-md">
       <h3 className="text-lg font-medium">
         {t(`sections.restrictions.cards.${card.titleKey}.title`)}
       </h3>

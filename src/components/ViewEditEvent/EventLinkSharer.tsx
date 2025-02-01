@@ -55,8 +55,7 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
         <button
           ref={buttonRef}
           className="text-white bg-primary px-2 sm:px-4 py-2 rounded-md flex-shrink-0 
-            flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
-            justify-center"
+            flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover justify-center"
           type="button"
           onClick={copyToClipboard}
         >

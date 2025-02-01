@@ -42,8 +42,7 @@ export function ColorScale({
           <button
             key={index}
             type="button"
-            className={`w-full h-[30px] flex items-center justify-center cursor-pointer 
-              border-foreground 
+            className={`w-full h-[30px] flex items-center justify-center cursor-pointer border-foreground 
               ${
                 hoveredIndex === index && selectedColorScaleIndex !== index
                   ? 'border-2 opacity-60'

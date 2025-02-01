@@ -234,8 +234,7 @@ export function Calendar({ error }: CalendarProps) {
           >
             {day && (
               <div
-                className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 
-                    focus:ring-primary 
+                className={`py-2 focus:outline-none hover:brightness-90 focus:ring-2 focus:ring-primary 
                     ${day.isSame(dayjs().tz(timezone), 'day') ? 'font-bold' : ''} ${
                       selectedDates.includes(day.format('YYYY-MM-DD'))
                         ? isUnselectingRef.current && isDateInDragRange(day)

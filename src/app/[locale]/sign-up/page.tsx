@@ -6,10 +6,7 @@ export default async function SignUpPage() {
   const t = await getTranslations('SignUp');
 
   return (
-    <section
-      className="flex flex-col items-center justify-center space-y-8 max-w-md 
-        w-full mx-auto"
-    >
+    <section className="flex flex-col items-center justify-center space-y-8 max-w-md w-full mx-auto">
       <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
         {t('createAccount')}
       </h1>
@@ -23,10 +20,7 @@ export default async function SignUpPage() {
         <p className="mt-4 text-sm text-gray-600">{t('comingSoon')}</p>
       </section>
       <SignUpForm />
-      <div
-        className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between 
-          text-primary w-full"
-      >
+      <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between text-primary w-full">
         <p className="text-gray-500">{t('forgotPassword')}</p>
         <TransitionLink href="/sign-up">{t('login')}</TransitionLink>
       </div>

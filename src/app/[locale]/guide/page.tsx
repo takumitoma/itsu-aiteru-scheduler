@@ -16,10 +16,7 @@ interface Instruction {
 
 function InstructionStep({ number, title, description, imagePath, imageAlt }: Instruction) {
   return (
-    <li
-      className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
-        space-y-4 sm:space-y-0"
-    >
+    <li className="flex flex-col sm:flex-row sm:items-center sm:justify-between pace-y-4 sm:space-y-0">
       <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
         <h2 className="text-primary">{`${number}) ${title}`}</h2>
         <p>{description}</p>

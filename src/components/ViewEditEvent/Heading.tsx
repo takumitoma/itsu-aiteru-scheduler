@@ -44,8 +44,7 @@ export function Heading({ title, createdAt }: HeadingProps) {
       {isHovered && (
         <div
           className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 bg-background 
-            border border-foreground rounded-md text-xs sm:text-sm text-gray-600 
-            whitespace-nowrap"
+            border border-foreground rounded-md text-xs sm:text-sm text-gray-600 whitespace-nowrap"
         >
           {createdTimeAgoText}
         </div>

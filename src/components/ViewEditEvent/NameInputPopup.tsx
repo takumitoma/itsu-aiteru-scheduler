@@ -47,8 +47,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center 
-        z-50 px-2"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-2"
       onClick={onClose}
     >
       <form
