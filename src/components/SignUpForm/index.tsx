@@ -89,7 +89,7 @@ export function SignUpForm() {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="hover:bg-gray rounded-full p-1 focus:ring-2"
+            className="hover:bg-grayCustom rounded-full p-1 focus:ring-2"
           >
             {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
           </button>
@@ -115,7 +115,7 @@ export function SignUpForm() {
           <button
             type="button"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
-            className="hover:bg-gray rounded-full p-1 focus:ring-2"
+            className="hover:bg-grayCustom rounded-full p-1 focus:ring-2"
           >
             {showConfirmPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
           </button>

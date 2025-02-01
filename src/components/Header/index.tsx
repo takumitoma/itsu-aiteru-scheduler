@@ -37,7 +37,10 @@ export function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-background z-50 border-b border-gray">
+    <header
+      className="fixed top-0 left-0 w-full h-20 bg-background z-50 border-b 
+        border-grayCustom"
+    >
       <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         <TransitionLink href="/" className="flex items-center space-x-4">
           <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />

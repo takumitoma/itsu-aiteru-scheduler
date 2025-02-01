@@ -15,7 +15,7 @@ const config: Config = {
         primaryHover: 'var(--primary-hover)',
         primaryLight: 'var(--primary-light)',
         primaryVeryLight: 'var(--primary-very-light)',
-        gray: 'var(--gray)',
+        grayCustom: 'var(--gray-custom)',
       },
       fontFamily: {
         sans: ['var(--font-noto-sans-jp)'],

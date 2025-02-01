@@ -9,13 +9,13 @@
   --primary-hover: #9DC4F1;
   --primary-light: #4A90E2CC;
   --primary-very-light: #F0F8FF;
-  --gray: #e5e7eb;
+  --gray-custom: #e5e7eb;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --gray: #374151;
+  --gray-custom: #374151;
 }
 
 body {

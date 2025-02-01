@@ -74,7 +74,7 @@ function FeatureCard({ card, t }: FeatureCardProps) {
 
   return (
     <div
-      className="w-full space-y-6 flex flex-col items-center border border-gray 
+      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
         p-4 rounded-md"
     >
       <h3 className="text-lg font-medium">{t(`sections.features.cards.${card.titleKey}.title`)}</h3>
@@ -103,7 +103,7 @@ interface UseCaseCardProps {
 function UseCaseCard({ card, t }: UseCaseCardProps) {
   return (
     <div
-      className="w-full space-y-6 flex flex-col items-center border border-gray 
+      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
         p-4 rounded-md"
     >
       <h3 className="text-lg font-medium">{t(`sections.useCases.cards.${card.titleKey}`)}</h3>
@@ -120,7 +120,7 @@ interface RestrictionCardProps {
 function RestrictionCard({ card, t }: RestrictionCardProps) {
   return (
     <div
-      className="w-full space-y-6 flex flex-col items-center border border-gray 
+      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
         p-6 rounded-md"
     >
       <h3 className="text-lg font-medium">
