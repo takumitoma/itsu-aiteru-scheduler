@@ -85,7 +85,7 @@ export function TimezoneSelector({ register }: TimezoneSelectorProps) {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full input-like flex justify-between items-center"
+          className="input-like flex w-full items-center justify-between"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
@@ -96,11 +96,11 @@ export function TimezoneSelector({ register }: TimezoneSelectorProps) {
           />
         </button>
         {isOpen && (
-          <ul className="absolute custom-dropdown max-h-60 overflow-auto" role="listbox">
+          <ul className="custom-dropdown absolute max-h-60 overflow-auto" role="listbox">
             {formattedTimezones.map((tz) => (
               <li
                 key={tz.value}
-                className="px-4 py-2 hover:bg-primaryHover focus:bg-primaryHover cursor-pointer"
+                className="cursor-pointer px-4 py-2 hover:bg-primaryHover focus:bg-primaryHover"
                 onClick={() => {
                   setValue('selectedTimezone', tz.value, { shouldValidate: true });
                   setIsOpen(false);

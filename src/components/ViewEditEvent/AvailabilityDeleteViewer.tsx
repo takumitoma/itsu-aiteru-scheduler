@@ -14,10 +14,10 @@ export function AvailabilityDeleteViewer({
   const numSlotsPerDay = numHours * QUARTERS_PER_HOUR;
 
   return (
-    <div className="flex border-foreground border-r border-b min-w-max">
+    <div className="flex min-w-max border-b border-r border-foreground">
       {/* day column */}
       {Array.from({ length: numDays }).map((_, dayIndex) => (
-        <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
+        <div key={`column-${dayIndex}`} className="flex w-[100px] flex-shrink-0 flex-col">
           {/* hour cell */}
           {Array.from({ length: numHours }).map((_, hourIndex) => (
             <div key={`cell-${dayIndex}-${hourIndex}`}>
@@ -29,11 +29,11 @@ export function AvailabilityDeleteViewer({
                 return (
                   <div
                     key={`quarter-${dayIndex}-${hourIndex}-${quarter}`}
-                    className={`w-[100px] h-[15px] border-l border-foreground touch-none 
-                      ${quarter === 0 ? 'border-t' : ''}
-                      ${quarter === 2 ? 'border-t border-t-gray-500' : ''}
-                      ${isSelected ? 'bg-primary' : 'bg-background'}
-                    `}
+                    className={`h-[15px] w-[100px] touch-none border-l border-foreground ${
+                      quarter === 0 ? 'border-t' : ''
+                    } ${quarter === 2 ? 'border-t border-t-gray-500' : ''} ${
+                      isSelected ? 'bg-primary' : 'bg-background'
+                    } `}
                     style={{ borderTopStyle: quarter === 2 ? 'dotted' : 'solid' }}
                   />
                 );

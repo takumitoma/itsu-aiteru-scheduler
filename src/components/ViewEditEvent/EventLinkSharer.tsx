@@ -39,24 +39,27 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
   return (
     <section className="w-full space-y-2">
       <label htmlFor="event-link">{t('label')}</label>
-      <p className="text-xs sm:text-sm text-gray-600">{t('description')}</p>
+      <p className="text-xs text-gray-600 sm:text-sm">{t('description')}</p>
       <div
         id="event-link-container"
-        className="border border-primary w-full rounded-md shadow-sm bg-primaryVeryLight 
-          flex justify-between items-center py-2 px-3 text-sm sm:text-lg"
+        className={
+          'flex w-full items-center justify-between rounded-md border border-primary ' +
+          'bg-primaryVeryLight px-3 py-2 text-sm shadow-sm sm:text-lg'
+        }
       >
         <input
           type="text"
           id="event-link"
           value={link}
           readOnly
-          className="bg-transparent border-none outline-none w-full mr-4"
+          className="mr-4 w-full border-none bg-transparent outline-none"
         />
         <button
           ref={buttonRef}
-          className="text-white bg-primary px-2 sm:px-4 py-2 rounded-md flex-shrink-0 
-            flex items-center space-x-2 hover:bg-primaryHover focus:bg-primaryHover 
-            justify-center"
+          className={
+            'flex flex-shrink-0 items-center justify-center space-x-2 rounded-md bg-primary px-2 py-2 ' +
+            'text-white hover:bg-primaryHover focus:bg-primaryHover sm:px-4'
+          }
           type="button"
           onClick={copyToClipboard}
         >

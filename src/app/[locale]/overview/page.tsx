@@ -73,17 +73,14 @@ function FeatureCard({ card, t }: FeatureCardProps) {
   const featureIndices = Array.from({ length: card.featureCount }, (_, i) => i);
 
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-4 rounded-md"
-    >
+    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-4">
       <h3 className="text-lg font-medium">{t(`sections.features.cards.${card.titleKey}.title`)}</h3>
       <card.Icon color="var(--primary)" />
-      <ul className="space-y-4 w-full list-none">
+      <ul className="w-full list-none space-y-4">
         {featureIndices.map((index) => (
           <li key={index} className="flex items-start gap-4">
-            <div className="flex-shrink-0 mt-1">
-              <FaCheck className="w-5 h-5 text-primary" />
+            <div className="mt-1 flex-shrink-0">
+              <FaCheck className="h-5 w-5 text-primary" />
             </div>
             <span className="text-sm">
               {t(`sections.features.cards.${card.titleKey}.list.${index}`)}
@@ -102,10 +99,7 @@ interface UseCaseCardProps {
 
 function UseCaseCard({ card, t }: UseCaseCardProps) {
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-4 rounded-md"
-    >
+    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-4">
       <h3 className="text-lg font-medium">{t(`sections.useCases.cards.${card.titleKey}`)}</h3>
       <card.Icon size={96} className="text-primary" />
     </div>
@@ -119,14 +113,11 @@ interface RestrictionCardProps {
 
 function RestrictionCard({ card, t }: RestrictionCardProps) {
   return (
-    <div
-      className="w-full space-y-6 flex flex-col items-center border border-grayCustom 
-        p-6 rounded-md"
-    >
+    <div className="flex w-full flex-col items-center space-y-6 rounded-md border border-grayCustom p-6">
       <h3 className="text-lg font-medium">
         {t(`sections.restrictions.cards.${card.titleKey}.title`)}
       </h3>
-      <p className="text-2xl font-bold text-primary text-center">
+      <p className="text-center text-2xl font-bold text-primary">
         {t(`sections.restrictions.cards.${card.titleKey}.limit`)}
       </p>
     </div>
@@ -138,7 +129,7 @@ function OverviewPage() {
 
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+      <h1 className="underline decoration-primary decoration-4 underline-offset-[16px]">
         {t('pageTitle')}
       </h1>
 
@@ -149,7 +140,7 @@ function OverviewPage() {
 
       <section className="w-full space-y-4">
         <h2 className="text-primary">{t('sections.features.title')}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {featureCards.map((card, index) => (
             <FeatureCard key={index} card={card} t={t} />
           ))}
@@ -158,7 +149,7 @@ function OverviewPage() {
 
       <section className="w-full space-y-4">
         <h2 className="text-primary">{t('sections.useCases.title')}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {useCaseCards.map((card, index) => (
             <UseCaseCard key={index} card={card} t={t} />
           ))}
@@ -168,7 +159,7 @@ function OverviewPage() {
 
       <section className="w-full space-y-4">
         <h2 className="text-primary">{t('sections.restrictions.title')}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {restrictionCards.map((card, index) => (
             <RestrictionCard key={index} card={card} t={t} />
           ))}

@@ -37,14 +37,11 @@ export function Header() {
   }
 
   return (
-    <header
-      className="fixed top-0 left-0 w-full h-20 bg-background z-50 border-b 
-        border-grayCustom"
-    >
-      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+    <header className="fixed left-0 top-0 z-50 h-20 w-full border-b border-grayCustom bg-background">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <TransitionLink href="/" className="flex items-center space-x-4">
           <Image src="/logo/main-logo.svg" alt="Logo" width={40} height={40} />
-          <span className="text-xl font-bold hidden xs:block">{t('appName')}</span>
+          <span className="hidden text-xl font-bold xs:block">{t('appName')}</span>
         </TransitionLink>
 
         {/* desktop nav bar */}
@@ -54,7 +51,7 @@ export function Header() {
               <li key={href}>
                 <TransitionLink
                   href={href}
-                  className={`hover:text-primary text-lg transition-colors font-semibold ${
+                  className={`text-lg font-semibold transition-colors hover:text-primary ${
                     pathName === href ? 'text-primary' : 'text-foreground'
                   }`}
                 >
@@ -68,7 +65,7 @@ export function Header() {
         {/* buttons to open or close mobile nav */}
         <button
           className={`block md:hidden ${
-            isMobileMenuOpen ? 'text-background z-50' : 'text-foreground'
+            isMobileMenuOpen ? 'z-50 text-background' : 'text-foreground'
           }`}
           onClick={toggleMenu}
           aria-label={isMobileMenuOpen ? t('aria.closeMenu') : t('aria.openMenu')}
@@ -81,19 +78,19 @@ export function Header() {
           <>
             {/* overlay */}
             <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+              className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            <div className="fixed top-20 inset-x-0 bottom-4 md:hidden z-50">
-              <nav className="bg-background mx-4 h-full rounded-md">
+            <div className="fixed inset-x-0 bottom-4 top-20 z-50 md:hidden">
+              <nav className="mx-4 h-full rounded-md bg-background">
                 <ul className="flex flex-col space-y-4 p-4">
                   {NAV_ITEMS.map(({ href, translationKey }) => (
                     <li key={href}>
                       <TransitionLink
                         href={href}
-                        className={`hover:text-primary text-xl transition-colors ${
+                        className={`text-xl transition-colors hover:text-primary ${
                           pathName === href ? 'text-primary' : 'text-foreground'
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}

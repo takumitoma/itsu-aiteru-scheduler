@@ -33,17 +33,17 @@ export function TimeLabels({ hourLabels, timeRangeEnd, spaceTop }: TimeLabelsPro
   }
 
   return (
-    <div className="flex flex-col flex-shrink-0">
+    <div className="flex flex-shrink-0 flex-col">
       <div style={{ height: `${spaceTop}px` }}></div>
       {hourLabels.map((timestamp) => (
         <div
           key={`time-${timestamp}`}
-          className="flex justify-end mr-[5px] translate-y-[-12px] h-[60px]"
+          className="mr-[5px] flex h-[60px] translate-y-[-12px] justify-end"
         >
           {formatTimeDisplay(timestamp)}
         </div>
       ))}
-      <div className="flex justify-end mr-[5px] translate-y-[-12px] h-[25px]">
+      <div className="mr-[5px] flex h-[25px] translate-y-[-12px] justify-end">
         {formatTimeDisplay(timeRangeEnd)}
       </div>
     </div>

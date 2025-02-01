@@ -114,7 +114,7 @@ export function CreateEventForm() {
   return (
     <FormProvider {...methods}>
       <form
-        className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-16 w-full"
+        className="grid w-full grid-cols-1 gap-x-16 gap-y-4 md:grid-cols-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="md:order-1">
@@ -163,7 +163,7 @@ export function CreateEventForm() {
           <CreateEventButton />
         </div>
 
-        <div className="hidden md:block md:order-2"></div>
+        <div className="hidden md:order-2 md:block"></div>
 
         {/* Honeypot */}
         <input
@@ -171,7 +171,7 @@ export function CreateEventForm() {
           name="contact_me_by_fax_only"
           ref={honeypotRef}
           tabIndex={-1}
-          className="absolute top-0 left-0 w-0 h-0 opacity-0 pointer-events-none"
+          className="pointer-events-none absolute left-0 top-0 h-0 w-0 opacity-0"
           aria-hidden="true"
         />
       </form>

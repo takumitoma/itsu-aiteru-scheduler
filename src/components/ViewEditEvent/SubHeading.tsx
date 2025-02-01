@@ -29,7 +29,7 @@ export function SubHeading({
       return (
         <div className="flex items-center whitespace-nowrap">
           <span className="truncate">{selectedParticipant.name}</span>
-          <span className="font-normal flex-shrink-0">{t('individualAvailability.name')}</span>
+          <span className="flex-shrink-0 font-normal">{t('individualAvailability.name')}</span>
         </div>
       );
     }
@@ -46,9 +46,9 @@ export function SubHeading({
   }
 
   return (
-    <section className="flex flex-col space-y-2 w-full">
+    <section className="flex w-full flex-col space-y-2">
       <h2 className="truncate">{getHeadingText()}</h2>
-      {mode === 'view' && <p className="text-xs sm:text-sm text-gray-600">{t('hoverHelp')}</p>}
+      {mode === 'view' && <p className="text-xs text-gray-600 sm:text-sm">{t('hoverHelp')}</p>}
     </section>
   );
 }

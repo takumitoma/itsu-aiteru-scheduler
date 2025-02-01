@@ -56,11 +56,13 @@ export function TimeSlot({
       y: rect.bottom,
       content: (
         <div
-          className={`px-2 py-1 bg-background text-foreground text-sm rounded-md shadow-sm border 
-            border-foreground space-y-1`}
+          className={
+            'space-y-1 rounded-md border border-foreground bg-background px-2 py-1 ' +
+            'text-sm text-foreground shadow-sm'
+          }
           style={{ width: `${TOOLTIP_WIDTH}px` }}
         >
-          <p className="font-medium font-xl">
+          <p className="font-xl font-medium">
             {t('availableCount', {
               available: numParticipants,
               total: numTotalParticipants,
@@ -71,8 +73,10 @@ export function TimeSlot({
             {availableParticipants.map((participant) => (
               <div
                 key={participant}
-                className="border border-primary px-1 rounded-md whitespace-nowrap 
-                  overflow-hidden text-ellipsis max-w-full min-w-0"
+                className={
+                  'min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap ' +
+                  'rounded-md border border-primary px-1'
+                }
               >
                 {participant}
               </div>
@@ -80,8 +84,10 @@ export function TimeSlot({
             {unavailableParticipants.map((participant) => (
               <div
                 key={participant}
-                className="border border-foreground px-1 rounded-md opacity-60 whitespace-nowrap 
-                  overflow-hidden text-ellipsis max-w-full min-w-0"
+                className={
+                  'min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap ' +
+                  'rounded-md border border-foreground px-1 opacity-60'
+                }
               >
                 {participant}
               </div>
@@ -99,11 +105,9 @@ export function TimeSlot({
 
   return (
     <div
-      className={`w-[100px] h-[15px] border-l border-foreground
-        ${isBorderTop ? 'border-t' : ''}
-        ${isDottedBorderTop && !isHovered ? 'border-t border-t-gray-500' : ''}
-        ${isHovered ? 'hover:border-2 hover:border-solid' : ''}
-      `}
+      className={`h-[15px] w-[100px] border-l border-foreground ${isBorderTop ? 'border-t' : ''} ${
+        isDottedBorderTop && !isHovered ? 'border-t border-t-gray-500' : ''
+      } ${isHovered ? 'hover:border-2 hover:border-solid' : ''} `}
       style={
         isMounted
           ? {

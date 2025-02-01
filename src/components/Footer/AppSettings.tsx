@@ -32,7 +32,7 @@ export function AppSettings() {
       <h4 className="font-semibold">{t('title')}</h4>
       <div className="flex space-x-8">
         <fieldset className="flex flex-col space-y-2">
-          <legend className="font-semibold text-sm">{t('language.label')}</legend>
+          <legend className="text-sm font-semibold">{t('language.label')}</legend>
           <div className="flex flex-col space-y-2">
             <label>
               <input
@@ -74,7 +74,7 @@ export function AppSettings() {
         </fieldset>
 
         <fieldset className="flex flex-col space-y-2">
-          <legend className="font-semibold text-sm">{t('timeFormat.label')}</legend>
+          <legend className="text-sm font-semibold">{t('timeFormat.label')}</legend>
           <div className="flex flex-col space-y-2">
             <label>
               <input
@@ -115,7 +115,7 @@ export function AppSettings() {
 
         {mounted && (
           <fieldset className="flex flex-col space-y-2">
-            <legend className="font-semibold text-sm">{t('theme.label')}</legend>
+            <legend className="text-sm font-semibold">{t('theme.label')}</legend>
             <div className="flex flex-col space-y-2">
               <label>
                 <input

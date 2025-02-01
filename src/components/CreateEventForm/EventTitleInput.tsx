@@ -21,7 +21,7 @@ export function EventTitleInput({ register, error }: EventTitleInputProps) {
         {...register}
       />
       {error && (
-        <div className="flex text-red-500 pt-4 items-center space-x-2">
+        <div className="flex items-center space-x-2 pt-4 text-red-500">
           <BsExclamationCircle size={20} />
           <p className="text-sm font-semibold">{t('error')}</p>
         </div>

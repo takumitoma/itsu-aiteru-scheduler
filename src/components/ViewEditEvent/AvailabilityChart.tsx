@@ -20,7 +20,7 @@ export function AvailabilityChart({
 }: AvailabilityChartProps) {
   return (
     <section
-      className={`flex justify-center select-none w-full ${
+      className={`flex w-full select-none justify-center ${
         isLoading ? 'opacity-50' : 'opacity-100'
       }`}
     >

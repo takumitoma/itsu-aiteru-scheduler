@@ -65,10 +65,10 @@ export function AvailabilityViewer({
   return (
     <div className="relative">
       {/* the grid */}
-      <div className="flex border-foreground border-r border-b min-w-max">
+      <div className="flex min-w-max border-b border-r border-foreground">
         {/* day column */}
         {Array.from({ length: numDays }).map((_, dayIndex) => (
-          <div key={`column-${dayIndex}`} className="w-[100px] flex flex-col flex-shrink-0">
+          <div key={`column-${dayIndex}`} className="flex w-[100px] flex-shrink-0 flex-col">
             {/* hour cell */}
             {Array.from({ length: numHours }).map((_, hourIndex) => (
               <div key={`cell-${dayIndex}-${hourIndex}`}>

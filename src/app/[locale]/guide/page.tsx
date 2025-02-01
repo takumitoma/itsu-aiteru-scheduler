@@ -16,15 +16,12 @@ interface Instruction {
 
 function InstructionStep({ number, title, description, imagePath, imageAlt }: Instruction) {
   return (
-    <li
-      className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
-        space-y-4 sm:space-y-0"
-    >
-      <div className="flex flex-col sm:py-4 sm:space-y-4 sm:w-[45%]">
+    <li className="pace-y-4 flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <div className="flex flex-col sm:w-[45%] sm:space-y-4 sm:py-4">
         <h2 className="text-primary">{`${number}) ${title}`}</h2>
         <p>{description}</p>
       </div>
-      <div className="w-full sm:w-[45%] relative h-32 sm:h-48">
+      <div className="relative h-32 w-full sm:h-48 sm:w-[45%]">
         <Image
           src={imagePath}
           alt={imageAlt}
@@ -53,24 +50,24 @@ export default function GuidePage() {
 
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+      <h1 className="underline decoration-primary decoration-4 underline-offset-[16px]">
         {t('pageTitle')}
       </h1>
-      <ol className="space-y-8 w-full">
+      <ol className="w-full space-y-8">
         {instructions.map((step) => (
           <InstructionStep key={step.number} {...step} />
         ))}
       </ol>
-      <div className="flex flex-col py-8 space-y-6 sm:space-y-8 justify-center items-center">
-        <p className="text-xl sm:text-2xl font-bold text-center">{t('callToAction.message')}</p>
+      <div className="flex flex-col items-center justify-center space-y-6 py-8 sm:space-y-8">
+        <p className="text-center text-xl font-bold sm:text-2xl">{t('callToAction.message')}</p>
         <div>
-          <TransitionLink href="/" className="three-d mt-2 sm:mt-4 w-fit flex items-center gap-4">
+          <TransitionLink href="/" className="three-d mt-2 flex w-fit items-center gap-4 sm:mt-4">
             {t('callToAction.createEventButton')}
             <FaRegArrowAltCircleRight size={24} />
           </TransitionLink>
           <TransitionLink
             href={`/e/${t('callToAction.demoEventLink')}`}
-            className="three-d mt-2 sm:mt-4 w-full flex items-center gap-4 justify-between"
+            className="three-d mt-2 flex w-full items-center justify-between gap-4 sm:mt-4"
           >
             {t('callToAction.demoEventButton')}
             <FaRegArrowAltCircleRight size={24} />

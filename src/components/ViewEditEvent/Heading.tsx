@@ -39,13 +39,14 @@ export function Heading({ title, createdAt }: HeadingProps) {
     >
       <div className="relative inline-block">
         <h1 className="text-center">{title}</h1>
-        <div className="absolute bottom-[-8px] left-0 w-full h-1 bg-primary" />
+        <div className="absolute bottom-[-8px] left-0 h-1 w-full bg-primary" />
       </div>
       {isHovered && (
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 bg-background 
-            border border-foreground rounded-md text-xs sm:text-sm text-gray-600 
-            whitespace-nowrap"
+          className={
+            'absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md ' +
+            'border border-foreground bg-background px-2 py-1 text-xs text-gray-600 sm:text-sm'
+          }
         >
           {createdTimeAgoText}
         </div>

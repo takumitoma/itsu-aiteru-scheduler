@@ -46,7 +46,7 @@ function FormErrorMessage({
   };
 
   return (
-    <div className="flex text-red-500 pt-2 space-x-2">
+    <div className="flex space-x-2 pt-2 text-red-500">
       <BsExclamationCircle />
       <p className="text-sm">{getMessage()}</p>
     </div>
@@ -100,22 +100,22 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col items-center space-y-8">
-      <h1 className="underline underline-offset-[16px] decoration-primary decoration-4">
+      <h1 className="underline decoration-primary decoration-4 underline-offset-[16px]">
         {t('pageTitle')}
       </h1>
-      <div className="space-y-4 w-full text-left">
+      <div className="w-full space-y-4 text-left">
         <p>{t('description.gratitude')}</p>
         <p>{t('description.promise')}</p>
         <p>{t('description.other')}</p>
         <p>{t('description.optional')}</p>
       </div>
-      <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
+      <form noValidate onSubmit={handleSubmit(onSubmit)} className="w-full space-y-8">
         <label htmlFor="name" className="block">
           {t('form.name.label')}
           <input
             id="name"
             type="text"
-            className="mt-4 font-normal text-base"
+            className="mt-4 text-base font-normal"
             {...register('name')}
           />
           <FormErrorMessage error={errors.name} field="name" />
@@ -126,7 +126,7 @@ export default function ContactPage() {
           <input
             id="email"
             type="email"
-            className="mt-4 font-normal text-base"
+            className="mt-4 text-base font-normal"
             {...register('email')}
           />
           <FormErrorMessage error={errors.email} field="email" />
@@ -135,14 +135,14 @@ export default function ContactPage() {
         <label htmlFor="message" className="block">
           <div className="flex items-center gap-2">
             {t('form.message.label')}
-            <span className="text-sm bg-red-500 px-1 text-white rounded-md">
+            <span className="rounded-md bg-red-500 px-1 text-sm text-white">
               {t('form.message.required')}
             </span>
           </div>
           <textarea
             id="message"
             rows={7}
-            className="w-full mt-4 font-normal text-base"
+            className="mt-4 w-full text-base font-normal"
             {...register('message')}
           />
           <div className="text-sm text-gray-500">
@@ -155,15 +155,15 @@ export default function ContactPage() {
         </label>
 
         {isSubmitSuccessful && (
-          <div className="text-green-500 text-center">{t('form.response.success')}</div>
+          <div className="text-center text-green-500">{t('form.response.success')}</div>
         )}
 
         <div className="flex justify-center">
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`three-d w-[152px] sm:w-[164px] mt-4 ${
-              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            className={`three-d mt-4 w-[152px] sm:w-[164px] ${
+              isSubmitting ? 'cursor-not-allowed opacity-50' : ''
             }`}
           >
             {isSubmitting ? t('form.submit.sending') : t('form.submit.button')}
@@ -176,7 +176,7 @@ export default function ContactPage() {
           name="contact_me_by_fax_only"
           ref={honeypotRef}
           tabIndex={-1}
-          className="absolute top-0 left-0 w-0 h-0 opacity-0 pointer-events-none"
+          className="pointer-events-none absolute left-0 top-0 h-0 w-0 opacity-0"
           aria-hidden="true"
         />
       </form>
