@@ -86,7 +86,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
           <button
             type="submit"
             className={
-              'flex-shrink-0 rounded-md bg-primary px-4 py-2 text-white hover:bg-primaryHover' +
+              'flex-shrink-0 rounded-md bg-primary px-4 py-2 text-white hover:bg-primaryHover ' +
               'focus:bg-primaryHover disabled:cursor-not-allowed disabled:opacity-50'
             }
             disabled={isSubmitting}

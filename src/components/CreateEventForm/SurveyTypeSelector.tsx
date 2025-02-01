@@ -49,7 +49,7 @@ export function SurveyTypeSelector({ register }: SurveyTypeSelectorProps) {
             <button
               type="button"
               className={
-                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none' +
+                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none ' +
                 'focus:ring-2 focus:ring-primary'
               }
               onClick={() => {
@@ -62,7 +62,7 @@ export function SurveyTypeSelector({ register }: SurveyTypeSelectorProps) {
             <button
               type="button"
               className={
-                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none' +
+                'w-full px-4 py-2 text-left hover:bg-primaryHover focus:outline-none ' +
                 'focus:ring-2 focus:ring-primary'
               }
               onClick={() => {

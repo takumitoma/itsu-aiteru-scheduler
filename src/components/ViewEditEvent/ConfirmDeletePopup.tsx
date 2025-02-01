@@ -41,7 +41,7 @@ export function ConfirmDeletePopup({ participant, onSubmit, onClose }: ConfirmDe
           <button
             type="submit"
             className={
-              'flex-shrink-0 rounded-md bg-red-500 px-4 py-2 text-xs text-white hover:brightness-90' +
+              'flex-shrink-0 rounded-md bg-red-500 px-4 py-2 text-xs text-white hover:brightness-90 ' +
               'disabled:cursor-not-allowed disabled:opacity-50 sm:text-lg'
             }
             disabled={isSubmitting}
