@@ -199,7 +199,7 @@ export function Calendar({ error }: CalendarProps) {
           ref={prevMonthButtonRef}
           type="button"
           onClick={navigatePrevMonth}
-          className={`three-d !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
+          className={`btn-primary !p-2 ${isPrevMonthDisabled ? 'invisible' : ''}`}
           aria-label={t('prevMonth')}
         >
           <MdNavigateBefore size={20} />
@@ -209,7 +209,7 @@ export function Calendar({ error }: CalendarProps) {
           ref={nextMonthButtonRef}
           type="button"
           onClick={navigateNextMonth}
-          className={`three-d !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
+          className={`btn-primary !p-2 ${isNextMonthDisabled ? 'invisible' : ''}`}
           aria-label={t('nextMonth')}
         >
           <MdNavigateNext size={20} />

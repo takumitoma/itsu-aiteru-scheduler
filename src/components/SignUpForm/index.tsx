@@ -158,7 +158,7 @@ export function SignUpForm() {
       <button
         type="submit"
         disabled={isSubmitting || isSubmitSuccessful}
-        className={`three-d w-full ${
+        className={`btn-primary w-full ${
           isSubmitting || isSubmitSuccessful ? 'cursor-not-allowed opacity-50' : ''
         }`}
       >

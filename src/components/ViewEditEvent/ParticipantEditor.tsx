@@ -148,9 +148,8 @@ export function ParticipantEditor({
           <button
             ref={addOrSaveButtonRef}
             className={
-              'flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded-md border ' +
-              'border-primary bg-primary py-2 text-sm text-white hover:bg-primaryHover' +
-              ' focus:bg-primaryHover disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
+              'btn-primary flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded-md ' +
+              'text-sm disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
             }
             type="button"
             onClick={mode === 'edit' ? saveAvailabilities : openNameInputPopup}
