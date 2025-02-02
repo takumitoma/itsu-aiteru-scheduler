@@ -158,9 +158,7 @@ export function SignUpForm() {
       <button
         type="submit"
         disabled={isSubmitting || isSubmitSuccessful}
-        className={`btn-primary w-full ${
-          isSubmitting || isSubmitSuccessful ? 'cursor-not-allowed opacity-50' : ''
-        }`}
+        className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? t('signingUp') : t('signUp')}
       </button>

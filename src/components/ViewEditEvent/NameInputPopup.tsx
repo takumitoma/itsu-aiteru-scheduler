@@ -59,7 +59,7 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
           <label htmlFor="participantName" className="text-xl font-medium">
             {t('title')}
           </label>
-          <button onClick={onClose} type="button" disabled={isSubmitting}>
+          <button onClick={onClose} type="button">
             <RxCross1 size={24} />
           </button>
         </div>
@@ -72,7 +72,6 @@ export function NameInputPopup({ onSubmit, onClose }: NameInputPopupProps) {
             id="participantName"
             placeholder={t('placeholder')}
             className="border-primary"
-            disabled={isSubmitting}
             {...register('participantName')}
           />
           {errors.participantName && (

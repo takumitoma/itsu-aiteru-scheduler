@@ -162,9 +162,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`btn-primary mt-4 w-[152px] sm:w-[164px] ${
-              isSubmitting ? 'cursor-not-allowed opacity-50' : ''
-            }`}
+            className="btn-primary mt-4 w-[152px] disabled:cursor-not-allowed disabled:opacity-50 sm:w-[164px]"
           >
             {isSubmitting ? t('form.submit.sending') : t('form.submit.button')}
           </button>
