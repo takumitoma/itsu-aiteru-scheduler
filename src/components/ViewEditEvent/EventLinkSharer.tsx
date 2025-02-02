@@ -42,24 +42,18 @@ export function EventLinkSharer({ link }: EventLinkSharerProps) {
       <p className="text-xs text-gray-600 sm:text-sm">{t('description')}</p>
       <div
         id="event-link-container"
-        className={
-          'flex w-full items-center justify-between rounded border border-primary ' +
-          'bg-primaryVeryLight px-3 py-2 text-sm sm:text-lg'
-        }
+        className="flex w-full items-center justify-between rounded border border-primary bg-primaryVeryLight p-2 px-3"
       >
         <input
           type="text"
           id="event-link"
           value={link}
           readOnly
-          className="mr-4 w-full border-none bg-transparent outline-none"
+          className="mr-4 w-full border-none bg-transparent text-sm outline-none sm:text-lg"
         />
         <button
           ref={buttonRef}
-          className={
-            'flex flex-shrink-0 items-center justify-center space-x-2 rounded bg-primary px-2 py-2 ' +
-            'text-white hover:bg-primaryHover focus:bg-primaryHover sm:px-4'
-          }
+          className="btn-primary flex flex-shrink-0 items-center justify-center space-x-2 px-3 text-sm sm:text-lg"
           type="button"
           onClick={copyToClipboard}
         >

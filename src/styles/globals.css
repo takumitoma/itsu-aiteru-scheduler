@@ -52,30 +52,16 @@ body {
   .custom-dropdown {
     @apply z-10 w-full mt-1 border rounded border-primary;
   }
+
+  .btn-primary {
+    @apply bg-primary font-medium text-white text-lg sm:text-xl rounded py-2 hover:brightness-90;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-.three-d {
-  @apply bg-primary text-white text-lg sm:text-xl rounded px-4 py-4;
-  border: none;
-  box-shadow: 0 4px #3b7bcf;
-  transition: all 0.1s ease;
-}
-
-.three-d:hover,
-.three-d:focus { 
-  box-shadow: 0 3px #3b7bcf; 
-  transform: translateY(1px); 
-}
-
-.three-d:active {
-  box-shadow: 0 1px #3b7bcf; 
-  transform: translateY(3px); 
 }
 
 .light input,

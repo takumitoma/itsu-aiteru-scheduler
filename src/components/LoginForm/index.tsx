@@ -105,7 +105,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`three-d w-full ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
+        className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? t('loggingIn') : t('login')}
       </button>

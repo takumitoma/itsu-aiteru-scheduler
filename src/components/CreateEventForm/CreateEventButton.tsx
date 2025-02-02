@@ -11,7 +11,7 @@ export function CreateEventButton() {
     <button
       type="submit"
       disabled={isSubmitting}
-      className={`three-d mt-4 w-full ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
+      className="btn-primary mt-4 w-full disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isSubmitting ? t('creating') : t('create')}
     </button>

@@ -101,9 +101,7 @@ export function FooterContact() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-[100px] rounded bg-primary px-4 py-2 text-sm text-white ${
-            isSubmitting ? 'cursor-not-allowed opacity-50' : ''
-          }`}
+          className="btn-primary w-[100px] text-sm disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? t('form.submit.sending') : t('form.submit.button')}
         </button>

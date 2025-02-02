@@ -148,9 +148,8 @@ export function ParticipantEditor({
           <button
             ref={addOrSaveButtonRef}
             className={
-              'flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded-md border ' +
-              'border-primary bg-primary py-2 text-sm text-white hover:bg-primaryHover' +
-              ' focus:bg-primaryHover disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
+              'btn-primary flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded ' +
+              'text-sm disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
             }
             type="button"
             onClick={mode === 'edit' ? saveAvailabilities : openNameInputPopup}
@@ -170,7 +169,7 @@ export function ParticipantEditor({
           <button
             type="button"
             className={
-              'w-[134px] flex-shrink-0 rounded-md bg-red-500 py-2 text-sm text-white hover:brightness-90 ' +
+              'w-[134px] flex-shrink-0 rounded bg-red-500 py-2 text-sm text-white hover:brightness-90 ' +
               'disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
             }
             onClick={openConfirmDeletePopup}
@@ -182,8 +181,8 @@ export function ParticipantEditor({
           <button
             ref={cancelOrDeleteModeButtonRef}
             className={
-              'flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded-md border ' +
-              'border-red-500 bg-background py-2 text-sm text-red-500 hover:bg-red-100 focus:bg-red-300' +
+              'flex w-[134px] flex-shrink-0 items-center justify-center space-x-2 rounded ' +
+              'bg-red-100 py-2 text-sm text-red-500 hover:brightness-90' +
               ' disabled:cursor-not-allowed disabled:opacity-50 sm:w-[155px] sm:text-lg'
             }
             type="button"
