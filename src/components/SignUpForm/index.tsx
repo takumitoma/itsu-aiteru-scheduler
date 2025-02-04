@@ -8,6 +8,12 @@ import { BsExclamationCircle } from 'react-icons/bs';
 import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 import { useTranslations } from 'next-intl';
 import { supabase } from '@/lib/supabase/public-client';
+import { useLocale } from 'next-intl';
+
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : 'http://localhost:3000';
 
 const schema = z
   .object({
@@ -29,12 +35,24 @@ export function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const locale = useLocale();
 
-  async function authenticateUser(email: string, password: string) {
+  function getRedirectUrl() {
+    if (locale === 'ja') {
+      return `${BASE_URL}/confirm`;
+    } else {
+      return `${BASE_URL}/${locale}/confirm`;
+    }
+  }
+
+  async function signUpUser(email: string, password: string) {
     try {
       const { data: authData, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: getRedirectUrl(),
+        },
       });
 
       return { authData, error };
@@ -61,7 +79,7 @@ export function SignUpForm() {
     setSignUpError(false);
     setSignUpSuccess(false);
 
-    const { authData, error } = await authenticateUser(formData.email, formData.password);
+    const { authData, error } = await signUpUser(formData.email, formData.password);
 
     if (error) {
       setSignUpError(true);
