@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.1",
     "@mui/material": "^6.1.1",
+    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "@upstash/ratelimit": "^2.0.4",
     "@vercel/kv": "^3.0.0",

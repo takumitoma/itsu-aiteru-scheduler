@@ -7,6 +7,13 @@ import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 import { useTranslations } from 'next-intl';
+import { supabase } from '@/lib/supabase/public-client';
+import { useLocale } from 'next-intl';
+
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : 'http://localhost:3000';
 
 const schema = z
   .object({
@@ -27,12 +34,38 @@ export function SignUpForm() {
   const [signUpError, setSignUpError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const locale = useLocale();
+
+  function getRedirectUrl() {
+    if (locale === 'ja') {
+      return `${BASE_URL}/confirm`;
+    } else {
+      return `${BASE_URL}/${locale}/confirm`;
+    }
+  }
+
+  async function signUpUser(email: string, password: string) {
+    try {
+      const { data: authData, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: getRedirectUrl(),
+        },
+      });
+
+      return { authData, error };
+    } catch (err) {
+      return { authData: null, error: err };
+    }
+  }
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting, errors, isSubmitSuccessful },
+    formState: { isSubmitting, errors },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -42,21 +75,23 @@ export function SignUpForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFields> = async (formData) => {
     setSignUpError(false);
+    setSignUpSuccess(false);
 
-    try {
-      // logic for sign up via supabase, return { error }
-      const error = false;
+    return;
 
-      if (error) {
-        setSignUpError(true);
-      } else {
-        reset();
-      }
-    } catch (err) {
+    const { authData, error } = await signUpUser(formData.email, formData.password);
+
+    if (error) {
       setSignUpError(true);
+      return;
+    }
+
+    if (authData) {
+      console.log(authData);
+      setSignUpSuccess(true);
+      reset();
     }
   };
 
@@ -69,7 +104,7 @@ export function SignUpForm() {
         <input
           id="email"
           type="text"
-          disabled={isSubmitSuccessful}
+          disabled={signUpSuccess}
           className="w-full text-base font-normal"
           {...register('email')}
         />
@@ -97,7 +132,7 @@ export function SignUpForm() {
         <input
           id="password"
           type={showPassword ? 'text' : 'password'}
-          disabled={isSubmitSuccessful}
+          disabled={signUpSuccess}
           className="w-full text-base font-normal"
           {...register('password')}
         />
@@ -123,7 +158,8 @@ export function SignUpForm() {
         <input
           id="confirmPassword"
           type={showConfirmPassword ? 'text' : 'password'}
-          disabled={isSubmitSuccessful}
+          disabled
+          // disabled={signUpSuccess}
           className="w-full text-base font-normal"
           {...register('confirmPassword')}
         />
@@ -147,7 +183,7 @@ export function SignUpForm() {
         </div>
       )}
 
-      {isSubmitSuccessful && (
+      {signUpSuccess && (
         <div className="flex">
           <p className="w-full text-center text-sm font-semibold text-green-500">
             {t('signUpSuccess')}
@@ -157,7 +193,7 @@ export function SignUpForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting || isSubmitSuccessful}
+        disabled={isSubmitting || signUpSuccess}
         className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? t('signingUp') : t('signUp')}

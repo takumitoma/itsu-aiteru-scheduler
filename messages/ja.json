@@ -236,6 +236,15 @@
     "forgotPassword": "パスワードをお忘れの方",
     "login": "ログイン"
   },
+  "ConfirmEmail": {
+    "title": "メールアドレス確認完了",
+    "description": "ご登録ありがとうございます。",
+    "newFeatures": "以下の機能をがご利用いただけるようになりました。",
+    "featureNotification": "イベント参加者数が X 人に達したら通知を受け取る",
+    "featurePassword": "イベントにパスワードを設定",
+    "featureHistory": "イベント履歴を確認",
+    "comingSoon": "今後さらに機能を追加予定"
+  },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",
     "CreateEventButton": {
