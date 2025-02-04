@@ -79,6 +79,8 @@ export function SignUpForm() {
     setSignUpError(false);
     setSignUpSuccess(false);
 
+    return;
+
     const { authData, error } = await signUpUser(formData.email, formData.password);
 
     if (error) {
@@ -156,7 +158,8 @@ export function SignUpForm() {
         <input
           id="confirmPassword"
           type={showConfirmPassword ? 'text' : 'password'}
-          disabled={signUpSuccess}
+          disabled
+          // disabled={signUpSuccess}
           className="w-full text-base font-normal"
           {...register('confirmPassword')}
         />
