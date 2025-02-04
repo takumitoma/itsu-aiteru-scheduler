@@ -236,6 +236,15 @@
     "forgotPassword": "Forgot password?",
     "login": "Log in"
   },
+  "ConfirmEmail": {
+    "title": "Email Confirmed",
+    "description": "Thank you for creating an account with us.",
+    "newFeatures": "You now have access to following features.",
+    "featureNotification": "Get notified when event reaches X participants",
+    "featurePassword": "Add password to your events",
+    "featureHistory": "See your event history",
+    "comingSoon": "More features coming soon"
+  },
   "CreateEvent": {
     "pageTitle": "Create New Event",
     "CreateEventButton": {
