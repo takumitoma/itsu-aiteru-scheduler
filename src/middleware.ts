@@ -35,8 +35,13 @@ export async function middleware(request: NextRequest) {
   // Redirect authenticated users away from auth pages
   if (
     user &&
-    (request.nextUrl.pathname.startsWith('/login') ||
-      request.nextUrl.pathname.startsWith('/register'))
+    (routing.locales.some(
+      (locale) =>
+        request.nextUrl.pathname === `/${locale}/login` ||
+        request.nextUrl.pathname === `/${locale}/register`,
+    ) ||
+      request.nextUrl.pathname === '/login' ||
+      request.nextUrl.pathname === '/register')
   ) {
     return NextResponse.redirect(new URL('/', request.url));
   }
