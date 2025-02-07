@@ -7,6 +7,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
+import { supabase } from '@/lib/supabase/public-client';
+import { useLocale } from 'next-intl';
+import { useRouter } from '@/i18n/routing';
+
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : 'http://localhost:3000';
 
 const schema = z.object({
   email: z.string().email(),
@@ -17,9 +25,13 @@ type FormFields = z.infer<typeof schema>;
 
 export function LoginForm() {
   const t = useTranslations('Login');
-  const honeypotRef = useRef<HTMLInputElement>(null);
+  const locale = useLocale();
+  const router = useRouter();
+
   const [loginError, setLoginError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -34,19 +46,36 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    setLoginError(false);
-    console.log(data);
-    // mock auth
-    const success = false;
+  function getRedirectUrl() {
+    if (locale === 'ja') {
+      return `${BASE_URL}?login=true`;
+    } else {
+      return `${BASE_URL}/${locale}?login=true`;
+    }
+  }
 
-    if (!success) {
+  async function loginUser(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    return { data, error };
+  }
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    return;
+    setLoginError(false);
+
+    const { data: userData, error } = await loginUser(data.email, data.password);
+
+    if (error || !userData.session) {
       setLoginError(true);
       reset({ password: '' });
       return;
     }
 
-    // successful login below
+    router.push(getRedirectUrl());
   };
 
   return (
@@ -104,7 +133,8 @@ export function LoginForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled
+        // disabled={isSubmitting}
         className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? t('loggingIn') : t('login')}

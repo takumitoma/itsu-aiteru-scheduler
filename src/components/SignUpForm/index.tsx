@@ -30,36 +30,14 @@ type FormFields = z.infer<typeof schema>;
 
 export function SignUpForm() {
   const t = useTranslations('SignUp');
-  const honeypotRef = useRef<HTMLInputElement>(null);
+  const locale = useLocale();
+
   const [signUpError, setSignUpError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
-  const locale = useLocale();
 
-  function getRedirectUrl() {
-    if (locale === 'ja') {
-      return `${BASE_URL}/confirm`;
-    } else {
-      return `${BASE_URL}/${locale}/confirm`;
-    }
-  }
-
-  async function signUpUser(email: string, password: string) {
-    try {
-      const { data: authData, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: getRedirectUrl(),
-        },
-      });
-
-      return { authData, error };
-    } catch (err) {
-      return { authData: null, error: err };
-    }
-  }
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -75,13 +53,33 @@ export function SignUpForm() {
     },
   });
 
+  function getRedirectUrl() {
+    if (locale === 'ja') {
+      return `${BASE_URL}/confirm`;
+    } else {
+      return `${BASE_URL}/${locale}/confirm`;
+    }
+  }
+
+  async function signUpUser(email: string, password: string) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: getRedirectUrl(),
+      },
+    });
+
+    return { data, error };
+  }
+
   const onSubmit: SubmitHandler<FormFields> = async (formData) => {
     setSignUpError(false);
     setSignUpSuccess(false);
 
     return;
 
-    const { authData, error } = await signUpUser(formData.email, formData.password);
+    const { data: authData, error } = await signUpUser(formData.email, formData.password);
 
     if (error) {
       setSignUpError(true);

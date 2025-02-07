@@ -216,6 +216,9 @@
     "forgotPassword": "Forgot password?",
     "signUp": "Sign up"
   },
+  "LoginMessage": {
+    "message": "You are now logged in"
+  },
   "SignUp": {
     "createAccount": "Create a free account",
     "accountOptional": "Most features work without an account. Sign up for extras:",
