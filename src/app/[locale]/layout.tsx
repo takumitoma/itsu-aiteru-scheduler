@@ -3,6 +3,8 @@ import { Noto_Sans_JP } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { createServerClient } from '@supabase/ssr';
 import { routing } from '@/i18n/routing';
 import { Providers } from '@/providers';
 import { Header } from '@/components/Header';
@@ -42,6 +44,24 @@ export default async function Layout({
   // Providing all messages to the client side
   const messages = await getMessages();
 
+  // Check if user is logged in
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+      },
+    },
+  );
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const isLoggedIn = user !== null;
+
   return (
     <html
       lang={locale}
@@ -63,7 +83,7 @@ export default async function Layout({
           <NextIntlClientProvider messages={messages}>
             <Providers>
               <div className="flex min-h-screen w-full flex-col">
-                <Header />
+                <Header isLoggedIn={isLoggedIn} />
                 <main className="flex-1 pt-20">
                   <div className="container mx-auto max-w-5xl px-4 py-8">{children}</div>
                 </main>

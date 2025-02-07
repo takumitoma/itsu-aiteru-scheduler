@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { usePathname } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+
+import { TransitionLink } from '@/components/TransitionLink';
+
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
-import { useTranslations } from 'next-intl';
-import { TransitionLink } from '@/components/TransitionLink';
 
 const NAV_ITEMS = [
   { href: '/overview', translationKey: 'overview' },
@@ -14,7 +16,11 @@ const NAV_ITEMS = [
   { href: '/contact', translationKey: 'contact' },
 ] as const;
 
-export function Header() {
+interface HeaderProps {
+  isLoggedIn: boolean;
+}
+
+export function Header({ isLoggedIn }: HeaderProps) {
   const t = useTranslations('Header');
   const pathName = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
