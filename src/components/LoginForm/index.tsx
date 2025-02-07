@@ -48,9 +48,9 @@ export function LoginForm() {
 
   function getRedirectUrl() {
     if (locale === 'ja') {
-      return `${BASE_URL}`;
+      return `${BASE_URL}?login=true`;
     } else {
-      return `${BASE_URL}/${locale}`;
+      return `${BASE_URL}/${locale}?login=true`;
     }
   }
 
