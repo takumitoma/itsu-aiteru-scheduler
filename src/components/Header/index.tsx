@@ -51,22 +51,29 @@ export function Header({ isLoggedIn }: HeaderProps) {
         </TransitionLink>
 
         {/* desktop nav bar */}
-        <nav className="hidden md:block">
-          <ul className="flex items-center space-x-8">
-            {NAV_ITEMS.map(({ href, translationKey }) => (
-              <li key={href}>
-                <TransitionLink
-                  href={href}
-                  className={`text-lg font-semibold transition-colors hover:text-primary ${
-                    pathName === href ? 'text-primary' : 'text-foreground'
-                  }`}
-                >
-                  {t(`nav.${translationKey}`)}
-                </TransitionLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="hidden space-x-8 md:flex">
+          <nav>
+            <ul className="flex space-x-8">
+              {NAV_ITEMS.map(({ href, translationKey }) => (
+                <li key={href}>
+                  <TransitionLink
+                    href={href}
+                    className={`text-lg font-semibold transition-colors hover:text-primary ${
+                      pathName === href ? 'text-primary' : 'text-foreground'
+                    }`}
+                  >
+                    {t(`nav.${translationKey}`)}
+                  </TransitionLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {isLoggedIn && (
+            <button className="text-lg font-semibold transition-colors hover:text-primary">
+              Logout
+            </button>
+          )}
+        </div>
 
         {/* buttons to open or close mobile nav */}
         <button
@@ -90,23 +97,28 @@ export function Header({ isLoggedIn }: HeaderProps) {
             />
 
             <div className="fixed inset-x-0 bottom-4 top-20 z-50 md:hidden">
-              <nav className="mx-4 h-full rounded bg-background">
-                <ul className="flex flex-col space-y-4 p-4">
-                  {NAV_ITEMS.map(({ href, translationKey }) => (
-                    <li key={href}>
-                      <TransitionLink
-                        href={href}
-                        className={`text-xl transition-colors hover:text-primary ${
-                          pathName === href ? 'text-primary' : 'text-foreground'
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {t(`nav.${translationKey}`)}
-                      </TransitionLink>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              <div className="mx-4 h-full space-y-4 rounded bg-background p-4">
+                <nav>
+                  <ul className="space-y-4">
+                    {NAV_ITEMS.map(({ href, translationKey }) => (
+                      <li key={href}>
+                        <TransitionLink
+                          href={href}
+                          className={`text-xl transition-colors hover:text-primary ${
+                            pathName === href ? 'text-primary' : 'text-foreground'
+                          }`}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {t(`nav.${translationKey}`)}
+                        </TransitionLink>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+                {isLoggedIn && (
+                  <button className="text-xl transition-colors hover:text-primary">Logout</button>
+                )}
+              </div>
             </div>
           </>
         )}
