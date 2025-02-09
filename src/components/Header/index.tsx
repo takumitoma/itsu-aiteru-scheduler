@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { TransitionLink } from '@/components/TransitionLink';
+import { LogoutButton } from './LogoutButton';
 
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { LuX } from 'react-icons/lu';
@@ -69,9 +70,7 @@ export function Header({ isLoggedIn }: HeaderProps) {
             </ul>
           </nav>
           {isLoggedIn && (
-            <button className="text-lg font-semibold transition-colors hover:text-primary">
-              Logout
-            </button>
+            <LogoutButton className="text-lg font-semibold transition-colors hover:text-primary" />
           )}
         </div>
 
@@ -116,7 +115,7 @@ export function Header({ isLoggedIn }: HeaderProps) {
                   </ul>
                 </nav>
                 {isLoggedIn && (
-                  <button className="text-xl transition-colors hover:text-primary">Logout</button>
+                  <LogoutButton className="text-xl transition-colors hover:text-primary" />
                 )}
               </div>
             </div>

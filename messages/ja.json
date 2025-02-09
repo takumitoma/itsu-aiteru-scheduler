@@ -21,7 +21,8 @@
     "aria": {
       "openMenu": "メニューを開く",
       "closeMenu": "メニューを閉じる"
-    }
+    },
+    "logout": "ログアウト"
   },
   "Footer": {
     "appName": "いつ空いてる？",
