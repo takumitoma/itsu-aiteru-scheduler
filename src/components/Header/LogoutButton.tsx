@@ -1,6 +1,6 @@
-import { supabase } from '@/lib/supabase/public-client';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
+import { supabase } from '@/lib/supabase/browser-client';
 
 interface LogoutButtonProps {
   className: string;

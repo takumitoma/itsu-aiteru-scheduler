@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { supabase } from '@/lib/supabase/public-client';
+import { supabase } from '@/lib/supabase/browser-client';
 import { useRouter } from '@/i18n/routing';
 
 import { BsExclamationCircle } from 'react-icons/bs';
