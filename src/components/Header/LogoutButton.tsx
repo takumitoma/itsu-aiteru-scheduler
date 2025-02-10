@@ -12,6 +12,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
 
   async function handleClick() {
     await supabase.auth.signOut();
+    router.push('/?logout=true');
     router.refresh();
   }
 
