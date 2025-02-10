@@ -62,6 +62,7 @@ export function LoginForm() {
     }
 
     router.push('/?login=true');
+    router.refresh();
   };
 
   return (
