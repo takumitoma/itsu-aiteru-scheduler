@@ -21,7 +21,8 @@
     "aria": {
       "openMenu": "Open menu",
       "closeMenu": "Close menu"
-    }
+    },
+    "logout": "Log out"
   },
   "Footer": {
     "appName": "When Are You Free?",
@@ -216,8 +217,9 @@
     "forgotPassword": "Forgot password?",
     "signUp": "Sign up"
   },
-  "LoginMessage": {
-    "message": "You are now logged in"
+  "LoginOutMessage": {
+    "login": "You are now logged in",
+    "logout": "You have been logged out"
   },
   "SignUp": {
     "createAccount": "Create a free account",

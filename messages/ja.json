@@ -21,7 +21,8 @@
     "aria": {
       "openMenu": "メニューを開く",
       "closeMenu": "メニューを閉じる"
-    }
+    },
+    "logout": "ログアウト"
   },
   "Footer": {
     "appName": "いつ空いてる？",
@@ -216,8 +217,9 @@
     "forgotPassword": "パスワードをお忘れの方",
     "signUp": "アカウントを作成"
   },
-  "LoginMessage": {
-    "message": "ログインしました"
+  "LoginOutMessage": {
+    "login": "ログインしました",
+    "logout": "ログアウトしました"
   },
   "SignUp": {
     "createAccount": "無料アカウントを作成",
