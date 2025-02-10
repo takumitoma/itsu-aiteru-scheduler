@@ -1,14 +1,15 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { supabase } from '@/lib/supabase/browser-client';
+
 import { BsExclamationCircle } from 'react-icons/bs';
 import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
-import { useTranslations } from 'next-intl';
-import { supabase } from '@/lib/supabase/public-client';
-import { useLocale } from 'next-intl';
 
 const BASE_URL =
   process.env.NODE_ENV === 'production'

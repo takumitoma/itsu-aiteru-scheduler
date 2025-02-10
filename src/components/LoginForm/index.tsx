@@ -5,16 +5,11 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { BsExclamationCircle } from 'react-icons/bs';
-import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
-import { supabase } from '@/lib/supabase/public-client';
-import { useLocale } from 'next-intl';
+import { supabase } from '@/lib/supabase/browser-client';
 import { useRouter } from '@/i18n/routing';
 
-const BASE_URL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : 'http://localhost:3000';
+import { BsExclamationCircle } from 'react-icons/bs';
+import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 
 const schema = z.object({
   email: z.string().email(),
@@ -25,7 +20,6 @@ type FormFields = z.infer<typeof schema>;
 
 export function LoginForm() {
   const t = useTranslations('Login');
-  const locale = useLocale();
   const router = useRouter();
 
   const [loginError, setLoginError] = useState(false);
@@ -45,14 +39,6 @@ export function LoginForm() {
       password: '',
     },
   });
-
-  function getRedirectUrl() {
-    if (locale === 'ja') {
-      return `${BASE_URL}?login=true`;
-    } else {
-      return `${BASE_URL}/${locale}?login=true`;
-    }
-  }
 
   async function loginUser(email: string, password: string) {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -75,7 +61,8 @@ export function LoginForm() {
       return;
     }
 
-    router.push(getRedirectUrl());
+    router.push('/?login=true');
+    router.refresh();
   };
 
   return (
