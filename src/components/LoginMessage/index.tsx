@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from '@/i18n/routing';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useRouter } from '@/i18n/routing';
 
 export function LoginOutMessage() {
   const searchParams = useSearchParams();
