@@ -1,54 +1,63 @@
+'use client';
+
+import { useLocale } from 'next-intl';
+
+import { TransitionLink } from '@/components/TransitionLink';
+import { Event } from '@/types/Event';
+
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-type Event = {
-  id: string;
-  title: string;
-  dates: string[] | null;
-  daysOfWeek: number[] | null;
-  timeRangeStart: number;
-  timeRangeEnd: number;
-  numParticipants: number;
-  createdAt: Date;
-  url: string;
-};
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : 'http://localhost:3000';
 
 const events: Event[] = [
   {
-    id: '1',
+    id: '123456',
     title: 'Event 1',
-    dates: ['4/1/2025', '4/2/2025', '4/3/2025'],
-    daysOfWeek: null,
+    surveyType: 'specific',
+    timezone: 'Asia/Tokyo',
     timeRangeStart: 9,
     timeRangeEnd: 18,
-    numParticipants: 16,
-    createdAt: new Date(2025, 4, 1),
-    url: 'http://hello.com',
-  },
-  {
-    id: '2',
-    title: 'Event 2',
     dates: ['4/1/2025', '4/2/2025', '4/3/2025'],
     daysOfWeek: null,
+    createdAt: new Date(2025, 4, 1),
+  },
+  {
+    id: '222222',
+    title: 'Event 2',
+    surveyType: 'specific',
+    timezone: 'Asia/Tokyo',
     timeRangeStart: 9,
     timeRangeEnd: 13,
-    numParticipants: 1,
+    dates: ['4/17/2025', '4/18/2025', '4/19/2025'],
+    daysOfWeek: null,
     createdAt: new Date(2025, 2, 5),
-    url: 'http://hello.com',
   },
   {
-    id: '3',
+    id: '333333',
     title: 'Event 3',
-    dates: ['4/1/2025', '4/2/2025', '4/3/2025'],
-    daysOfWeek: null,
+    surveyType: 'specific',
+    timezone: 'Asia/Tokyo',
     timeRangeStart: 10,
     timeRangeEnd: 21,
-    numParticipants: 12,
+    dates: ['5/1/2025', '5/2/2025'],
+    daysOfWeek: null,
     createdAt: new Date(2025, 3, 25),
-    url: 'http://hello.com',
   },
 ];
 
 export function EventCard({ event }: { event: Event }) {
+  const locale = useLocale();
+
+  function getEventUrl(eventId: string) {
+    if (locale === 'ja') {
+      return `${BASE_URL}/e/${eventId}`;
+    }
+    return `${BASE_URL}${locale}/e/${eventId}`;
+  }
+
   return (
     <article className="flex flex-col space-y-2 rounded border border-grayCustom p-3">
       <h2 className="text-lg font-medium">{event.title}</h2>
@@ -63,8 +72,8 @@ export function EventCard({ event }: { event: Event }) {
           <dd>{`${event.timeRangeStart} - ${event.timeRangeEnd}`}</dd>
         </div>
         <div className="flex space-x-1">
-          <dt className="font-medium">Number of participants:</dt>
-          <dd>{event.numParticipants}</dd>
+          <dt className="font-medium">Event timezone:</dt>
+          <dd>{event.timezone}</dd>
         </div>
         <div className="flex space-x-1">
           <dt className="font-medium">Created at:</dt>
@@ -73,9 +82,9 @@ export function EventCard({ event }: { event: Event }) {
         <div className="flex space-x-1">
           <dt className="font-medium">Event URL:</dt>
           <dd>
-            <a href={event.url} className="text-primary underline">
-              {event.url}
-            </a>
+            <TransitionLink href={`/e/${event.id}`} className="text-primary underline">
+              {getEventUrl(event.id)}
+            </TransitionLink>
           </dd>
         </div>
       </dl>
@@ -94,7 +103,7 @@ export default function HistoryPage() {
           <EventCard key={event.id} event={event} />
         ))}
       </div>
-      <button className="flex items-center space-x-2 rounded p-2 hover:bg-grayCustom">
+      <button className="flex items-center space-x-2 rounded border border-grayCustom p-2 hover:bg-grayCustom">
         <FaRegTrashAlt />
         <p className="font-medium">Clear all view history</p>
       </button>
