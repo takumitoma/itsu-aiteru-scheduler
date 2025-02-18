@@ -16,7 +16,8 @@
     "nav": {
       "overview": "Overview",
       "guide": "Quick Guide",
-      "contact": "Contact Us"
+      "contact": "Contact Us",
+      "history": "History"
     },
     "aria": {
       "openMenu": "Open menu",

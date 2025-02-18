@@ -43,6 +43,10 @@ export function Header({ isLoggedIn }: HeaderProps) {
     setIsMobileMenuOpen((prevState) => !prevState);
   }
 
+  const navItems = isLoggedIn
+    ? ([...NAV_ITEMS, { href: '/history', translationKey: 'history' }] as const)
+    : NAV_ITEMS;
+
   return (
     <header className="fixed left-0 top-0 z-50 h-20 w-full border-b border-grayCustom bg-background">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
@@ -52,10 +56,10 @@ export function Header({ isLoggedIn }: HeaderProps) {
         </TransitionLink>
 
         {/* desktop nav bar */}
-        <div className="hidden space-x-8 md:flex">
+        <div className="hidden space-x-8 lg:flex">
           <nav>
             <ul className="flex space-x-8">
-              {NAV_ITEMS.map(({ href, translationKey }) => (
+              {navItems.map(({ href, translationKey }) => (
                 <li key={href}>
                   <TransitionLink
                     href={href}
@@ -76,7 +80,7 @@ export function Header({ isLoggedIn }: HeaderProps) {
 
         {/* buttons to open or close mobile nav */}
         <button
-          className={`block md:hidden ${
+          className={`block lg:hidden ${
             isMobileMenuOpen ? 'z-50 text-background' : 'text-foreground'
           }`}
           onClick={toggleMenu}
@@ -90,16 +94,16 @@ export function Header({ isLoggedIn }: HeaderProps) {
           <>
             {/* overlay */}
             <div
-              className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
+              className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            <div className="fixed inset-x-0 bottom-4 top-20 z-50 md:hidden">
+            <div className="fixed inset-x-0 bottom-4 top-20 z-50 lg:hidden">
               <div className="mx-4 h-full space-y-4 rounded bg-background p-4">
                 <nav>
                   <ul className="space-y-4">
-                    {NAV_ITEMS.map(({ href, translationKey }) => (
+                    {navItems.map(({ href, translationKey }) => (
                       <li key={href}>
                         <TransitionLink
                           href={href}
