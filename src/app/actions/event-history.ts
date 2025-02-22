@@ -38,3 +38,14 @@ export async function addEventToHistory(event: Event) {
     maxAge: TWO_MONTHS,
   });
 }
+
+export async function clearEventHistory() {
+  const cookieStore = cookies();
+
+  cookieStore.set(EVENT_HISTORY_COOKIE_NAME, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 0,
+  });
+}

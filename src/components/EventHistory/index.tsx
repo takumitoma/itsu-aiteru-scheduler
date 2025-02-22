@@ -1,7 +1,9 @@
 'use client';
 
 import { useLocale } from 'next-intl';
+import { useTransition } from 'react';
 
+import { clearEventHistory } from '@/app/actions/event-history';
 import { TransitionLink } from '@/components/TransitionLink';
 import { Event } from '@/types/Event';
 
@@ -61,6 +63,14 @@ interface EventHistoryProps {
 }
 
 export function EventHistory({ eventHistory }: EventHistoryProps) {
+  const [isPending, startTransition] = useTransition();
+
+  async function handleClearHistory() {
+    startTransition(async () => {
+      await clearEventHistory();
+    });
+  }
+
   return (
     <>
       <div className="w-full space-y-4">
@@ -68,9 +78,16 @@ export function EventHistory({ eventHistory }: EventHistoryProps) {
           <EventCard key={event.id} event={event} />
         ))}
       </div>
-      <button className="flex items-center space-x-2 rounded border border-grayCustom p-2 hover:bg-grayCustom">
+      <button
+        onClick={handleClearHistory}
+        disabled={isPending}
+        className={
+          'flex items-center space-x-2 rounded border border-grayCustom p-2 hover:bg-grayCustom' +
+          'disabled:cursor-not-allowed disabled:opacity-50'
+        }
+      >
         <FaRegTrashAlt />
-        <p className="font-medium">Clear all view history</p>
+        <p className="font-medium">{isPending ? 'Clearing...' : 'Clear all view history'}</p>
       </button>
     </>
   );
