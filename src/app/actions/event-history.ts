@@ -27,11 +27,11 @@ export async function addEventToHistory(event: Event) {
   eventHistory.push(event);
 
   // keep just the MAX_HISTORY most recent events
-  if (history.length > MAX_HISTORY) {
+  if (eventHistory.length > MAX_HISTORY) {
     eventHistory = eventHistory.slice(history.length - MAX_HISTORY);
   }
 
-  cookieStore.set(EVENT_HISTORY_COOKIE_NAME, JSON.stringify(history), {
+  cookieStore.set(EVENT_HISTORY_COOKIE_NAME, JSON.stringify(eventHistory), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
