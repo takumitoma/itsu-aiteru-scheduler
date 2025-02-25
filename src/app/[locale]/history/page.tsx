@@ -12,7 +12,12 @@ export default function HistoryPage() {
 
   if (historyCookie) {
     try {
-      eventHistory = JSON.parse(historyCookie.value);
+      // parse the cookie and convert createdAt to a date object
+      const parsedHistory = JSON.parse(historyCookie.value);
+      eventHistory = parsedHistory.map((event: any) => ({
+        ...event,
+        createdAt: new Date(event.createdAt),
+      }));
     } catch (error) {
       console.error('Event history cookie is broken', error);
     }
