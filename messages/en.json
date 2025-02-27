@@ -251,6 +251,14 @@
     "featureHistory": "See your event history",
     "comingSoon": "More features coming soon"
   },
+  "History": {
+    "event": {
+      "date": {
+        "specific": "{month}/{day}/{year}",
+        "week": "{day}"
+      }
+    }
+  },
   "CreateEvent": {
     "pageTitle": "Create New Event",
     "CreateEventButton": {

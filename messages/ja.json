@@ -251,6 +251,14 @@
     "featureHistory": "イベント履歴を確認",
     "comingSoon": "今後さらに機能を追加予定"
   },
+  "History": {
+    "event": {
+      "date": {
+        "specific": "{year}/{month}/{day}",
+        "week": "{day}曜日"
+      }
+    }
+  },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",
     "CreateEventButton": {

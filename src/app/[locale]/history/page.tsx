@@ -13,8 +13,8 @@ export default function HistoryPage() {
   if (historyCookie) {
     try {
       // parse the cookie and convert createdAt to a date object
-      const parsedHistory = JSON.parse(historyCookie.value);
-      eventHistory = parsedHistory.map((event: any) => ({
+      const parsedHistory: Event[] = JSON.parse(historyCookie.value);
+      eventHistory = parsedHistory.map((event) => ({
         ...event,
         createdAt: new Date(event.createdAt),
       }));

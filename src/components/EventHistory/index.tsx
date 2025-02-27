@@ -2,6 +2,9 @@
 
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
+import { useTranslations } from 'next-intl';
+
+import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 
 import { clearEventHistory } from '@/app/actions/event-history';
 import { TransitionLink } from '@/components/TransitionLink';
@@ -9,6 +12,7 @@ import { Event } from '@/types/Event';
 
 import { FaRegTrashAlt } from 'react-icons/fa';
 
+import { daysOfWeekKeys } from '@/constants/days';
 const BASE_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_PUBLIC_SITE_URL
@@ -16,6 +20,11 @@ const BASE_URL =
 
 function EventCard({ event }: { event: Event }) {
   const locale = useLocale();
+  const { timeFormat } = useTimeFormatContext();
+  const timezoneT = useTranslations('constants.Timezones');
+  const timeT = useTranslations('ViewEditEvent.TimeLabels');
+  const dowT = useTranslations('constants.DaysOfWeek');
+  const t = useTranslations('History.event');
 
   function getEventUrl(eventId: string) {
     if (locale === 'ja') {
@@ -24,26 +33,63 @@ function EventCard({ event }: { event: Event }) {
     return `${BASE_URL}${locale}/e/${eventId}`;
   }
 
+  function formatTimeDisplay(hour: number) {
+    if (timeFormat === 24) {
+      return timeT('time24h', { hour });
+    }
+
+    if (hour === 0 || hour === 24) {
+      return timeT('midnight');
+    }
+    if (hour === 12) {
+      return timeT('noon');
+    }
+
+    const displayHour = hour > 12 ? hour - 12 : hour;
+    const period = hour < 12 ? timeT('am') : timeT('pm');
+
+    return timeT('time12h', {
+      hour: displayHour,
+      period,
+    });
+  }
+
+  function formatDate(date: string, dateType: 'specific' | 'week'): string {
+    const [year, month, day] = date.split('-');
+    return t(`date.${dateType}`, { year, month, day });
+  }
+
+  function formatDates(dates: string[], dateType: 'specific' | 'week'): string[] {
+    return dates.map((date) => formatDate(date, dateType));
+  }
+
+  const daysOfWeek = daysOfWeekKeys.map((day) => dowT(day));
+
+  function formatDaysOfWeek(selectedDaysOfWeek: number[]) {
+    const selectedDOWStr = daysOfWeek.filter((_, index) => selectedDaysOfWeek?.[index] === 1) || [];
+    return selectedDOWStr.map((day) => t(`date.week`, { day }));
+  }
+
   return (
     <article className="flex flex-col space-y-2 rounded border border-grayCustom p-3">
       <h2 className="text-lg font-medium">{event.title}</h2>
       <dl>
         <div className="flex space-x-1">
-          <dt className="font-medium">Event dates:</dt>
-          {event.dates && <dd>{event.dates.join(', ')}</dd>}
-          {event.daysOfWeek && <dd>{event.daysOfWeek.join(', ')}</dd>}
+          <dt className="whitespace-nowrap font-medium">Event dates:</dt>
+          {event.dates && <dd>{formatDates(event.dates, 'specific').join(', ')}</dd>}
+          {event.daysOfWeek && <dd>{formatDaysOfWeek(event.daysOfWeek).join(', ')}</dd>}
         </div>
         <div className="flex space-x-1">
           <dt className="font-medium">Event time:</dt>
-          <dd>{`${event.timeRangeStart} - ${event.timeRangeEnd}`}</dd>
+          <dd>{`${formatTimeDisplay(event.timeRangeStart)} - ${formatTimeDisplay(event.timeRangeEnd)}`}</dd>
         </div>
         <div className="flex space-x-1">
           <dt className="font-medium">Event timezone:</dt>
-          <dd>{event.timezone}</dd>
+          <dd>{timezoneT(event.timezone)}</dd>
         </div>
         <div className="flex space-x-1">
           <dt className="font-medium">Created at:</dt>
-          <dd>{event.createdAt.toDateString()}</dd>
+          <dd>{formatDate(event.createdAt.toISOString().split('T')[0], 'specific')}</dd>
         </div>
         <div className="flex space-x-1">
           <dt className="font-medium">Event URL:</dt>
