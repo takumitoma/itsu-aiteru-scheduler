@@ -27,7 +27,7 @@ import {
   generateParticipantLists,
   generateColorScale,
 } from '@/utils/availability-calculations';
-import { addEventToHistory } from '@/app/actions/event-history';
+import { addEventToHistory } from '@/utils/event-history';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
@@ -47,11 +47,7 @@ export function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   const { theme } = useTheme();
 
   useEffect(() => {
-    async function updateEventHistory() {
-      await addEventToHistory(event);
-    }
-
-    updateEventHistory();
+    addEventToHistory(event);
   }, [event]);
 
   const [allParticipants, setAllParticipants] = useState<Participant[]>(participants);

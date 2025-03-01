@@ -1,12 +1,13 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 
-import { clearEventHistory } from '@/app/actions/event-history';
+import { getEventHistory, clearEventHistory } from '@/utils/event-history';
 import { TransitionLink } from '@/components/TransitionLink';
 import { Event } from '@/types/Event';
 
@@ -104,17 +105,30 @@ function EventCard({ event }: { event: Event }) {
   );
 }
 
-interface EventHistoryProps {
-  eventHistory: Event[];
-}
-
-export function EventHistory({ eventHistory }: EventHistoryProps) {
+export function EventHistory() {
+  const [eventHistory, setEventHistory] = useState<Event[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  async function handleClearHistory() {
-    startTransition(async () => {
-      await clearEventHistory();
+  useEffect(() => {
+    setEventHistory(getEventHistory());
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  function handleClearHistory() {
+    startTransition(() => {
+      if (clearEventHistory()) {
+        setEventHistory([]);
+      }
     });
+  }
+
+  if (!isLoaded) {
+    return null;
   }
 
   return (
@@ -126,14 +140,14 @@ export function EventHistory({ eventHistory }: EventHistoryProps) {
       </div>
       <button
         onClick={handleClearHistory}
-        disabled={isPending}
         className={
           'flex items-center space-x-2 rounded border border-grayCustom p-2 hover:bg-grayCustom' +
           'disabled:cursor-not-allowed disabled:opacity-50'
         }
+        disabled={isPending}
       >
         <FaRegTrashAlt />
-        <p className="font-medium">{isPending ? 'Clearing...' : 'Clear all view history'}</p>
+        <p className="font-medium">Clear all view history</p>
       </button>
     </>
   );
