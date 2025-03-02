@@ -3,11 +3,7 @@ import { Event } from '@/types/Event';
 import { EVENT_HISTORY_STORAGE_NAME } from '@/constants/event-history-storage';
 const MAX_HISTORY = 10;
 
-const isBrowser = () => typeof window !== 'undefined';
-
 export function addEventToHistory(event: Event) {
-  if (!isBrowser()) return;
-
   try {
     let eventHistory: Event[] = [];
 
@@ -33,8 +29,6 @@ export function addEventToHistory(event: Event) {
 }
 
 export function getEventHistory(): Event[] {
-  if (!isBrowser()) return [];
-
   let eventHistory: Event[] = [];
   try {
     const storedHistory = localStorage.getItem(EVENT_HISTORY_STORAGE_NAME);
@@ -50,8 +44,6 @@ export function getEventHistory(): Event[] {
 }
 
 export function clearEventHistory(): boolean {
-  if (!isBrowser()) return false;
-
   try {
     localStorage.setItem(EVENT_HISTORY_STORAGE_NAME, '[]');
     return true;
