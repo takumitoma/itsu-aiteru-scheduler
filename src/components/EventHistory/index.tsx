@@ -76,24 +76,24 @@ function EventCard({ event }: { event: Event }) {
       <h2 className="text-lg font-medium">{event.title}</h2>
       <dl>
         <div className="flex space-x-1">
-          <dt className="whitespace-nowrap font-medium">Event dates:</dt>
+          <dt className="whitespace-nowrap font-medium">{t('dateLabel')}:</dt>
           {event.dates && <dd>{formatDates(event.dates, 'specific').join(', ')}</dd>}
           {event.daysOfWeek && <dd>{formatDaysOfWeek(event.daysOfWeek).join(', ')}</dd>}
         </div>
         <div className="flex space-x-1">
-          <dt className="font-medium">Event time:</dt>
+          <dt className="font-medium">{t('timeLabel')}:</dt>
           <dd>{`${formatTimeDisplay(event.timeRangeStart)} - ${formatTimeDisplay(event.timeRangeEnd)}`}</dd>
         </div>
         <div className="flex space-x-1">
-          <dt className="font-medium">Event timezone:</dt>
+          <dt className="font-medium">{t('timezoneLabel')}:</dt>
           <dd>{timezoneT(event.timezone)}</dd>
         </div>
         <div className="flex space-x-1">
-          <dt className="font-medium">Created at:</dt>
+          <dt className="font-medium">{t('createdAtLabel')}:</dt>
           <dd>{formatDate(event.createdAt.toISOString().split('T')[0], 'specific')}</dd>
         </div>
         <div className="flex space-x-1">
-          <dt className="font-medium">Event URL:</dt>
+          <dt className="font-medium">{t('urlLabel')}:</dt>
           <dd>
             <TransitionLink href={`/e/${event.id}`} className="text-primary underline">
               {getEventUrl(event.id)}
@@ -106,6 +106,8 @@ function EventCard({ event }: { event: Event }) {
 }
 
 export function EventHistory() {
+  const t = useTranslations('History');
+
   const [eventHistory, setEventHistory] = useState<Event[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -147,7 +149,7 @@ export function EventHistory() {
         disabled={isPending}
       >
         <FaRegTrashAlt />
-        <p className="font-medium">Clear all view history</p>
+        <p className="font-medium">{t('clearHistory')}</p>
       </button>
     </div>
   );

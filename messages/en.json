@@ -252,12 +252,19 @@
     "comingSoon": "More features coming soon"
   },
   "History": {
+    "title": "View History",
     "event": {
+      "dateLabel": "Event dates",
       "date": {
         "specific": "{month}/{day}/{year}",
         "week": "{day}"
-      }
-    }
+      },
+      "timeLabel": "Event time",
+      "timezoneLabel": "Event timezone",
+      "createdAtLabel": "Created at",
+      "urlLabel": "Event URL"
+    },
+    "clearHistory": "Clear all view history"
   },
   "CreateEvent": {
     "pageTitle": "Create New Event",

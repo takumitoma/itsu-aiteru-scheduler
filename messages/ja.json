@@ -252,12 +252,19 @@
     "comingSoon": "今後さらに機能を追加予定"
   },
   "History": {
+    "title": "閲覧履歴",
     "event": {
+      "dateLabel": "日付",
       "date": {
         "specific": "{year}/{month}/{day}",
         "week": "{day}曜日"
-      }
-    }
+      },
+      "timeLabel": "時間帯",
+      "timezoneLabel": "タイムゾーン",
+      "createdAtLabel": "作成日",
+      "urlLabel": "リンク"
+    },
+    "clearHistory": "Clear all view history"
   },
   "CreateEvent": {
     "pageTitle": "新規イベント作成",

@@ -1,10 +1,14 @@
+import { getTranslations } from 'next-intl/server';
+
 import { EventHistory } from '@/components/EventHistory';
 
-export default function HistoryPage() {
+export default async function HistoryPage() {
+  const t = await getTranslations('History');
+
   return (
     <section className="mx-auto flex max-w-md flex-col items-center space-y-12">
       <h1 className="underline decoration-primary decoration-4 underline-offset-[16px]">
-        View History
+        {t('title')}
       </h1>
       <EventHistory />
     </section>
