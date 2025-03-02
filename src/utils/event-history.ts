@@ -37,6 +37,7 @@ export function getEventHistory(): Event[] {
       ...event,
       createdAt: new Date(event.createdAt),
     }));
+    eventHistory = eventHistory.reverse();
   } catch (error) {
     console.error('failed to get event history', error);
   }

@@ -132,7 +132,7 @@ export function EventHistory() {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center space-y-8">
       <div className="w-full space-y-4">
         {eventHistory.map((event) => (
           <EventCard key={event.id} event={event} />
@@ -149,6 +149,6 @@ export function EventHistory() {
         <FaRegTrashAlt />
         <p className="font-medium">Clear all view history</p>
       </button>
-    </>
+    </div>
   );
 }
