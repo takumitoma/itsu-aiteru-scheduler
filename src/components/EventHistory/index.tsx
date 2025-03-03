@@ -72,35 +72,63 @@ function EventCard({ event }: { event: Event }) {
   }
 
   return (
-    <article className="flex flex-col space-y-2 rounded border border-grayCustom p-3">
-      <h2 className="text-lg font-medium">{event.title}</h2>
-      <dl>
-        <div className="flex space-x-1">
-          <dt className="whitespace-nowrap font-medium">{t('dateLabel')}:</dt>
-          {event.dates && <dd>{formatDates(event.dates, 'specific').join(', ')}</dd>}
-          {event.daysOfWeek && <dd>{formatDaysOfWeek(event.daysOfWeek).join(', ')}</dd>}
-        </div>
-        <div className="flex space-x-1">
-          <dt className="font-medium">{t('timeLabel')}:</dt>
-          <dd>{`${formatTimeDisplay(event.timeRangeStart)} - ${formatTimeDisplay(event.timeRangeEnd)}`}</dd>
-        </div>
-        <div className="flex space-x-1">
-          <dt className="font-medium">{t('timezoneLabel')}:</dt>
-          <dd>{timezoneT(event.timezone)}</dd>
-        </div>
-        <div className="flex space-x-1">
-          <dt className="font-medium">{t('createdAtLabel')}:</dt>
-          <dd>{formatDate(event.createdAt.toISOString().split('T')[0], 'specific')}</dd>
-        </div>
-        <div className="flex space-x-1">
-          <dt className="font-medium">{t('urlLabel')}:</dt>
-          <dd>
-            <TransitionLink href={`/e/${event.id}`} className="text-primary underline">
-              {getEventUrl(event.id)}
-            </TransitionLink>
-          </dd>
-        </div>
-      </dl>
+    <article className="flex flex-col space-y-2 rounded border border-grayCustom">
+      <h2 className="px-3 pt-3 text-lg font-medium">{event.title}</h2>
+
+      <table className="border-t border-grayCustom">
+        <tbody>
+          <tr>
+            <td className="whitespace-nowrap border-r border-grayCustom px-3 pt-3 align-top font-medium">
+              {t('dateLabel')}
+            </td>
+            <td className="px-3 pt-3">
+              {event.dates && (
+                <>
+                  {formatDates(event.dates, 'specific').slice(0, 14).join(', ')}
+                  {event.dates.length > 14 && <span>{`, (+${event.dates.length - 14} more)`}</span>}
+                </>
+              )}
+              {event.daysOfWeek && formatDaysOfWeek(event.daysOfWeek).join(', ')}
+            </td>
+          </tr>
+
+          <tr>
+            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+              {t('timeLabel')}
+            </td>
+            <td className="px-3 pt-1">
+              {`${formatTimeDisplay(event.timeRangeStart)} - ${formatTimeDisplay(event.timeRangeEnd)}`}
+            </td>
+          </tr>
+
+          <tr>
+            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+              {t('timezoneLabel')}
+            </td>
+            <td className="px-3 pt-1">{timezoneT(event.timezone)}</td>
+          </tr>
+
+          <tr>
+            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+              {t('createdAtLabel')}
+            </td>
+            <td className="px-3 pt-1">
+              {formatDate(event.createdAt.toISOString().split('T')[0], 'specific')}
+            </td>
+          </tr>
+
+          <tr>
+            <td className="whitespace-nowrap border-r border-grayCustom px-3 align-top font-medium">
+              {t('urlLabel')}
+            </td>
+            <td className="max-w-0 break-words px-3 pb-3 pt-1">
+              <TransitionLink href={`/e/${event.id}`} className="text-primary underline">
+                {getEventUrl(event.id)}
+              </TransitionLink>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </article>
   );
 }
@@ -134,7 +162,7 @@ export function EventHistory() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-8">
+    <div className="flex w-full flex-col items-center space-y-8">
       <div className="w-full space-y-4">
         {eventHistory.map((event) => (
           <EventCard key={event.id} event={event} />
