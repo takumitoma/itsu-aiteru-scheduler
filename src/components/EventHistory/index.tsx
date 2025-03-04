@@ -75,13 +75,13 @@ function EventCard({ event }: { event: Event }) {
     <article className="flex flex-col space-y-2 rounded border border-grayCustom">
       <h2 className="px-3 pt-3 text-lg font-medium">{event.title}</h2>
 
-      <table className="border-t border-grayCustom">
+      <table className="w-full border-t border-grayCustom">
         <tbody>
-          <tr>
-            <td className="whitespace-nowrap border-r border-grayCustom px-3 pt-3 align-top font-medium">
+          <tr className="flex flex-col sm:table-row">
+            <td className="whitespace-nowrap border-grayCustom px-3 pt-3 align-top font-medium sm:border-r">
               {t('dateLabel')}
             </td>
-            <td className="px-3 pt-3">
+            <td className="px-3 sm:pt-3">
               {event.dates && (
                 <>
                   {formatDates(event.dates, 'specific').slice(0, 14).join(', ')}
@@ -92,8 +92,8 @@ function EventCard({ event }: { event: Event }) {
             </td>
           </tr>
 
-          <tr>
-            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+          <tr className="flex flex-col sm:table-row">
+            <td className="whitespace-nowrap border-grayCustom px-3 font-medium sm:border-r">
               {t('timeLabel')}
             </td>
             <td className="px-3 pt-1">
@@ -101,15 +101,15 @@ function EventCard({ event }: { event: Event }) {
             </td>
           </tr>
 
-          <tr>
-            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+          <tr className="flex flex-col sm:table-row">
+            <td className="whitespace-nowrap border-grayCustom px-3 font-medium sm:border-r">
               {t('timezoneLabel')}
             </td>
             <td className="px-3 pt-1">{timezoneT(event.timezone)}</td>
           </tr>
 
-          <tr>
-            <td className="whitespace-nowrap border-r border-grayCustom px-3 font-medium">
+          <tr className="flex flex-col sm:table-row">
+            <td className="whitespace-nowrap border-grayCustom px-3 font-medium sm:border-r">
               {t('createdAtLabel')}
             </td>
             <td className="px-3 pt-1">
@@ -117,11 +117,11 @@ function EventCard({ event }: { event: Event }) {
             </td>
           </tr>
 
-          <tr>
-            <td className="whitespace-nowrap border-r border-grayCustom px-3 align-top font-medium">
+          <tr className="flex flex-col sm:table-row">
+            <td className="whitespace-nowrap border-grayCustom px-3 align-top font-medium sm:border-r">
               {t('urlLabel')}
             </td>
-            <td className="max-w-0 break-words px-3 pb-3 pt-1">
+            <td className="overflow-wrap-anywhere break-all px-3 pb-3 pt-1">
               <TransitionLink href={`/e/${event.id}`} className="text-primary underline">
                 {getEventUrl(event.id)}
               </TransitionLink>
@@ -163,7 +163,7 @@ export function EventHistory() {
 
   return (
     <div className="flex w-full flex-col items-center space-y-8">
-      <div className="w-full space-y-4">
+      <div className="max-w-full space-y-4">
         {eventHistory.map((event) => (
           <EventCard key={event.id} event={event} />
         ))}
