@@ -16,9 +16,11 @@ export function LoginOutMessage() {
 
   useEffect(() => {
     if (isLoggedIn) {
+      setShowLogoutMessage(false);
       setShowLoginMessage(true);
       router.replace('/');
     } else if (isLoggedOut) {
+      setShowLoginMessage(false);
       setShowLogoutMessage(true);
       router.replace('/');
     }
