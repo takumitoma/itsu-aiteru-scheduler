@@ -16,7 +16,9 @@
     "nav": {
       "overview": "Overview",
       "guide": "Quick Guide",
-      "contact": "Contact Us"
+      "contact": "Contact Us",
+      "login": "Log In",
+      "history": "History"
     },
     "aria": {
       "openMenu": "Open menu",
@@ -249,6 +251,22 @@
     "featurePassword": "Add password to your events",
     "featureHistory": "See your event history",
     "comingSoon": "More features coming soon"
+  },
+  "History": {
+    "title": "View History",
+    "event": {
+      "dateLabel": "Event dates",
+      "date": {
+        "specific": "{month}/{day}/{year}",
+        "week": "{day}"
+      },
+      "more": "(+{count} more)",
+      "timeLabel": "Event time",
+      "timezoneLabel": "Event timezone",
+      "createdAtLabel": "Created at",
+      "urlLabel": "Event URL"
+    },
+    "clearHistory": "Clear all view history"
   },
   "CreateEvent": {
     "pageTitle": "Create New Event",

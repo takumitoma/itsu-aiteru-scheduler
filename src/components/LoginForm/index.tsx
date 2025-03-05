@@ -50,7 +50,6 @@ export function LoginForm() {
   }
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    return;
     setLoginError(false);
 
     const { data: userData, error } = await loginUser(data.email, data.password);
@@ -120,8 +119,7 @@ export function LoginForm() {
 
       <button
         type="submit"
-        disabled
-        // disabled={isSubmitting}
+        disabled={isSubmitting}
         className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? t('loggingIn') : t('login')}

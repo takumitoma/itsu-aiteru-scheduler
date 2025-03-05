@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Redirect authenticated users away from auth pages
+  // redirect authenticated users away from auth pages
   if (
     user &&
     (routing.locales.some(
@@ -44,6 +44,15 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname === '/register')
   ) {
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // redirect unathenticated users away from authenticated pages
+  if (
+    !user &&
+    (routing.locales.some((locale) => request.nextUrl.pathname === `/${locale}/history`) ||
+      request.nextUrl.pathname === '/history')
+  ) {
+    return NextResponse.redirect(new URL('/not-found', request.url));
   }
 
   return response;

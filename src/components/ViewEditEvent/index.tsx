@@ -1,6 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useTheme } from 'next-themes';
+import { useTranslations, useLocale } from 'next-intl';
+
+import { useTimeFormatContext } from '@/providers/TimeFormatContext';
+
 import { Heading } from './Heading';
 import { SubHeading } from './SubHeading';
 import { AvailabilityChart } from './AvailabilityChart';
@@ -12,6 +17,7 @@ import { AvailabilityDeleteViewer } from './AvailabilityDeleteViewer';
 import { ColorScale } from './ColorScale';
 import { TimezoneDisplay } from './TimezoneDisplay';
 import { ParticipantsList } from './ParticipantsList';
+
 import { updateAvailability } from '@/lib/api-client/availability';
 import { Event } from '@/types/Event';
 import { Participant } from '@/types/Participant';
@@ -21,14 +27,11 @@ import {
   generateParticipantLists,
   generateColorScale,
 } from '@/utils/availability-calculations';
-import { useTimeFormatContext } from '@/providers/TimeFormatContext';
-import { useTheme } from 'next-themes';
-import { useTranslations, useLocale } from 'next-intl';
+import { addEventToHistory } from '@/utils/event-history';
 
 const QUARTERS_PER_HOUR = 4;
 const MAX_VISIBLE_COLORS = 20;
 import { daysOfWeekKeys } from '@/constants/days';
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 interface ViewEditEventProps {
@@ -42,6 +45,10 @@ export function ViewEditEvent({ event, participants }: ViewEditEventProps) {
   const locale = useLocale() as 'ja' | 'en';
   const { timeFormat } = useTimeFormatContext();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    addEventToHistory(event);
+  }, [event]);
 
   const [allParticipants, setAllParticipants] = useState<Participant[]>(participants);
 
