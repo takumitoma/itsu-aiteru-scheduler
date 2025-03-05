@@ -13,8 +13,8 @@ export default async function SignUpPage() {
       <section className="w-full space-y-2">
         <p>{t('accountOptional')}</p>
         <ul className="ml-8 list-outside list-disc space-y-2">
-          <li>{t('featureNotification')}</li>
-          <li>{t('featurePassword')}</li>
+          <li>{t('featureNotification')} (coming soon)</li>
+          <li>{t('featurePassword')} (coming soon)</li>
           <li>{t('featureHistory')}</li>
         </ul>
         <p className="mt-4 text-sm text-gray-600">{t('comingSoon')}</p>
