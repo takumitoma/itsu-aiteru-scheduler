@@ -72,8 +72,8 @@ function EventCard({ event }: { event: Event }) {
   }
 
   return (
-    <article className="flex flex-col space-y-2 rounded border border-grayCustom">
-      <h2 className="px-3 pt-3 text-lg font-medium">{event.title}</h2>
+    <article className="flex flex-col rounded border border-grayCustom">
+      <h2 className="truncate px-3 py-3 text-lg font-medium">{event.title}</h2>
 
       <table className="w-full border-t border-grayCustom">
         <tbody>
@@ -85,7 +85,14 @@ function EventCard({ event }: { event: Event }) {
               {event.dates && (
                 <>
                   {formatDates(event.dates, 'specific').slice(0, 14).join(', ')}
-                  {event.dates.length > 14 && <span>{`, (+${event.dates.length - 14} more)`}</span>}
+                  {event.dates.length > 14 && (
+                    <>
+                      {' '}
+                      <span className="whitespace-nowrap">
+                        {t('more', { count: event.dates.length - 14 })}
+                      </span>
+                    </>
+                  )}
                 </>
               )}
               {event.daysOfWeek && formatDaysOfWeek(event.daysOfWeek).join(', ')}

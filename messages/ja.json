@@ -259,6 +259,7 @@
         "specific": "{year}/{month}/{day}",
         "week": "{day}曜日"
       },
+      "more": "... 他{count}日",
       "timeLabel": "時間帯",
       "timezoneLabel": "タイムゾーン",
       "createdAtLabel": "作成日",

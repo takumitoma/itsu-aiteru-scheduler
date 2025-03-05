@@ -259,6 +259,7 @@
         "specific": "{month}/{day}/{year}",
         "week": "{day}"
       },
+      "more": "(+{count} more)",
       "timeLabel": "Event time",
       "timezoneLabel": "Event timezone",
       "createdAtLabel": "Created at",
