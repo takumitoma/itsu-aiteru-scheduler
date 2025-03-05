@@ -45,7 +45,7 @@ export function Header({ isLoggedIn }: HeaderProps) {
 
   const navItems = isLoggedIn
     ? ([...NAV_ITEMS, { href: '/history', translationKey: 'history' }] as const)
-    : NAV_ITEMS;
+    : ([...NAV_ITEMS, { href: '/login', translationKey: 'login' }] as const);
 
   return (
     <header className="fixed left-0 top-0 z-50 h-20 w-full border-b border-grayCustom bg-background">
