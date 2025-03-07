@@ -3,9 +3,12 @@
 import { useState, useRef } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import dayjs from 'dayjs';
+
 import { useForm, FormProvider, Controller, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+
 import { EventTitleInput } from './EventTitleInput';
 import { SurveyTypeSelector } from './SurveyTypeSelector';
 import { TimezoneSelector } from './TimezoneSelector';
@@ -14,7 +17,8 @@ import { Calendar } from './Calendar';
 import { WeekCalendar } from './WeekCalendar';
 import { CreateEventButton } from './CreateEventButton';
 import { ErrorMessage } from './ErrorMessage';
-import dayjs from 'dayjs';
+import { SignedInFeatures } from './SignedInFeatures';
+
 import { createEvent } from '@/lib/api-client/event';
 import { Event } from '@/types/Event';
 
@@ -144,7 +148,6 @@ export function CreateEventForm() {
           <SurveyTypeSelector register={register('surveyType')} />
         </div>
 
-        {/* Too complex for register */}
         <div className="md:order-5">
           {surveyType === 'specific' ? (
             <Calendar error={errors.selectedDates?.message} />
@@ -153,13 +156,17 @@ export function CreateEventForm() {
           )}
         </div>
 
+        <div className="md:order-7 md:col-span-2">
+          <SignedInFeatures />
+        </div>
+
         {apiError && (
-          <div className="md:order-7 md:col-span-2">
+          <div className="md:order-8 md:col-span-2">
             <ErrorMessage />
           </div>
         )}
 
-        <div className="md:order-8 md:col-span-2">
+        <div className="pt-2 md:order-9 md:col-span-2">
           <CreateEventButton />
         </div>
 
