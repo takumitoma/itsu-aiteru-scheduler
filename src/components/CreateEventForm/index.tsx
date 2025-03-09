@@ -33,6 +33,7 @@ const schema = z
     selectedDates: z.array(z.string()),
     selectedDaysOfWeek: z.array(z.number()),
     selectedTimezone: z.string(),
+    password: z.string().max(16),
   })
   .refine(
     (data) => {
@@ -75,6 +76,7 @@ export function CreateEventForm() {
       selectedDates: [],
       selectedDaysOfWeek: [0, 0, 0, 0, 0, 0, 0],
       selectedTimezone: 'Asia/Tokyo',
+      password: '',
     },
   });
 
@@ -157,7 +159,7 @@ export function CreateEventForm() {
         </div>
 
         <div className="md:order-7 md:col-span-2">
-          <SignedInFeatures />
+          <SignedInFeatures passwordRegister={register('password')} />
         </div>
 
         {apiError && (
