@@ -314,6 +314,12 @@
     },
     "CreateEventForm": {
       "unknownError": "予期せぬエラーが発生しました"
+    },
+    "SignedInFeatures": {
+      "title": "詳細設定",
+      "PasswordInput": {
+        "label": "パスワード"
+      }
     }
   },
   "ViewEditEvent": {

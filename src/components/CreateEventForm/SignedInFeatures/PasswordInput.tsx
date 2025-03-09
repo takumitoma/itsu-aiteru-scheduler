@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
 interface PasswordInputProps {
@@ -6,10 +7,12 @@ interface PasswordInputProps {
 }
 
 export function PasswordInput({ className, register }: PasswordInputProps) {
+  const t = useTranslations('CreateEvent.SignedInFeatures.PasswordInput');
+
   return (
     <div className={`flex w-full flex-col space-y-4 ${className}`}>
       <label htmlFor="password" className="">
-        Password
+        {t('label')}
       </label>
       <input
         type="password"

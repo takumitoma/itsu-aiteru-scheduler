@@ -314,6 +314,12 @@
     },
     "CreateEventForm": {
       "unknownError": "An unknown error occurred"
+    },
+    "SignedInFeatures": {
+      "title": "Advanced options",
+      "PasswordInput": {
+        "label": "Password"
+      }
     }
   },
   "ViewEditEvent": {

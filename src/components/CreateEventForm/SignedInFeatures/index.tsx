@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
 import { PasswordInput } from './PasswordInput';
@@ -10,6 +11,8 @@ interface SignedInFeatures {
 }
 
 export function SignedInFeatures({ passwordRegister }: SignedInFeatures) {
+  const t = useTranslations('CreateEvent.SignedInFeatures');
+
   const [isOpen, setIsOpen] = useState(false);
 
   // necessary for dropdown open close animation
@@ -29,7 +32,7 @@ export function SignedInFeatures({ passwordRegister }: SignedInFeatures) {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className="block" />
-        <span className="text-lg font-semibold sm:text-xl">Advanced options</span>
+        <span className="text-lg font-semibold sm:text-xl">{t('title')}</span>
         <FaChevronDown
           className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
         />
