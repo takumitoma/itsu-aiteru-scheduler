@@ -19,7 +19,7 @@ import { TimezoneDisplay } from './TimezoneDisplay';
 import { ParticipantsList } from './ParticipantsList';
 
 import { updateAvailability } from '@/lib/api-client/availability';
-import { Event } from '@/types/Event';
+import { type EventGet } from '@/types/Event';
 import { Participant } from '@/types/Participant';
 import {
   calculateHeatMap,
@@ -35,7 +35,7 @@ import { daysOfWeekKeys } from '@/constants/days';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 interface ViewEditEventProps {
-  event: Event;
+  event: EventGet;
   participants: Participant[];
 }
 

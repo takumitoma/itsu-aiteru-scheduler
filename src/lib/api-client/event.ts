@@ -1,9 +1,9 @@
-import { Event } from '@/types/Event';
+import { type EventGet, type EventPost } from '@/types/Event';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 const ONE_DAY = 86400;
 
-export async function getEvent(id: string): Promise<Event> {
+export async function getEvent(id: string): Promise<EventGet> {
   try {
     if (id.length !== 12) {
       throw new Error('Event not found');
@@ -57,7 +57,7 @@ async function updateLastAccessed(id: string): Promise<void> {
   }
 }
 
-export async function createEvent(eventData: Omit<Event, 'id' | 'createdAt'>): Promise<string> {
+export async function createEvent(eventData: EventPost): Promise<string> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/event`, {
       method: 'POST',

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { withRateLimit } from '@/lib/middleware/rate-limit';
-import { supabaseAdmin } from '@/lib/supabase/admin-client';
-import { Event } from '@/types/Event';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+
+import { withRateLimit } from '@/lib/middleware/rate-limit';
+import { supabaseAdmin } from '@/lib/supabase/admin-client';
+
+import { type EventGet } from '@/types/Event';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -52,7 +54,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       if (error) throw error;
 
-      const eventData: Event = {
+      const eventData: EventGet = {
         id: event.id,
         title: event.title,
         surveyType: event.survey_type,

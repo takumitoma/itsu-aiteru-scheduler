@@ -20,7 +20,8 @@ import { ErrorMessage } from './ErrorMessage';
 import { SignedInFeatures } from './SignedInFeatures';
 
 import { createEvent } from '@/lib/api-client/event';
-import { Event } from '@/types/Event';
+
+import { type EventPost } from '@/types/Event';
 
 const schema = z
   .object({
@@ -96,7 +97,7 @@ export function CreateEventForm() {
       if (honeypotRef.current?.checked) {
         throw Error('honeypot');
       }
-      const event: Omit<Event, 'id' | 'createdAt'> = {
+      const event: EventPost = {
         title: data.eventTitle,
         surveyType: data.surveyType,
         timeRangeStart: data.timeRange.start,
@@ -107,6 +108,7 @@ export function CreateEventForm() {
             ? data.selectedDates.map((date) => dayjs.utc(date).startOf('day').toISOString())
             : null,
         daysOfWeek: data.surveyType === 'week' ? data.selectedDaysOfWeek : null,
+        password: data.password,
       };
 
       const createdEventId = await createEvent(event);
