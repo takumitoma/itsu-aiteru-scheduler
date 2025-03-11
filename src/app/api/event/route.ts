@@ -60,6 +60,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
       const { searchParams } = new URL(req.url);
       const id = searchParams.get('id');
+      const providedPassword = searchParams.get('password');
 
       if (!id) {
         return NextResponse.json({ error: 'Event ID not specified' }, { status: 400 });
@@ -71,12 +72,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .from('events')
         .select(
           `id, title, survey_type, timezone, time_range_start, 
-          time_range_end, created_at, dates, days_of_week`,
+          time_range_end, created_at, dates, days_of_week, password_hash`,
         )
         .eq('id', validatedId)
         .single();
 
       if (error) throw error;
+
+      if (event.password_hash && !providedPassword) {
+        return NextResponse.json(
+          { error: 'Password required but was not provided' },
+          { status: 403 }
+        );
+      }
 
       const eventData: EventGet = {
         id: event.id,
