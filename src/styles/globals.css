@@ -64,6 +64,11 @@ body {
   }
 }
 
+.hide-password {
+  -webkit-text-security: disc;
+  text-security: disc; 
+}
+
 .light input,
 .light textarea,
 .light button.input-like,

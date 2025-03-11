@@ -12,27 +12,28 @@ interface PasswordInputProps {
 export function PasswordInput({ className, register }: PasswordInputProps) {
   const t = useTranslations('CreateEvent.SignedInFeatures.PasswordInput');
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
 
   return (
     <div className={`flex w-full flex-col space-y-4 ${className}`}>
       <div className="flex justify-between">
-        <label htmlFor="password" className="">
+        <label htmlFor="event-password" className="">
           {t('label')}
         </label>
         <button
           type="button"
-          onClick={() => setShowPassword((prev) => !prev)}
+          onClick={() => setHidePassword((prev) => !prev)}
           className="rounded-full p-1 hover:bg-grayCustom"
         >
-          {showPassword ? <BiSolidHide size={24} /> : <BiSolidShow size={24} />}
+          {hidePassword ? <BiSolidShow size={24} /> : <BiSolidHide size={24} />}
         </button>
       </div>
       <input
-        type={showPassword ? 'text' : 'password'}
+        type="text"
         maxLength={16}
-        id="password"
-        className="border border-primary"
+        id="event-password"
+        className={`border border-primary ${hidePassword && 'hide-password'}`}
+        autoComplete="off"
         {...register}
       />
     </div>
