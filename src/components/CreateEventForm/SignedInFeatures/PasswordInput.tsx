@@ -7,15 +7,16 @@ import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 interface PasswordInputProps {
   className: string;
   register: UseFormRegisterReturn;
+  disabled: boolean;
 }
 
-export function PasswordInput({ className, register }: PasswordInputProps) {
+export function PasswordInput({ className, register, disabled }: PasswordInputProps) {
   const t = useTranslations('CreateEvent.SignedInFeatures.PasswordInput');
 
   const [hidePassword, setHidePassword] = useState(true);
 
   return (
-    <div className={`flex w-full flex-col space-y-4 ${className}`}>
+    <div className={`flex w-full flex-col space-y-4 ${className} ${disabled && 'opacity-50'}`}>
       <div className="flex justify-between">
         <label htmlFor="event-password" className="">
           {t('label')}
@@ -23,7 +24,8 @@ export function PasswordInput({ className, register }: PasswordInputProps) {
         <button
           type="button"
           onClick={() => setHidePassword((prev) => !prev)}
-          className="rounded-full p-1 hover:bg-grayCustom"
+          className="rounded-full p-1 hover:bg-grayCustom disabled:cursor-not-allowed"
+          disabled={disabled}
         >
           {hidePassword ? <BiSolidShow size={24} /> : <BiSolidHide size={24} />}
         </button>
@@ -32,9 +34,10 @@ export function PasswordInput({ className, register }: PasswordInputProps) {
         type="text"
         maxLength={16}
         id="event-password"
-        className={`border border-primary ${hidePassword && 'hide-password'}`}
+        className={`border border-primary disabled:cursor-not-allowed ${hidePassword && 'hide-password'}`}
         autoComplete="off"
         {...register}
+        disabled={disabled}
       />
     </div>
   );

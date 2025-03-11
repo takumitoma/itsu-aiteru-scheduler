@@ -61,6 +61,7 @@ export function SignedInFeatures({ isLoggedIn, passwordRegister }: SignedInFeatu
           <PasswordInput
             className="md:order-3"
             register={passwordRegister}
+            disabled={!isLoggedIn}
           />
           {/* replace below when adding event notification feature */}
           <div className="hidden md:order-4 md:block" />
