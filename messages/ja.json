@@ -317,6 +317,11 @@
     },
     "SignedInFeatures": {
       "title": "詳細設定",
+      "loginToUse": {
+        "prefix": "",
+        "link": "ログイン",
+        "suffix": "すると以下の詳細設定が使えるようになります"
+      },
       "PasswordInput": {
         "label": "パスワード"
       }

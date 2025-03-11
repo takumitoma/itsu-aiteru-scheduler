@@ -61,7 +61,11 @@ const schema = z
 
 type FormFields = z.infer<typeof schema>;
 
-export function CreateEventForm() {
+interface CreateEventFormProps {
+  isLoggedIn: boolean;
+}
+
+export function CreateEventForm({ isLoggedIn }: CreateEventFormProps) {
   const t = useTranslations('CreateEvent.CreateEventForm');
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
@@ -161,7 +165,7 @@ export function CreateEventForm() {
         </div>
 
         <div className="md:order-7 md:col-span-2">
-          <SignedInFeatures passwordRegister={register('password')} />
+          <SignedInFeatures isLoggedIn={isLoggedIn} passwordRegister={register('password')} />
         </div>
 
         {apiError && (

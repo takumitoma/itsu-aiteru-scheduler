@@ -317,6 +317,11 @@
     },
     "SignedInFeatures": {
       "title": "Advanced options",
+      "loginToUse": {
+        "prefix": "Please ",
+        "link": "log in",
+        "suffix": " to use the features below"
+      },
       "PasswordInput": {
         "label": "Password"
       }
