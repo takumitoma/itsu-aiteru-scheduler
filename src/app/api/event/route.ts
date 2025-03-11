@@ -12,6 +12,11 @@ import { type EventGet } from '@/types/Event';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const API_BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : 'http://localhost:3000';
+
 const GetEventSchema = z.object({
   id: z.string().length(12),
 });
@@ -24,12 +29,31 @@ const PostEventSchema = z.object({
   timeRangeStart: z.number().min(0).max(23),
   timeRangeEnd: z.number().min(1).max(24),
   timezone: z.string(),
+  password: z.string().max(16), // 16 is the max before hashing
 });
 
 const PatchEventSchema = z.object({
   operation: z.literal('updateLastAccessed'),
   id: z.string().length(12),
 });
+
+// this is necessary because bcryptjs (or bcrypt) does not work in edge runtime
+async function hashPassword(password: string): Promise<string> {
+  const response = await fetch(`${API_BASE_URL}/api/event-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to hash password');
+  }
+
+  const data = await response.json();
+  return data.hashedPassword;
+}
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   return withRateLimit(request, async (req) => {
@@ -121,6 +145,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
       }
 
+      const hashedPassword = validatedData.password
+        ? await hashPassword(validatedData.password)
+        : null;
+
       const { data, error } = await supabaseAdmin
         .from('events')
         .insert({
@@ -131,6 +159,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           time_range_end: validatedData.timeRangeEnd,
           dates: validatedData.surveyType === 'specific' ? validatedData.dates : null,
           days_of_week: validatedData.surveyType === 'week' ? validatedData.daysOfWeek : null,
+          password_hash: hashedPassword,
         })
         .select();
 
