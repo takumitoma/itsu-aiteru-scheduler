@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 
 import { ViewEditEvent } from '@/components/ViewEditEvent';
+import { EventPasswordForm } from '@/components/EventPasswordForm';
+
 import { getEvent } from '@/lib/api-client/event';
 import { getParticipants } from '@/lib/api-client/participant';
 
@@ -29,6 +31,8 @@ export default async function EventPage({ params }: EventPageProps) {
   } catch (error) {
     if ((error as Error).message === 'Event not found') {
       notFound();
+    } else if ((error as Error).message === 'Password required but was not provided') {
+      return <EventPasswordForm />;
     }
     throw error;
   }
