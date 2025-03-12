@@ -38,6 +38,24 @@ const PatchEventSchema = z.object({
 });
 
 // this is necessary because bcryptjs (or bcrypt) does not work in edge runtime
+async function validatePassword(password: string, passwordHash: string): Promise<boolean> {
+  const response = await fetch(`${API_BASE_URL}/api/event-password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password, passwordHash }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to verify password');
+  }
+
+  const result = await response.json();
+  return result.isValid;
+}
+
+// this is necessary because bcryptjs (or bcrypt) does not work in edge runtime
 async function hashPassword(password: string): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/api/event-password`, {
     method: 'POST',
@@ -79,11 +97,20 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       if (error) throw error;
 
+      // password existence check
       if (event.password_hash && !providedPassword) {
         return NextResponse.json(
           { error: 'Password required but was not provided' },
-          { status: 403 }
+          { status: 403 },
         );
+      }
+
+      // password validation check
+      if (event.password_hash && providedPassword) {
+        const isValid = await validatePassword(providedPassword, event.password_hash);
+        if (!isValid) {
+          return NextResponse.json({ error: 'Incorrect password' }, { status: 403 });
+        }
       }
 
       const eventData: EventGet = {
