@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
-import { ViewEditEvent } from '@/components/ViewEditEvent';
+import { getEventPassword } from '@/lib/cookies/event-password';
 import { EventPasswordForm } from '@/components/EventPasswordForm';
-
+import { ViewEditEvent } from '@/components/ViewEditEvent';
 import { getEvent } from '@/lib/api-client/event';
 import { getParticipants } from '@/lib/api-client/participant';
 
@@ -11,11 +11,14 @@ interface EventPageProps {
 }
 
 export default async function EventPage({ params }: EventPageProps) {
-  const eventId = params.eventId;
+  const { eventId } = params;
 
-  // catch errors with error.tsx
   try {
-    const event = await getEvent(eventId);
+    const passwordCookie = getEventPassword(eventId);
+
+    const event = passwordCookie
+      ? await getEvent(eventId, passwordCookie)
+      : await getEvent(eventId);
 
     if (!event) {
       notFound();
@@ -31,9 +34,18 @@ export default async function EventPage({ params }: EventPageProps) {
   } catch (error) {
     if ((error as Error).message === 'Event not found') {
       notFound();
-    } else if ((error as Error).message === 'Password required but was not provided') {
-      return <EventPasswordForm />;
+    } else if (
+      (error as Error).message === 'Password required but was not provided' ||
+      (error as Error).message === 'Incorrect password'
+    ) {
+      return (
+        <EventPasswordForm
+          eventId={eventId}
+          passwordIncorrect={(error as Error).message === 'Incorrect password'}
+        />
+      );
     }
+    // catch errors with error.tsx
     throw error;
   }
 }

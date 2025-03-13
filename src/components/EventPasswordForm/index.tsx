@@ -1,15 +1,55 @@
 'use client';
+
 import { useState } from 'react';
+import { useRouter } from '@/i18n/routing';
+
+import { submitEventPassword } from '@/app/actions/event-password';
+
 import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
 
-export function EventPasswordForm() {
+interface EventPasswordFormProps {
+  eventId: string;
+  passwordIncorrect: boolean;
+}
+
+export function EventPasswordForm({ eventId, passwordIncorrect }: EventPasswordFormProps) {
+  const router = useRouter();
+
   const [hidePassword, setHidePassword] = useState(true);
   const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState(passwordIncorrect);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setPassword(e.target.value);
+    if (showError) {
+      setShowError(false);
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log('Form submitted with password:', password);
-  };
+
+    if (password.length === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await submitEventPassword(eventId, password);
+
+      if (result.success) {
+        router.refresh();
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
+      setShowError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col items-center space-y-4">
@@ -24,7 +64,7 @@ export function EventPasswordForm() {
           maxLength={16}
           id="event-password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
           className={`w-full border border-primary pr-10 ${hidePassword && 'hide-password'}`}
           autoComplete="off"
         />
@@ -37,9 +77,12 @@ export function EventPasswordForm() {
         </button>
       </div>
 
+      {showError && <p className="w-full text-sm font-semibold text-red-500">Incorrect password</p>}
+
       <button
         type="submit"
         className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={password.length === 0 || isSubmitting}
       >
         Submit
       </button>

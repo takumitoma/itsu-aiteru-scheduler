@@ -10,13 +10,23 @@ export async function getEvent(id: string, password?: string): Promise<EventGet>
     }
 
     const requestTime = Date.now();
-    const API_URL = password
-      ? `${API_BASE_URL}/api/event?id=${id}&password=${password}`
-      : `${API_BASE_URL}/api/event?id=${id}`;
-    const response = await fetch(API_URL, {
+
+    const url = `${API_BASE_URL}/api/event?id=${id}`;
+
+    const options: RequestInit = {
       method: 'GET',
       next: { revalidate: ONE_DAY },
-    });
+      headers: {},
+    };
+
+    if (password) {
+      options.headers = {
+        ...options.headers,
+        'X-Event-Password': password,
+      };
+    }
+
+    const response = await fetch(url, options);
 
     if (!response.ok) {
       if (response.status === 404) {

@@ -78,7 +78,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
       const { searchParams } = new URL(req.url);
       const id = searchParams.get('id');
-      const providedPassword = searchParams.get('password');
+      const providedPassword = req.headers.get('X-Event-Password');
 
       if (!id) {
         return NextResponse.json({ error: 'Event ID not specified' }, { status: 400 });
