@@ -225,7 +225,7 @@
   },
   "SignUp": {
     "createAccount": "無料アカウントを作成",
-    "accountOptional": "アカウントがなくても主な機能は使えます。登録すると追加機能が使えます：",
+    "accountOptional": "アカウントがなくても主な機能はご利用いただけますが、登録すると追加機能もご利用いただけます。",
     "featureNotification": "イベント参加者数が X 人に達したら通知を受け取る",
     "featurePassword": "イベントにパスワードを設定",
     "featureHistory": "イベント履歴を確認",
