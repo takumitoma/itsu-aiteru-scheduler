@@ -1,11 +1,11 @@
-import { Event } from '@/types/Event';
+import { type EventGet, type EventPost } from '@/types/Event';
 
 import { EVENT_HISTORY_STORAGE_NAME } from '@/constants/event-history-storage';
 const MAX_HISTORY = 10;
 
-export function addEventToHistory(event: Event) {
+export function addEventToHistory(event: EventPost) {
   try {
-    let eventHistory: Event[] = [];
+    let eventHistory: EventPost[] = [];
 
     const historyLocalStorage = localStorage.getItem(EVENT_HISTORY_STORAGE_NAME);
     if (historyLocalStorage) {
@@ -28,8 +28,8 @@ export function addEventToHistory(event: Event) {
   }
 }
 
-export function getEventHistory(): Event[] {
-  let eventHistory: Event[] = [];
+export function getEventHistory(): EventGet[] {
+  let eventHistory: EventGet[] = [];
   try {
     const storedHistory = localStorage.getItem(EVENT_HISTORY_STORAGE_NAME);
     eventHistory = storedHistory ? JSON.parse(storedHistory) : [];

@@ -9,7 +9,8 @@ import { useTimeFormatContext } from '@/providers/TimeFormatContext';
 
 import { getEventHistory, clearEventHistory } from '@/utils/event-history';
 import { TransitionLink } from '@/components/TransitionLink';
-import { Event } from '@/types/Event';
+
+import { type EventGet } from '@/types/Event';
 
 import { FaRegTrashAlt } from 'react-icons/fa';
 
@@ -19,7 +20,7 @@ const BASE_URL =
     ? process.env.NEXT_PUBLIC_SITE_URL
     : 'http://localhost:3000';
 
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event }: { event: EventGet }) {
   const locale = useLocale();
   const { timeFormat } = useTimeFormatContext();
   const timezoneT = useTranslations('constants.Timezones');
@@ -143,7 +144,7 @@ function EventCard({ event }: { event: Event }) {
 export function EventHistory() {
   const t = useTranslations('History');
 
-  const [eventHistory, setEventHistory] = useState<Event[]>([]);
+  const [eventHistory, setEventHistory] = useState<EventGet[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPending, startTransition] = useTransition();
 

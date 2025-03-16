@@ -3,9 +3,12 @@
 import { useState, useRef } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import dayjs from 'dayjs';
+
 import { useForm, FormProvider, Controller, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+
 import { EventTitleInput } from './EventTitleInput';
 import { SurveyTypeSelector } from './SurveyTypeSelector';
 import { TimezoneSelector } from './TimezoneSelector';
@@ -14,9 +17,11 @@ import { Calendar } from './Calendar';
 import { WeekCalendar } from './WeekCalendar';
 import { CreateEventButton } from './CreateEventButton';
 import { ErrorMessage } from './ErrorMessage';
-import dayjs from 'dayjs';
+import { SignedInFeatures } from './SignedInFeatures';
+
 import { createEvent } from '@/lib/api-client/event';
-import { Event } from '@/types/Event';
+
+import { type EventPost } from '@/types/Event';
 
 const schema = z
   .object({
@@ -29,6 +34,7 @@ const schema = z
     selectedDates: z.array(z.string()),
     selectedDaysOfWeek: z.array(z.number()),
     selectedTimezone: z.string(),
+    password: z.string().max(16),
   })
   .refine(
     (data) => {
@@ -55,7 +61,11 @@ const schema = z
 
 type FormFields = z.infer<typeof schema>;
 
-export function CreateEventForm() {
+interface CreateEventFormProps {
+  isLoggedIn: boolean;
+}
+
+export function CreateEventForm({ isLoggedIn }: CreateEventFormProps) {
   const t = useTranslations('CreateEvent.CreateEventForm');
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
@@ -71,6 +81,7 @@ export function CreateEventForm() {
       selectedDates: [],
       selectedDaysOfWeek: [0, 0, 0, 0, 0, 0, 0],
       selectedTimezone: 'Asia/Tokyo',
+      password: '',
     },
   });
 
@@ -90,7 +101,7 @@ export function CreateEventForm() {
       if (honeypotRef.current?.checked) {
         throw Error('honeypot');
       }
-      const event: Omit<Event, 'id' | 'createdAt'> = {
+      const event: EventPost = {
         title: data.eventTitle,
         surveyType: data.surveyType,
         timeRangeStart: data.timeRange.start,
@@ -101,6 +112,7 @@ export function CreateEventForm() {
             ? data.selectedDates.map((date) => dayjs.utc(date).startOf('day').toISOString())
             : null,
         daysOfWeek: data.surveyType === 'week' ? data.selectedDaysOfWeek : null,
+        password: data.password,
       };
 
       const createdEventId = await createEvent(event);
@@ -144,7 +156,6 @@ export function CreateEventForm() {
           <SurveyTypeSelector register={register('surveyType')} />
         </div>
 
-        {/* Too complex for register */}
         <div className="md:order-5">
           {surveyType === 'specific' ? (
             <Calendar error={errors.selectedDates?.message} />
@@ -153,13 +164,17 @@ export function CreateEventForm() {
           )}
         </div>
 
+        <div className="md:order-7 md:col-span-2">
+          <SignedInFeatures isLoggedIn={isLoggedIn} passwordRegister={register('password')} />
+        </div>
+
         {apiError && (
-          <div className="md:order-7 md:col-span-2">
+          <div className="md:order-8 md:col-span-2">
             <ErrorMessage />
           </div>
         )}
 
-        <div className="md:order-8 md:col-span-2">
+        <div className="pt-2 md:order-9 md:col-span-2">
           <CreateEventButton />
         </div>
 
