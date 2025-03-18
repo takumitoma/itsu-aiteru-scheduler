@@ -48,6 +48,12 @@
         "dark": "ダーク"
       }
     },
+    "Demo": {
+      "title": "例を見る",
+      "description": "デモイベントをご覧になって、このツールの機能をご確認ください。",
+      "demoEventLink": "88945b5ff1c8",
+      "buttonText": "デモイベントへ"
+    },
     "FooterContact": {
       "title": "お問い合わせ",
       "description": {
