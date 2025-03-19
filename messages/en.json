@@ -48,6 +48,12 @@
         "dark": "Dark"
       }
     },
+    "Demo": {
+      "title": "See an example",
+      "description": "See the demo event to see what this tool can do",
+      "demoEventLink": "102c19619c9e",
+      "buttonText": "Demo event"
+    },
     "FooterContact": {
       "title": "Contact Us",
       "description": {
